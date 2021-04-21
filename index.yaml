@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  qiming-operator:
+  - apiVersion: v2
+    appVersion: 0.2.1
+    created: "2021-04-21T12:54:00.32577514+08:00"
+    description: A Helm chart for yinhestor data management platform
+    digest: 1179cfde795c9a904252ca2f8e0b3148662d9f19eafa4fa0040404aff3c95d05
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-0.2.1.tgz
+    version: 0.2.1
+generated: "2021-04-21T12:54:00.320942466+08:00"
