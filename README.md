@@ -52,10 +52,19 @@
 
    2. Option 2) YAML file
 
-      Add/update the necessary values by changing the values.yaml from this repository, then run:
+      Add/update the necessary values by changing the values.yaml from this repository.
+
+      **NOTES**: s3Config.[provider, name, accessKey, secretKey, bucket, s3Url] are required to set before `helm install`
+
+       then run:
 
       ```bash
-      helm install qiming/qiming-operator
+      # generate default values.yaml
+      helm inspect values  qiming/qiming-operator > values.yaml
+      
+      # fill required arguments in values.yaml
+      # install by specifying the values.yaml
+      helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
       ```
 
 3. Check the installed helm chart
