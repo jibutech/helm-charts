@@ -43,7 +43,11 @@ spec:
         - name: IMAGE_RESTIC_HELPER
           value: "{{ .Values.componentImages.resticHelperImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
         - name: IMAGE_VELERO_INSTALLER
-          value: "{{ .Values.velero.img }}"
+          value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
+        - name: VELERO_IMAGE
+          value: {{ .Values.velero.image }}
+        - name: VELERO_PLUGINS
+          value: {{ .Values.velero.plugins }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: manager 
