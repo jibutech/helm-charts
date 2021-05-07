@@ -1,24 +1,24 @@
 
 # Yinhe Helm Chart
 
-## 简介
+## Introduction
 
-此软件包(chart) 使用**Helm**包管理工具在**Kubernetes**集群中安装和部署银数多云数据管理软件。 
+This chart creates yinhe data protection components on a Kubernetes cluster using the Helm package manager.
 
-## 先决条件
+## Prerequisites
 
-- Kuberentes 版本支持 >= Kubernetes 1.18
-- Helm 版本支持 >= 3.5
+- Kubernetes 1.18 or above
+- Helm >= 3.5
 
-## 安装 
+## Installation 
 
-1. 使用以下命令添加**Helm**软件仓库:
+1. Add helm repo as follows:
 
    ```bash
    $ helm repo add qiming https://jibutech.github.io/helm-charts/
    ```
 
-   您可以通过执行命令 `helm search repo qiming` 来查看软件包信息, 例如:
+   You can then run `helm search repo qiming` to see the charts, for example:
 
    ```bash
    [root@test-master ~]# helm search repo qiming
@@ -26,13 +26,13 @@
    qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
    ```
 
-2. 您可以使用以下两种方法来安装Helm软件包: **qiming-operator** 
+2. Install helm chart **qiming-operator** 
 
-   **注意**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参见配置列表。
+   1. Option 1) CLI commands
 
-   1. 通过命令行方式安装:
+      Specify the necessary values using the `--set key=value[,key=value] `argument to helm install. 
 
-      使用**Helm**命令行参数`--set key=value[,key=value] `来指定必要的配置参数，例如: 
+      For example:
 
       ```bash
       helm install qiming/qiming-operator --namespace qiming-migration \ 
@@ -43,8 +43,6 @@
       ...
       
       NAME: qiming-operator-1618982398
-
-      
       LAST DEPLOYED: Wed Apr 21 13:19:58 2021
       NAMESPACE: qiming-migration
       STATUS: deployed
@@ -66,9 +64,9 @@
         echo $TOKEN
       ```
 
-   2. 通过**YAML**文件指定参数进行安装
+   2. Option 2) YAML file
 
-      在**values.yaml** 配置文件中设置或者修改必要的配置参数。
+      Add/update the necessary values by changing the values.yaml from this repository.
 
       **NOTES**: s3Config.[provider, name, accessKey, secretKey, bucket, s3Url] are required to set before `helm install`
 
@@ -118,7 +116,7 @@
       qiming-operator-1618982398	qiming-migration	1       	2021-04-21 13:19:58.7127374 +0800 CST	deployed	qiming-operator-0.2.1	0.2.1
       ```
 
-## 升级 
+## Upgrade 
 
 1. Upgrade to a chart version by specifying `--version=<CHART VERSION>`  through `helm upgrade`
 
@@ -130,7 +128,7 @@
    [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=0.2.2
    ```
 
-## 卸载
+## Uninstallation
 
 1. Uninstall **qiming-operator** helm chart
 
@@ -170,7 +168,7 @@
    customresourcedefinition.apiextensions.k8s.io "volumesnapshotlocations.velero.io" deleted
    ```
 
-## 配置
+## Configuration
 
 The following table lists the required parameters during installation.
 
