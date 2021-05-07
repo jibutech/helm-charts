@@ -3,22 +3,23 @@
 
 ## 简介
 
-此软件包(chart) 使用**Helm**包管理工具在**Kubernetes**集群中安装和部署银数多云数据管理软件。 
+此软件(Helm chart) 使用 **Helm** 包管理工具在 **Kubernetes ** (K8S) 集群中安装和部署银数多云数据管理软件。 
 
 ## 先决条件
 
 - Kuberentes 版本支持 >= Kubernetes 1.18
 - Helm 版本支持 >= 3.5
+- 在线安装请确保K8S集群节点可以访问和拉取容器镜像 (container images)
 
-## 安装 
+## 在线安装 
 
-1. 使用以下命令添加**Helm**软件仓库:
+1. 使用以下命令添加 **Helm** 软件仓库:
 
    ```bash
    $ helm repo add qiming https://jibutech.github.io/helm-charts/
    ```
 
-   您可以通过执行命令 `helm search repo qiming` 来查看软件包信息, 例如:
+   添加完成之后，您可以通过执行命令 `helm search repo qiming` 来查看可选安装的软件版本，例如:
 
    ```bash
    [root@test-master ~]# helm search repo qiming
@@ -26,9 +27,9 @@
    qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
    ```
 
-2. 您可以使用以下两种方法来安装Helm软件包: **qiming-operator** 
+2. 您可以使用以下两种方法进行安装： 
 
-   **注意**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参见配置列表。
+   **注意**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节。
 
    1. 通过命令行方式安装:
 
@@ -66,26 +67,33 @@
         echo $TOKEN
       ```
 
-   2. 通过**YAML**文件指定参数进行安装
+   2. 通过 **YAML** 文件指定参数进行安装
 
-      在**values.yaml** 配置文件中设置或者修改必要的配置参数。
+      在 **values.yaml** 配置文件中设置或者修改必要的配置参数。
 
-      **NOTES**: s3Config.[provider, name, accessKey, secretKey, bucket, s3Url] are required to set before `helm install`
-
-       then run:
+      1. 下载 values.yaml 模板配置文件
+   2. 修改配置文件中的配置参数
+      3. 通过 ` -f values.yaml ` 来指定配置文件进行安装， 如下示例：
 
       ```bash
-      # generate default values.yaml
+      # step 1: generate default values.yaml
       helm inspect values  qiming/qiming-operator > values.yaml
       
-      # fill required arguments in values.yaml
-      # install by specifying the values.yaml
+      # step 2: fill required arguments in values.yaml
+      
+      # step 3: install by specifying the values.yaml
       helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
       ```
 
-3. Check the installed helm chart
+3. 获取已安装的软件的运行状态以及访问信息
 
-   1. Use the commands from above NOTES to wait for the installation status to be ready. For example:
+   1. 使用上述安装结束后 `NOTES` 中的第一条命令来查询软件的运行状态，使用可选 `-w` 参数观察软件初始化过程更新。
+
+      **注意**：软件在初次安装时，需要一段时间下载容器镜像到K8S节点上，具体时间取决于镜像拉取速度。
+
+      当`PHASE` 状态变成 `Ready`，表明软件初始化完成。
+
+      如果变成 `Error` ，则说明初始化过程失败，需要查找错误原因。
 
       ```bash
       [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w
@@ -93,24 +101,25 @@
       migconfig   2m20s   Ready   2021-04-21T05:19:58Z   v0.2.1
       ```
 
-   2. Use the commands from above NOTES to access the web ui with token. For example:
+   2. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址(Web URL) 以及登录所需的认证令(token) 
+
+      **注意**：软件通过K8S Service 来暴露对外访问接口；Web URL 基于K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和  `nodeport`，例如:
 
       ```
       [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
       [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
+      
       [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
       http://192.168.0.2:31151
       
-      
       [root@remote-dev ~]# export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
       [root@remote-dev ~]# export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
+      
       [root@remote-dev ~]# echo $TOKEN
       eyJh....
       ```
 
-   3. Use command `helm list -n <NAMESPACE> ` to list the installed helm chart.
-
-      For example:
+   3. 使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
 
       ```bash
       [root@remote-dev ~]# helm list -n qiming-migration
@@ -120,11 +129,11 @@
 
 ## 升级 
 
-1. Upgrade to a chart version by specifying `--version=<CHART VERSION>`  through `helm upgrade`
+1. 使用命令  `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>`  指定升级版本
 
-   If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
+   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成。 
 
-   An example:
+   例如：
 
    ```bash
    [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=0.2.2
@@ -132,9 +141,9 @@
 
 ## 卸载
 
-1. Uninstall **qiming-operator** helm chart
+1. 卸载已安装的 Helm chart
 
-   Specify the current release name and namespace to uninstall.
+   指定当前已安装的软件名`release name` 和 软件所在的命名空间`namespace` 
 
    ```bash
    [root@remote-dev ~]# helm list -n qiming-migration
@@ -145,9 +154,9 @@
    release "qiming-operator-1618982398" uninstalled
    ```
 
-   **NOTES**: velero components and resources would be still kept to avoid data loss. 
+   **注意**:  `velero`  组件和资源对象默认仍然保留在命名空间中, 已防止数据丢失。
 
-   In case you still want to remove velero and history backup records, run the commands:
+   如果您确定需要删除 `velero` 和相关应用备份数据记录，可以通过下列命令进行清除操作：
 
    ```bash
    [root@remote-dev ~]# kubectl delete ns qiming-migration
@@ -172,8 +181,9 @@
 
 ## 配置
 
-The following table lists the required parameters during installation.
+此表列出安装阶段所需的必要和可选参数：
 
-| Parameter               | Description                           | Example                                                    |
+| 参数命名             | 描述                           | 示例                                                    |
 | ----------------------- | ----------------------------------    | ---------------------------------------------------------- |
 | - | - | - |
+
