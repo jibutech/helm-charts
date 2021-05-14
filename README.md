@@ -10,6 +10,7 @@
 - Kuberentes 版本支持 >= Kubernetes 1.18
 - Helm 版本支持 >= 3.5
 - 在线安装请确保K8S集群节点可以访问和拉取容器镜像 (container images)
+- S3 (AWS S3兼容) 对象存储
 
 ## 在线安装 
 
@@ -27,9 +28,10 @@
    qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
    ```
 
-2. 您可以使用以下两种方法进行安装： 
+2. 您可以使用以下两种方法进行安装:
 
-   **注意**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节。
+   **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节 <br>
+   **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明
 
    1. 通过命令行方式安装:
 
@@ -80,6 +82,7 @@
       helm inspect values  qiming/qiming-operator > values.yaml
       
       # step 2: fill required arguments in values.yaml
+      vim values.yaml
       
       # step 3: install by specifying the values.yaml
       helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
@@ -103,7 +106,7 @@
 
    2. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址(Web URL) 以及登录所需的认证令(token) 
 
-      **注意**：软件通过K8S Service 来暴露对外访问接口；Web URL 基于K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和  `nodeport`，例如:
+      **注意**：软件通过K8S Service 来暴露对外访问接口；Web URL 基于K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和  `nodeport`，下文以 `nodeport` 安装方式为例:
 
       ```
       [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
@@ -128,8 +131,21 @@
       ```
 
 ## 升级 
+1. 使用命令 `helm repo update` 更新可用的软件版本, 并可以通过 `helm search repo qiming` 来查看更新后的软件版本列表，例如：
 
-1. 使用命令  `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>`  指定升级版本
+   ```bash
+   [root@ ~]# helm search repo qiming
+   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
+   qiming/qiming-operator	1.0.1        	1.0.1      	A Helm chart for yinhestor data management plat...
+   [root@ ~]# helm search repo qiming --versions
+   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
+   qiming/qiming-operator	1.0.1        	1.0.1      	A Helm chart for yinhestor data management plat...
+   qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
+   qiming/qiming-operator	0.2.1        	0.2.1      	A Helm chart for yinhestor data management plat...
+   helm search repo qiming --versions
+   ```
+
+2. 使用命令  `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>`  指定升级版本， 可选参数 `--reuse-values` 用来保留之前安装的配置参数
 
    **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成。 
 
@@ -156,27 +172,14 @@
 
    **注意**:  `velero`  组件和资源对象默认仍然保留在命名空间中, 已防止数据丢失。
 
-   如果您确定需要删除 `velero` 和相关应用备份数据记录，可以通过下列命令进行清除操作：
+   如果您确定需要删除 `velero` 和相关应用备份数据记录，可以通过下列命令在每个Kubernetes 集群上分别运行，进行清除操作：
 
    ```bash
-   [root@remote-dev ~]# kubectl delete ns qiming-migration
-   namespace "qiming-migration" deleted	
-   
-   [root@remote-dev ~]# k delete clusterrolebindings.rbac.authorization.k8s.io velero-qiming-migration
-   clusterrolebinding.rbac.authorization.k8s.io "velero-qiming-migration" deleted
-   
-   [root@remote-dev ~]# kubectl delete crds -l component=velero
-   customresourcedefinition.apiextensions.k8s.io "backups.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "backupstoragelocations.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "deletebackuprequests.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "downloadrequests.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "podvolumebackups.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "podvolumerestores.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "resticrepositories.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "restores.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "schedules.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "serverstatusrequests.velero.io" deleted
-   customresourcedefinition.apiextensions.k8s.io "volumesnapshotlocations.velero.io" deleted
+   kubectl delete ns qiming-migration
+	
+   kubectl delete clusterrolebindings.rbac.authorization.k8s.io velero-qiming-migration
+
+   kubectl delete crds -l component=velero
    ```
 
 ## 配置
