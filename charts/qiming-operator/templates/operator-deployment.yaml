@@ -50,6 +50,10 @@ spec:
           value: {{ .Values.velero.image }}
         - name: VELERO_PLUGINS
           value: {{ .Values.velero.plugins }}
+{{- if .Values.velero.disableSnapshot }}
+        - name: VELERO_DISABLE_SNAPSHOT
+          value: "true"
+{{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: manager 
