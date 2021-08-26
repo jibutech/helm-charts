@@ -36,6 +36,10 @@ spec:
             value: {{ .Values.velero.image }}
           - name: VELERO_PLUGINS
             value: {{ .Values.velero.plugins }}
+{{- if .Values.velero.disableSnapshot }}
+          - name: VELERO_DISABLE_SNAPSHOT
+            value: "true"
+{{- end }}
           - name: S3_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:

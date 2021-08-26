@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "v1.0.1"
+  tag: "v1.0.2"
 
 componentImages:
   uiImage:
@@ -15,16 +15,16 @@ componentImages:
     tag: "v1.0.1"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v1.0.1"
+    tag: "v1.0.2"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v1.0.1"
+    tag: "v1.0.2"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.5.3"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "v1.5.3"
+    tag: "v1.5.3.2"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
@@ -55,8 +55,7 @@ velero:
   image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.5.3
   plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.1.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.1.2
   useRestic: true
-  enableCSI: true
-  useCSISnapshots: true
+  disableSnapshot: false
   s3ForcePathStyle: true
 
 serviceAccount:
