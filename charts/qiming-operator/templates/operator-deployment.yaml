@@ -43,7 +43,7 @@ spec:
         - name: IMAGE_RESTIC_HELPER
           value: "{{ .Values.componentImages.resticHelperImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
         - name: IMAGE_VELERO_INSTALLER
-          value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
+          value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.veleroInstallerImage.tag }}"
         - name: HOOK_RUNNER_IMAGE
           value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
         - name: VELERO_IMAGE

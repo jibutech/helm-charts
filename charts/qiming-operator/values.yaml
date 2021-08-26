@@ -24,7 +24,7 @@ componentImages:
     tag: "v1.5.3"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "v1.5.3.1"
+    tag: "v1.5.3.2"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
