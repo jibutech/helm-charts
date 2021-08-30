@@ -23,7 +23,7 @@ componentImages:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.5.3"
   veleroInstallerImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
+    repository: jibutech/velero-installer
     tag: "main-latest"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
