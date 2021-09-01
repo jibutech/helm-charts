@@ -20,13 +20,13 @@ componentImages:
     repository: jibutech/mig-controller
     tag: "main-latest"
   resticHelperImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
+    repository: jibutech/velero-restic-restore-helper
     tag: "v1.5.3"
   veleroInstallerImage:
     repository: jibutech/velero-installer
     tag: "main-latest"
   hookRunnerImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
+    repository: jibutech/hook-runner
     tag: "latest"
 imagePullSecrets: []
 nameOverride: ""
