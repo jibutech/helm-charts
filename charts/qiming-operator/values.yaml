@@ -52,8 +52,8 @@ s3Config:
   
 velero:
   enabled: true
-  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.5.3
-  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.1.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.1.2
+  image: jibutech/velero:v1.5.3
+  plugins: jibutech/velero-plugin-for-aws:v1.1.0,jibutech/velero-plugin-for-csi:v0.1.2
   useRestic: true
   disableSnapshot: false
   s3ForcePathStyle: true
