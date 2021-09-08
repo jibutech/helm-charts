@@ -21,7 +21,7 @@ componentImages:
     tag: "main-latest"
   resticHelperImage:
     repository: jibutech/velero-restic-restore-helper
-    tag: "v1.5.3"
+    tag: "v1.6.3"
   veleroInstallerImage:
     repository: jibutech/velero-installer
     tag: "main-latest"
@@ -33,7 +33,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "v2.0.0"
+  version: "v2.1.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -42,7 +42,7 @@ migconfig:
 
 s3Config:
   skipped: false
-  name: ""
+  name: "default"
   provider: "aws"
   accessKey: ""
   secretKey: ""
@@ -52,8 +52,8 @@ s3Config:
   
 velero:
   enabled: true
-  image: jibutech/velero:v1.5.3
-  plugins: jibutech/velero-plugin-for-aws:v1.1.0,jibutech/velero-plugin-for-csi:v0.1.2
+  image: jibutech/velero:v1.6.3
+  plugins: jibutech/velero-plugin-for-aws:v1.2.1,jibutech/velero-plugin-for-csi:v0.1.2
   useRestic: true
   disableSnapshot: false
   s3ForcePathStyle: true
