@@ -33,7 +33,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "v2.1.0"
+  version: "v2.0.2"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
