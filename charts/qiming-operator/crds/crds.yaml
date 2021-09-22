@@ -335,6 +335,8 @@ spec:
                   type: string
                 name:
                   type: string
+                pause:
+                  type: boolean
                 repeat:
                   type: boolean
                 retention:
