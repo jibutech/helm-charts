@@ -5,28 +5,28 @@
 replicaCount: 1
 
 image:
-  repository: jibutech/qiming-operator
+  repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
   tag: "main-latest"
 
 componentImages:
   uiImage:
-    repository: jibutech/mig-ui
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
     tag: "main-latest"
   discoveryImage:
-    repository: jibutech/mig-discovery
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
     tag: "main-latest"
   migControllerImage:
-    repository: jibutech/mig-controller
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
     tag: "main-latest"
   resticHelperImage:
-    repository: jibutech/velero-restic-restore-helper
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.6.3"
   veleroInstallerImage:
-    repository: jibutech/velero-installer
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
     tag: "main-latest"
   hookRunnerImage:
-    repository: jibutech/hook-runner
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
 imagePullSecrets: []
 nameOverride: ""
@@ -52,8 +52,8 @@ s3Config:
   
 velero:
   enabled: true
-  image: jibutech/velero:v1.6.3
-  plugins: jibutech/velero-plugin-for-aws:v1.2.1,jibutech/velero-plugin-for-csi:v0.1.2
+  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.6.3
+  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.2.1,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.1.2
   useRestic: true
   disableSnapshot: false
   s3ForcePathStyle: true
