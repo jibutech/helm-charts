@@ -18,3 +18,4 @@ spec:
     remoteRestore: "true"
     migration: "true"
   keys: {{ .Values.migconfig.keys }}
+  backupIntervalMinutes: {{ .Values.migconfig.backupIntervalMinutes }}
