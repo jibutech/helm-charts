@@ -39,7 +39,7 @@ migconfig:
   isAdminCluster: false
   isUINodePortEnabled: true
   keys: "trial"
-  backupIntervalMinutes: 2
+  backupIntervalMinutes: 5
 
 s3Config:
   skipped: false
