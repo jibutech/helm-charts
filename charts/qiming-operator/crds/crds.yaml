@@ -2136,10 +2136,9 @@ spec:
         spec:
           description: MigconfigSpec defines the desired state of Migconfig
           properties:
-           properties:
             backupIntervalMinutes:
-              description: BackupIntervalMinutes indicates application backup interval,
-                unit is minute
+              description: BackupIntervalMinutes indicates application backup interval, unit is minute
+              format: int64
               type: integer
             clientName:
               description: ClientName is the unique name or id of this instace
@@ -2240,6 +2239,20 @@ spec:
                       type: string
                   type: object
               type: object
+            lastBackupItems:
+              items:
+                properties:
+                  backupTime:
+                    format: date-time
+                    type: string
+                  name:
+                    type: string
+                  status:
+                    type: string
+                type: object
+              type: array
+            lastBackupName:
+              type: string
             lastBackupTime:
               format: date-time
               type: string
