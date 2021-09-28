@@ -1,7 +1,7 @@
 apiVersion: migration.yinhestor.com/v1alpha1
 kind: Migconfig
 metadata:
-  name: migconfig
+  name: qiming-config
   namespace: {{ .Release.Namespace }}
 spec:
   version: {{ .Values.migconfig.version }}
@@ -18,3 +18,4 @@ spec:
     remoteRestore: "true"
     migration: "true"
   keys: {{ .Values.migconfig.keys }}
+  backupIntervalMinutes: {{ .Values.migconfig.backupIntervalMinutes }}
