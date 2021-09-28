@@ -905,6 +905,8 @@ spec:
                 - type
                 type: object
               type: array
+            isInService:
+              type: boolean
             observedDigest:
               type: string
           type: object
