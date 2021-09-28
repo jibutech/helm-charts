@@ -7,24 +7,24 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "main-latest"
+  tag: "v2.0.3"
 
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "main-latest"
+    tag: "v2.0.3"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "main-latest"
+    tag: "v2.0.3"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "main-latest"
+    tag: "v2.0.3"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.6.3"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "main-latest"
+    tag: "v2.0.3"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
@@ -33,7 +33,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "v2.0.2"
+  version: "v2.0.3"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
