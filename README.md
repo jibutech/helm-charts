@@ -25,7 +25,7 @@
    ```bash
    [root@test-master ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
+   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
    ```
 
 2. 您可以使用以下两种方法进行安装:
@@ -99,9 +99,9 @@
       如果变成 `Error` ，则说明初始化过程失败，需要查找错误原因。
 
       ```bash
-      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w
+      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
       NAME        AGE     PHASE   CREATED AT             VERSION
-      migconfig   2m20s   Ready   2021-04-21T05:19:58Z   v0.2.1
+      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
       ```
 
    2. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址(Web URL) 以及登录所需的认证令(token) 
@@ -126,8 +126,8 @@
 
       ```bash
       [root@remote-dev ~]# helm list -n qiming-migration
-      NAME                      	NAMESPACE       	REVISION	UPDATED                              	STATUS  	CHART                	APP VERSION
-      qiming-operator-1618982398	qiming-migration	1       	2021-04-21 13:19:58.7127374 +0800 CST	deployed	qiming-operator-0.2.1	0.2.1
+      NAME           	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
+      qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
       ```
 
 ## 升级 
@@ -136,12 +136,12 @@
    ```bash
    [root@ ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	1.0.1        	1.0.1      	A Helm chart for yinhestor data management plat...
+   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
    [root@ ~]# helm search repo qiming --versions
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
+   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
+   qiming/qiming-operator	1.0.2        	1.0.2      	A Helm chart for yinhestor data management plat...
    qiming/qiming-operator	1.0.1        	1.0.1      	A Helm chart for yinhestor data management plat...
-   qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
-   qiming/qiming-operator	0.2.1        	0.2.1      	A Helm chart for yinhestor data management plat...
    helm search repo qiming --versions
    ```
 
@@ -152,7 +152,7 @@
    例如：
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=0.2.2
+   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
    ```
 
 ## 卸载
