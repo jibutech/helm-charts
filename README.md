@@ -48,7 +48,8 @@
       NAME: qiming-operator-1618982398
 
       
-      LAST DEPLOYED: Wed Apr 21 13:19:58 2021
+      NAME: qiming-operator-1635128765
+      LAST DEPLOYED: Mon Oct 20 10:26:10 2021
       NAMESPACE: qiming-migration
       STATUS: deployed
       REVISION: 1
@@ -182,11 +183,27 @@
    kubectl delete crds -l component=velero
    ```
 
+
+helm install qiming/qiming-operator --namespace qiming-migration \ 
+          --create-namespace --generate-name --set service.type=NodePort \
+          --set s3Config.provider=aws --set s3Config.name=minio \
+          --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
+          --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
+	  
 ## 配置
 
 此表列出安装阶段所需的必要和可选参数：
 
 | 参数命名             | 描述                           | 示例                                                    |
-| ----------------------- | ----------------------------------    | ---------------------------------------------------------- |
-| - | - | - |
+| ------------------ | ----------------------------   | ------------------------------------------------------ |
+| namespace          |  银河存储软件所使用的命名空间。     |  --namespace qiming-migration                           |
+| create-namespace   |  是否创建命名空间                 ｜--create-namespace
+| generate-name      |  是否创建新的名字，如不指定则需要用户提供名字 ｜ --generate-name
+| service.type       ｜ 服务类型                         ｜--set service.type=NodePort
+| s3Config.provider  |  S3提供商                         ｜ --set s3Config.provider=aws
+| s3Config.name      ｜ 所配置的S3服务名字， 也即数据备份仓库名字 ｜ --set s3Config.name=minio
+| s3Config.accessKey ｜ 访问S3所需要的access key               ｜--set s3Config.accessKey=minio
+| s3Config.secretKey ｜ 访问S3所需要的secret key。        ｜ --set s3Config.secretKey=passw0rd
+| s3Config.bucket    ｜ 访问S3的bucket name              ｜ --set s3Config.bucket=test
+| s3Config.s3Url     ｜ S3 url                          ｜ --set s3Config.s3Url=http://172.16.0.10:30170
 
