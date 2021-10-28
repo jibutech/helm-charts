@@ -12,13 +12,13 @@ image:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "v2.0.3"
+    tag: "v2.0.4"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "v2.0.3"
+    tag: "v2.0.4"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.0.3"
+    tag: "v2.0.4"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.6.3"
@@ -33,7 +33,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "v2.0.3"
+  version: "v2.0.4"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
