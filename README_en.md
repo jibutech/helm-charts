@@ -23,7 +23,8 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    ```bash
    [root@test-master ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	1.0.0        	1.0.0      	A Helm chart for yinhestor data management plat...
+   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
+
    ```
 
 2. Install helm chart **qiming-operator** 
@@ -42,8 +43,8 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
           --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
       ...
       
-      NAME: qiming-operator-1618982398
-      LAST DEPLOYED: Wed Apr 21 13:19:58 2021
+      NAME: qiming-operator-1635128765
+      LAST DEPLOYED: Mon Oct 20 10:26:10 2021
       NAMESPACE: qiming-migration
       STATUS: deployed
       REVISION: 1
@@ -86,9 +87,9 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    1. Use the commands from above NOTES to wait for the installation status to be ready. For example:
 
       ```bash
-      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w
+      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
       NAME        AGE     PHASE   CREATED AT             VERSION
-      migconfig   2m20s   Ready   2021-04-21T05:19:58Z   v0.2.1
+      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
       ```
 
    2. Use the commands from above NOTES to access the web ui with token. For example:
@@ -112,8 +113,8 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
       ```bash
       [root@remote-dev ~]# helm list -n qiming-migration
-      NAME                      	NAMESPACE       	REVISION	UPDATED                              	STATUS  	CHART                	APP VERSION
-      qiming-operator-1618982398	qiming-migration	1       	2021-04-21 13:19:58.7127374 +0800 CST	deployed	qiming-operator-0.2.1	0.2.1
+      NAME           	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
+      qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
       ```
 
 ## Upgrade 
@@ -125,7 +126,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    An example:
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=0.2.2
+   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
    ```
 
 ## Uninstallation
@@ -174,4 +175,13 @@ The following table lists the required parameters during installation.
 
 | Parameter               | Description                           | Example                                                    |
 | ----------------------- | ----------------------------------    | ---------------------------------------------------------- |
-| - | - | - |
+| namespace          |  Namespace of yinhe software     |  --namespace qiming-migration                           |
+| create-namespace   |  Create new namespace               |  --create-namespace
+| generate-name      |  Whether create new name otherwise user need to specify the name |   --generate-name
+| service.type       |  Service type                        |   --set service.type=NodePort
+| s3Config.provider  |   S3 provider               |   --set s3Config.provider=aws
+| s3Config.name      |  Backup storage name |   --set s3Config.name=minio
+| s3Config.accessKey |    Access key of S3              |   --set s3Config.accessKey=minio
+| s3Config.secretKey |    Secret key of S3        |    --set s3Config.secretKey=passw0rd
+| s3Config.bucket    |   S3 bucket name              |   --set s3Config.bucket=test
+| s3Config.s3Url     |    S3 URL                          |   --set s3Config.s3Url=http://172.16.0.10:30170
