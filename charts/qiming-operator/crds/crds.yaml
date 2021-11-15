@@ -62,6 +62,8 @@ spec:
               type: boolean
             quiescePods:
               type: boolean
+            repeat:
+              type: boolean
             stage:
               type: boolean
             verify:
@@ -72,6 +74,8 @@ spec:
         status:
           description: BackupJobStatus defines the observed state of BackupJob
           properties:
+            backedUpItems:
+              type: integer
             conditions:
               items:
                 description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -98,6 +102,12 @@ spec:
                 - type
                 type: object
               type: array
+            details:
+              additionalProperties:
+                items:
+                  type: string
+                type: array
+              type: object
             errors:
               items:
                 type: string
@@ -139,6 +149,11 @@ spec:
             stopTimestamp:
               format: date-time
               type: string
+            submitTimestamp:
+              format: date-time
+              type: string
+            totalItems:
+              type: integer
           type: object
       type: object
   version: v1alpha1
@@ -1134,6 +1149,12 @@ spec:
                 - type
                 type: object
               type: array
+            details:
+              additionalProperties:
+                items:
+                  type: string
+                type: array
+              type: object
             errors:
               items:
                 type: string
@@ -1169,6 +1190,29 @@ spec:
               type: string
             phase:
               type: string
+            results:
+              additionalProperties:
+                description: Velero restore result
+                properties:
+                  cluster:
+                    description: Cluster is a slice of messages related to restoring cluster- scoped resources.
+                    items:
+                      type: string
+                    type: array
+                  namespaces:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: Namespaces is a map of namespace name to slice of messages related to restoring namespace-scoped resources.
+                    type: object
+                  velero:
+                    description: Velero messages
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: object
             startTimestamp:
               format: date-time
               type: string
@@ -1837,9 +1881,36 @@ spec:
               type: string
             phase:
               type: string
+            restoredItems:
+              type: integer
+            results:
+              additionalProperties:
+                description: Velero restore result
+                properties:
+                  cluster:
+                    description: Cluster is a slice of messages related to restoring cluster- scoped resources.
+                    items:
+                      type: string
+                    type: array
+                  namespaces:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: Namespaces is a map of namespace name to slice of messages related to restoring namespace-scoped resources.
+                    type: object
+                  velero:
+                    description: Velero messages
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: object
             startTimestamp:
               format: date-time
               type: string
+            totalItems:
+              type: integer
           type: object
       type: object
   version: v1alpha1
