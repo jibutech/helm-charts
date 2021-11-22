@@ -207,4 +207,4 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 
 ## 致谢
 
-YS1000的诞生离不开 [Velero](https://github.com/vmware-tanzu/velero) 开源项目以及[其他开源软件](https://github.com/jibutech/helm-charts/blob/main/credits.md)。
+YS1000产品中使用了[Velero](https://github.com/vmware-tanzu/velero) 开源项目以及[其他开源软件](https://github.com/jibutech/helm-charts/blob/main/credits.md)。
