@@ -4,11 +4,11 @@ This project is made possible by the community surrounding it and especially the
 
 ## [Velero](https://github.com/vmware-tanzu/velero/)
 
-Apache-2.0 License
+[Velero License](https://github.com/vmware-tanzu/velero/blob/main/LICENSE)
 
 ## [OpenShift CAM](https://github.com/konveyor/mig-operator)
 
-Apache-2.0 License
+[CAM License](https://github.com/konveyor/mig-operator/blob/master/LICENSE)
 
 ---
 
