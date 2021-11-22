@@ -185,3 +185,7 @@ The following table lists the required parameters during installation.
 | s3Config.secretKey |    Secret key of S3        |    --set s3Config.secretKey=passw0rd
 | s3Config.bucket    |   S3 bucket name              |   --set s3Config.bucket=test
 | s3Config.s3Url     |    S3 URL                          |   --set s3Config.s3Url=http://172.16.0.10:30170
+
+## Acknowledgement
+
+YS1000 functionalities are based on [Velero](https://github.com/vmware-tanzu/velero) and [other open source projects](https://github.com/jibutech/helm-charts/blob/main/credits.md).

@@ -1,5 +1,5 @@
 
-# Yinhe Helm Chart
+# YS1000 Helm Chart
 
 ## 简介
 
@@ -205,3 +205,6 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 | s3Config.bucket    |   访问S3的bucket name              |   --set s3Config.bucket=test
 | s3Config.s3Url     |    S3 URL                          |   --set s3Config.s3Url=http://172.16.0.10:30170
 
+## 致谢
+
+YS1000的诞生离不开 [Velero](https://github.com/vmware-tanzu/velero) 开源项目以及[其他开源软件](https://github.com/jibutech/helm-charts/blob/main/credits.md)。
