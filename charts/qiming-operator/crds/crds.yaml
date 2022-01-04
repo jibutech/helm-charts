@@ -870,6 +870,22 @@ spec:
                   description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                   type: string
               type: object
+            snapshotClasses:
+              items:
+                description: Available volumesnapshotclass in the cluster Which has deletion policy retain and velero label
+                properties:
+                  deletionPolicy:
+                    type: string
+                  driver:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - deletionPolicy
+                - driver
+                - name
+                type: object
+              type: array
             storageClasses:
               items:
                 description: StorageClass is an available storage class in the cluster Name - the storage class name Provisioner - the dynamic provisioner for the storage class Default - whether or not this storage class is the default AccessModes - access modes supported by the dynamic provisioner
@@ -2251,6 +2267,11 @@ spec:
             version:
               description: Version specifies the installed version
               type: string
+            watchedNamespaces:
+              description: WatchedNamespaces indicates multiple namespaces backend controllers need to watch and reconcile
+              items:
+                type: string
+              type: array
           required:
           - clientName
           - serviceAccountName
