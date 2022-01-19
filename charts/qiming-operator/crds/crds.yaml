@@ -240,11 +240,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             includedResources:
@@ -820,6 +821,9 @@ spec:
             caBundle:
               format: byte
               type: string
+            clusterRegistry:
+              description: ClusterRegistry overrides image registry deployed in corresponding user cluster
+              type: string
             insecure:
               type: boolean
             isAdminOnlyCluster:
@@ -870,6 +874,22 @@ spec:
                   description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                   type: string
               type: object
+            snapshotClasses:
+              items:
+                description: Available volumesnapshotclass in the cluster Which has deletion policy retain and velero label
+                properties:
+                  deletionPolicy:
+                    type: string
+                  driver:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - deletionPolicy
+                - driver
+                - name
+                type: object
+              type: array
             storageClasses:
               items:
                 description: StorageClass is an available storage class in the cluster Name - the storage class name Provisioner - the dynamic provisioner for the storage class Default - whether or not this storage class is the default AccessModes - access modes supported by the dynamic provisioner
@@ -924,6 +944,11 @@ spec:
               type: boolean
             observedDigest:
               type: string
+            userClusterFeatures:
+              description: UserClusterFeatures includes all enabled features for the cluster
+              items:
+                type: string
+              type: array
           type: object
       type: object
   version: v1alpha1
@@ -972,9 +997,15 @@ spec:
             activeDeadlineSeconds:
               format: int64
               type: integer
+            command:
+              type: string
             custom:
               type: boolean
+            hookName:
+              type: string
             image:
+              type: string
+            operation:
               type: string
             playbook:
               type: string
@@ -1325,11 +1356,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             migStorageRef:
@@ -1713,6 +1745,16 @@ spec:
               type: array
             observedDigest:
               type: string
+            testResults:
+              additionalProperties:
+                description: TestResult defines test result in a managed cluster
+                properties:
+                  reason:
+                    type: string
+                  result:
+                    type: string
+                type: object
+              type: object
           type: object
       type: object
   version: v1alpha1
@@ -2047,11 +2089,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             namespaces:
@@ -2241,6 +2284,11 @@ spec:
             version:
               description: Version specifies the installed version
               type: string
+            watchedNamespaces:
+              description: WatchedNamespaces indicates multiple namespaces backend controllers need to watch and reconcile
+              items:
+                type: string
+              type: array
           required:
           - clientName
           - serviceAccountName
