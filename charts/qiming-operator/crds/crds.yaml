@@ -240,11 +240,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             includedResources:
@@ -820,6 +821,9 @@ spec:
             caBundle:
               format: byte
               type: string
+            clusterRegistry:
+              description: ClusterRegistry overrides image registry deployed in corresponding user cluster
+              type: string
             insecure:
               type: boolean
             isAdminOnlyCluster:
@@ -940,6 +944,11 @@ spec:
               type: boolean
             observedDigest:
               type: string
+            userClusterFeatures:
+              description: UserClusterFeatures includes all enabled features for the cluster
+              items:
+                type: string
+              type: array
           type: object
       type: object
   version: v1alpha1
@@ -988,9 +997,15 @@ spec:
             activeDeadlineSeconds:
               format: int64
               type: integer
+            command:
+              type: string
             custom:
               type: boolean
+            hookName:
+              type: string
             image:
+              type: string
+            operation:
               type: string
             playbook:
               type: string
@@ -1341,11 +1356,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             migStorageRef:
@@ -2073,11 +2089,12 @@ spec:
                     type: object
                   serviceAccount:
                     type: string
+                  type:
+                    type: string
                 required:
-                - executionNamespace
                 - phase
                 - reference
-                - serviceAccount
+                - type
                 type: object
               type: array
             namespaces:
