@@ -6,7 +6,7 @@
 
 ## 先决条件
 
-- Kuberentes 版本支持 >= Kubernetes 1.18
+- Kuberentes 版本支持 >= Kubernetes 1.17
 - Helm 版本支持 >= 3.5
 - 在线安装请确保 K8S 集群节点可以访问和拉取容器镜像 (container images)
 - S3 (AWS S3 兼容) 对象存储
@@ -18,13 +18,13 @@
    ```bash
    $ helm repo add qiming https://jibutech.github.io/helm-charts/
    ```
-
+   
    添加完成之后，您可以通过执行命令 `helm search repo qiming` 来查看可选安装的软件版本，例如:
 
    ```bash
    [root@test-master ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
+   qiming/qiming-operator  2.2.0           2.2.0           A Helm chart for YS1000 data management platform
    ```
 
 2. 您可以使用以下两种方法进行安装:
