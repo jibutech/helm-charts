@@ -30,6 +30,11 @@ spec:
         command:
         - /manager
         env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
         - name: WATCH_NAMESPACE
           valueFrom:
             fieldRef:
