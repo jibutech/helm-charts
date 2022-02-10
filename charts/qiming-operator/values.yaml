@@ -24,7 +24,7 @@ componentImages:
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "main-latest"
+    tag: "v2.2.0"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
@@ -33,7 +33,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "v2.2.0"
+  version: "v2.2.1"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
