@@ -19,9 +19,6 @@ componentImages:
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
     tag: "v2.2.2"
-  cronImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.4.0"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
@@ -31,6 +28,9 @@ componentImages:
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
+  cron:
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
+    tag: "v2.4.0"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

@@ -44,7 +44,7 @@ spec:
         - name: IMAGE_MIG_CONTROLLER
           value: "{{ .Values.componentImages.migControllerImage.repository }}:{{ .Values.componentImages.migControllerImage.tag }}"
         - name: IMAGE_CRON
-          value: "{{ .Values.componentImages.cronImage.repository }}:{{ .Values.componentImages.cronImage.tag }}"
+          value: "{{ .Values.componentImages.cron.repository }}:{{ .Values.componentImages.cron.tag }}"
         - name: IMAGE_RESTIC_HELPER
           value: "{{ .Values.componentImages.resticHelperImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
         - name: IMAGE_VELERO_INSTALLER
