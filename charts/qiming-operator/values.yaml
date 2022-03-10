@@ -28,6 +28,9 @@ componentImages:
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
+  cron:
+    repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
+    tag: "v2.4.0"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
