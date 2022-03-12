@@ -3329,6 +3329,10 @@ spec:
               profile:
                 properties:
                   copyMethod:
+                    default: filesystem
+                    enum:
+                    - filesystem
+                    - snapshot
                     type: string
                   filesystem:
                     type: object
