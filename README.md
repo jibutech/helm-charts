@@ -32,9 +32,9 @@
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节 <br>
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明
 
-   1. 通过命令行方式安装:
+   a. 通过命令行方式安装:
 
-      使用**Helm**命令行参数`--set key=value[,key=value] `来指定必要的配置参数，例如:
+    使用**Helm**命令行参数`--set key=value[,key=value] `来指定必要的配置参数，例如:
 
       ```bash
       helm install qiming/qiming-operator --namespace qiming-migration \
@@ -42,38 +42,28 @@
           --set s3Config.provider=aws --set s3Config.name=minio \
           --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
           --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
-      ...
-
 
       NAME: qiming-operator-1635128765
       LAST DEPLOYED: Mon Oct 20 10:26:10 2021
       NAMESPACE: qiming-migration
       STATUS: deployed
       REVISION: 1
-      NOTES:
-      1. Check the application status Ready by running these commands:
-        NOTE: It may take a few minutes to pull docker images.
-              You can watch the status of by running `kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w`
-        kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
-
-      2. After status is ready, get the application URL by running these commands:
-        export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-        export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-        echo http://$NODE_IP:$NODE_PORT
-
-      3. Login web UI with the token by running these commands:
-        export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-        export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-        echo $TOKEN
       ```
 
-   2. 通过 **YAML** 文件指定参数进行安装
+    说明:
+    使用如下命令来检查安装状态正否正常
 
-      在 **values.yaml** 配置文件中设置或者修改必要的配置参数。
+     ```bash
+     kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w
+     ```
 
-      1. 下载 values.yaml 模板配置文件
+   b. 通过 **YAML** 文件指定参数进行安装
 
-   3. 修改配置文件中的配置参数 3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
+    在 **values.yaml** 配置文件中设置或者修改必要的配置参数。
+
+    1. 下载 values.yaml 模板配置文件
+
+    2. 修改配置文件中的配置参数 3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
 
       ```bash
       # step 1: generate default values.yaml
@@ -86,9 +76,9 @@
       helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
       ```
 
-3. 获取已安装的软件的运行状态以及访问信息
+3. 获取已安装的软件的运行状态
 
-   1. 使用上述安装结束后 `NOTES` 中的第一条命令来查询软件的运行状态，使用可选 `-w` 参数观察软件初始化过程更新。
+    使用上述安装结束后 `NOTES` 中的第一条命令来查询软件的运行状态，使用可选 `-w` 参数观察软件初始化过程更新。
 
       **注意**：软件在初次安装时，需要一段时间下载容器镜像到 K8S 节点上，具体时间取决于镜像拉取速度。
 
@@ -102,31 +92,48 @@
       qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
       ```
 
-   2. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址(Web URL) 以及登录所需的认证令(token)
-
-      **注意**：软件通过 K8S Service 来暴露对外访问接口；Web URL 基于 K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和   `nodeport`，下文以 `nodeport` 安装方式为例:
-
-      ```
-      [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-      [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-
-      [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
-      http://192.168.0.2:31151
-
-      [root@remote-dev ~]# export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-      [root@remote-dev ~]# export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-
-      [root@remote-dev ~]# echo $TOKEN
-      eyJh....
-      ```
-
-   3. 使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
+    使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
 
       ```bash
       [root@remote-dev ~]# helm list -n qiming-migration
       NAME           	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
       qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
       ```
+
+4. 访问图形管理界面（UI）
+
+    a. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址(Web URL) 以及登录所需的认证令(token)
+
+      **注意**：软件通过 K8S Service 来暴露对外访问接口；Web URL 基于 K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和   `nodeport`，下文以 `nodeport` 安装方式为例:
+
+      ```bash
+      [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+      [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
+
+      [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
+      http://192.168.0.2:31151
+      ```
+
+    b. 登录管理界面
+
+    目前支持两种登录方式，集群令牌访问和用户名密码访问。
+
+    1. 集群令牌获取:
+
+    ```bash
+    export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
+    export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
+    echo $TOKEN
+    ```
+
+    2. 使用用户名和密码：
+
+    默认用户名 `admin` 默认密码 `passw0rd`.
+    密码可以在安装时指定：
+
+    ```bash
+    --set migconfig.UIadminPassword=<your new password>
+    ```
 
 ## 升级
 
@@ -203,7 +210,7 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 | s3Config.secretKey        | 访问 S3 所需要的 secret key                  | --set s3Config.secretKey=passw0rd             |
 | s3Config.bucket           | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
 | s3Config.s3Url            | S3 URL                                       | --set s3Config.s3Url=http://172.16.0.10:30170 |
-| migconfig.amberappEnabled | 是否安装 amberapp                            | --set migconfig.amberappEnabled=true          |
+| migconfig.UIadminPassword |  指定admin密码                          | --set migconfig.UIadminPassword=`<your password>`         |
 
 ## 致谢
 

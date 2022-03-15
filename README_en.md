@@ -29,9 +29,9 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
 2. Install helm chart **qiming-operator** 
 
-   1. Option 1) CLI commands
+   Option 1: CLI commands
 
-      Specify the necessary values using the `--set key=value[,key=value] `argument to helm install. 
+      Specify the necessary values using the `--set key=value[,key=value] `argument to helm install.
 
       For example:
 
@@ -41,37 +41,25 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
           --set s3Config.provider=aws --set s3Config.name=minio \
           --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
           --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
-      ...
-      
+
       NAME: qiming-operator-1635128765
       LAST DEPLOYED: Mon Oct 20 10:26:10 2021
       NAMESPACE: qiming-migration
       STATUS: deployed
       REVISION: 1
+
       NOTES:
-      1. Check the application status Ready by running these commands:
+      Check the application status Ready by running these commands:
         NOTE: It may take a few minutes to pull docker images.
               You can watch the status of by running `kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w`
         kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
-      
-      2. After status is ready, get the application URL by running these commands:
-        export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-        export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-        echo http://$NODE_IP:$NODE_PORT
-      
-      3. Login web UI with the token by running these commands:
-        export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-        export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-        echo $TOKEN
       ```
 
-   2. Option 2) YAML file
+   Option 2: YAML file
 
       Add/update the necessary values by changing the values.yaml from this repository.
 
-      **NOTES**: s3Config.[provider, name, accessKey, secretKey, bucket, s3Url] are required to set before `helm install`
-
-       then run:
+      **NOTES**: s3Config.[provider, name, accessKey, secretKey, bucket, s3Url] are required to set before `helm install`, then run,
 
       ```bash
       # generate default values.yaml
@@ -84,30 +72,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
 3. Check the installed helm chart
 
-   1. Use the commands from above NOTES to wait for the installation status to be ready. For example:
-
-      ```bash
-      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
-      NAME        AGE     PHASE   CREATED AT             VERSION
-      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
-      ```
-
-   2. Use the commands from above NOTES to access the web ui with token. For example:
-
-      ```
-      [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-      [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-      [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
-      http://192.168.0.2:31151
-      
-      
-      [root@remote-dev ~]# export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-      [root@remote-dev ~]# export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-      [root@remote-dev ~]# echo $TOKEN
-      eyJh....
-      ```
-
-   3. Use command `helm list -n <NAMESPACE> ` to list the installed helm chart.
+   a. Use command `helm list -n <NAMESPACE> ` to list the installed helm chart.
 
       For example:
 
@@ -117,7 +82,47 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
       qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
       ```
 
-## Upgrade 
+   b. wait for the installation status to be ready. For example:
+
+      ```bash
+      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
+      NAME        AGE     PHASE   CREATED AT             VERSION
+      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
+      ```
+
+4. Access web UI
+
+   a. get the application URL by running these commands:
+
+    ```bash
+    [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+    [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
+    [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
+    http://192.168.0.2:31151
+    ```
+
+    b. Login web UI
+
+      There are two ways to login the web UI.
+
+    1. with the token by running these commands
+
+    ```bash
+    export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
+    export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
+            echo $TOKEN
+    ```
+
+    2. with username/password
+
+        The default username is `admin` and default password is `passw0rd`.
+        The password can be set during installation by flag,
+
+    ```bash
+    --set migconfig.UIadminPassword=<your new password>
+    ```
+
+## Upgrade
 
 1. Upgrade to a chart version by specifying `--version=<CHART VERSION>`  through `helm upgrade`
 
@@ -144,13 +149,13 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    release "qiming-operator-1618982398" uninstalled
    ```
 
-   **NOTES**: velero components and resources would be still kept to avoid data loss. 
+   **NOTES**: velero components and resources would be still kept to avoid data loss.
 
    In case you still want to remove velero and history backup records, run the commands:
 
    ```bash
    [root@remote-dev ~]# kubectl delete ns qiming-migration
-   namespace "qiming-migration" deleted	
+   namespace "qiming-migration" deleted
    
    [root@remote-dev ~]# k delete clusterrolebindings.rbac.authorization.k8s.io velero-qiming-migration
    clusterrolebinding.rbac.authorization.k8s.io "velero-qiming-migration" deleted
@@ -185,6 +190,7 @@ The following table lists the required parameters during installation.
 | s3Config.secretKey |    Secret key of S3        |    --set s3Config.secretKey=passw0rd
 | s3Config.bucket    |   S3 bucket name              |   --set s3Config.bucket=test
 | s3Config.s3Url     |    S3 URL                          |   --set s3Config.s3Url=http://172.16.0.10:30170
+| migconfig.UIadminPassword |  set password                          | --set migconfig.UIadminPassword=`<your password>`         |
 
 ## Acknowledgement
 
