@@ -47,7 +47,7 @@ migconfig:
 
   amberappRegistry: "registry.cn-shanghai.aliyuncs.com"
   amberappRepo: "jibudata/amberapp"
-  amberappTag: "0.0.5"
+  amberappTag: "0.0.6"
   amberappEnabled: true
   amberappClusters: "all"
 
