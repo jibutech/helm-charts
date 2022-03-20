@@ -30,7 +30,7 @@ componentImages:
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "main-latest"
+    tag: "release-2.4-latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
