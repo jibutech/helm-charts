@@ -102,9 +102,9 @@ spec:
                     type: array
                   resourceType:
                     enum:
-                    - Default
-                    - DataOnly
-                    - ResourceOnly
+                    - default
+                    - dataOnly
+                    - resourceOnly
                     type: string
                   sourceClusterName:
                     type: string
@@ -528,12 +528,6 @@ spec:
                 type: object
               policyName:
                 type: string
-              resourceType:
-                enum:
-                - Default
-                - DataOnly
-                - ResourceOnly
-                type: string
               scheduleDisabled:
                 type: boolean
               srcClusterRef:
@@ -672,6 +666,12 @@ spec:
                         type: string
                     type: object
                   frequency:
+                    type: string
+                  resourceType:
+                    enum:
+                    - default
+                    - dataOnly
+                    - resourceOnly
                     type: string
                   retention:
                     type: integer
@@ -2969,7 +2969,7 @@ spec:
             description: SystemSettingSpec defines the desired state of SystemSetting
             properties:
               report:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file Reports includes backupjobs, migrations, restorejobs status'
+                description: Sends report to specified addresses including backupjobs, migrations, restorejobs status every day at notifyTime
                 properties:
                   notifyTime:
                     type: string
@@ -2989,10 +2989,11 @@ spec:
                   smtpPort:
                     type: string
                 type: object
+              systemReportEnabled:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file Reports includes backupjobs, migrations, restorejobs status'
+                type: boolean
               systemReportSecret:
                 type: string
-            required:
-            - systemReportSecret
             type: object
           status:
             description: SystemSettingStatus defines the observed state of SystemSetting
@@ -3277,6 +3278,10 @@ spec:
       jsonPath: .spec.profile.copyMethod
       name: COPY METHOD
       type: string
+    - description: Resource type of the backupPolicy
+      jsonPath: .spec.resourceType
+      name: RESOURCE TYPE
+      type: string
     - description: Frequency of the backupPolicy
       jsonPath: .spec.frequency
       name: FREQUENCY
@@ -3366,6 +3371,13 @@ spec:
                         type: integer
                     type: object
                 type: object
+              resourceType:
+                default: default
+                enum:
+                - default
+                - dataOnly
+                - resourceOnly
+                type: string
               retention:
                 type: integer
             type: object
