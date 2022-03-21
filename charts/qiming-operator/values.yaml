@@ -18,7 +18,7 @@ componentImages:
     tag: "v2.3.0"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.3.0"
+    tag: "v2.3.1"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"

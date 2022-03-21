@@ -3,10 +3,10 @@ entries:
   qiming-operator:
   - apiVersion: v2
     appVersion: 2.3.1
-    created: "2022-03-16T17:05:34.489193842+08:00"
+    created: "2022-03-21T19:54:47.661280188+08:00"
     description: ys1000 provides data protection and management services for cloud
       native applications.
-    digest: fd33477d3a43363244a5e04c1430218402ec32a51ec1c0960f3d9ab4a1a59e81
+    digest: 9ac13ec989ad4c87a6d715028ee717dbd250dc8dbe3c29b51b4ac4ada767909b
     name: qiming-operator
     type: application
     urls:
