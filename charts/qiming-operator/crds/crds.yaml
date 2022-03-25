@@ -156,6 +156,9 @@ spec:
             properties:
               backedUpItems:
                 type: integer
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -1847,6 +1850,9 @@ spec:
           status:
             description: MigMigrationStatus defines the observed state of MigMigration
             properties:
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -2546,6 +2552,9 @@ spec:
           status:
             description: RestoreJobStatus defines the observed state of RestoreJob
             properties:
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
