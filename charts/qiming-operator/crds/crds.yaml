@@ -30,6 +30,87 @@ spec:
           spec:
             description: BackupJobSpec defines the desired state of BackupJob
             properties:
+              backupContext:
+                properties:
+                  copyMethod:
+                    type: string
+                  namespaces:
+                    items:
+                      type: string
+                    type: array
+                  persistentVolumes:
+                    items:
+                      description: Name - The PV name. Capacity - The PV storage capacity. StorageClass - The PV storage class name. Supported - Lists of what is supported. Selection - Choices made from supported. PVC - Associated PVC. NFS - NFS properties. staged - A PV has been explicitly added/updated.
+                      properties:
+                        capacity:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        name:
+                          type: string
+                        pvc:
+                          description: PVC
+                          properties:
+                            accessModes:
+                              items:
+                                type: string
+                              type: array
+                            hasReference:
+                              type: boolean
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        selection:
+                          description: Selection Action - The PV migration action (move|copy|skip) StorageClass - The PV storage class name to use in the destination cluster. AccessMode   - The PV access mode to use in the destination cluster, if different from src PVC AccessMode CopyMethod   - The PV copy method to use ('filesystem' for restic copy, or 'snapshot' for velero snapshot plugin) Verify       - Whether or not to verify copied volume data if CopyMethod is 'filesystem'
+                          properties:
+                            accessMode:
+                              type: string
+                            action:
+                              type: string
+                            copyMethod:
+                              type: string
+                            storageClass:
+                              type: string
+                            verify:
+                              type: boolean
+                          type: object
+                        storageClass:
+                          type: string
+                        supported:
+                          description: Supported Actions     - The list of supported actions CopyMethods - The list of supported copy methods
+                          properties:
+                            actions:
+                              items:
+                                type: string
+                              type: array
+                            copyMethods:
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - actions
+                          - copyMethods
+                          type: object
+                      required:
+                      - selection
+                      - supported
+                      type: object
+                    type: array
+                  resourceType:
+                    enum:
+                    - default
+                    - dataOnly
+                    - resourceOnly
+                    type: string
+                  sourceClusterName:
+                    type: string
+                  storageName:
+                    type: string
+                type: object
               backupRef:
                 description: 'ObjectReference contains enough information to let you inspect or modify the referred object. --- New uses of this type are discouraged because of difficulty describing its usage when embedded in APIs.  1. Ignored fields.  It includes many fields which are not generally honored.  For instance, ResourceVersion and FieldPath are both very rarely valid in actual usage.  2. Invalid usage help.  It is impossible to add specific help for individual usage.  In most embedded usages, there are particular     restrictions like, "must refer only to types A and B" or "UID not honored" or "name must be restricted".     Those cannot be well described when embedded.  3. Inconsistent validation.  Because the usages are different, the validation rules are different by usage, which makes it hard for users to predict what will happen.  4. The fields are both imprecise and overly precise.  Kind is not a precise mapping to a URL. This can produce ambiguity     during interpretation and require a REST mapping.  In most cases, the dependency is on the group,resource tuple     and the version of the actual struct is irrelevant.  5. We cannot easily change it.  Because this type is embedded in many locations, updates to this type     will affect numerous schemas.  Don''t make new APIs embed an underspecified API type they do not control. Instead of using this type, create a locally provided and used type that is well-focused on your reference. For example, ServiceReferences for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533 .'
                 properties:
@@ -67,18 +148,17 @@ spec:
                 type: boolean
               repeat:
                 type: boolean
-              stage:
-                type: boolean
               verify:
                 type: boolean
-            required:
-            - stage
             type: object
           status:
             description: BackupJobStatus defines the observed state of BackupJob
             properties:
               backedUpItems:
                 type: integer
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -172,8 +252,6 @@ spec:
                   - workloads
                   type: object
                 type: array
-              observedDigest:
-                type: string
               phase:
                 type: string
               startTimestamp:
@@ -451,6 +529,10 @@ spec:
                   snapshotKeptMaxCount:
                     type: integer
                 type: object
+              policyName:
+                type: string
+              scheduleDisabled:
+                type: boolean
               srcClusterRef:
                 description: 'ObjectReference contains enough information to let you inspect or modify the referred object. --- New uses of this type are discouraged because of difficulty describing its usage when embedded in APIs.  1. Ignored fields.  It includes many fields which are not generally honored.  For instance, ResourceVersion and FieldPath are both very rarely valid in actual usage.  2. Invalid usage help.  It is impossible to add specific help for individual usage.  In most embedded usages, there are particular     restrictions like, "must refer only to types A and B" or "UID not honored" or "name must be restricted".     Those cannot be well described when embedded.  3. Inconsistent validation.  Because the usages are different, the validation rules are different by usage, which makes it hard for users to predict what will happen.  4. The fields are both imprecise and overly precise.  Kind is not a precise mapping to a URL. This can produce ambiguity     during interpretation and require a REST mapping.  In most cases, the dependency is on the group,resource tuple     and the version of the actual struct is irrelevant.  5. We cannot easily change it.  Because this type is embedded in many locations, updates to this type     will affect numerous schemas.  Don''t make new APIs embed an underspecified API type they do not control. Instead of using this type, create a locally provided and used type that is well-focused on your reference. For example, ServiceReferences for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533 .'
                 properties:
@@ -569,8 +651,36 @@ spec:
               nextExportTime:
                 format: date-time
                 type: string
-              observedDigest:
-                type: string
+              policy:
+                properties:
+                  copyMethod:
+                    type: string
+                  export:
+                    properties:
+                      frequency:
+                        type: integer
+                      retention:
+                        type: integer
+                      times:
+                        items:
+                          type: string
+                        type: array
+                      type:
+                        type: string
+                    type: object
+                  frequency:
+                    type: string
+                  resourceType:
+                    enum:
+                    - default
+                    - dataOnly
+                    - resourceOnly
+                    type: string
+                  retention:
+                    type: integer
+                  snapshotLimit:
+                    type: integer
+                type: object
               state:
                 type: string
             type: object
@@ -769,8 +879,6 @@ spec:
                 format: byte
                 type: string
                 x-kubernetes-preserve-unknown-fields: true
-              observedDigest:
-                type: string
               phase:
                 type: string
               progress:
@@ -1395,6 +1503,24 @@ spec:
                 - isOnPublicCloud
                 - provider
                 type: object
+              qos:
+                description: Qos define for cluster
+                properties:
+                  customRate:
+                    type: integer
+                  level:
+                    type: string
+                  workRange:
+                    additionalProperties:
+                      description: Qos time ranges
+                      properties:
+                        startTime:
+                          type: string
+                        stopTime:
+                          type: string
+                      type: object
+                    type: object
+                type: object
               refreshInterval:
                 format: int64
                 type: integer
@@ -1496,6 +1622,8 @@ spec:
               lastRefreshTime:
                 format: date-time
                 type: string
+              qosEnabled:
+                type: boolean
               resourceList:
                 description: APIResourceList includes all resoure groups and resources from the cluster
                 items:
@@ -1722,6 +1850,9 @@ spec:
           status:
             description: MigMigrationStatus defines the observed state of MigMigration
             properties:
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -1785,8 +1916,6 @@ spec:
                   - workloads
                   type: object
                 type: array
-              observedDigest:
-                type: string
               phase:
                 type: string
               results:
@@ -2423,6 +2552,9 @@ spec:
           status:
             description: RestoreJobStatus defines the observed state of RestoreJob
             properties:
+              completionTimestamp:
+                format: date-time
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
@@ -2510,8 +2642,6 @@ spec:
                   - workloads
                   type: object
                 type: array
-              observedDigest:
-                type: string
               phase:
                 type: string
               restoredItems:
@@ -2804,12 +2934,111 @@ spec:
                   - workloads
                   type: object
                 type: array
-              observedDigest:
-                type: string
             type: object
         type: object
     served: true
     storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: systemsettings.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: SystemSetting
+    listKind: SystemSettingList
+    plural: systemsettings
+    singular: systemsetting
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: SystemSetting is the Schema for the systemsettings API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SystemSettingSpec defines the desired state of SystemSetting
+            properties:
+              report:
+                description: Sends report to specified addresses including backupjobs, migrations, restorejobs status every day at notifyTime
+                properties:
+                  notifyTime:
+                    type: string
+                  toMailAddress:
+                    items:
+                      type: string
+                    type: array
+                  weChatReport:
+                    type: boolean
+                type: object
+              smtpSetting:
+                properties:
+                  senderMailAddress:
+                    type: string
+                  smtpHost:
+                    type: string
+                  smtpPort:
+                    type: string
+                type: object
+              systemReportEnabled:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file Reports includes backupjobs, migrations, restorejobs status'
+                type: boolean
+              systemReportSecret:
+                type: string
+            type: object
+          status:
+            description: SystemSettingStatus defines the observed state of SystemSetting
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition status. Reason - The reason for the condition. Message - The human readable description of the condition. Durable - The condition is not un-Staged. Items - A list of `items` associated with the condition used to replace [] in `Message`. staging - A condition has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - category
+                  - lastTransitionTime
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
@@ -3024,6 +3253,147 @@ spec:
     storage: true
     subresources:
       status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: backuppolicies.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: BackupPolicy
+    listKind: BackupPolicyList
+    plural: backuppolicies
+    shortNames:
+    - bp
+    singular: backuppolicy
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: Display name of the backupPolicy
+      jsonPath: .spec.displayName
+      name: ALIAS
+      type: string
+    - description: Copy method of the backupPolicy
+      jsonPath: .spec.profile.copyMethod
+      name: COPY METHOD
+      type: string
+    - description: Resource type of the backupPolicy
+      jsonPath: .spec.resourceType
+      name: RESOURCE TYPE
+      type: string
+    - description: Frequency of the backupPolicy
+      jsonPath: .spec.frequency
+      name: FREQUENCY
+      type: string
+    - description: Retention of the backupPolicy, in hours
+      jsonPath: .spec.retention
+      name: RETENTION
+      type: integer
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: BackupPolicy is the Schema for the backuppolicies API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BackupPolicySpec defines the desired state of BackupPolicy
+            properties:
+              description:
+                type: string
+              displayName:
+                type: string
+              frequency:
+                description: "Cron job like frequency Refer to https://en.wikipedia.org/wiki/Cron
+                  for format \n Predefined schedules: Entry                  | Description
+                  \                               | Equivalent To -----                  |
+                  -----------                                | ------------- @yearly
+                  (or @annually) | Run once a year, midnight, Jan. 1st        | 0
+                  0 1 1 * @monthly               | Run once a month, midnight, first
+                  of month | 0 0 1 * * @weekly                | Run once a week, midnight
+                  between Sat/Sun  | 0 0 * * 0 @daily (or @midnight)  | Run once a
+                  day, midnight                   | 0 0 * * * @hourly                |
+                  Run once an hour, beginning of hour        | 0 * * * * \n Intervals:
+                  @every <duration> example: \"@every 2h\" means a schedule that activates
+                  every 2 hours since backup plan added"
+                type: string
+              profile:
+                properties:
+                  copyMethod:
+                    default: filesystem
+                    enum:
+                    - filesystem
+                    - snapshot
+                    type: string
+                  filesystem:
+                    type: object
+                  snapshot:
+                    properties:
+                      export:
+                        properties:
+                          dataRepo:
+                            properties:
+                              provider:
+                                type: string
+                              storage:
+                                type: string
+                              transportType:
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          frequency:
+                            type: integer
+                          retention:
+                            type: integer
+                          times:
+                            items:
+                              type: string
+                            type: array
+                          type:
+                            type: string
+                        type: object
+                      snapshotLimit:
+                        type: integer
+                    type: object
+                type: object
+              resourceType:
+                default: default
+                enum:
+                - default
+                - dataOnly
+                - resourceOnly
+                type: string
+              retention:
+                type: integer
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
