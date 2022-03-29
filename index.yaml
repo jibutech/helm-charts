@@ -12,6 +12,16 @@ entries:
     - https://jibutech.github.io/helm-charts/qiming-operator-2.4.0.tgz
     version: 2.4.0
   - apiVersion: v2
+    appVersion: 2.3.1
+    created: "2022-03-21T19:54:47.661280188+08:00"
+    description: ys1000 provides data protection and management services for cloud native applications.
+    digest: 9ac13ec989ad4c87a6d715028ee717dbd250dc8dbe3c29b51b4ac4ada767909b
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.3.1.tgz
+    version: 2.3.1
+  - apiVersion: v2
     appVersion: 2.3.0
     created: "2022-03-10T12:32:49.359532774+08:00"
     description: ys1000 provides data protection and management services for cloud native applications.
@@ -24,8 +34,7 @@ entries:
   - apiVersion: v2
     appVersion: 2.2.2
     created: "2022-02-22T18:21:14.604758951+08:00"
-    description: ys1000 provides data protection and management services for cloud
-      native applications.
+    description: ys1000 provides data protection and management services for cloud native applications.
     digest: 9a1e89a45c5e98c90242f6e657e52190c3495cc34b7e13cc2b32ac1fe853cbaf
     name: qiming-operator
     type: application
