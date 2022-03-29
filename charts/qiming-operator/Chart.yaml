@@ -1,6 +1,6 @@
 apiVersion: v2
 name: qiming-operator
-description: ys1000 provides data protection and management services for cloud native applications.
+description: ys1000 provides data protection for cloud native apps.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
