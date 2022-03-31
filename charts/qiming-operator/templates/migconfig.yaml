@@ -37,3 +37,4 @@ spec:
     datamover_clusters: {{ .Values.migconfig.datamoverClusters }}
   keys: {{ .Values.migconfig.keys }}
   backupIntervalMinutes: {{ .Values.migconfig.backupIntervalMinutes }}
+  agentNamespace: {{ .Values.velero.namespace }}
