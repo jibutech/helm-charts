@@ -12,13 +12,13 @@ image:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "v2.4.1"
+    tag: "release-2.4.2-latest"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "v2.4.1"
+    tag: "release-2.4.2-latest"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.4.1"
+    tag: "release-2.4.2-latest"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
@@ -30,13 +30,13 @@ componentImages:
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.4.1"
+    tag: "release-2.4.2-latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.4.1"
+  version: "2.4.2"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -53,7 +53,7 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "v0.1.4"
+  datamoverTag: "v0.1.6"
   datamoverEnabled: true
   datamoverClusters: "all"
 
