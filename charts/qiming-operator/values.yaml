@@ -12,7 +12,7 @@ image:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "v2.4.1"
+    tag: "v2.4.1.1"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
     tag: "v2.4.1"
@@ -30,13 +30,13 @@ componentImages:
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.4.1"
+    tag: "v2.4.1.1"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.4.1"
+  version: "2.4.3"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -53,7 +53,7 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "v0.1.4"
+  datamoverTag: "v1.0.0"
   datamoverEnabled: true
   datamoverClusters: "all"
 
