@@ -3309,6 +3309,10 @@ spec:
                 description: ClusterRegistry overrides image registry deployed in
                   corresponding user cluster
                 type: string
+              ignoredNamespaces:
+                items:
+                  type: string
+                type: array
               insecure:
                 type: boolean
               isAdminOnlyCluster:
@@ -7661,6 +7665,221 @@ spec:
                       type: string
                   type: object
                 description: TestResults describe the test result in each cluster
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: systemreports.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: SystemReport
+    listKind: SystemReportList
+    plural: systemreports
+    shortNames:
+    - sr
+    singular: systemreport
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: SystemReport is the Schema for the systemreport API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SystemSettingSpec defines the desired state of SystemSetting
+            properties:
+              reportTimestamp:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file'
+                format: date-time
+                type: string
+              statsIntervalEndTimestamp:
+                format: date-time
+                type: string
+              statsIntervalStartTimestamp:
+                format: date-time
+                type: string
+            type: object
+          status:
+            properties:
+              applications:
+                properties:
+                  managed:
+                    items:
+                      type: string
+                    type: array
+                  unmanaged:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              clusters:
+                properties:
+                  managedClusters:
+                    items:
+                      type: string
+                    type: array
+                  unmanagedClusters:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              errorMessage:
+                type: string
+              jobs:
+                properties:
+                  backups:
+                    properties:
+                      completedJobs:
+                        items:
+                          type: string
+                        type: array
+                      failedJobs:
+                        items:
+                          type: string
+                        type: array
+                      jobsInProgress:
+                        items:
+                          type: string
+                        type: array
+                      longRuns:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  exports:
+                    properties:
+                      completedJobs:
+                        items:
+                          type: string
+                        type: array
+                      failedJobs:
+                        items:
+                          type: string
+                        type: array
+                      jobsInProgress:
+                        items:
+                          type: string
+                        type: array
+                      longRuns:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  imports:
+                    properties:
+                      completedJobs:
+                        items:
+                          type: string
+                        type: array
+                      failedJobs:
+                        items:
+                          type: string
+                        type: array
+                      jobsInProgress:
+                        items:
+                          type: string
+                        type: array
+                      longRuns:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  migrations:
+                    properties:
+                      completedJobs:
+                        items:
+                          type: string
+                        type: array
+                      failedJobs:
+                        items:
+                          type: string
+                        type: array
+                      jobsInProgress:
+                        items:
+                          type: string
+                        type: array
+                      longRuns:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  restores:
+                    properties:
+                      completedJobs:
+                        items:
+                          type: string
+                        type: array
+                      failedJobs:
+                        items:
+                          type: string
+                        type: array
+                      jobsInProgress:
+                        items:
+                          type: string
+                        type: array
+                      longRuns:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                type: object
+              notifications:
+                properties:
+                  mailResult:
+                    type: string
+                  weChatResult:
+                    type: string
+                type: object
+              phase:
+                type: string
+              storages:
+                properties:
+                  connected:
+                    items:
+                      type: string
+                    type: array
+                  count:
+                    type: integer
+                  total:
+                    format: int64
+                    type: integer
+                  unconnected:
+                    items:
+                      type: string
+                    type: array
+                  used:
+                    format: int64
+                    type: integer
                 type: object
             type: object
         type: object
