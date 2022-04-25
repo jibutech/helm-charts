@@ -5153,6 +5153,23 @@ spec:
                 type: string
               default:
                 type: boolean
+              quota:
+                properties:
+                  ClusterCapacityLimitQuota:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    type: object
+                  totalCapacityQuota:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                type: object
               volumeSnapshotConfig:
                 description: VolumeSnapshotConfig defines config for taking Volume
                   Snapshots
@@ -5273,6 +5290,20 @@ spec:
                     result:
                       type: string
                   type: object
+                type: object
+              used:
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
+              usedPerCluster:
+                additionalProperties:
+                  anyOf:
+                  - type: integer
+                  - type: string
+                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                  x-kubernetes-int-or-string: true
                 type: object
             type: object
         type: object
@@ -7742,6 +7773,17 @@ spec:
                       type: string
                     type: array
                 type: object
+              backupPolicy:
+                properties:
+                  total:
+                    items:
+                      type: string
+                    type: array
+                  used:
+                    items:
+                      type: string
+                    type: array
+                type: object
               clusters:
                 properties:
                   managedClusters:
@@ -7761,95 +7803,715 @@ spec:
                     properties:
                       completedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       failedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       jobsInProgress:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       longRuns:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                     type: object
                   exports:
                     properties:
                       completedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       failedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       jobsInProgress:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       longRuns:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                     type: object
                   imports:
                     properties:
                       completedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       failedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       jobsInProgress:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       longRuns:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                     type: object
                   migrations:
                     properties:
                       completedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       failedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       jobsInProgress:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       longRuns:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                     type: object
                   restores:
                     properties:
                       completedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       failedJobs:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       jobsInProgress:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                       longRuns:
                         items:
-                          type: string
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
                         type: array
                     type: object
                 type: object
@@ -7870,6 +8532,30 @@ spec:
                     type: array
                   count:
                     type: integer
+                  snapshot:
+                    items:
+                      properties:
+                        cluster:
+                          type: string
+                        namespace:
+                          type: string
+                        planNames:
+                          additionalProperties:
+                            properties:
+                              snapshotCount:
+                                type: integer
+                              snapshotLimit:
+                                type: integer
+                            type: object
+                          type: object
+                        pvcName:
+                          type: string
+                        snapshotLimit:
+                          type: integer
+                        totalSnapshots:
+                          type: integer
+                      type: object
+                    type: array
                   total:
                     format: int64
                     type: integer
@@ -7880,6 +8566,11 @@ spec:
                   used:
                     format: int64
                     type: integer
+                  usedPerCluster:
+                    additionalProperties:
+                      format: int64
+                      type: integer
+                    type: object
                 type: object
             type: object
         type: object
