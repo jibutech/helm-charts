@@ -8526,6 +8526,22 @@ spec:
                 type: string
               storages:
                 properties:
+                  StorageUsage:
+                    additionalProperties:
+                      properties:
+                        total:
+                          format: int64
+                          type: integer
+                        used:
+                          format: int64
+                          type: integer
+                        usedPerCluster:
+                          additionalProperties:
+                            format: int64
+                            type: integer
+                          type: object
+                      type: object
+                    type: object
                   connected:
                     items:
                       type: string
@@ -8556,21 +8572,10 @@ spec:
                           type: integer
                       type: object
                     type: array
-                  total:
-                    format: int64
-                    type: integer
                   unconnected:
                     items:
                       type: string
                     type: array
-                  used:
-                    format: int64
-                    type: integer
-                  usedPerCluster:
-                    additionalProperties:
-                      format: int64
-                      type: integer
-                    type: object
                 type: object
             type: object
         type: object
