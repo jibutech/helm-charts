@@ -1,3 +1,4 @@
+{{- if and .Values.uploadToS3 ( not .Values.s3Config.skipped ) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -33,3 +34,4 @@ spec:
         - name: AGENT_NAMESPACE
           value: {{ .Values.velero.namespace }}
       serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
+{{- end }}
