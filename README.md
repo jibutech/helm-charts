@@ -151,22 +151,36 @@
    helm search repo qiming --versions
    ```
 
-2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本， 可选参数 `--reuse-values` 用来保留之前安装的配置参数
+2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
-   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成。
-   例如，需要保留修改后的password，可以附加参数 `--set migconfig.UIadminPassword=[ADMIN_PASSWORD]`。
-
+   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置**
    例如：
-
-   ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
-   ```
    
-   或者用 `helm inspect values qiming/qiming-operator > qiming.yaml` 保存当前配置信息，并按需要修改部分参数后再升级应用
+   ```bash
+   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 --set migconfig.UIadminPassword=`<your password>`
+   ```
+
+   或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
+   ```
+   # example of values.yaml
+   s3Config:
+     provider: "aws"
+     accessKey: "abc"
+     secretKey: "xyz"
+     bucket: "default"
+     s3Url: ""
+     region: "default"
+   migconfig:
+     UIadminPassword: "password"
+   selfBackup:
+     enabled: true
+     frequency: 0 */3 * * *
+     retention: 168
+   ```
    例如：
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --version=2.0.3 -f qiming.yaml
+   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 -f values.yaml
    ```
    
 
@@ -219,7 +233,8 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 | s3Config.secretKey        | 访问 S3 所需要的 secret key                  | --set s3Config.secretKey=passw0rd             |
 | s3Config.bucket           | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
 | s3Config.s3Url            | S3 URL                                       | --set s3Config.s3Url=http://172.16.0.10:30170 |
-| migconfig.UIadminPassword |  指定admin密码                          | --set migconfig.UIadminPassword=`<your password>`         |
+| migconfig.UIadminPassword | 指定admin密码（可选，默认为“passw0rd”）                          | --set migconfig.UIadminPassword=`<your password>`   ｜
+| selfBackup.enabled        | 是否打开自备份（可选，默认为false）                   | --set selfBackup.enabled=true                |
 
 ## 致谢
 
