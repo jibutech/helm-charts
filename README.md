@@ -154,12 +154,21 @@
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本， 可选参数 `--reuse-values` 用来保留之前安装的配置参数
 
    **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成。
+   例如，需要保留修改后的password，可以附加参数 `--set migconfig.UIadminPassword=[ADMIN_PASSWORD]`。
 
    例如：
 
    ```bash
    [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
    ```
+   
+   或者用 `helm inspect values qiming/qiming-operator > qiming.yaml` 保存当前配置信息，并按需要修改部分参数后再升级应用
+   例如：
+
+   ```bash
+   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --version=2.0.3 -f qiming.yaml
+   ```
+   
 
 ## 卸载
 
