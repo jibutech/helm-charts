@@ -223,18 +223,15 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 
 | 参数命名                  | 描述                                         | 示例                                          |
 | ------------------------- | -------------------------------------------- | --------------------------------------------- |
-| namespace                 | 银河存储软件所使用的命名空间                 | --namespace qiming-migration                  |
-| create-namespace          | 是否创建命名空间                             | --create-namespace                            |
-| generate-name             | 是否创建新的名字，如不指定则需要用户提供名字 | --generate-name                               |
 | service.type              | 服务类型                                     | --set service.type=NodePort                   |
 | s3Config.provider         | S3 提供商                                    | --set s3Config.provider=aws                   |
-| s3Config.name             | 所配置的 S3 服务名字， 也即数据备份仓库名字  | --set s3Config.name=minio                     |
+| s3Config.name             | 所配置的 S3 服务名字， 也即数据备份仓库名字       | --set s3Config.name=minio                     |
 | s3Config.accessKey        | 访问 S3 所需要的 access key                  | --set s3Config.accessKey=minio                |
 | s3Config.secretKey        | 访问 S3 所需要的 secret key                  | --set s3Config.secretKey=passw0rd             |
 | s3Config.bucket           | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
-| s3Config.s3Url            | S3 URL                                       | --set s3Config.s3Url=http://172.16.0.10:30170 |
-| migconfig.UIadminPassword | 指定admin密码（可选，默认为“passw0rd”）                          | --set migconfig.UIadminPassword=`<your password>`   ｜
-| selfBackup.enabled        | 是否打开自备份（可选，默认为false）                   | --set selfBackup.enabled=true                |
+| s3Config.s3Url            | S3 URL                                      | --set s3Config.s3Url=http://172.16.0.10:30170 |
+| migconfig.UIadminPassword | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
+| selfBackup.enabled        | 是否打开自备份（可选，默认为false）               | --set selfBackup.enabled=true                |
 
 ## 致谢
 
