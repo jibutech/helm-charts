@@ -6769,12 +6769,6 @@ spec:
                     type: object
                   resourceFilterRules:
                     properties:
-                      dataOnly:
-                        type: boolean
-                      namespaceMapping:
-                        additionalProperties:
-                          type: string
-                        type: object
                       namespaces:
                         items:
                           type: string
