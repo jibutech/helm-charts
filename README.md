@@ -151,15 +151,39 @@
    helm search repo qiming --versions
    ```
 
-2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本， 可选参数 `--reuse-values` 用来保留之前安装的配置参数
+2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
-   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成。
+   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置**
+   
+   例如：
+   
+   ```bash
+   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 --set migconfig.UIadminPassword=`<your password>`
+   ```
 
+   或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
+   ```
+   # example of values.yaml
+   s3Config:
+     provider: "aws"
+     accessKey: "abc"
+     secretKey: "xyz"
+     bucket: "default"
+     s3Url: ""
+     region: "default"
+   migconfig:
+     UIadminPassword: "password"
+   selfBackup:
+     enabled: true
+     frequency: 0 */3 * * *
+     retention: 168
+   ```
    例如：
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
+   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 -f values.yaml
    ```
+   
 
 ## 卸载
 
@@ -200,17 +224,15 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 
 | 参数命名                  | 描述                                         | 示例                                          |
 | ------------------------- | -------------------------------------------- | --------------------------------------------- |
-| namespace                 | 银河存储软件所使用的命名空间                 | --namespace qiming-migration                  |
-| create-namespace          | 是否创建命名空间                             | --create-namespace                            |
-| generate-name             | 是否创建新的名字，如不指定则需要用户提供名字 | --generate-name                               |
 | service.type              | 服务类型                                     | --set service.type=NodePort                   |
 | s3Config.provider         | S3 提供商                                    | --set s3Config.provider=aws                   |
-| s3Config.name             | 所配置的 S3 服务名字， 也即数据备份仓库名字  | --set s3Config.name=minio                     |
+| s3Config.name             | 所配置的 S3 服务名字， 也即数据备份仓库名字       | --set s3Config.name=minio                     |
 | s3Config.accessKey        | 访问 S3 所需要的 access key                  | --set s3Config.accessKey=minio                |
 | s3Config.secretKey        | 访问 S3 所需要的 secret key                  | --set s3Config.secretKey=passw0rd             |
 | s3Config.bucket           | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
-| s3Config.s3Url            | S3 URL                                       | --set s3Config.s3Url=http://172.16.0.10:30170 |
-| migconfig.UIadminPassword |  指定admin密码                          | --set migconfig.UIadminPassword=`<your password>`         |
+| s3Config.s3Url            | S3 URL                                      | --set s3Config.s3Url=http://172.16.0.10:30170 |
+| migconfig.UIadminPassword | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
+| selfBackup.enabled        | 是否打开自备份（可选，默认为false）               | --set selfBackup.enabled=true                |
 
 ## 致谢
 
