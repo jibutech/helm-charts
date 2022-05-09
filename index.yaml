@@ -11,6 +11,7 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/qiming-operator-2.5.0.tgz
     version: 2.5.0
+  - apiVersion: v2
     appVersion: 2.4.3
     created: "2022-04-18T19:32:39.175123583+08:00"
     description: ys1000 provides data protection for cloud native apps.
