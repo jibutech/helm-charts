@@ -8524,6 +8524,18 @@ spec:
                 type: object
               phase:
                 type: string
+              selfBackupStatus:
+                properties:
+                  selfBackupEnabled:
+                    type: boolean
+                  selfBackupErrorMsg:
+                    type: string
+                  selfBackupState:
+                    type: string
+                  selfBackupTime:
+                    format: date-time
+                    type: string
+                type: object
               storages:
                 properties:
                   StorageUsage:
