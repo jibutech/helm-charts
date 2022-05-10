@@ -160,8 +160,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -173,8 +175,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -186,8 +190,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -199,8 +205,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -634,8 +642,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -647,8 +657,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -660,8 +672,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -673,8 +687,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -1126,8 +1142,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1139,8 +1157,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1152,8 +1172,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1165,8 +1187,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1700,8 +1724,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1713,8 +1739,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1726,8 +1754,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -1739,8 +1769,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -2257,8 +2289,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -2270,8 +2304,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -2283,8 +2319,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -2296,8 +2334,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -2431,8 +2471,10 @@ spec:
                   properties:
                     group:
                       type: string
-                    name:
-                      type: string
+                    names:
+                      items:
+                        type: string
+                      type: array
                     resource:
                       type: string
                     version:
@@ -2444,8 +2486,10 @@ spec:
                   properties:
                     group:
                       type: string
-                    name:
-                      type: string
+                    names:
+                      items:
+                        type: string
+                      type: array
                     resource:
                       type: string
                     version:
@@ -2457,8 +2501,10 @@ spec:
                   properties:
                     group:
                       type: string
-                    name:
-                      type: string
+                    names:
+                      items:
+                        type: string
+                      type: array
                     resource:
                       type: string
                     version:
@@ -2470,8 +2516,10 @@ spec:
                   properties:
                     group:
                       type: string
-                    name:
-                      type: string
+                    names:
+                      items:
+                        type: string
+                      type: array
                     resource:
                       type: string
                     version:
@@ -2520,8 +2568,10 @@ spec:
                       is "In", and the values array contains only "value". The requirements
                       are ANDed.
                     type: object
-                  name:
-                    type: string
+                  names:
+                    items:
+                      type: string
+                    type: array
                 type: object
               selector:
                 description: A label selector is a label query over a set of resources.
@@ -2572,6 +2622,10 @@ spec:
                 type: object
             type: object
           status:
+            properties:
+              valid:
+                description: Conditions `json:",inline"`
+                type: boolean
             type: object
         type: object
     served: true
@@ -6782,8 +6836,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -6795,8 +6851,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -6808,8 +6866,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -6821,8 +6881,10 @@ spec:
                                   properties:
                                     group:
                                       type: string
-                                    name:
-                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
                                     resource:
                                       type: string
                                     version:
@@ -7260,8 +7322,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7273,8 +7337,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7286,8 +7352,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7299,8 +7367,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7550,8 +7620,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7563,8 +7635,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7576,8 +7650,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7589,8 +7665,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -7796,8 +7874,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -7809,8 +7889,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -7822,8 +7904,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -7835,8 +7919,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -8238,8 +8324,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -8251,8 +8339,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -8264,8 +8354,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -8277,8 +8369,10 @@ spec:
                           properties:
                             group:
                               type: string
-                            name:
-                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
                             resource:
                               type: string
                             version:
@@ -8484,8 +8578,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -8497,8 +8593,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -8510,8 +8608,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -8523,8 +8623,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -9124,8 +9226,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -9137,8 +9241,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -9150,8 +9256,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -9163,8 +9271,10 @@ spec:
                       properties:
                         group:
                           type: string
-                        name:
-                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
                         resource:
                           type: string
                         version:
@@ -9472,8 +9582,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -9485,8 +9597,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -9498,8 +9612,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
@@ -9511,8 +9627,10 @@ spec:
                               properties:
                                 group:
                                   type: string
-                                name:
-                                  type: string
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
                                 resource:
                                   type: string
                                 version:
