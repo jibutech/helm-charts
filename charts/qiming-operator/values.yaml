@@ -84,7 +84,7 @@ velero:
   enabled: true
   namespace: qiming-backend
   image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-11dd1ae
-  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.3.0
+  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-9f21dd3,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.3.0
   useRestic: true
   disableSnapshot: false
   s3ForcePathStyle: true
