@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "v2.5.0"
+  tag: "v2.5.1"
 
 restore: false
 uploadToS3: true
@@ -20,31 +20,31 @@ selfBackup:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "v2.5.0"
+    tag: "v2.5.1"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "v2.5.0"
+    tag: "v2.5.1"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -66,7 +66,7 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "v2.5.0"
+  datamoverTag: "v2.5.1"
   datamoverEnabled: true
   datamoverClusters: "all"
 
