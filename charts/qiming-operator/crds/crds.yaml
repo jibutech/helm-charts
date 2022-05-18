@@ -6990,6 +6990,10 @@ spec:
                           type: array
                         type: array
                     type: object
+                  sourceCluster:
+                    type: string
+                  targetCluster:
+                    type: string
                 type: object
               inactivated:
                 type: boolean
