@@ -397,6 +397,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               details:
                 additionalProperties:
                   items:
@@ -562,6 +577,21 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -1611,6 +1641,8 @@ spec:
               closed:
                 type: boolean
               exportPolicy:
+                description: DataExportPolicy defines the data export policy for backup.
+                  Deprecated
                 properties:
                   dataRepo:
                     description: migstorage reference
@@ -2030,7 +2062,7 @@ spec:
                   type: object
                 type: array
               policy:
-                description: BackupPolicy defines the policy for backup
+                description: BackupPolicy defines the policy for backup. Deprecated
                 properties:
                   copyMethod:
                     type: string
@@ -2218,6 +2250,21 @@ spec:
                   required:
                   - status
                   - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
                   type: object
                 type: array
               currentJobName:
@@ -2451,6 +2498,21 @@ spec:
                   ready:
                     type: boolean
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -2661,9 +2723,67 @@ spec:
             type: object
           status:
             properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               valid:
-                description: Conditions `json:",inline"`
                 type: boolean
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -3150,6 +3270,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               dataLocations:
                 description: RawMessage is a raw encoded JSON value. It implements
                   Marshaler and Unmarshaler and can be used to delay JSON decoding
@@ -3234,6 +3369,21 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -3754,6 +3904,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               phase:
                 type: string
               progress:
@@ -3828,6 +3993,21 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -4143,9 +4323,36 @@ spec:
                   - type
                   type: object
                 type: array
-              observedGeneration:
-                format: int64
-                type: integer
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -4401,6 +4608,24 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              detectedClusterProvider:
+                description: Auto detected cloud provider
+                type: string
               isInService:
                 type: boolean
               lastRefreshTime:
@@ -4434,6 +4659,21 @@ spec:
                   the cluster
                 items:
                   type: string
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
                 type: array
             type: object
         type: object
@@ -4728,9 +4968,36 @@ spec:
                   - type
                   type: object
                 type: array
-              observedGeneration:
-                format: int64
-                type: integer
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -5135,6 +5402,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               details:
                 additionalProperties:
                   items:
@@ -5252,6 +5534,21 @@ spec:
                   totalRetryCount:
                     type: integer
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -5905,6 +6202,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               excludedResources:
                 items:
                   type: string
@@ -5967,6 +6279,21 @@ spec:
                 type: array
               observedDigest:
                 type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -6238,6 +6565,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               testResults:
                 additionalProperties:
                   description: TestResult defines test result in a managed cluster
@@ -6262,6 +6604,21 @@ spec:
                   pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                   x-kubernetes-int-or-string: true
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -7095,6 +7452,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               errors:
                 items:
                   type: string
@@ -7195,6 +7567,26 @@ spec:
                 type: array
               phase:
                 type: string
+              postCheckResult:
+                properties:
+                  issues:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
+                  state:
+                    type: string
+                type: object
               restoredItems:
                 type: integer
               results:
@@ -7275,6 +7667,21 @@ spec:
                 type: object
               totalItems:
                 type: integer
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -9547,6 +9954,21 @@ spec:
                   - type
                   type: object
                 type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               incompatibleNamespaces:
                 items:
                   description: IncompatibleNamespace - namespace, which is noticed
@@ -9737,6 +10159,21 @@ spec:
                       type: array
                     type: array
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -10006,6 +10443,50 @@ spec:
                       type: string
                     type: array
                 type: object
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               errorMessage:
                 type: string
               jobs:
@@ -10800,6 +11281,21 @@ spec:
                       type: string
                     type: array
                 type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -10909,6 +11405,36 @@ spec:
                   required:
                   - status
                   - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
                   type: object
                 type: array
             type: object
