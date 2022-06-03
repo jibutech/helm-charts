@@ -4858,6 +4858,15 @@ spec:
                 description: FeatureParameters indicates the optional feature parameters
                   passed to all components
                 type: object
+              image:
+                properties:
+                  pullPolicy:
+                    type: string
+                  registry:
+                    type: string
+                  tag:
+                    type: string
+                type: object
               isAdminCluster:
                 description: IsAdminCluster indicates if the cluster is only for backup
                   management or not
@@ -4882,10 +4891,24 @@ spec:
                 items:
                   type: string
                 type: array
-            required:
-            - clientName
-            - serviceAccountName
-            - version
+              webServer:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  serviceType:
+                    description: Service Type string describes ingress methods for
+                      a service
+                    type: string
+                type: object
             type: object
           status:
             description: MigconfigStatus defines the observed state of Migconfig
@@ -4919,49 +4942,6 @@ spec:
                   - type
                   type: object
                 type: array
-              images:
-                properties:
-                  controller:
-                    properties:
-                      actualImage:
-                        description: ActualImage can be updated by each component
-                          later
-                        type: string
-                      desiredImage:
-                        description: DesiredImage is set by the operator
-                        type: string
-                    type: object
-                  discovery:
-                    properties:
-                      actualImage:
-                        description: ActualImage can be updated by each component
-                          later
-                        type: string
-                      desiredImage:
-                        description: DesiredImage is set by the operator
-                        type: string
-                    type: object
-                  minio:
-                    properties:
-                      actualImage:
-                        description: ActualImage can be updated by each component
-                          later
-                        type: string
-                      desiredImage:
-                        description: DesiredImage is set by the operator
-                        type: string
-                    type: object
-                  ui:
-                    properties:
-                      actualImage:
-                        description: ActualImage can be updated by each component
-                          later
-                        type: string
-                      desiredImage:
-                        description: DesiredImage is set by the operator
-                        type: string
-                    type: object
-                type: object
               phase:
                 type: string
             type: object
