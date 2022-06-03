@@ -39,9 +39,8 @@
       ```bash
       helm install qiming/qiming-operator --namespace qiming-migration \
           --create-namespace --generate-name --set service.type=NodePort \
-          --set s3Config.name=minio --set s3Config.accessKey=minio \
-          --set s3Config.secretKey=passw0rd --set s3Config.bucket=test \
-          --set s3Config.s3Url=http://172.16.0.10:30170
+          --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
+          --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
 
       NAME: qiming-operator-1635128765
       LAST DEPLOYED: Mon Oct 20 10:26:10 2021
