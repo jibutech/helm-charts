@@ -37,3 +37,14 @@ spec:
     datamover_clusters: {{ .Values.migconfig.datamoverClusters }}
   keys: {{ .Values.migconfig.keys }}
   agentNamespace: {{ .Values.velero.namespace }}
+  image:
+    registry: {{ .Values.imageBase.registry }}
+    pullPolicy: {{ .Values.imageBase.pullPolicy }}
+    tag: {{ .Values.imageBase.tag }}
+  webServer:
+    image:
+      registry: {{ .Values.components.webserver.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.webserver.image.repository }}
+      pullPolicy: {{ .Values.components.webserver.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.webserver.image.tag | default .Values.imageBase.tag }}
+    serviceType: {{ .Values.components.webserver.serviceType }}

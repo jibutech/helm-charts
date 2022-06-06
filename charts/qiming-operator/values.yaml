@@ -17,6 +17,20 @@ selfBackup:
   frequency: 0 */3 * * *
   retention: 168
 
+imageBase:
+  registry: registry.cn-shanghai.aliyuncs.com/jibudata
+  pullPolicy: Always
+  tag: "main-latest"
+
+components:
+  webserver:
+    image:
+      registry:
+      repository: webserver
+      pullPolicy:
+      tag:
+    serviceType: ClusterIP
+
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
