@@ -174,6 +174,7 @@ tolerations: []
 affinity: {}
 
 mysql:
+  fullnameOverride: mysql
   image:
     registry: registry.cn-shanghai.aliyuncs.com/jibudata
     repository: mysql
