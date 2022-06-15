@@ -76,6 +76,12 @@ migconfig:
   dmagentEnabled: false
   dmagentClusters: "all"
 
+  resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
+  resticdmRepo: "jibudata/restic-dm"
+  resticdmTag: "v0.0.1"
+  resticdmEnabled: false
+  resticdmClusters: "all"
+
 s3Config:
   skipped: false
   name: "default"

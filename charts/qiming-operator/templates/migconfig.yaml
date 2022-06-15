@@ -15,7 +15,7 @@ spec:
   isUINodePortEnabled: false
   {{- end }}
   featureParameters:
-    user_cluster_features: "amberapp,datamover,dmagent"
+    user_cluster_features: "amberapp,datamover,dmagent,resticdm"
 
     {{- if .Values.migconfig.amberappEnabled }}
     amberapp_enabled: "true"
@@ -44,5 +44,14 @@ spec:
     dmagent_repo: { { .Values.migconfig.dmagentRepo } }
     dmagent_tag: { { .Values.migconfig.dmagentTag } }
     dmagent_clusters: { { .Values.migconfig.dmagentClusters } }
+    { { - if .Values.migconfig.resticdmEnabled } }
+    resticdm_enabled: "true"
+    { { - else } }
+    resticdm_enabled: "false"
+    { { - end } }
+    resticdm_registry: { { .Values.migconfig.resticdmRegistry } }
+    resticdm_repo: { { .Values.migconfig.resticdmRepo } }
+    resticdm_tag: { { .Values.migconfig.resticdmTag } }
+    resticdm_clusters: { { .Values.migconfig.resticdmClusters } }
   keys: {{ .Values.migconfig.keys }}
   agentNamespace: {{ .Values.velero.namespace }}
