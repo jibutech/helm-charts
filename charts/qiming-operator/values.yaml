@@ -71,7 +71,7 @@ migconfig:
   datamoverClusters: "all"
 
   dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
-  dmagentRepo: "jibudata/data-mover"
+  dmagentRepo: "jibudata/dm-agent"
   dmagentTag: "v0.0.1"
   dmagentEnabled: false
   dmagentClusters: "all"
