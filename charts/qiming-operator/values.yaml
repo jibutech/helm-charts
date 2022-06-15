@@ -20,7 +20,7 @@ selfBackup:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "main-latest"
+    tag: "release-2.6-latest"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
     tag: "release-2.6.0-latest"
