@@ -35,23 +35,23 @@ spec:
     datamover_repo: {{ .Values.migconfig.datamoverRepo }}
     datamover_tag: {{ .Values.migconfig.datamoverTag }}
     datamover_clusters: {{ .Values.migconfig.datamoverClusters }}
-    { { - if .Values.migconfig.dmagentEnabled } }
+    {{- if .Values.migconfig.dmagentEnabled }}
     dmagent_enabled: "true"
-    { { - else } }
+    {{- else }}
     dmagent_enabled: "false"
-    { { - end } }
-    dmagent_registry: { { .Values.migconfig.dmagentRegistry } }
-    dmagent_repo: { { .Values.migconfig.dmagentRepo } }
-    dmagent_tag: { { .Values.migconfig.dmagentTag } }
-    dmagent_clusters: { { .Values.migconfig.dmagentClusters } }
-    { { - if .Values.migconfig.resticdmEnabled } }
+    {{- end }}
+    dmagent_registry: {{ .Values.migconfig.dmagentRegistry }}
+    dmagent_repo: {{ .Values.migconfig.dmagentRepo }}
+    dmagent_tag: {{ .Values.migconfig.dmagentTag }}
+    dmagent_clusters: {{ .Values.migconfig.dmagentClusters }}
+    {{- if .Values.migconfig.resticdmEnabled }}
     resticdm_enabled: "true"
-    { { - else } }
+    {{- else }}
     resticdm_enabled: "false"
-    { { - end } }
-    resticdm_registry: { { .Values.migconfig.resticdmRegistry } }
-    resticdm_repo: { { .Values.migconfig.resticdmRepo } }
-    resticdm_tag: { { .Values.migconfig.resticdmTag } }
-    resticdm_clusters: { { .Values.migconfig.resticdmClusters } }
+    {{- end }}
+    resticdm_registry: {{ .Values.migconfig.resticdmRegistry }}
+    resticdm_repo: {{ .Values.migconfig.resticdmRepo }}
+    resticdm_tag: {{ .Values.migconfig.resticdmTag }}
+    resticdm_clusters: {{ .Values.migconfig.resticdmClusters }}
   keys: {{ .Values.migconfig.keys }}
   agentNamespace: {{ .Values.velero.namespace }}
