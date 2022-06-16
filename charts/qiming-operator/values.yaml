@@ -26,7 +26,7 @@ componentImages:
     tag: "v2.5.0"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.5.0"
+    tag: "v2.5.3"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
@@ -50,7 +50,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.5.0"
+  version: "2.5.3"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
