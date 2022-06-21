@@ -525,6 +525,21 @@ spec:
                 type: array
               phase:
                 type: string
+              resources:
+                additionalProperties:
+                  items:
+                    properties:
+                      apiVersion:
+                        type: string
+                      kind:
+                        type: string
+                      names:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  type: array
+                type: object
               startTimestamp:
                 format: date-time
                 type: string
@@ -5443,8 +5458,12 @@ spec:
                 type: object
               quiescePods:
                 type: boolean
+              stage:
+                type: boolean
               verify:
                 type: boolean
+            required:
+            - stage
             type: object
           status:
             description: MigMigrationStatus defines the observed state of MigMigration
@@ -6746,7 +6765,7 @@ spec:
             description: RestoreJobSpec defines the desired state of RestoreJob
             properties:
               actions:
-                description: RestoreActions defines the action for a restore
+                description: Deprecated
                 properties:
                   podNodeSelections:
                     properties:
@@ -7042,8 +7061,6 @@ spec:
               canceled:
                 type: boolean
               context:
-                description: Context holds the information passed from restorePlan
-                  and backupJob
                 properties:
                   actions:
                     description: RestoreActions defines the action for a restore
@@ -7434,6 +7451,8 @@ spec:
               inactivated:
                 type: boolean
               keepAnnotations:
+                description: Context holds the information passed from restorePlan
+                  and backupJob
                 type: boolean
               restoreRef:
                 description: 'ObjectReference contains enough information to let you
