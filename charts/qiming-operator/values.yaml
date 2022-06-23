@@ -100,7 +100,7 @@ s3Config:
 velero:
   enabled: true
   namespace: qiming-backend
-  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-bfdb624-202206212005
+  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-2280867-202206231040
   plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-39ad34c,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.3.0
   useRestic: true
   disableSnapshot: false
