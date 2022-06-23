@@ -23,11 +23,15 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    ```bash
    [root@test-master ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
-
+   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
    ```
 
 2. Install helm chart **qiming-operator** 
+
+   **NOTE**: if any previous ys1000 was installed , please do crd update before installation or upgrade by:
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   ```
 
    Option 1: CLI commands
 
@@ -125,7 +129,12 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 ## Upgrade
 
 1. Upgrade to a chart version by specifying `--version=<CHART VERSION>`  through `helm upgrade`
-
+   
+   **NOTE**: please do crd update before upgrade by:
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   ```
+   
    If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
 
    An example:
