@@ -889,6 +889,9 @@ spec:
                 type: array
               phase:
                 type: string
+              phaseAt:
+                format: date-time
+                type: string
               resources:
                 additionalProperties:
                   items:
@@ -6523,6 +6526,9 @@ spec:
                 type: array
               phase:
                 type: string
+              phaseAt:
+                format: date-time
+                type: string
               results:
                 additionalProperties:
                   description: Velero restore result
@@ -9001,6 +9007,9 @@ spec:
                   type: object
                 type: array
               phase:
+                type: string
+              phaseAtAt:
+                format: date-time
                 type: string
               postCheckResult:
                 properties:
