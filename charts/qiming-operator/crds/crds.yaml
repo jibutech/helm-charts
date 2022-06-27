@@ -548,6 +548,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -567,6 +570,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
@@ -5605,6 +5611,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -5624,6 +5633,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
@@ -7736,6 +7748,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -7755,6 +7770,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
