@@ -323,6 +323,8 @@ spec:
                           type: string
                         maxRetryCount:
                           type: integer
+                        name:
+                          type: string
                         runOn:
                           type: string
                         timeoutSeconds:
@@ -503,6 +505,8 @@ spec:
                           type: string
                         maxRetryCount:
                           type: integer
+                        name:
+                          type: string
                         runOn:
                           type: string
                         timeoutSeconds:
@@ -923,6 +927,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -942,6 +949,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
@@ -2939,6 +2949,8 @@ spec:
                       type: string
                     maxRetryCount:
                       type: integer
+                    name:
+                      type: string
                     runOn:
                       type: string
                     timeoutSeconds:
@@ -3116,6 +3128,8 @@ spec:
                       type: string
                     maxRetryCount:
                       type: integer
+                    name:
+                      type: string
                     runOn:
                       type: string
                     timeoutSeconds:
@@ -6557,6 +6571,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -6576,6 +6593,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
@@ -8439,6 +8459,8 @@ spec:
                           type: string
                         maxRetryCount:
                           type: integer
+                        name:
+                          type: string
                         runOn:
                           type: string
                         timeoutSeconds:
@@ -8619,6 +8641,8 @@ spec:
                           type: string
                         maxRetryCount:
                           type: integer
+                        name:
+                          type: string
                         runOn:
                           type: string
                         timeoutSeconds:
@@ -9048,6 +9072,9 @@ spec:
                         type: string
                       retryTimes:
                         type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
                     type: object
                   history:
                     items:
@@ -9067,6 +9094,9 @@ spec:
                           type: string
                         retryTimes:
                           type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
                       type: object
                     type: array
                   maxRetryCount:
@@ -11618,6 +11648,8 @@ spec:
                       type: string
                     maxRetryCount:
                       type: integer
+                    name:
+                      type: string
                     runOn:
                       type: string
                     timeoutSeconds:
@@ -11795,6 +11827,8 @@ spec:
                       type: string
                     maxRetryCount:
                       type: integer
+                    name:
+                      type: string
                     runOn:
                       type: string
                     timeoutSeconds:
