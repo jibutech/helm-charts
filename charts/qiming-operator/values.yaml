@@ -26,13 +26,13 @@ componentImages:
     tag: "v2.6.0"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.6.2"
+    tag: "v2.6.4"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "v2.6.1"
+    tag: "v2.6.4"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
@@ -50,7 +50,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.6.3"
+  version: "2.6.4"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -66,7 +66,7 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "v2.6.0"
+  datamoverTag: "v2.6.4"
   datamoverEnabled: true
   datamoverClusters: "all"
 
@@ -83,8 +83,8 @@ s3Config:
 velero:
   enabled: true
   namespace: qiming-backend
-  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-2280867-202206231040
-  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-39ad34c,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.3.0
+  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-f440404-202206300917
+  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-39ad34c,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.4.0
   useRestic: true
   disableSnapshot: false
   s3ForcePathStyle: true

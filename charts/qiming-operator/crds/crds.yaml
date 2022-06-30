@@ -525,6 +525,9 @@ spec:
                 type: array
               phase:
                 type: string
+              phaseAt:
+                format: date-time
+                type: string
               startTimestamp:
                 format: date-time
                 type: string
@@ -5469,8 +5472,12 @@ spec:
                 type: object
               quiescePods:
                 type: boolean
+              stage:
+                type: boolean
               verify:
                 type: boolean
+            required:
+            - stage
             type: object
           status:
             description: MigMigrationStatus defines the observed state of MigMigration
@@ -5562,6 +5569,9 @@ spec:
                   type: object
                 type: array
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               results:
                 additionalProperties:
@@ -7677,6 +7687,9 @@ spec:
                   type: object
                 type: array
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               postCheckResult:
                 properties:
