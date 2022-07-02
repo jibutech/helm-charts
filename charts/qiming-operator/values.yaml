@@ -38,13 +38,13 @@ componentImages:
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.6.0"
+    tag: "v2.6.4"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "v2.6.0"
+    tag: "v2.6.4"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "v2.6.0"
+    tag: "v2.6.4"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
