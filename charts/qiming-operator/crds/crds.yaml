@@ -928,6 +928,11 @@ spec:
                   tenant:
                     description: Tenant is global unique tenant id of a user
                     type: string
+                  volume:
+                    properties:
+                      excluded:
+                        type: boolean
+                    type: object
                 required:
                 - clusterName
                 - storageName
@@ -1401,6 +1406,11 @@ spec:
               tenant:
                 description: Tenant is global unique tenant id of a user
                 type: string
+              volume:
+                properties:
+                  excluded:
+                    type: boolean
+                type: object
             required:
             - clusterName
             - storageName
@@ -8150,6 +8160,11 @@ spec:
                       tenant:
                         description: Tenant is global unique tenant id of a user
                         type: string
+                      volume:
+                        properties:
+                          excluded:
+                            type: boolean
+                        type: object
                     required:
                     - clusterName
                     - storageName
@@ -8448,6 +8463,11 @@ spec:
                       tenant:
                         description: Tenant is global unique tenant id of a user
                         type: string
+                      volume:
+                        properties:
+                          excluded:
+                            type: boolean
+                        type: object
                     required:
                     - clusterName
                     - storageName
@@ -8645,6 +8665,11 @@ spec:
                   tenant:
                     description: Tenant is unique name of tenant
                     type: string
+                  volume:
+                    properties:
+                      excluded:
+                        type: boolean
+                    type: object
                 required:
                 - backupName
                 - destClusterName
@@ -9152,6 +9177,11 @@ spec:
                   tenant:
                     description: Tenant is global unique tenant id of a user
                     type: string
+                  volume:
+                    properties:
+                      excluded:
+                        type: boolean
+                    type: object
                 required:
                 - clusterName
                 - storageName
@@ -9346,6 +9376,11 @@ spec:
               tenant:
                 description: Tenant is unique name of tenant
                 type: string
+              volume:
+                properties:
+                  excluded:
+                    type: boolean
+                type: object
             required:
             - backupName
             - destClusterName
