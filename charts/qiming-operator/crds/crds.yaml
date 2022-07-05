@@ -8291,6 +8291,8 @@ spec:
                           type: string
                         type: object
                     type: object
+                  backupJobUID:
+                    type: string
                   backupPlan:
                     type: string
                   copyMethod:
