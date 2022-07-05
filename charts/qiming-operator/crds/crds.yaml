@@ -759,6 +759,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -2664,6 +2665,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -3526,6 +3528,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -4044,6 +4047,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -4754,6 +4758,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -5401,6 +5406,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -5686,6 +5692,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -5921,6 +5928,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -6026,6 +6034,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -6464,6 +6473,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -7273,6 +7283,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -7636,6 +7647,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -8887,6 +8899,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -9008,7 +9021,7 @@ spec:
                 type: array
               phase:
                 type: string
-              phaseAtAt:
+              phaseAt:
                 format: date-time
                 type: string
               postCheckResult:
@@ -11409,6 +11422,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -12285,6 +12299,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
@@ -12309,723 +12324,35 @@ spec:
               errorMessage:
                 type: string
               jobs:
-                properties:
-                  backups:
-                    properties:
-                      completedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      failedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      jobsInProgress:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      longRuns:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      queued:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  exports:
-                    properties:
-                      completedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      failedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      jobsInProgress:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      longRuns:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      queued:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  imports:
-                    properties:
-                      completedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      failedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      jobsInProgress:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      longRuns:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      queued:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  migrations:
-                    properties:
-                      completedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      failedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      jobsInProgress:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      longRuns:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      queued:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  restores:
-                    properties:
-                      completedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      failedJobs:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      jobsInProgress:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      longRuns:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                      queued:
-                        items:
-                          properties:
-                            cluster:
-                              properties:
-                                source:
-                                  type: string
-                                target:
-                                  type: string
-                              type: object
-                            endTime:
-                              format: date-time
-                              type: string
-                            name:
-                              type: string
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            startTime:
-                              format: date-time
-                              type: string
-                            systemReferenceCode:
-                              type: string
-                            type:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                type: object
+                items:
+                  properties:
+                    cluster:
+                      properties:
+                        source:
+                          type: string
+                        target:
+                          type: string
+                      type: object
+                    endTime:
+                      format: date-time
+                      type: string
+                    name:
+                      type: string
+                    namespaces:
+                      items:
+                        type: string
+                      type: array
+                    startTime:
+                      format: date-time
+                      type: string
+                    state:
+                      type: string
+                    systemReferenceCode:
+                      type: string
+                    type:
+                      type: string
+                  type: object
+                type: array
               notifications:
                 properties:
                   mailResult:
@@ -13069,8 +12396,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  count:
-                    type: integer
                   snapshot:
                     items:
                       properties:
@@ -13220,6 +12545,7 @@ spec:
                     status:
                       type: string
                     type:
+                      description: Types
                       type: string
                   required:
                   - status
