@@ -6621,6 +6621,9 @@ spec:
                   totalRetryCount:
                     type: integer
                 type: object
+              submitTimestamp:
+                format: date-time
+                type: string
               warnings:
                 items:
                   properties:
@@ -9130,6 +9133,9 @@ spec:
                   totalRetryCount:
                     type: integer
                 type: object
+              submitTimestamp:
+                format: date-time
+                type: string
               totalItems:
                 type: integer
               warnings:
@@ -12325,7 +12331,7 @@ spec:
                 type: array
               errorMessage:
                 type: string
-              jobs:
+              jobList:
                 items:
                   properties:
                     cluster:
@@ -12348,6 +12354,7 @@ spec:
                       format: date-time
                       type: string
                     state:
+                      description: Job States
                       type: string
                     systemReferenceCode:
                       type: string
@@ -12355,6 +12362,805 @@ spec:
                       type: string
                   type: object
                 type: array
+              jobs:
+                description: JobInfo deprecated
+                properties:
+                  backups:
+                    description: JobStatus deprecated
+                    properties:
+                      completedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      failedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      jobsInProgress:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      longRuns:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  exports:
+                    description: JobStatus deprecated
+                    properties:
+                      completedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      failedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      jobsInProgress:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      longRuns:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  imports:
+                    description: JobStatus deprecated
+                    properties:
+                      completedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      failedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      jobsInProgress:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      longRuns:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  migrations:
+                    description: JobStatus deprecated
+                    properties:
+                      completedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      failedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      jobsInProgress:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      longRuns:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  restores:
+                    description: JobStatus deprecated
+                    properties:
+                      completedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      failedJobs:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      jobsInProgress:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      longRuns:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      queued:
+                        items:
+                          properties:
+                            cluster:
+                              properties:
+                                source:
+                                  type: string
+                                target:
+                                  type: string
+                              type: object
+                            endTime:
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            startTime:
+                              format: date-time
+                              type: string
+                            state:
+                              description: Job States
+                              type: string
+                            systemReferenceCode:
+                              type: string
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                type: object
               notifications:
                 properties:
                   mailResult:
@@ -12398,6 +13204,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  count:
+                    type: integer
                   snapshot:
                     items:
                       properties:
