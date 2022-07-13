@@ -8779,6 +8779,8 @@ spec:
                 description: DeploymentMode indicates if the installation can support
                   multi-clusters or not
                 type: string
+              developmentMode:
+                type: boolean
               featureParameters:
                 additionalProperties:
                   type: string
