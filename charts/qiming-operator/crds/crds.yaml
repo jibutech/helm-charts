@@ -9312,6 +9312,17 @@ spec:
                 type: object
               canceled:
                 type: boolean
+              context:
+                properties:
+                  namespaceMapping:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  sourceCluster:
+                    type: string
+                  targetCluster:
+                    type: string
+                type: object
               keepAnnotations:
                 type: boolean
               migPlanRef:
