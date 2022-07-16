@@ -232,6 +232,9 @@ helm install qiming/qiming-operator --namespace qiming-migration \
 | s3Config.s3Url            | S3 URL                                      | --set s3Config.s3Url=http://172.16.0.10:30170 |
 | migconfig.UIadminPassword | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
 | selfBackup.enabled        | 是否打开自备份（可选，默认为false）               | --set selfBackup.enabled=true                |
+| velero.resticMemReq       | Restic Daemonset 内存请求值                    | --set velero.resticMemReq=1Gi                |
+| velero.resticMemLimit       | Restic Daemonset 内存最大值                  | --set velero.resticMemLimit=8Gi                |
+| velero.resticPodVolumeOperationTimeout   | 使用Restic复制单个数据卷的超时时间    | --set velero.resticPodVolumeOperationTimeout=4h |
 
 ## 致谢
 
