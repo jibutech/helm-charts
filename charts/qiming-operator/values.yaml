@@ -87,6 +87,18 @@ migconfig:
   datamoverEnabled: true
   datamoverClusters: "all"
 
+  dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
+  dmagentRepo: "jibudata/dm-agent"
+  dmagentTag: "release-2.7.0-latest"
+  dmagentEnabled: false
+  dmagentClusters: "all"
+
+  resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
+  resticdmRepo: "jibudata/restic-dm"
+  resticdmTag: "release-2.7.0-latest"
+  resticdmEnabled: false
+  resticdmClusters: "all"
+
 s3Config:
   skipped: false
   name: "default"
