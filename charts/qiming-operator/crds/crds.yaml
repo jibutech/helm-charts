@@ -784,6 +784,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -2418,6 +2420,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -5594,6 +5598,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -6215,6 +6221,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -6475,6 +6483,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -6492,6 +6502,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -6997,6 +7009,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -7172,6 +7186,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -7711,6 +7727,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -7800,6 +7818,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -8359,6 +8379,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -8374,6 +8396,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -8645,6 +8669,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -8697,6 +8723,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -8989,6 +9017,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -9004,6 +9034,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -9439,6 +9471,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -9583,6 +9617,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -10252,6 +10288,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -10329,6 +10367,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -10616,6 +10656,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -10655,6 +10697,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -11881,6 +11925,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -12001,6 +12047,8 @@ spec:
                       properties:
                         code:
                           type: string
+                        durable:
+                          type: boolean
                         message:
                           type: string
                         params:
@@ -12108,6 +12156,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -14437,6 +14487,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -15011,6 +15063,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -15325,6 +15379,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -16324,6 +16380,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -16451,6 +16509,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
@@ -16466,6 +16526,8 @@ spec:
                   properties:
                     code:
                       type: string
+                    durable:
+                      type: boolean
                     message:
                       type: string
                     params:
