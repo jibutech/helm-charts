@@ -51,14 +51,26 @@ spec:
           value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.veleroInstallerImage.tag }}"
         - name: HOOK_RUNNER_IMAGE
           value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
+        - name: IMAGE_WEBSERVER
+          value: "{{ .Values.componentImages.webServer.repository }}:{{ .Values.componentImages.webServer.tag }}"
         - name: VELERO_IMAGE
           value: {{ .Values.velero.image }}
         - name: VELERO_PLUGINS
           value: {{ .Values.velero.plugins }}
         - name: UI_ENABLE_FLAG
           value: "true"
+        - name: VELERO_RESTIC_MEM_REQ
+          value: {{ .Values.velero.resticMemReq }}
+        - name: VELERO_RESTIC_MEM_LIMIT
+          value: {{ .Values.velero.resticMemLimit }}
+        - name: POD_VOLUME_OPERATION_TIMEOUT
+          value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
 {{- if .Values.velero.disableSnapshot }}
         - name: VELERO_DISABLE_SNAPSHOT
+          value: "true"
+{{- end }}
+{{- if .Values.velero.disableRestic }}
+        - name: VELERO_DISABLE_RESTIC
           value: "true"
 {{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
