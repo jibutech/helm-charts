@@ -4390,6 +4390,12 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -4618,6 +4624,9 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -4976,6 +4985,1099 @@ spec:
     storage: true
     subresources:
       status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: disasterrecoveries.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DisasterRecovery
+    listKind: DisasterRecoveryList
+    plural: disasterrecoveries
+    singular: disasterrecovery
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.drConfig.name
+      name: Config
+      type: string
+    - jsonPath: .spec.opType
+      name: Operation
+      type: string
+    - jsonPath: .status.primaryState.name
+      name: Primary
+      type: string
+    - jsonPath: .status.secondaryState.name
+      name: Secondary
+      type: string
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DisasterRecovery is the Schema for the disasterrecoveries API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DisasterRecoverySpec defines the desired state of DisasterRecovery
+            properties:
+              appNamespaces:
+                items:
+                  type: string
+                type: array
+              drConfig:
+                description: drconfig reference
+                type: string
+              filters:
+                description: resource filter
+                properties:
+                  excludeClusterResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  excludeResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  includeClusterResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  includeResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  selector:
+                    description: A label selector is a label query over a set of resources.
+                      The result of matchLabels and matchExpressions are ANDed. An
+                      empty label selector matches all objects. A null label selector
+                      matches no objects.
+                    properties:
+                      matchExpressions:
+                        description: matchExpressions is a list of label selector
+                          requirements. The requirements are ANDed.
+                        items:
+                          description: A label selector requirement is a selector
+                            that contains values, a key, and an operator that relates
+                            the key and values.
+                          properties:
+                            key:
+                              description: key is the label key that the selector
+                                applies to.
+                              type: string
+                            operator:
+                              description: operator represents a key's relationship
+                                to a set of values. Valid operators are In, NotIn,
+                                Exists and DoesNotExist.
+                              type: string
+                            values:
+                              description: values is an array of string values. If
+                                the operator is In or NotIn, the values array must
+                                be non-empty. If the operator is Exists or DoesNotExist,
+                                the values array must be empty. This array is replaced
+                                during a strategic merge patch.
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - key
+                          - operator
+                          type: object
+                        type: array
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: matchLabels is a map of {key,value} pairs. A
+                          single {key,value} in the matchLabels map is equivalent
+                          to an element of matchExpressions, whose key field is "key",
+                          the operator is "In", and the values array contains only
+                          "value". The requirements are ANDed.
+                        type: object
+                    type: object
+                type: object
+              podRestoreMethod:
+                description: Pod Restore method none/replica/nodename, default is
+                  nodename
+                type: string
+              restoreActions:
+                description: restoreActions
+                properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  podNodeSelections:
+                    properties:
+                      newNodeAffinity:
+                        description: Node affinity is a group of node affinity scheduling
+                          rules.
+                        properties:
+                          preferredDuringSchedulingIgnoredDuringExecution:
+                            description: The scheduler will prefer to schedule pods
+                              to nodes that satisfy the affinity expressions specified
+                              by this field, but it may choose a node that violates
+                              one or more of the expressions. The node that is most
+                              preferred is the one with the greatest sum of weights,
+                              i.e. for each node that meets all of the scheduling
+                              requirements (resource request, requiredDuringScheduling
+                              affinity expressions, etc.), compute a sum by iterating
+                              through the elements of this field and adding "weight"
+                              to the sum if the node matches the corresponding matchExpressions;
+                              the node(s) with the highest sum are the most preferred.
+                            items:
+                              description: An empty preferred scheduling term matches
+                                all objects with implicit weight 0 (i.e. it's a no-op).
+                                A null preferred scheduling term matches no objects
+                                (i.e. is also a no-op).
+                              properties:
+                                preference:
+                                  description: A node selector term, associated with
+                                    the corresponding weight.
+                                  properties:
+                                    matchExpressions:
+                                      description: A list of node selector requirements
+                                        by node's labels.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchFields:
+                                      description: A list of node selector requirements
+                                        by node's fields.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                  type: object
+                                weight:
+                                  description: Weight associated with matching the
+                                    corresponding nodeSelectorTerm, in the range 1-100.
+                                  format: int32
+                                  type: integer
+                              required:
+                              - preference
+                              - weight
+                              type: object
+                            type: array
+                          requiredDuringSchedulingIgnoredDuringExecution:
+                            description: If the affinity requirements specified by
+                              this field are not met at scheduling time, the pod will
+                              not be scheduled onto the node. If the affinity requirements
+                              specified by this field cease to be met at some point
+                              during pod execution (e.g. due to an update), the system
+                              may or may not try to eventually evict the pod from
+                              its node.
+                            properties:
+                              nodeSelectorTerms:
+                                description: Required. A list of node selector terms.
+                                  The terms are ORed.
+                                items:
+                                  description: A null or empty node selector term
+                                    matches no objects. The requirements of them are
+                                    ANDed. The TopologySelectorTerm type implements
+                                    a subset of the NodeSelectorTerm.
+                                  properties:
+                                    matchExpressions:
+                                      description: A list of node selector requirements
+                                        by node's labels.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchFields:
+                                      description: A list of node selector requirements
+                                        by node's fields.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            required:
+                            - nodeSelectorTerms
+                            type: object
+                        type: object
+                      newNodeName:
+                        type: string
+                      newNodeSelector:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      nodeAffinityPluginAction:
+                        type: string
+                      nodeNamePluginAction:
+                        type: string
+                      nodeSelectorPluginAction:
+                        type: string
+                    type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
+                  storageClassMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
+              skipValidation:
+                description: skip validation
+                type: boolean
+              syncRestoreDisabled:
+                description: Resource sync, disable/enable restore
+                type: boolean
+            type: object
+          status:
+            description: DisasterRecoveryStatus defines the observed state of DisasterRecovery
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              lastOperationStatus:
+                properties:
+                  detailedOperationStatus:
+                    additionalProperties:
+                      properties:
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                        status:
+                          type: string
+                        stopTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: object
+                  opType:
+                    type: string
+                  startTimestamp:
+                    format: date-time
+                    type: string
+                  status:
+                    type: string
+                  stopTimestamp:
+                    format: date-time
+                    type: string
+                type: object
+              operationState:
+                type: string
+              primaryState:
+                description: Cluster status
+                properties:
+                  connectionStatus:
+                    description: connection status, handle cluster disconnect event
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    description: overall dr status, identify can switch role
+                    type: string
+                type: object
+              resourcesSyncStatus:
+                items:
+                  properties:
+                    backupJobStatus:
+                      properties:
+                        completedItems:
+                          type: integer
+                        completionTime:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        startTime:
+                          format: date-time
+                          type: string
+                        status:
+                          type: string
+                        succeeded:
+                          type: boolean
+                        totalItems:
+                          type: integer
+                      type: object
+                    restoreJobStatus:
+                      properties:
+                        completedItems:
+                          type: integer
+                        completionTime:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        startTime:
+                          format: date-time
+                          type: string
+                        status:
+                          type: string
+                        succeeded:
+                          type: boolean
+                        totalItems:
+                          type: integer
+                      type: object
+                  type: object
+                type: array
+              secondaryState:
+                description: Cluster status
+                properties:
+                  connectionStatus:
+                    description: connection status, handle cluster disconnect event
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    description: overall dr status, identify can switch role
+                    type: string
+                type: object
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drconfigs.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrConfig
+    listKind: DrConfigList
+    plural: drconfigs
+    singular: drconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.srcCluster
+      name: Src Cluster
+      type: string
+    - jsonPath: .spec.dstCluster
+      name: Dst Cluster
+      type: string
+    - jsonPath: .spec.syncType
+      name: Type
+      type: string
+    - jsonPath: .spec.migStorageRef.name
+      name: MigStorage
+      type: string
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrConfig is the Schema for the drconfigs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DrConfigSpec defines the desired state of DrConfig
+            properties:
+              cephMirrorConfig:
+                properties:
+                  poolMirrorType:
+                    description: pool mirror type, supported value are image,pool
+                    type: string
+                  poolName:
+                    description: ceph blockpool name
+                    type: string
+                  rbdMirrorMode:
+                    description: rbd mirror mode, supported value are snapshot,journal
+                    type: string
+                  schedulingInterval:
+                    description: mirror interval, such as 15m, which means 15 minutes
+                    type: string
+                type: object
+              dstCluster:
+                type: string
+              migStorageRef:
+                properties:
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                type: object
+              nfsConfig:
+                properties:
+                  dstPath:
+                    description: Destination cluster's Path that is exported by the
+                      NFS server
+                    type: string
+                  dstServer:
+                    description: Destination cluster's hostname or IP address of the
+                      NFS server
+                    type: string
+                  path:
+                    description: Path that is exported by the NFS server
+                    type: string
+                  server:
+                    description: Server is the hostname or IP address of the NFS server
+                    type: string
+                type: object
+              rsyncConfig:
+                properties:
+                  copyMethod:
+                    description: copyMethod describes how a point-in-time (PiT) image
+                      of the destination volume should be created.
+                    enum:
+                    - None
+                    - Clone
+                    - Snapshot
+                    type: string
+                  trigger:
+                    description: rsync trigger method, supported value are manual
+                      or a interval, such as 15m, which means 15 minutes
+                    type: string
+                type: object
+              skipConfig:
+                type: boolean
+              srcCluster:
+                type: string
+              syncPolicy:
+                type: string
+              syncType:
+                type: string
+            type: object
+          status:
+            description: DrConfigStatus defines the observed state of DrConfig
+            properties:
+              cephMirrorStatus:
+                description: PoolMirroringStatusSummarySpec is the summary output
+                  of the command
+                properties:
+                  daemon_health:
+                    description: DaemonHealth is the health of the mirroring daemon
+                    type: string
+                  health:
+                    description: Health is the mirroring health
+                    type: string
+                  image_health:
+                    description: ImageHealth is the health of the mirrored image
+                    type: string
+                  states:
+                    description: States is the various state for all mirrored images
+                    nullable: true
+                    properties:
+                      error:
+                        description: Error is when the mirroring state is errored
+                        type: integer
+                      replaying:
+                        description: Replaying is when the replay of the mirroring
+                          journal is on-going
+                        type: integer
+                      starting_replay:
+                        description: StartingReplay is when the replay of the mirroring
+                          journal starts
+                        type: integer
+                      stopped:
+                        description: Stopped is when the mirroring state is stopped
+                        type: integer
+                      stopping_replay:
+                        description: StopReplaying is when the replay of the mirroring
+                          journal stops
+                        type: integer
+                      syncing:
+                        description: Syncing is when the image is syncing
+                        type: integer
+                      unknown:
+                        description: Unknown is when the mirroring state is unknown
+                        type: integer
+                    type: object
+                type: object
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: droperationrequests.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrOperationRequest
+    listKind: DrOperationRequestList
+    plural: droperationrequests
+    singular: droperationrequest
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrOperationRequest is the Schema for the droperationrequests
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drInstanceName:
+                type: string
+              fsmCurrentStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operation:
+                type: string
+            required:
+            - drInstanceName
+            - operation
+            type: object
+          status:
+            properties:
+              phase:
+                enum:
+                - Processed
+                - Skipped
+                type: string
+              processedTimestamp:
+                format: date-time
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: droperations.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrOperation
+    listKind: DrOperationList
+    plural: droperations
+    singular: droperation
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrOperation is the Schema for the droperations API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              directives:
+                items:
+                  description: Send directives to control operation phases
+                  properties:
+                    action:
+                      type: string
+                    confirmed:
+                      type: boolean
+                    phase:
+                      type: string
+                  type: object
+                type: array
+              drInstanceName:
+                type: string
+              operationType:
+                type: string
+              subOperation:
+                type: string
+            required:
+            - drInstanceName
+            - operationType
+            - subOperation
+            type: object
+          status:
+            properties:
+              completionTimestamp:
+                format: date-time
+                type: string
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              phase:
+                type: string
+              roleStatus:
+                properties:
+                  primary:
+                    type: string
+                  secondary:
+                    type: string
+                type: object
+              startTimestamp:
+                format: date-time
+                type: string
+              state:
+                type: string
+              steps:
+                items:
+                  properties:
+                    completionTimestamp:
+                      format: date-time
+                      type: string
+                    startTimestamp:
+                      format: date-time
+                      type: string
+                    step:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
 status:
   acceptedNames:
     kind: ""
@@ -6255,6 +7357,12 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -6483,6 +7591,9 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -6820,6 +7931,12 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -7048,6 +8165,9 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -7899,6 +9019,12 @@ spec:
               actions:
                 description: Deprecated
                 properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -8127,6 +9253,9 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -8197,6 +9326,12 @@ spec:
                   actions:
                     description: RestoreActions defines the action for a restore
                     properties:
+                      existingResourcePolicy:
+                        type: string
+                      ingressAnnotations:
+                        additionalProperties:
+                          type: string
+                        type: object
                       podNodeSelections:
                         properties:
                           newNodeAffinity:
@@ -8427,6 +9562,9 @@ spec:
                           nodeSelectorPluginAction:
                             type: string
                         type: object
+                      replicaCount:
+                        format: int32
+                        type: integer
                       storageClassMappings:
                         additionalProperties:
                           type: string
@@ -11019,6 +12157,12 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    type: string
+                  ingressAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -11247,6 +12391,9 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  replicaCount:
+                    format: int32
+                    type: integer
                   storageClassMappings:
                     additionalProperties:
                       type: string
