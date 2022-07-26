@@ -35,8 +35,8 @@
    ```
    kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
    ```
-   从release 2.7.0开始，增加了mysql组件，安装时需额外注意：
-   **注意-4**: 生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
+   **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
+   生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
 
    a. 通过命令行方式安装:
 
