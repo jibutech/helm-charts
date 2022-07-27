@@ -23,14 +23,20 @@
 
    ```bash
    [root@test-master ~]# helm search repo qiming
-   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
+   NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
    ```
 
 2. 您可以使用以下两种方法进行安装:
 
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节 <br>
-   **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明
+   **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明 <br>
+   **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   ```
+   **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
+   生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
 
    a. 通过命令行方式安装:
 
@@ -141,23 +147,28 @@
    ```bash
    [root@ ~]# helm search repo qiming
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
+   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
    [root@ ~]# helm search repo qiming --versions
    NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator	2.0.3        	2.0.3      	A Helm chart for YS1000 data management platform
-   qiming/qiming-operator	1.0.2        	1.0.2      	A Helm chart for yinhestor data management plat...
-   qiming/qiming-operator	1.0.1        	1.0.1      	A Helm chart for yinhestor data management plat...
-   helm search repo qiming --versions
+   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
+   qiming/qiming-operator  2.6.0           2.6.0           ys1000 provides data protection for cloud nativ...
+   qiming/qiming-operator  2.5.3           2.5.3           ys1000 provides data protection for cloud nativ...
+   qiming/qiming-operator  2.5.0           2.5.0           ys1000 provides data protection for cloud nativ...
+   ...
    ```
 
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
-   **注意**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置**
+   **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
+   **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   ```
    
    例如：
    
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 --set migconfig.UIadminPassword=`<your password>`
+   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.6.1 --set migconfig.UIadminPassword=`<your password>`
    ```
 
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
@@ -210,12 +221,6 @@
 
    kubectl delete crds -l component=velero
    ```
-
-helm install qiming/qiming-operator --namespace qiming-migration \
---create-namespace --generate-name --set service.type=NodePort \
- --set s3Config.name=minio --set s3Config.accessKey=minio \
- --set s3Config.secretKey=passw0rd --set s3Config.bucket=test \
- --set s3Config.s3Url=http://172.16.0.10:30170
 
 ## 配置
 
