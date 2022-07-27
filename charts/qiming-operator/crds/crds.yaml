@@ -2096,6 +2096,8 @@ spec:
             properties:
               closed:
                 type: boolean
+              cluster:
+                type: string
               exportPolicy:
                 description: DataExportPolicy defines the data export policy for backup.
                   Deprecated
@@ -2685,6 +2687,8 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              storage:
+                type: string
               templates:
                 items:
                   items:
