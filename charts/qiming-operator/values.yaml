@@ -7,20 +7,20 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "release-2.7.0-latest"
+  tag: "v2.7.0"
 
 restore: false
 uploadToS3: false
 
 selfBackup:
   enabled: false
-  frequency: 0 */3 * * *
+  frequency: 49 */1 * * *
   retention: 168
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com/jibudata
   pullPolicy: Always
-  tag: "release-2.7.0-latest"
+  tag: "v2.7.0"
 
 components:
   webserver:
@@ -34,34 +34,34 @@ components:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
   webServer:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/webserver
-    tag: "release-2.7.0-latest"
+    tag: "v2.7.0"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -83,19 +83,19 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "release-2.7.0-latest"
+  datamoverTag: "v2.7.0"
   datamoverEnabled: true
   datamoverClusters: "all"
 
   dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
   dmagentRepo: "jibudata/dm-agent"
-  dmagentTag: "release-2.7.0-latest"
+  dmagentTag: "v2.7.0"
   dmagentEnabled: false
   dmagentClusters: "all"
 
   resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
   resticdmRepo: "jibudata/restic-dm"
-  resticdmTag: "release-2.7.0-latest"
+  resticdmTag: "v2.7.0"
   resticdmEnabled: false
   resticdmClusters: "all"
 
