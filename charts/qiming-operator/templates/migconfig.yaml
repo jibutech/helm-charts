@@ -15,7 +15,7 @@ spec:
   isUINodePortEnabled: false
   {{- end }}
   featureParameters:
-    user_cluster_features: "amberapp,datamover"
+    user_cluster_features: "amberapp,datamover,dmagent,resticdm"
 
     {{- if .Values.migconfig.amberappEnabled }}
     amberapp_enabled: "true"
@@ -35,5 +35,34 @@ spec:
     datamover_repo: {{ .Values.migconfig.datamoverRepo }}
     datamover_tag: {{ .Values.migconfig.datamoverTag }}
     datamover_clusters: {{ .Values.migconfig.datamoverClusters }}
+    {{- if .Values.migconfig.dmagentEnabled }}
+    dmagent_enabled: "true"
+    {{- else }}
+    dmagent_enabled: "false"
+    {{- end }}
+    dmagent_registry: {{ .Values.migconfig.dmagentRegistry }}
+    dmagent_repo: {{ .Values.migconfig.dmagentRepo }}
+    dmagent_tag: {{ .Values.migconfig.dmagentTag }}
+    dmagent_clusters: {{ .Values.migconfig.dmagentClusters }}
+    {{- if .Values.migconfig.resticdmEnabled }}
+    resticdm_enabled: "true"
+    {{- else }}
+    resticdm_enabled: "false"
+    {{- end }}
+    resticdm_registry: {{ .Values.migconfig.resticdmRegistry }}
+    resticdm_repo: {{ .Values.migconfig.resticdmRepo }}
+    resticdm_tag: {{ .Values.migconfig.resticdmTag }}
+    resticdm_clusters: {{ .Values.migconfig.resticdmClusters }}
   keys: {{ .Values.migconfig.keys }}
   agentNamespace: {{ .Values.velero.namespace }}
+  image:
+    registry: {{ .Values.imageBase.registry }}
+    pullPolicy: {{ .Values.imageBase.pullPolicy }}
+    tag: {{ .Values.imageBase.tag }}
+  webServer:
+    image:
+      registry: {{ .Values.components.webserver.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.webserver.image.repository }}
+      pullPolicy: {{ .Values.components.webserver.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.webserver.image.tag | default .Values.imageBase.tag }}
+    serviceType: {{ .Values.components.webserver.serviceType }}
