@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "v2.7.0"
+  tag: "release-2.8.0-rc-0-latest"
 
 restore: false
 uploadToS3: false
@@ -20,7 +20,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com/jibudata
   pullPolicy: Always
-  tag: "v2.7.0"
+  tag: "release-2.8.0-rc-0-latest"
 
 components:
   webserver:
@@ -34,40 +34,40 @@ components:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
   webServer:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/webserver
-    tag: "v2.7.0"
+    tag: "release-2.8.0-rc-0-latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.7.0"
+  version: "2.8.0-rc.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -83,19 +83,19 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "v2.7.0"
+  datamoverTag: "release-2.8.0-rc-0-latest"
   datamoverEnabled: true
   datamoverClusters: "all"
 
   dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
   dmagentRepo: "jibudata/dm-agent"
-  dmagentTag: "v2.7.0"
+  dmagentTag: "release-2.8.0-rc-0-latest"
   dmagentEnabled: false
   dmagentClusters: "all"
 
   resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
   resticdmRepo: "jibudata/restic-dm"
-  resticdmTag: "v2.7.0"
+  resticdmTag: "release-2.8.0-rc-0-latest"
   resticdmEnabled: false
   resticdmClusters: "all"
 
