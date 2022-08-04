@@ -4395,6 +4395,9 @@ spec:
                 description: RestoreActions defines the action for a restore
                 properties:
                   existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
                     type: string
                   podNodeSelections:
                     properties:
@@ -6262,6 +6265,9 @@ spec:
                 description: RestoreActions defines the action for a restore
                 properties:
                   existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
                     type: string
                   podNodeSelections:
                     properties:
@@ -6829,6 +6835,9 @@ spec:
                 description: RestoreActions defines the action for a restore
                 properties:
                   existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
                     type: string
                   podNodeSelections:
                     properties:
@@ -7910,6 +7919,9 @@ spec:
                 description: Deprecated
                 properties:
                   existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
                     type: string
                   podNodeSelections:
                     properties:
@@ -8210,6 +8222,9 @@ spec:
                     description: RestoreActions defines the action for a restore
                     properties:
                       existingResourcePolicy:
+                        description: 'ExistingResourcePolicy: none or update none
+                          is default behavior while update is to overwrite any existing
+                          resource during restore'
                         type: string
                       podNodeSelections:
                         properties:
@@ -11034,6 +11049,9 @@ spec:
                 description: RestoreActions defines the action for a restore
                 properties:
                   existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
                     type: string
                   podNodeSelections:
                     properties:
@@ -11330,7 +11348,7 @@ spec:
                 type: boolean
               dataOnly:
                 description: DataOnly does only PVC data restore from snapshot or
-                  exported backupjob
+                  exported backupjob Deprecated
                 type: boolean
               destClusterRef:
                 description: 'ObjectReference contains enough information to let you
@@ -11603,11 +11621,15 @@ spec:
               policy:
                 description: RestorePolicy defines the policy for a restore
                 properties:
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
                   name:
                     type: string
                 type: object
               resourceSelector:
-                description: ResourceSelector is for partial resource selection
+                description: ResourceSelector is for partial resource selection Deprecated
                 properties:
                   excludedNamespaces:
                     description: ExcludedNamespaces is a slice of namespace names
@@ -11648,6 +11670,10 @@ spec:
                       for details on syntax.
                     type: string
                 type: object
+              scheduleEnabled:
+                description: ScheduleEnabled indicts if restore is automatically restored
+                  periodically from corresponding latest available backup job
+                type: boolean
               templates:
                 items:
                   items:
