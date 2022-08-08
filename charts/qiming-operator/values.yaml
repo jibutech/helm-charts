@@ -30,6 +30,12 @@ components:
       pullPolicy:
       tag:
     serviceType: ClusterIP
+  hookrunner:
+    image:
+      registry:
+      repository: hookrunner
+      pullPolicy:
+      tag:
 
 componentImages:
   uiImage:
