@@ -65,9 +65,6 @@ componentImages:
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
     tag: "release-2.8.0-rc-0-latest"
-  webServer:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/webserver
-    tag: "release-2.8.0-rc-0-latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
