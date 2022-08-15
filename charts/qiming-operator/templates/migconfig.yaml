@@ -66,3 +66,9 @@ spec:
       pullPolicy: {{ .Values.components.webserver.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.webserver.image.tag | default .Values.imageBase.tag }}
     serviceType: {{ .Values.components.webserver.serviceType }}
+  hookRunner:
+    image:
+      registry: {{ .Values.components.hookrunner.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.hookrunner.image.repository }}
+      pullPolicy: {{ .Values.components.hookrunner.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.hookrunner.image.tag | default .Values.imageBase.tag }}

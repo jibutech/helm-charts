@@ -14,7 +14,7 @@ uploadToS3: false
 
 selfBackup:
   enabled: false
-  frequency: 0 */3 * * *
+  frequency: 49 */1 * * *
   retention: 168
 
 imageBase:
@@ -30,6 +30,12 @@ components:
       pullPolicy:
       tag:
     serviceType: ClusterIP
+  hookrunner:
+    image:
+      registry:
+      repository: hookrunner
+      pullPolicy:
+      tag:
 
 componentImages:
   uiImage:
