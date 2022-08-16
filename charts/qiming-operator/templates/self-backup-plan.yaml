@@ -9,7 +9,7 @@ metadata:
 spec:
   fallbackToDefault: true
   volume:
-    excluded: true
+    option: excluded
   namespaces:
   - {{ .Release.Namespace }}
   policyName: ys1000-self-backup-internal
