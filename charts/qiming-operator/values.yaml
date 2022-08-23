@@ -4,10 +4,17 @@
 
 replicaCount: 1
 
+tags:
+  mysql: true
+  clusterpedia: true
+
+featureGates:
+  ClusterCache: true
+
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "release-2.8.0-latest"
+  tag: "main-latest"
 
 restore: false
 uploadToS3: false
@@ -20,7 +27,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com/jibudata
   pullPolicy: Always
-  tag: "release-2.8.0-latest"
+  tag: "main-latest"
 
 components:
   webserver:
@@ -40,37 +47,37 @@ components:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "release-2.8.0-latest"
+    tag: "main-latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.8.0"
+  version: "2.9.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -86,19 +93,19 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "release-2.8.0-rc-0-latest"
+  datamoverTag: "main-latest"
   datamoverEnabled: true
   datamoverClusters: "all"
 
   dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
   dmagentRepo: "jibudata/dm-agent"
-  dmagentTag: "release-2.8.0-rc-0-latest"
+  dmagentTag: "main-latest"
   dmagentEnabled: false
   dmagentClusters: "all"
 
   resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
   resticdmRepo: "jibudata/restic-dm"
-  resticdmTag: "release-2.8.0-rc-0-latest"
+  resticdmTag: "main-latest"
   resticdmEnabled: false
   resticdmClusters: "all"
 
@@ -115,7 +122,7 @@ s3Config:
 velero:
   enabled: true
   namespace: qiming-backend
-  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-39a9e6f-202207011049
+  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-2dad1934-202208231359
   plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.4.0
   disableRestic: false
   resticPodVolumeOperationTimeout: 240m
@@ -209,3 +216,59 @@ mysql:
       enabled: false
       size: 20Gi
       storageClass: ""
+
+clusterpedia:
+  persistenceMatchNode: None
+
+  #global:
+  #  imageRegistry: ""
+
+  apiserver:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com/jibudata
+      repository: apiserver
+      tag: v0.4.1
+
+  clustersynchroManager:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com/jibudata
+      repository: clustersynchro-manager
+      tag: v0.4.1
+    featureGates:
+
+      ## @param AllowSyncAllCustomResources is a feature gate for the ClusterSynchro to allow syncing of all custom resources
+      ## owner: @iceber
+      ## alpha: v0.3.0
+      AllowSyncAllCustomResources: true
+
+      ## @param AllowSyncAllResources is a feature gate for the ClusterSynchro to allow syncing of all resources
+      ## owner: @iceber
+      ## alpha: v0.3.0
+      AllowSyncAllResources: true
+
+  ## controller manager config
+  controllerManager:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com/jibudata
+      repository: controller-manager
+      tag: v0.4.1
+
+  postgresql:
+    enabled: false
+
+  mysql:
+    enabled: true
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com/jibudata
+      repository: mysql
+      tag: 8.0.29-debian-10-r23
+    auth:
+      rootPassword: "passw0rd"
+      database: clusterpedia
+      username: "clusterpedia"
+      password: "passw0rd"
+    primary:
+      persistence:
+        enabled: false
+        size: 20Gi
+

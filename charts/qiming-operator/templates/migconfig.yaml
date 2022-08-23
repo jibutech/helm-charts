@@ -72,3 +72,7 @@ spec:
       repository: {{ .Values.components.hookrunner.image.repository }}
       pullPolicy: {{ .Values.components.hookrunner.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.hookrunner.image.tag | default .Values.imageBase.tag }}
+  featureGates:
+    {{- range $key, $val := .Values.featureGates }}
+    {{ $key }}: {{ $val }}
+    {{- end }}

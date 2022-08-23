@@ -521,6 +521,8 @@ spec:
                         items:
                           type: string
                         type: array
+                      resourceCollector:
+                        type: string
                       templates:
                         items:
                           items:
@@ -3231,6 +3233,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  resourceCollector:
+                    type: string
                   templates:
                     items:
                       items:
@@ -6341,6 +6345,10 @@ spec:
                 type: string
               developmentMode:
                 type: boolean
+              featureGates:
+                additionalProperties:
+                  type: boolean
+                type: object
               featureParameters:
                 additionalProperties:
                   type: string
@@ -9236,6 +9244,8 @@ spec:
                         items:
                           type: string
                         type: array
+                      resourceCollector:
+                        type: string
                       templates:
                         items:
                           items:
@@ -12574,6 +12584,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  resourceCollector:
+                    type: string
                   templates:
                     items:
                       items:
