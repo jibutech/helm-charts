@@ -8,10 +8,15 @@ ys1000Images=(
     ${ys1000Repo}/mig-discovery
     ${ys1000Repo}/mig-controller
     ${ys1000Repo}/velero-installer
+    ${ys1000Repo}/hookrunner
     ${ys1000Repo}/cron
     ${ys1000Repo}/helm-tool
     ${ys1000Repo}/self-restore
     ${ys1000Repo}/data-mover
+    ${ys1000Repo}/webserver
+    ${ys1000Repo}/dm-agent
+    ${ys1000Repo}/restic-dm
+    ${ys1000Repo}/velero-plugin
 )
 
 if [ $# -lt 2 ];then
