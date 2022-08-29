@@ -8,6 +8,8 @@ metadata:
     app.kubernetes.io/component: self-backup
 spec:
   fallbackToDefault: true
+  volume:
+    option: excluded
   namespaces:
   - {{ .Release.Namespace }}
   policyName: ys1000-self-backup-internal

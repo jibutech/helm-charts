@@ -51,8 +51,6 @@ spec:
           value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.veleroInstallerImage.tag }}"
         - name: HOOK_RUNNER_IMAGE
           value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
-        - name: IMAGE_WEBSERVER
-          value: "{{ .Values.componentImages.webServer.repository }}:{{ .Values.componentImages.webServer.tag }}"
         - name: VELERO_IMAGE
           value: {{ .Values.velero.image }}
         - name: VELERO_PLUGINS

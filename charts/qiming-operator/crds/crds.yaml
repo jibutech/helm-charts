@@ -651,7 +651,10 @@ spec:
                               volume:
                                 properties:
                                   excluded:
+                                    description: Deprecated
                                     type: boolean
+                                  option:
+                                    type: string
                                 type: object
                             type: object
                           type: array
@@ -999,6 +1002,8 @@ spec:
                       type: object
                     name:
                       type: string
+                    namespace:
+                      type: string
                     type:
                       type: string
                   type: object
@@ -1343,7 +1348,10 @@ spec:
                   volume:
                     properties:
                       excluded:
+                        description: Deprecated
                         type: boolean
+                      option:
+                        type: string
                     type: object
                 required:
                 - clusterName
@@ -1490,7 +1498,6 @@ spec:
                 description: Report provides a summary status of backup job execution
                 properties:
                   backedUpItems:
-                    description: Backed up items
                     type: integer
                   details:
                     additionalProperties:
@@ -1518,7 +1525,7 @@ spec:
                     format: date-time
                     type: string
                   totalItems:
-                    description: Total items for backup
+                    description: Deprecated
                     type: integer
                   volumes:
                     items:
@@ -1530,6 +1537,8 @@ spec:
                             type: string
                           type: object
                         name:
+                          type: string
+                        namespace:
                           type: string
                         type:
                           type: string
@@ -1847,7 +1856,10 @@ spec:
               volume:
                 properties:
                   excluded:
+                    description: Deprecated
                     type: boolean
+                  option:
+                    type: string
                 type: object
             required:
             - clusterName
@@ -2096,6 +2108,8 @@ spec:
             properties:
               closed:
                 type: boolean
+              cluster:
+                type: string
               exportPolicy:
                 description: DataExportPolicy defines the data export policy for backup.
                   Deprecated
@@ -2685,6 +2699,8 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              storage:
+                type: string
               templates:
                 items:
                   items:
@@ -2694,7 +2710,10 @@ spec:
               volume:
                 properties:
                   excluded:
+                    description: Deprecated
                     type: boolean
+                  option:
+                    type: string
                 type: object
             type: object
           status:
@@ -3339,7 +3358,10 @@ spec:
                           volume:
                             properties:
                               excluded:
+                                description: Deprecated
                                 type: boolean
+                              option:
+                                type: string
                             type: object
                         type: object
                       type: array
@@ -3426,6 +3448,14 @@ spec:
           spec:
             description: BackupTemplateSpec defines the desired state of BackupTemplate
             properties:
+              application:
+                properties:
+                  config:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  provider:
+                    type: string
+                type: object
               excludeClusterResources:
                 items:
                   properties:
@@ -3583,7 +3613,10 @@ spec:
               volume:
                 properties:
                   excluded:
+                    description: Deprecated
                     type: boolean
+                  option:
+                    type: string
                 type: object
             type: object
           status:
@@ -4390,6 +4423,11 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
+                    type: string
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -5172,6 +5210,155 @@ spec:
                         items:
                           type: string
                         type: array
+                      env:
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must
+                                be a C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previous defined environment variables in
+                                the container and any service environment variables.
+                                If a variable cannot be resolved, the reference in
+                                the input string will be unchanged. The $(VAR_NAME)
+                                syntax can be escaped with a double $$, ie: $$(VAR_NAME).
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to
+                                "".'
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports
+                                    metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in
+                                        the specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container:
+                                    only resources limits and requests (limits.cpu,
+                                    limits.memory, limits.ephemeral-storage, requests.cpu,
+                                    requests.memory and requests.ephemeral-storage)
+                                    are currently supported.'
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      type: string
+                                    divisor:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Specifies the output format of
+                                        the exposed resources, defaults to "1"
+                                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      envFrom:
+                        items:
+                          description: EnvFromSource represents the source of a set
+                            of ConfigMaps
+                          properties:
+                            configMapRef:
+                              description: The ConfigMap to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the ConfigMap must
+                                    be defined
+                                  type: boolean
+                              type: object
+                            prefix:
+                              description: An optional identifier to prepend to each
+                                key in the ConfigMap. Must be a C_IDENTIFIER.
+                              type: string
+                            secretRef:
+                              description: The Secret to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret must be
+                                    defined
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
                       operation:
                         type: string
                       script:
@@ -5182,6 +5369,155 @@ spec:
                       command:
                         items:
                           type: string
+                        type: array
+                      env:
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must
+                                be a C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previous defined environment variables in
+                                the container and any service environment variables.
+                                If a variable cannot be resolved, the reference in
+                                the input string will be unchanged. The $(VAR_NAME)
+                                syntax can be escaped with a double $$, ie: $$(VAR_NAME).
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to
+                                "".'
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports
+                                    metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in
+                                        the specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container:
+                                    only resources limits and requests (limits.cpu,
+                                    limits.memory, limits.ephemeral-storage, requests.cpu,
+                                    requests.memory and requests.ephemeral-storage)
+                                    are currently supported.'
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      type: string
+                                    divisor:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Specifies the output format of
+                                        the exposed resources, defaults to "1"
+                                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      envFrom:
+                        items:
+                          description: EnvFromSource represents the source of a set
+                            of ConfigMaps
+                          properties:
+                            configMapRef:
+                              description: The ConfigMap to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the ConfigMap must
+                                    be defined
+                                  type: boolean
+                              type: object
+                            prefix:
+                              description: An optional identifier to prepend to each
+                                key in the ConfigMap. Must be a C_IDENTIFIER.
+                              type: string
+                            secretRef:
+                              description: The Secret to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret must be
+                                    defined
+                                  type: boolean
+                              type: object
+                          type: object
                         type: array
                       operation:
                         type: string
@@ -5608,12 +5944,256 @@ spec:
           spec:
             description: MigClusterSpec defines the desired state of MigCluster
             properties:
+              agentConfig:
+                properties:
+                  dataMoverConfig:
+                    properties:
+                      nodeAffinity:
+                        description: Node affinity is a group of node affinity scheduling
+                          rules.
+                        properties:
+                          preferredDuringSchedulingIgnoredDuringExecution:
+                            description: The scheduler will prefer to schedule pods
+                              to nodes that satisfy the affinity expressions specified
+                              by this field, but it may choose a node that violates
+                              one or more of the expressions. The node that is most
+                              preferred is the one with the greatest sum of weights,
+                              i.e. for each node that meets all of the scheduling
+                              requirements (resource request, requiredDuringScheduling
+                              affinity expressions, etc.), compute a sum by iterating
+                              through the elements of this field and adding "weight"
+                              to the sum if the node matches the corresponding matchExpressions;
+                              the node(s) with the highest sum are the most preferred.
+                            items:
+                              description: An empty preferred scheduling term matches
+                                all objects with implicit weight 0 (i.e. it's a no-op).
+                                A null preferred scheduling term matches no objects
+                                (i.e. is also a no-op).
+                              properties:
+                                preference:
+                                  description: A node selector term, associated with
+                                    the corresponding weight.
+                                  properties:
+                                    matchExpressions:
+                                      description: A list of node selector requirements
+                                        by node's labels.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchFields:
+                                      description: A list of node selector requirements
+                                        by node's fields.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                  type: object
+                                weight:
+                                  description: Weight associated with matching the
+                                    corresponding nodeSelectorTerm, in the range 1-100.
+                                  format: int32
+                                  type: integer
+                              required:
+                              - preference
+                              - weight
+                              type: object
+                            type: array
+                          requiredDuringSchedulingIgnoredDuringExecution:
+                            description: If the affinity requirements specified by
+                              this field are not met at scheduling time, the pod will
+                              not be scheduled onto the node. If the affinity requirements
+                              specified by this field cease to be met at some point
+                              during pod execution (e.g. due to an update), the system
+                              may or may not try to eventually evict the pod from
+                              its node.
+                            properties:
+                              nodeSelectorTerms:
+                                description: Required. A list of node selector terms.
+                                  The terms are ORed.
+                                items:
+                                  description: A null or empty node selector term
+                                    matches no objects. The requirements of them are
+                                    ANDed. The TopologySelectorTerm type implements
+                                    a subset of the NodeSelectorTerm.
+                                  properties:
+                                    matchExpressions:
+                                      description: A list of node selector requirements
+                                        by node's labels.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchFields:
+                                      description: A list of node selector requirements
+                                        by node's fields.
+                                      items:
+                                        description: A node selector requirement is
+                                          a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: The label key that the selector
+                                              applies to.
+                                            type: string
+                                          operator:
+                                            description: Represents a key's relationship
+                                              to a set of values. Valid operators
+                                              are In, NotIn, Exists, DoesNotExist.
+                                              Gt, and Lt.
+                                            type: string
+                                          values:
+                                            description: An array of string values.
+                                              If the operator is In or NotIn, the
+                                              values array must be non-empty. If the
+                                              operator is Exists or DoesNotExist,
+                                              the values array must be empty. If the
+                                              operator is Gt or Lt, the values array
+                                              must have a single element, which will
+                                              be interpreted as an integer. This array
+                                              is replaced during a strategic merge
+                                              patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            required:
+                            - nodeSelectorTerms
+                            type: object
+                        type: object
+                    type: object
+                type: object
               azureResourceGroup:
                 description: 'TODO: commonize the provider with migstorage'
                 type: string
               caBundle:
                 format: byte
                 type: string
+              clusterInfo:
+                description: ClusterClaim is configured definition for managed cluster
+                  information
+                properties:
+                  clusterID:
+                    description: ClusterID is global unique identifier for the cluster
+                    type: string
+                  kubeVersion:
+                    description: KubeVersion is kubernetes version
+                    type: string
+                  platform:
+                    description: Platform is the managed cluster is running on, like
+                      Aliyun, Huawei cloud, OpenStack, AWS, GCE, vSphere, Private
+                    type: string
+                  product:
+                    description: Product is k8s release distro name, like CCE, QKE,
+                      AKS, TKE, OpenShift, EKS and GKE
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: 'Tags are used for extended management purposes,
+                      some common examples: role=prod/dev/test, region=shanghai, location=az1'
+                    type: object
+                type: object
               clusterRegistry:
                 description: ClusterRegistry overrides image registry deployed in
                   corresponding user cluster
@@ -5774,6 +6354,31 @@ spec:
           status:
             description: MigClusterStatus defines the observed state of MigCluster
             properties:
+              clusterInfo:
+                description: ClusterClaim is configured definition for managed cluster
+                  information
+                properties:
+                  clusterID:
+                    description: ClusterID is global unique identifier for the cluster
+                    type: string
+                  kubeVersion:
+                    description: KubeVersion is kubernetes version
+                    type: string
+                  platform:
+                    description: Platform is the managed cluster is running on, like
+                      Aliyun, Huawei cloud, OpenStack, AWS, GCE, vSphere, Private
+                    type: string
+                  product:
+                    description: Product is k8s release distro name, like CCE, QKE,
+                      AKS, TKE, OpenShift, EKS and GKE
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: 'Tags are used for extended management purposes,
+                      some common examples: role=prod/dev/test, region=shanghai, location=az1'
+                    type: object
+                type: object
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -5960,6 +6565,20 @@ spec:
                   type: string
                 description: FeatureParameters indicates the optional feature parameters
                   passed to all components
+                type: object
+              hookRunner:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               image:
                 properties:
@@ -6255,6 +6874,11 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
+                    type: string
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -6820,6 +7444,11 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
+                    type: string
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -7899,6 +8528,11 @@ spec:
               actions:
                 description: Deprecated
                 properties:
+                  existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
+                    type: string
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -8197,6 +8831,11 @@ spec:
                   actions:
                     description: RestoreActions defines the action for a restore
                     properties:
+                      existingResourcePolicy:
+                        description: 'ExistingResourcePolicy: none or update none
+                          is default behavior while update is to overwrite any existing
+                          resource during restore'
+                        type: string
                       podNodeSelections:
                         properties:
                           newNodeAffinity:
@@ -8946,7 +9585,10 @@ spec:
                               volume:
                                 properties:
                                   excluded:
+                                    description: Deprecated
                                     type: boolean
+                                  option:
+                                    type: string
                                 type: object
                             type: object
                           type: array
@@ -9640,7 +10282,10 @@ spec:
                       volume:
                         properties:
                           excluded:
+                            description: Deprecated
                             type: boolean
+                          option:
+                            type: string
                         type: object
                     required:
                     - clusterName
@@ -9954,7 +10599,10 @@ spec:
                       volume:
                         properties:
                           excluded:
+                            description: Deprecated
                             type: boolean
+                          option:
+                            type: string
                         type: object
                     required:
                     - clusterName
@@ -10167,7 +10815,10 @@ spec:
                   volume:
                     properties:
                       excluded:
+                        description: Deprecated
                         type: boolean
+                      option:
+                        type: string
                     type: object
                 required:
                 - backupName
@@ -10690,7 +11341,10 @@ spec:
                   volume:
                     properties:
                       excluded:
+                        description: Deprecated
                         type: boolean
+                      option:
+                        type: string
                     type: object
                 required:
                 - clusterName
@@ -10900,7 +11554,10 @@ spec:
               volume:
                 properties:
                   excluded:
+                    description: Deprecated
                     type: boolean
+                  option:
+                    type: string
                 type: object
             required:
             - backupName
@@ -11019,6 +11676,11 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  existingResourcePolicy:
+                    description: 'ExistingResourcePolicy: none or update none is default
+                      behavior while update is to overwrite any existing resource
+                      during restore'
+                    type: string
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -11314,7 +11976,7 @@ spec:
                 type: boolean
               dataOnly:
                 description: DataOnly does only PVC data restore from snapshot or
-                  exported backupjob
+                  exported backupjob Deprecated
                 type: boolean
               destClusterRef:
                 description: 'ObjectReference contains enough information to let you
@@ -11587,11 +12249,15 @@ spec:
               policy:
                 description: RestorePolicy defines the policy for a restore
                 properties:
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
                   name:
                     type: string
                 type: object
               resourceSelector:
-                description: ResourceSelector is for partial resource selection
+                description: ResourceSelector is for partial resource selection Deprecated
                 properties:
                   excludedNamespaces:
                     description: ExcludedNamespaces is a slice of namespace names
@@ -11632,6 +12298,10 @@ spec:
                       for details on syntax.
                     type: string
                 type: object
+              scheduleEnabled:
+                description: ScheduleEnabled indicts if restore is automatically restored
+                  periodically from corresponding latest available backup job
+                type: boolean
               templates:
                 items:
                   items:
@@ -11641,7 +12311,10 @@ spec:
               volume:
                 properties:
                   excluded:
+                    description: Deprecated
                     type: boolean
+                  option:
+                    type: string
                 type: object
             type: object
           status:
@@ -12247,7 +12920,10 @@ spec:
                           volume:
                             properties:
                               excluded:
+                                description: Deprecated
                                 type: boolean
+                              option:
+                                type: string
                             type: object
                         type: object
                       type: array
@@ -14170,6 +14846,20 @@ spec:
                 type: string
               discoveryControllerImage:
                 type: string
+              hookRunner:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               image:
                 properties:
                   pullPolicy:
