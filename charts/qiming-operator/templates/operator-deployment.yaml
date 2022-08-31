@@ -45,32 +45,14 @@ spec:
           value: "{{ .Values.componentImages.migControllerImage.repository }}:{{ .Values.componentImages.migControllerImage.tag }}"
         - name: IMAGE_CRON
           value: "{{ .Values.componentImages.cron.repository }}:{{ .Values.componentImages.cron.tag }}"
-        - name: IMAGE_RESTIC_HELPER
-          value: "{{ .Values.componentImages.resticHelperImage.repository }}:{{ .Values.componentImages.resticHelperImage.tag }}"
-        - name: IMAGE_VELERO_INSTALLER
-          value: "{{ .Values.componentImages.veleroInstallerImage.repository }}:{{ .Values.componentImages.veleroInstallerImage.tag }}"
         - name: HOOK_RUNNER_IMAGE
           value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
-        - name: VELERO_IMAGE
-          value: {{ .Values.velero.image }}
-        - name: VELERO_PLUGINS
-          value: {{ .Values.velero.plugins }}
         - name: UI_ENABLE_FLAG
           value: "true"
-        - name: VELERO_RESTIC_MEM_REQ
-          value: {{ .Values.velero.resticMemReq }}
-        - name: VELERO_RESTIC_MEM_LIMIT
-          value: {{ .Values.velero.resticMemLimit }}
+        - name: VELERO_DISABLE_SNAPSHOT
+          value: {{ .Values.components.velero.snapshotDisabled | quote }}
         - name: POD_VOLUME_OPERATION_TIMEOUT
           value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
-{{- if .Values.velero.disableSnapshot }}
-        - name: VELERO_DISABLE_SNAPSHOT
-          value: "true"
-{{- end }}
-{{- if .Values.velero.disableRestic }}
-        - name: VELERO_DISABLE_RESTIC
-          value: "true"
-{{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: manager 
