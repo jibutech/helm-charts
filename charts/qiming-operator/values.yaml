@@ -60,7 +60,7 @@ components:
     plugins:
     - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0
     - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd
-    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:v0.4.0
+    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-ys1000:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     useRestic: true
