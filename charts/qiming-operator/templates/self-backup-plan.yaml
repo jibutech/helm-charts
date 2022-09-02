@@ -9,7 +9,8 @@ metadata:
 spec:
   fallbackToDefault: true
   volume:
-    option: excluded
+    excludes:
+    - pod: "*"
   namespaces:
   - {{ .Release.Namespace }}
   policyName: ys1000-self-backup-internal

@@ -655,7 +655,35 @@ spec:
                                   excluded:
                                     description: Deprecated
                                     type: boolean
+                                  excludes:
+                                    description: Excludes excludes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    description: Includes includes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
                                   option:
+                                    description: Option is the option for volume related
+                                      resources like pvc, pv, snapshot, ...
                                     type: string
                                 type: object
                             type: object
@@ -1352,7 +1380,33 @@ spec:
                       excluded:
                         description: Deprecated
                         type: boolean
+                      excludes:
+                        description: Excludes excludes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        description: Includes includes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
                       option:
+                        description: Option is the option for volume related resources
+                          like pvc, pv, snapshot, ...
                         type: string
                     type: object
                 required:
@@ -1860,7 +1914,33 @@ spec:
                   excluded:
                     description: Deprecated
                     type: boolean
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
                   option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
                     type: string
                 type: object
             required:
@@ -2714,7 +2794,33 @@ spec:
                   excluded:
                     description: Deprecated
                     type: boolean
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
                   option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
                     type: string
                 type: object
             type: object
@@ -3364,7 +3470,33 @@ spec:
                               excluded:
                                 description: Deprecated
                                 type: boolean
+                              excludes:
+                                description: Excludes excludes volume data in backup
+                                items:
+                                  properties:
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    pod:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                description: Includes includes volume data in backup
+                                items:
+                                  properties:
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    pod:
+                                      type: string
+                                  type: object
+                                type: array
                               option:
+                                description: Option is the option for volume related
+                                  resources like pvc, pv, snapshot, ...
                                 type: string
                             type: object
                         type: object
@@ -3619,7 +3751,33 @@ spec:
                   excluded:
                     description: Deprecated
                     type: boolean
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
                   option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
                     type: string
                 type: object
             type: object
@@ -9941,7 +10099,35 @@ spec:
                                   excluded:
                                     description: Deprecated
                                     type: boolean
+                                  excludes:
+                                    description: Excludes excludes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    description: Includes includes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
                                   option:
+                                    description: Option is the option for volume related
+                                      resources like pvc, pv, snapshot, ...
                                     type: string
                                 type: object
                             type: object
@@ -10638,7 +10824,33 @@ spec:
                           excluded:
                             description: Deprecated
                             type: boolean
+                          excludes:
+                            description: Excludes excludes volume data in backup
+                            items:
+                              properties:
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
+                                pod:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            description: Includes includes volume data in backup
+                            items:
+                              properties:
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
+                                pod:
+                                  type: string
+                              type: object
+                            type: array
                           option:
+                            description: Option is the option for volume related resources
+                              like pvc, pv, snapshot, ...
                             type: string
                         type: object
                     required:
@@ -10955,7 +11167,33 @@ spec:
                           excluded:
                             description: Deprecated
                             type: boolean
+                          excludes:
+                            description: Excludes excludes volume data in backup
+                            items:
+                              properties:
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
+                                pod:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            description: Includes includes volume data in backup
+                            items:
+                              properties:
+                                names:
+                                  items:
+                                    type: string
+                                  type: array
+                                pod:
+                                  type: string
+                              type: object
+                            type: array
                           option:
+                            description: Option is the option for volume related resources
+                              like pvc, pv, snapshot, ...
                             type: string
                         type: object
                     required:
@@ -11171,7 +11409,33 @@ spec:
                       excluded:
                         description: Deprecated
                         type: boolean
+                      excludes:
+                        description: Excludes excludes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        description: Includes includes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
                       option:
+                        description: Option is the option for volume related resources
+                          like pvc, pv, snapshot, ...
                         type: string
                     type: object
                 required:
@@ -11697,7 +11961,33 @@ spec:
                       excluded:
                         description: Deprecated
                         type: boolean
+                      excludes:
+                        description: Excludes excludes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        description: Includes includes volume data in backup
+                        items:
+                          properties:
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            pod:
+                              type: string
+                          type: object
+                        type: array
                       option:
+                        description: Option is the option for volume related resources
+                          like pvc, pv, snapshot, ...
                         type: string
                     type: object
                 required:
@@ -11910,7 +12200,33 @@ spec:
                   excluded:
                     description: Deprecated
                     type: boolean
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
                   option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
                     type: string
                 type: object
             required:
@@ -12667,7 +12983,33 @@ spec:
                   excluded:
                     description: Deprecated
                     type: boolean
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
                   option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
                     type: string
                 type: object
             type: object
@@ -13278,7 +13620,33 @@ spec:
                               excluded:
                                 description: Deprecated
                                 type: boolean
+                              excludes:
+                                description: Excludes excludes volume data in backup
+                                items:
+                                  properties:
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    pod:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                description: Includes includes volume data in backup
+                                items:
+                                  properties:
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    pod:
+                                      type: string
+                                  type: object
+                                type: array
                               option:
+                                description: Option is the option for volume related
+                                  resources like pvc, pv, snapshot, ...
                                 type: string
                             type: object
                         type: object
