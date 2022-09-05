@@ -38,13 +38,13 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: IMAGE_UI
-          value: "{{ .Values.componentImages.uiImage.repository }}:{{ .Values.componentImages.uiImage.tag }}"
+          value: "{{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.portal.image.repository }}:{{ .Values.components.portal.image.tag | default .Values.imageBase.tag }}"
         - name: IMAGE_DISCOVERY
-          value: "{{ .Values.componentImages.discoveryImage.repository }}:{{ .Values.componentImages.discoveryImage.tag }}"
+          value: "{{ .Values.components.discovery.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.discovery.image.repository }}:{{ .Values.components.discovery.image.tag | default .Values.imageBase.tag }}"
         - name: IMAGE_MIG_CONTROLLER
-          value: "{{ .Values.componentImages.migControllerImage.repository }}:{{ .Values.componentImages.migControllerImage.tag }}"
+          value: "{{ .Values.components.controller.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.controller.image.repository }}:{{ .Values.components.controller.image.tag | default .Values.imageBase.tag }}"
         - name: IMAGE_CRON
-          value: "{{ .Values.componentImages.cron.repository }}:{{ .Values.componentImages.cron.tag }}"
+          value: "{{ .Values.components.cron.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.cron.image.repository }}:{{ .Values.components.cron.image.tag | default .Values.imageBase.tag }}"
         - name: HOOK_RUNNER_IMAGE
           value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
         - name: UI_ENABLE_FLAG

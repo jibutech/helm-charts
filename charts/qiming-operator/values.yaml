@@ -59,7 +59,7 @@ components:
       tag: v1.7.0
     plugins:
     - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0
-    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd
+    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
     - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
@@ -85,26 +85,31 @@ components:
       registry:
       repository: restic-dm
       tag:
+  portal:
+    image:
+      registry:
+      repository: mig-ui
+      tag:
+  discovery:
+    image:
+      registry:
+      repository: mig-discovery
+      tag:
+  controller:
+    image:
+      registry:
+      repository: mig-controller
+      tag:
+  cron:
+    image:
+      registry:
+      repository: cron
+      tag:
 
 componentImages:
-  uiImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "main-latest"
-  discoveryImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "main-latest"
-  migControllerImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "main-latest"
-  veleroInstallerImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "main-latest"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
-  cron:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "main-latest"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
     tag: "main-latest"
