@@ -162,7 +162,7 @@
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds
    ```
    
    例如：
