@@ -58,9 +58,9 @@ components:
       repository: velero-restic-restore-helper
       tag: v1.7.0
     plugins:
-    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0
-    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
-    - registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin:main-latest
+    - velero-plugin-for-aws:v1.3.0
+    - velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
+    - velero-plugin:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     useRestic: true

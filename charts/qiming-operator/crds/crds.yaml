@@ -6619,12 +6619,6 @@ spec:
                       type: array
                   type: object
                 type: array
-              userClusterFeatures:
-                description: UserClusterFeatures includes all enabled features for
-                  the cluster
-                items:
-                  type: string
-                type: array
               warnings:
                 items:
                   properties:
@@ -6722,6 +6716,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               clientName:
                 description: ClientName is the unique name or id of this instace
@@ -6945,6 +6941,8 @@ spec:
                         - nodeSelectorTerms
                         type: object
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               deployResticOnAllNodes:
                 type: boolean
@@ -6967,6 +6965,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               featureGates:
                 additionalProperties:
@@ -7027,6 +7027,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               resticDM:
                 properties:
@@ -7043,11 +7045,22 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               serviceAccountName:
                 description: ServiceAccountName is the service account with all required
                   accesses to do backup and restore
                 type: string
+              snapshot:
+                properties:
+                  InstallVersion:
+                    type: string
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  snapshotDisabled:
+                    type: boolean
+                type: object
               velero:
                 properties:
                   daemonSetOnAllNodes:
@@ -7078,6 +7091,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  removeCRDsOnDeletion:
+                    type: boolean
                   resticPodCPULimit:
                     type: string
                   resticPodCPURequest:
@@ -15567,6 +15582,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               backendControllerImage:
                 type: string
@@ -15797,6 +15814,8 @@ spec:
                         - nodeSelectorTerms
                         type: object
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               dataMoverImage:
                 type: string
@@ -15815,6 +15834,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               hookRunner:
                 properties:
@@ -15861,6 +15882,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               reSyncImageVersion:
                 description: ReSyncVersion indicts if image version resync should
@@ -15881,6 +15904,17 @@ spec:
                       tag:
                         type: string
                     type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              snapshot:
+                properties:
+                  InstallVersion:
+                    type: string
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  snapshotDisabled:
+                    type: boolean
                 type: object
               tenantLimit:
                 description: TenantLimit caps the maximal tenant instances to be served
@@ -15980,6 +16014,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  removeCRDsOnDeletion:
+                    type: boolean
                   resticPodCPULimit:
                     type: string
                   resticPodCPURequest:
