@@ -53,8 +53,8 @@ spec:
           value: {{ .Values.components.velero.snapshotDisabled | quote }}
         - name: POD_VOLUME_OPERATION_TIMEOUT
           value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.imageBase.pullPolicy }}
         name: manager 
         livenessProbe:
           httpGet:

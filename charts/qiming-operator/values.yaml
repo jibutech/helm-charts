@@ -13,11 +13,6 @@ featureGates:
   DataMover: true
   AmberApp: true
 
-image:
-  repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
-  pullPolicy: Always
-  tag: "main-latest"
-
 restore: false
 uploadToS3: false
 
@@ -30,6 +25,11 @@ imageBase:
   registry: registry.cn-shanghai.aliyuncs.com/jibudata
   pullPolicy: Always
   tag: "main-latest"
+
+image:
+  registry:
+  repository: qiming-operator
+  tag:
 
 components:
   webserver:
