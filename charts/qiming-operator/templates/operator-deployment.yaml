@@ -46,7 +46,7 @@ spec:
         - name: IMAGE_CRON
           value: "{{ .Values.components.cron.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.cron.image.repository }}:{{ .Values.components.cron.image.tag | default .Values.imageBase.tag }}"
         - name: HOOK_RUNNER_IMAGE
-          value: "{{ .Values.componentImages.hookRunnerImage.repository }}:{{ .Values.componentImages.hookRunnerImage.tag }}"
+          value: "{{ .Values.componentImages.hookRunner.registry | default .Values.imageBase.registry }}/{{ .Values.componentImages.hookRunner.repository }}:{{ .Values.componentImages.hookRunner.tag | default .Values.imageBase.tag }}"
         - name: UI_ENABLE_FLAG
           value: "true"
         - name: VELERO_DISABLE_SNAPSHOT

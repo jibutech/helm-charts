@@ -20,8 +20,8 @@ spec:
       restartPolicy: Never
       containers:
       - name: self-restore
-        image: "{{ .Values.componentImages.selfRestore.repository }}:{{ .Values.componentImages.selfRestore.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.componentImages.selfRestore.registry | default .Values.imageBase.registry }}/{{ .Values.componentImages.selfRestore.repository }}:{{ .Values.componentImages.selfRestore.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.imageBase.pullPolicy }}
         resources:
           requests:
             cpu: 200m

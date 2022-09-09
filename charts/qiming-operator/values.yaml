@@ -107,15 +107,18 @@ components:
       tag:
 
 componentImages:
-  hookRunnerImage:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
+  hookRunner:
+    registry:
+    repository: hook-runner
     tag: "latest"
   helmTool:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "main-latest"
+    registry:
+    repository: helm-tool
+    tag:
   selfRestore:
-    repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "main-latest"
+    registry:
+    repository: self-restore
+    tag:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
