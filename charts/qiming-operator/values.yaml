@@ -235,6 +235,7 @@ mysql:
 
 clusterpedia:
   persistenceMatchNode: None
+  fullnameOverride: ys
 
   #global:
   #  imageRegistry: ""

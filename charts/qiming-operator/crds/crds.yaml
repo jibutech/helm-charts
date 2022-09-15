@@ -6724,6 +6724,34 @@ spec:
                 maxLength: 128
                 minLength: 1
                 type: string
+              controller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              cron:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               dataMover:
                 properties:
                   image:
@@ -6952,6 +6980,20 @@ spec:
                 type: string
               developmentMode:
                 type: boolean
+              discovery:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               dmAgent:
                 properties:
                   image:
@@ -7029,6 +7071,20 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                type: object
+              portal:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               resticDM:
                 properties:
@@ -15586,16 +15642,46 @@ spec:
                     type: boolean
                 type: object
               backendControllerImage:
+                description: Deprecated
                 type: string
               backendOperatorImage:
+                description: Deprecated
                 type: string
               configs:
                 additionalProperties:
                   type: string
-                description: additional paramaters to configure the tenant worker,
-                  such as tech preview functions.
+                description: Deprecated
+                type: object
+              controller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              cron:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               cronImage:
+                description: Deprecated
                 type: string
               dataMover:
                 properties:
@@ -15818,8 +15904,24 @@ spec:
                     type: boolean
                 type: object
               dataMoverImage:
+                description: Deprecated
                 type: string
+              discovery:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               discoveryControllerImage:
+                description: Deprecated
                 type: string
               dmAgent:
                 properties:
@@ -15861,7 +15963,7 @@ spec:
                     type: string
                 type: object
               imageRep:
-                description: tenant worker configurations are independent for upgrade
+                description: Deprecated
                 type: string
               isReClaimed:
                 description: IsReClaimed indicts if resources of the tenant worker
@@ -15885,9 +15987,22 @@ spec:
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
+              portal:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               reSyncImageVersion:
-                description: ReSyncVersion indicts if image version resync should
-                  be triggered
+                description: Deprecated
                 type: boolean
               resticDM:
                 properties:
@@ -15919,7 +16034,22 @@ spec:
               tenantLimit:
                 description: TenantLimit caps the maximal tenant instances to be served
                 type: integer
+              tenantProcessor:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               tenantProcessorImage:
+                description: Deprecated
                 type: string
               tenantRefs:
                 description: TenantRefs includes current tenant instanaces for service
@@ -16053,12 +16183,16 @@ spec:
                     type: string
                 type: object
               veleroHelperImage:
+                description: Deprecated
                 type: string
               veleroImage:
+                description: Deprecated
                 type: string
               veleroInstallerImage:
+                description: Deprecated
                 type: string
               veleroPlugins:
+                description: Deprecated
                 type: string
               webServer:
                 properties:
@@ -16078,17 +16212,6 @@ spec:
                       a service
                     type: string
                 type: object
-            required:
-            - backendControllerImage
-            - backendOperatorImage
-            - discoveryControllerImage
-            - imageRep
-            - tenantLimit
-            - tenantProcessorImage
-            - veleroHelperImage
-            - veleroImage
-            - veleroInstallerImage
-            - veleroPlugins
             type: object
           status:
             description: TenantWorkerStatus defines the observed state of TenantWorker
