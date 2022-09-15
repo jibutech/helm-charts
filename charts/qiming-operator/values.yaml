@@ -281,8 +281,8 @@ clusterpedia:
     auth:
       rootPassword: "passw0rd"
       database: clusterpedia
-      username: "clusterpedia"
-      password: "passw0rd"
+#      username: "clusterpedia"
+#      password: "passw0rd"
     primary:
       persistence:
         enabled: false

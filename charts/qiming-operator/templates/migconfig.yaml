@@ -24,6 +24,30 @@ spec:
     registry: {{ .Values.imageBase.registry }}
     pullPolicy: {{ .Values.imageBase.pullPolicy }}
     tag: {{ .Values.imageBase.tag }}
+  portal:
+    image:
+      registry: {{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.portal.image.repository }}
+      pullPolicy: {{ .Values.components.portal.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.portal.image.tag | default .Values.imageBase.tag }}
+  discovery:
+    image:
+      registry: {{ .Values.components.discovery.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.discovery.image.repository }}
+      pullPolicy: {{ .Values.components.discovery.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.discovery.image.tag | default .Values.imageBase.tag }}
+  controller:
+    image:
+      registry: {{ .Values.components.controller.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.controller.image.repository }}
+      pullPolicy: {{ .Values.components.controller.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.controller.image.tag | default .Values.imageBase.tag }}
+  cron:
+    image:
+      registry: {{ .Values.components.cron.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.cron.image.repository }}
+      pullPolicy: {{ .Values.components.cron.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.cron.image.tag | default .Values.imageBase.tag }}
   webServer:
     image:
       registry: {{ .Values.components.webserver.image.registry | default .Values.imageBase.registry }}
