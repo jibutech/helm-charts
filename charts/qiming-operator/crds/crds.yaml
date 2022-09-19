@@ -38,6 +38,11 @@ spec:
                 properties:
                   copyMethod:
                     type: string
+                  locationInfo:
+                    properties:
+                      prefix:
+                        type: string
+                    type: object
                   namespaces:
                     description: Deprecated
                     items:
@@ -119,6 +124,22 @@ spec:
                     type: array
                   policy:
                     properties:
+                      backupMethod:
+                        description: Backup method info
+                        properties:
+                          backupMethod:
+                            enum:
+                            - foreverincremental
+                            - periodicfull
+                            type: string
+                          frequency:
+                            type: string
+                          method:
+                            enum:
+                            - activefull
+                            - syntheticfull
+                            type: string
+                        type: object
                       copyMethod:
                         type: string
                       export:
@@ -2091,12 +2112,29 @@ spec:
                 type: string
               profile:
                 properties:
+                  backupMethod:
+                    enum:
+                    - foreverincremental
+                    - periodicfull
+                    type: string
                   copyMethod:
                     enum:
                     - filesystem
                     - snapshot
                     type: string
                   filesystem:
+                    type: object
+                  fullBackup:
+                    properties:
+                      frequency:
+                        type: string
+                      method:
+                        enum:
+                        - activefull
+                        - syntheticfull
+                        type: string
+                    type: object
+                  incrementalBackup:
                     type: object
                   snapshot:
                     properties:
@@ -2671,12 +2709,29 @@ spec:
                     type: string
                   profile:
                     properties:
+                      backupMethod:
+                        enum:
+                        - foreverincremental
+                        - periodicfull
+                        type: string
                       copyMethod:
                         enum:
                         - filesystem
                         - snapshot
                         type: string
                       filesystem:
+                        type: object
+                      fullBackup:
+                        properties:
+                          frequency:
+                            type: string
+                          method:
+                            enum:
+                            - activefull
+                            - syntheticfull
+                            type: string
+                        type: object
+                      incrementalBackup:
                         type: object
                       snapshot:
                         properties:
@@ -2879,6 +2934,17 @@ spec:
                 type: array
               currentJobName:
                 type: string
+              fullBackups:
+                description: Keep track of the full backupjobs
+                properties:
+                  jobsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: Map of prefix and job names
+                    type: object
+                type: object
               incompatibleNamespaces:
                 items:
                   description: IncompatibleNamespace - namespace, which is noticed
@@ -2908,6 +2974,18 @@ spec:
                   - name
                   type: object
                 type: array
+              locationInfo:
+                description: Keep track the backup prefix and num of jobs
+                properties:
+                  periodEnd:
+                    format: date-time
+                    type: string
+                  periodStart:
+                    format: date-time
+                    type: string
+                  prefix:
+                    type: string
+                type: object
               namespaces:
                 items:
                   description: UnhealthyNamespace is a store for unhealthy resources
@@ -2943,6 +3021,22 @@ spec:
                 type: string
               policy:
                 properties:
+                  backupMethod:
+                    description: Backup method info
+                    properties:
+                      backupMethod:
+                        enum:
+                        - foreverincremental
+                        - periodicfull
+                        type: string
+                      frequency:
+                        type: string
+                      method:
+                        enum:
+                        - activefull
+                        - syntheticfull
+                        type: string
+                    type: object
                   copyMethod:
                     type: string
                   export:
