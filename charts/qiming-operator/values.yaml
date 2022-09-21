@@ -22,45 +22,45 @@ selfBackup:
   retention: 168
 
 imageBase:
-  registry: registry.cn-shanghai.aliyuncs.com/jibudata
+  registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
   tag: "main-latest"
 
 image:
   registry:
-  repository: qiming-operator
+  repository: jibutech/qiming-operator
   tag:
 
 components:
   webserver:
     image:
       registry:
-      repository: webserver
+      repository: jibutech/webserver
       tag:
     serviceType: ClusterIP
   hookrunner:
     image:
       registry:
-      repository: hookrunner
+      repository: jibutech/hookrunner
       tag:
   operator:
     image:
       registry:
-      repository: agent-operator
+      repository: jibutech/agent-operator
       tag:
   velero:
     image:
       registry:
-      repository: velero
+      repository: jibutech/velero
       tag: v1.7.0-jibu-4268bbb6-202209200048
     imageResticHelper:
       registry:
-      repository: velero-restic-restore-helper
+      repository: jibutech/velero-restic-restore-helper
       tag: v1.7.0
     plugins:
-    - velero-plugin-for-aws:v1.3.0
-    - velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
-    - velero-plugin:main-latest
+    - jibutech/velero-plugin-for-aws:v1.3.0
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
+    - jibutech/velero-plugin:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     useRestic: true
@@ -68,56 +68,56 @@ components:
   dataMover:
     image:
       registry:
-      repository: data-mover
+      repository: jibutech/data-mover
       tag:
   amberApp:
     image:
       registry:
-      repository: amberapp
+      repository: jibutech/amberapp
       tag: 0.0.6
   dmAgent:
     image:
       registry:
-      repository: dm-agent
+      repository: jibutech/dm-agent
       tag:
   resticDM:
     image:
       registry:
-      repository: restic-dm
+      repository: jibutech/restic-dm
       tag:
   portal:
     image:
       registry:
-      repository: mig-ui
+      repository: jibutech/mig-ui
       tag:
   discovery:
     image:
       registry:
-      repository: mig-discovery
+      repository: jibutech/mig-discovery
       tag:
   controller:
     image:
       registry:
-      repository: mig-controller
+      repository: jibutech/mig-controller
       tag:
   cron:
     image:
       registry:
-      repository: cron
+      repository: jibutech/cron
       tag:
 
 componentImages:
   hookRunner:
     registry:
-    repository: hook-runner
+    repository: jibutech/hook-runner
     tag: "latest"
   helmTool:
     registry:
-    repository: helm-tool
+    repository: jibutech/helm-tool
     tag:
   selfRestore:
     registry:
-    repository: self-restore
+    repository: jibutech/self-restore
     tag:
 imagePullSecrets: []
 nameOverride: ""
@@ -217,8 +217,8 @@ affinity: {}
 mysql:
   fullnameOverride: mysql
   image:
-    registry: registry.cn-shanghai.aliyuncs.com/jibudata
-    repository: mysql
+    registry: registry.cn-shanghai.aliyuncs.com
+    repository: jibutech/mysql
     tag: 8.0.29-debian-10-r23
     pullPolicy: IfNotPresent
     pullSecrets: []
@@ -242,14 +242,14 @@ clusterpedia:
 
   apiserver:
     image:
-      registry: registry.cn-shanghai.aliyuncs.com/jibudata
-      repository: apiserver
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/apiserver
       tag: v0.4.1
 
   clustersynchroManager:
     image:
-      registry: registry.cn-shanghai.aliyuncs.com/jibudata
-      repository: clustersynchro-manager
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/clustersynchro-manager
       tag: v0.4.1
     featureGates:
 
@@ -266,8 +266,8 @@ clusterpedia:
   ## controller manager config
   controllerManager:
     image:
-      registry: registry.cn-shanghai.aliyuncs.com/jibudata
-      repository: controller-manager
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/controller-manager
       tag: v0.4.1
 
   postgresql:
@@ -276,8 +276,8 @@ clusterpedia:
   mysql:
     enabled: true
     image:
-      registry: registry.cn-shanghai.aliyuncs.com/jibudata
-      repository: mysql
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/mysql
       tag: 8.0.29-debian-10-r23
     auth:
       rootPassword: "passw0rd"
