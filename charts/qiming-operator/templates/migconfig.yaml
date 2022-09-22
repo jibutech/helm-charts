@@ -2,7 +2,9 @@ apiVersion: migration.yinhestor.com/v1alpha1
 kind: Migconfig
 metadata:
   name: qiming-config
-  namespace: {{ .Release.Namespace }}
+  labels:
+    "app.kubernetes.io/name": "qiming-operator"
+    "app.kubernetes.io/instance": qiming-config.{{ .Release.Namespace }}
 spec:
   version: {{ .Values.migconfig.version }}
   clientName: {{ .Values.migconfig.clientName }}
