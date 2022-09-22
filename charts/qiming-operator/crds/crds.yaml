@@ -555,6 +555,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -569,6 +571,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -585,6 +589,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -599,6 +605,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -1156,6 +1164,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -1170,6 +1180,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -1186,6 +1198,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -1200,6 +1214,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -1694,6 +1710,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -1708,6 +1726,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -1724,6 +1744,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -1738,6 +1760,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -2336,6 +2360,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -2350,6 +2376,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -2366,6 +2394,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -2380,6 +2410,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -3446,6 +3478,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -3460,6 +3494,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -3476,6 +3512,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -3490,6 +3528,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -3691,6 +3731,8 @@ spec:
                   properties:
                     group:
                       type: string
+                    kind:
+                      type: string
                     names:
                       items:
                         type: string
@@ -3705,6 +3747,8 @@ spec:
                 items:
                   properties:
                     group:
+                      type: string
+                    kind:
                       type: string
                     names:
                       items:
@@ -3721,6 +3765,8 @@ spec:
                   properties:
                     group:
                       type: string
+                    kind:
+                      type: string
                     names:
                       items:
                         type: string
@@ -3735,6 +3781,8 @@ spec:
                 items:
                   properties:
                     group:
+                      type: string
+                    kind:
                       type: string
                     names:
                       items:
@@ -4533,7 +4581,16 @@ spec:
                   - type
                   type: object
                 type: object
+              errors:
+                items:
+                  type: string
+                type: array
+              itinerary:
+                type: string
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               progress:
                 additionalProperties:
@@ -4549,7 +4606,64 @@ spec:
               startTimestamp:
                 format: date-time
                 type: string
+              steps:
+                description: StepProgress records history of a group steps' execution
+                properties:
+                  errorStep:
+                    description: StepInfo includes details of a step's execution
+                    properties:
+                      completionTimestamp:
+                        format: date-time
+                        type: string
+                      errorCount:
+                        additionalProperties:
+                          type: integer
+                        type: object
+                      firstFailureTimeStamp:
+                        format: date-time
+                        type: string
+                      name:
+                        type: string
+                      retryTimes:
+                        type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          type: object
+                        firstFailureTimeStamp:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  maxRetryCount:
+                    type: integer
+                  stepFailureTimeoutSeconds:
+                    type: integer
+                  totalRetryCount:
+                    type: integer
+                type: object
               stopTimestamp:
+                format: date-time
+                type: string
+              submitTimestamp:
                 format: date-time
                 type: string
               veleroExportRef:
@@ -5173,7 +5287,16 @@ spec:
                       type: string
                   type: object
                 type: array
+              errors:
+                items:
+                  type: string
+                type: array
+              itinerary:
+                type: string
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               progress:
                 additionalProperties:
@@ -5187,6 +5310,63 @@ spec:
                   type: object
                 type: object
               startTimestamp:
+                format: date-time
+                type: string
+              steps:
+                description: StepProgress records history of a group steps' execution
+                properties:
+                  errorStep:
+                    description: StepInfo includes details of a step's execution
+                    properties:
+                      completionTimestamp:
+                        format: date-time
+                        type: string
+                      errorCount:
+                        additionalProperties:
+                          type: integer
+                        type: object
+                      firstFailureTimeStamp:
+                        format: date-time
+                        type: string
+                      name:
+                        type: string
+                      retryTimes:
+                        type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          type: object
+                        firstFailureTimeStamp:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  maxRetryCount:
+                    type: integer
+                  stepFailureTimeoutSeconds:
+                    type: integer
+                  totalRetryCount:
+                    type: integer
+                type: object
+              submitTimestamp:
                 format: date-time
                 type: string
               veleroImportRef:
@@ -10143,6 +10323,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -10157,6 +10339,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -10173,6 +10357,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -10187,6 +10373,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -10744,6 +10932,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10758,6 +10948,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -10774,6 +10966,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10788,6 +10982,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -11087,6 +11283,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -11101,6 +11299,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -11117,6 +11317,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -11131,6 +11333,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -11386,6 +11590,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11400,6 +11606,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11416,6 +11624,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11430,6 +11640,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11881,6 +12093,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11895,6 +12109,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11911,6 +12127,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11925,6 +12143,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -12180,6 +12400,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12194,6 +12416,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -12210,6 +12434,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12224,6 +12450,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -12878,6 +13106,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12892,6 +13122,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -12908,6 +13140,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12922,6 +13156,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -13667,6 +13903,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -13681,6 +13919,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -13697,6 +13937,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -13711,6 +13953,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
