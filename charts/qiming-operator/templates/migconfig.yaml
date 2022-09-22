@@ -3,8 +3,8 @@ kind: Migconfig
 metadata:
   name: qiming-config
   labels:
-    "app.kubernetes.io/name": "qiming-operator"
-    "app.kubernetes.io/instance": qiming-config.{{ .Release.Namespace }}
+    app.kubernetes.io/name: qiming-operator
+    app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
 spec:
   version: {{ .Values.migconfig.version }}
   clientName: {{ .Values.migconfig.clientName }}
