@@ -63,6 +63,8 @@ components:
     - jibutech/velero-plugin:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
+    resticPodCPURequest: 500m
+    resticPodCPULimit: 4000m
     useRestic: true
     snapshotDisabled: false
   dataMover:

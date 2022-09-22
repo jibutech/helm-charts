@@ -84,6 +84,8 @@ spec:
     {{- end }}
     resticPodMemRequest: {{ .Values.components.velero.resticPodMemRequest }}
     resticPodMemLimit: {{ .Values.components.velero.resticPodMemLimit }}
+    resticPodCPURequest: {{ .Values.components.velero.resticPodCPURequest }}
+    resticPodCPULimit: {{ .Values.components.velero.resticPodCPULimit }}
     useRestic: {{ .Values.components.velero.useRestic }}
     snapshotDisabled: {{ .Values.components.velero.snapshotDisabled }}
   dataMover:
