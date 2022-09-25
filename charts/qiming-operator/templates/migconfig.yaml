@@ -114,3 +114,9 @@ spec:
       repository: {{ .Values.components.resticDM.image.repository }}
       pullPolicy: {{ .Values.components.resticDM.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.resticDM.image.tag | default .Values.imageBase.tag }}
+  stub:
+    image:
+      registry: {{ .Values.components.agentStub.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.agentStub.image.repository }}
+      pullPolicy: {{ .Values.components.agentStub.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.agentStub.image.tag | default .Values.imageBase.tag }}
