@@ -2969,12 +2969,31 @@ spec:
               fullBackups:
                 description: Keep track of the full backupjobs
                 properties:
+                  jobStateMap:
+                    additionalProperties:
+                      items:
+                        properties:
+                          backupStartTime:
+                            format: date-time
+                            type: string
+                          dataBackupCompleted:
+                            type: boolean
+                          dataBackupStarted:
+                            type: boolean
+                          deleted:
+                            type: boolean
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    description: Map of prefix and JobStates slice
+                    type: object
                   jobsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
-                    description: Map of prefix and job names
+                    description: Map of prefix and job names, will be deprecated
                     type: object
                 type: object
               incompatibleNamespaces:
@@ -7390,6 +7409,20 @@ spec:
                     type: boolean
                   snapshotDisabled:
                     type: boolean
+                type: object
+              stub:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               velero:
                 properties:
@@ -16368,6 +16401,20 @@ spec:
                     type: boolean
                   snapshotDisabled:
                     type: boolean
+                type: object
+              stub:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               tenantLimit:
                 description: TenantLimit caps the maximal tenant instances to be served
