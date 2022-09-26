@@ -1063,6 +1063,15 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
                     type:
                       type: string
                   type: object
@@ -1633,6 +1642,15 @@ spec:
                           type: string
                         namespace:
                           type: string
+                        progress:
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            totalBytes:
+                              format: int64
+                              type: integer
+                          type: object
                         type:
                           type: string
                       type: object
