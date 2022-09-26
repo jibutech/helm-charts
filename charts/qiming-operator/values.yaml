@@ -115,7 +115,7 @@ s3Config:
 velero:
   enabled: true
   namespace: qiming-backend
-  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-39a9e6f-202207011049
+  image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-5598caa-202209221818
   plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin:release-2.8.3-latest
   disableRestic: false
   resticPodVolumeOperationTimeout: 240m
