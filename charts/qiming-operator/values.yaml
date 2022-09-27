@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.cn-shanghai.aliyuncs.com/jibudata/qiming-operator
   pullPolicy: Always
-  tag: "release-2.8.3-latest"
+  tag: "v2.8.3"
 
 restore: false
 uploadToS3: false
@@ -20,7 +20,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com/jibudata
   pullPolicy: Always
-  tag: "release-2.8.3-latest"
+  tag: "v2.8.3"
 
 components:
   webserver:
@@ -40,31 +40,31 @@ components:
 componentImages:
   uiImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-ui
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   discoveryImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-discovery
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   migControllerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/mig-controller
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   resticHelperImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-restic-restore-helper
     tag: "v1.7.0"
   veleroInstallerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/velero-installer
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   hookRunnerImage:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/hook-runner
     tag: "latest"
   cron:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/cron
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   helmTool:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/helm-tool
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
   selfRestore:
     repository: registry.cn-shanghai.aliyuncs.com/jibudata/self-restore
-    tag: "release-2.8.3-latest"
+    tag: "v2.8.3"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -86,19 +86,19 @@ migconfig:
 
   datamoverRegistry: "registry.cn-shanghai.aliyuncs.com"
   datamoverRepo: "jibudata/data-mover"
-  datamoverTag: "release-2.8.3-latest"
+  datamoverTag: "v2.8.3"
   datamoverEnabled: true
   datamoverClusters: "all"
 
   dmagentRegistry: "registry.cn-shanghai.aliyuncs.com"
   dmagentRepo: "jibudata/dm-agent"
-  dmagentTag: "release-2.8.3-latest"
+  dmagentTag: "v2.8.3"
   dmagentEnabled: false
   dmagentClusters: "all"
 
   resticdmRegistry: "registry.cn-shanghai.aliyuncs.com"
   resticdmRepo: "jibudata/restic-dm"
-  resticdmTag: "release-2.8.3-latest"
+  resticdmTag: "v2.8.3"
   resticdmEnabled: false
   resticdmClusters: "all"
 
@@ -116,7 +116,7 @@ velero:
   enabled: true
   namespace: qiming-backend
   image: registry.cn-shanghai.aliyuncs.com/jibudata/velero:v1.7.0-jibu-5598caa-202209221818
-  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin:release-2.8.3-latest
+  plugins: registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-aws:v1.3.0,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin-for-csi:v0.2.0-jibu-2801dcd,registry.cn-shanghai.aliyuncs.com/jibudata/velero-plugin:v2.8.3
   disableRestic: false
   resticPodVolumeOperationTimeout: 240m
   resticMemLimit: 8Gi
