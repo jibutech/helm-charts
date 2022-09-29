@@ -3046,6 +3046,8 @@ spec:
               locationInfo:
                 description: Keep track the backup prefix and num of jobs
                 properties:
+                  cycle:
+                    type: string
                   periodEnd:
                     format: date-time
                     type: string
