@@ -12,6 +12,7 @@ featureGates:
   ClusterCache: true
   DataMover: true
   AmberApp: true
+  Stub: true
 
 restore: false
 uploadToS3: false
