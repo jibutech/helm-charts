@@ -3765,6 +3765,10 @@ spec:
                   provider:
                     type: string
                 type: object
+              clusters:
+                items:
+                  type: string
+                type: array
               excludeClusterResources:
                 items:
                   properties:
