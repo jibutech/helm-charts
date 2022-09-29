@@ -6904,32 +6904,8 @@ spec:
                 type: string
               isInService:
                 type: boolean
-              lastRefreshTime:
-                format: date-time
-                type: string
               qosEnabled:
                 type: boolean
-              resourceList:
-                description: APIResourceList includes all resoure groups and resources
-                  from the cluster
-                items:
-                  properties:
-                    groupVersion:
-                      type: string
-                    resourceKinds:
-                      items:
-                        properties:
-                          kind:
-                            type: string
-                          resource:
-                            type: string
-                        required:
-                        - kind
-                        - resource
-                        type: object
-                      type: array
-                  type: object
-                type: array
               warnings:
                 items:
                   properties:
