@@ -4649,6 +4649,8 @@ spec:
               startTimestamp:
                 format: date-time
                 type: string
+              state:
+                type: string
               steps:
                 description: StepProgress records history of a group steps' execution
                 properties:
@@ -5354,6 +5356,8 @@ spec:
                 type: object
               startTimestamp:
                 format: date-time
+                type: string
+              state:
                 type: string
               steps:
                 description: StepProgress records history of a group steps' execution
