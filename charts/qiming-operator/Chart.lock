@@ -1,9 +1,9 @@
 dependencies:
 - name: mysql
   repository: https://charts.bitnami.com/bitnami
-  version: 9.3.0
+  version: 9.3.4
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia/charts
-  version: 0.0.2
-digest: sha256:cd49551853c8738908798667ed52eb6c8fa3476b7f48b208f462dc06e1e896db
-generated: "2022-08-23T21:45:06.702521+08:00"
+  version: 0.0.4
+digest: sha256:7d5395955f365139a8fce37657fb8c8eb2089cba73591b53a98c13ab144dc767
+generated: "2022-09-30T16:49:46.751112+08:00"
