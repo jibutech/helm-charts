@@ -2248,7 +2248,27 @@ spec:
     singular: backup
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: cluster of the plan
+      jsonPath: .spec.cluster
+      name: CLUSTER
+      type: string
+    - description: storage of the plan
+      jsonPath: .spec.storage
+      name: STORAGE
+      type: string
+    - description: policy of the plan
+      jsonPath: .spec.policyName
+      name: POLICY
+      type: string
+    - description: templates of the plan
+      jsonPath: .spec.templates
+      name: TEMPLATES
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: Backup is the Schema for the backups API
@@ -3708,6 +3728,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
