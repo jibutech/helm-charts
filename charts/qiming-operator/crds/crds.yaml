@@ -4662,6 +4662,8 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    phase:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
@@ -5370,6 +5372,8 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    phase:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
