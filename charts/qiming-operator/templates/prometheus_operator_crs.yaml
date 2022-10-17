@@ -1,0 +1,269 @@
+{{- if .Values.alarm.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus
+  name: metrics-monitor
+spec:
+  endpoints:
+  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    path: /metrics
+    port: http
+    scheme: http
+    tlsConfig:
+      insecureSkipVerify: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+  name: ys1000-alerts
+spec:
+  groups:
+  - name: migcontroller
+    rules:
+    - alert: MigControllerDown
+      annotations:
+        description: Migcontroller has disappeared from Prometheus target discovery.
+        summary: Migcontroller disappeared from Prometheus target discovery.
+        content: YS1000 controller disappeared from Prometheus target discovery, the YS1000 controller has probably crashed, please check immediately.
+      expr: |-
+        absent(up{service="mig-controller-metrics"} == 1)
+      for: 5m
+      labels:
+        severity: critical
+    - alert: MigClusterNotReady
+      annotations:
+        description: {{ `Cluster {{$labels.migcluster}} is not ready, connected state is {{$labels.connected}}.` }}
+        summary: {{ `Cluster {{$labels.migcluster}} is not ready. ` }}
+        content: {{ `'Cluster {{$labels.migcluster}} is not ready, connected state is {{$labels.connected}}. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+      expr: |-
+        migcluster_status{ready="false"}
+      for: 5m
+      labels:
+        severity: warning
+    - alert: MigStorageNotReady
+      annotations:
+        description: {{ `Storage {{$labels.migstorage}} is not ready. ` }}
+        summary: {{ `Storage {{$labels.migstorage}} is not ready. ` }}
+        content: {{ `'Storage {{$labels.migstorage}} is not ready. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+      expr: |-
+        migstorage_status{ready="false"}
+      for: 5m
+      labels:
+        severity: warning
+    - alert: SelfBackupPlanNotReady
+      annotations:
+        description: Self backup plan is not ready.
+        summary: Self backup plan is not ready.
+        content: {{ `'Self backup plan is not ready. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+      expr: |-
+        self_backupplan_status{ready="false"}
+      for: 5m
+      labels:
+        severity: warning
+    - alert: BackupPlanNotReady
+      annotations:
+        description: {{ `Backup plan {{$labels.backupplan}} is not ready. ` }}
+        summary: {{ `Backup plan {{$labels.backupplan}} is not ready. ` }}
+        content: {{ `'Backup plan {{$labels.backupplan}} to backup namespace {{$labels.namespaces}} in cluster {{$labels.migcluster}} using storage {{$labels.migstorage}} is not ready. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+      expr: |-
+        backupplan_status{ready="false"}
+      for: 5m
+      labels:
+        severity: warning
+    - alert: BackupJobFailed
+      annotations:
+        content: {{ `'Backup job {{$labels.backupjob}} to backup namespace {{$labels.namespaces}} in cluster {{$labels.migcluster}} using storage {{$labels.migstorage}} failed: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+        description: {{ `Backup job {{$labels.backupjob}} to backup namespace {{$labels.namespaces}} in cluster {{$labels.migcluster}} using storage {{$labels.migstorage}} failed. ` }}
+        summary: {{ `Backup job {{$labels.backupjob}} failed. ` }}
+      expr: |-
+        backupjob_status{status="Failed"} > 0 unless on(backupjob) (backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
+      labels:
+        severity: warning
+    - alert: SelfBackupJobFailed
+      annotations:
+        content: {{ `'Self backup job {{$labels.backupjob}} using storage {{$labels.migstorage}} failed: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+        description: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
+        summary: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
+      expr: |-
+        self_backupjob_status{status="Failed"} > 0 unless on(backupjob) (self_backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
+      labels:
+        severity: warning
+    - alert: BackupJobValidationError
+      annotations:
+        description: {{ `Backup job {{$labels.backupjob}} to backup namespace {{$labels.namespaces}} in cluster {{$labels.migcluster}} validation error. ` }}
+        summary: {{ `Backup job {{$labels.backupjob}} validation error. ` }}
+        content: {{ `'Backup job {{$labels.backupjob}} to backup namespace {{$labels.namespaces}} in cluster {{$labels.migcluster}} using storage {{$labels.migstorage}} validation error: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+      expr: |-
+        backupjob_status{status="ValidationError"}
+      labels:
+        severity: warning
+    - alert: BackupJobLongRunning
+      annotations:
+        content:  {{ `'Backup job {{$labels.backupjob}} to backup namespace {{$labels.namespaces}} stay running for long time: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+        description: {{ `Backup job {{$labels.backupjob}} in namespace {{$labels.namespaces}} stay running for long time. ` }}
+        summary: {{ `'Backup job {{$labels.backupjob}} stay running for long time: {{$value}} seconds.' ` }}
+      expr: |-
+        backupjob_running_time_seconds > 3600
+      labels:
+        severity: warning
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: ys1000-alertmanager-config
+  labels:
+    release: prometheus
+    alertmanagerConfig: ys1000
+spec:
+  route:
+    receiver: default-receiver
+    routes:
+      - receiver: 'wechat-webhook-receiver'
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          matchType: =
+          value: MigControllerDown
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['migcluster']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          matchType: =
+          value: MigClusterNotReady
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['migstorage']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          matchType: =
+          value: MigStorageNotReady
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupplan']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          matchType: =
+          value: SelfBackupPlanNotReady
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupplan']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          matchType: =
+          value: BackupPlanNotReady
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupjob']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 30m
+        matchers:
+        - name: alertname
+          matchType: =
+          value: BackupJobLongRunning
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupjob']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 30m
+        matchers:
+        - name: alertname
+          matchType: =
+          value: BackupJobValidationError
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupjob']
+        groupWait: 0s # please keep 0s
+        groupInterval: 1m
+        repeatInterval: 5m
+        matchers:
+        - name: alertname
+          matchType: =
+          value: SelfBackupJobFailed
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['backupjob']
+        groupWait: 0s # please keep 0s
+        groupInterval: 1m
+        repeatInterval: 5m
+        matchers:
+        - name: alertname
+          matchType: =
+          value: BackupJobFailed
+  inhibitRules:
+    - sourceMatch:
+        - name: alertname
+          matchType: =
+          value: MigClusterNotReady
+      targetMatch:
+        - name: alertname
+          matchType: =
+          value: BackupPlanNotReady
+      equal: ['migcluster']
+    - sourceMatch:
+        - name: alertname
+          matchType: =
+          value: MigStorageNotReady
+      targetMatch:
+        - name: alertname
+          matchType: =
+          value: BackupPlanNotReady
+      equal: ['migstorage']
+  receivers:
+    - name: default-receiver
+    - name: wechat-webhook-receiver
+      {{- if .Values.alarm.wechat.enabled }}
+      wechatConfigs:
+        - sendResolved: false
+          message: |-
+            {{ `{{- if gt (len .Alerts.Firing) 0 -}}
+            {{- range $index, $alert := .Alerts -}}
+            ==========异常告警==========
+            告警类型: {{ $alert.Labels.alertname }}
+            告警级别: {{ $alert.Labels.severity }}
+            告警摘要: {{$alert.Annotations.summary}}
+            告警描述: {{ $alert.Annotations.description}}
+            告警详情: {{ $alert.Annotations.content }}
+            故障时间: {{ ($alert.StartsAt.Add 28800e9).Format "2006-01-02 15:04:05" }}
+            Source: {{ $alert.GeneratorURL }}
+            ============END============
+            {{- end }}
+            {{- end }}
+            Alertmanager URL: {{ template "__alertmanagerURL" . }} ` }}
+          corpID: {{ required ".Values.alarm.wechat.corpID is required" .Values.alarm.wechat.corpID }}
+          agentID: {{ required ".Values.alarm.wechat.agentID is required" .Values.alarm.wechat.agentID }}
+          toUser: {{ required ".Values.alarm.wechat.toUser is required" .Values.alarm.wechat.toUser }}
+          apiSecret:
+            name: 'wechat-apisecret'
+            key: 'apiSecret'
+      {{- end }}
+      {{- if .Values.alarm.webhook.enabled }}
+      webhookConfigs:
+        - sendResolved: false
+          url: {{ required ".Values.alarm.webhook.url is required" .Values.alarm.webhook.url }}
+      {{- end }}
+
+---
+{{- if .Values.alarm.wechat.enabled }}
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: wechat-apisecret
+data:
+  apiSecret: {{ required ".Values.alarm.wechat.apiSecret is required" .Values.alarm.wechat.apiSecret | b64enc}}
+{{- end }}
+{{- end }}
