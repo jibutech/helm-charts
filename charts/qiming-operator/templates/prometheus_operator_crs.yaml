@@ -5,6 +5,7 @@ metadata:
   labels:
     release: prometheus
   name: metrics-monitor
+  namespace: {{ .Release.Namespace }}
 spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -23,6 +24,7 @@ metadata:
   labels:
     release: prometheus
   name: ys1000-alerts
+  namespace: {{ .Release.Namespace }}
 spec:
   groups:
   - name: migcontroller
@@ -118,6 +120,7 @@ apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: ys1000-alertmanager-config
+  namespace: {{ .Release.Namespace }}
   labels:
     release: prometheus
     alertmanagerConfig: ys1000
@@ -263,6 +266,7 @@ kind: Secret
 type: Opaque
 metadata:
   name: wechat-apisecret
+  namespace: {{ .Release.Namespace }}
 data:
   apiSecret: {{ required ".Values.alarm.wechat.apiSecret is required" .Values.alarm.wechat.apiSecret | b64enc}}
 {{- end }}
