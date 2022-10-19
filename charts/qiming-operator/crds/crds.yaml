@@ -14,7 +14,23 @@ spec:
     singular: backupjob
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .spec.backupContext.sourceClusterName
+      name: Cluster
+      type: string
+    - jsonPath: .status.startTimestamp
+      name: Start Time
+      type: date
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.completionTimestamp
+      name: Completion Time
+      type: date
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: BackupJob is the Schema for the backupjobs API
@@ -36,6 +52,8 @@ spec:
             properties:
               backupContext:
                 properties:
+                  clusterProvider:
+                    type: string
                   copyMethod:
                     type: string
                   locationInfo:
@@ -536,6 +554,24 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
                   resourceFilterRules:
                     properties:
                       namespaces:
@@ -1097,6 +1133,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
@@ -2289,6 +2326,7 @@ spec:
             description: BackupSpec defines the desired state of Backup
             properties:
               closed:
+                description: Deprecated
                 type: boolean
               cluster:
                 type: string
@@ -2845,6 +2883,24 @@ spec:
                     type: string
                   retention:
                     type: integer
+                type: object
+              qos:
+                description: Qos define for cluster
+                properties:
+                  customRate:
+                    type: integer
+                  level:
+                    type: string
+                  workRange:
+                    additionalProperties:
+                      description: Qos time ranges
+                      properties:
+                        startTime:
+                          type: string
+                        stopTime:
+                          type: string
+                      type: object
+                    type: object
                 type: object
               scheduleDisabled:
                 type: boolean
@@ -4127,6 +4183,8 @@ spec:
               kubeconfig:
                 description: KubeConfig provides the access information of the cluster
                 type: string
+              maintenanceMode:
+                type: boolean
               provider:
                 description: Provider
                 type: string
@@ -4231,6 +4289,8 @@ spec:
               phase:
                 description: Phase describes the overall status of Cluster
                 type: string
+              underMaintenance:
+                type: boolean
               version:
                 description: Version reflects the k8s version of cluster
                 type: string
@@ -6892,6 +6952,8 @@ spec:
                 - isOnPublicCloud
                 - provider
                 type: object
+              maintenanceMode:
+                type: boolean
               qos:
                 description: Qos define for cluster
                 properties:
@@ -7096,6 +7158,8 @@ spec:
               isInService:
                 type: boolean
               qosEnabled:
+                type: boolean
+              underMaintenance:
                 type: boolean
               warnings:
                 items:
