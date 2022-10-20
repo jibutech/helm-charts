@@ -307,3 +307,14 @@ clusterpedia:
         enabled: false
         size: 20Gi
 
+alarm:
+  enabled: false
+  wechat:
+    enabled: false
+    corpID: ""
+    agentID: ""
+    toUser: ""
+    apiSecret: ""
+  webhook:
+    enabled: false
+
