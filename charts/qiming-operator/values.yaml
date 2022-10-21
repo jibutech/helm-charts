@@ -65,7 +65,7 @@ components:
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
-    resticPodCPULimit: 4000m
+    resticPodCPULimit: 1000m
     useRestic: true
     snapshotDisabled: false
   dataMover:
