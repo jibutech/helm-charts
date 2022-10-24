@@ -17,6 +17,7 @@ ys1000Images=(
     ${ys1000Repo}/dm-agent
     ${ys1000Repo}/restic-dm
     ${ys1000Repo}/stub
+    ${ys1000Repo}/velero-plugin
 )
 
 if [ $# -lt 2 ];then
