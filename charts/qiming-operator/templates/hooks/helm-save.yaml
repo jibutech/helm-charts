@@ -20,8 +20,8 @@ spec:
       restartPolicy: Never
       containers:
       - name: helm-save
-        image: "{{ .Values.componentImages.helmTool.repository }}:{{ .Values.componentImages.helmTool.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.componentImages.helmTool.registry | default .Values.imageBase.registry }}/{{ .Values.componentImages.helmTool.repository }}:{{ .Values.componentImages.helmTool.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.imageBase.pullPolicy }}
         args:
         - save
         - {{ .Release.Name }}

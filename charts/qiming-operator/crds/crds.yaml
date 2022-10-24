@@ -38,6 +38,11 @@ spec:
                 properties:
                   copyMethod:
                     type: string
+                  locationInfo:
+                    properties:
+                      prefix:
+                        type: string
+                    type: object
                   namespaces:
                     description: Deprecated
                     items:
@@ -119,6 +124,22 @@ spec:
                     type: array
                   policy:
                     properties:
+                      backupMethod:
+                        description: Backup method info
+                        properties:
+                          backupMethod:
+                            enum:
+                            - foreverincremental
+                            - periodicfull
+                            type: string
+                          frequency:
+                            type: string
+                          method:
+                            enum:
+                            - activefull
+                            - syntheticfull
+                            type: string
+                        type: object
                       copyMethod:
                         type: string
                       export:
@@ -521,6 +542,8 @@ spec:
                         items:
                           type: string
                         type: array
+                      resourceCollector:
+                        type: string
                       templates:
                         items:
                           items:
@@ -531,6 +554,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -547,6 +572,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -562,6 +589,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -576,6 +605,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -1032,6 +1063,15 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
                     type:
                       type: string
                   type: object
@@ -1133,6 +1173,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -1147,6 +1189,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -1163,6 +1207,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -1177,6 +1223,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -1594,6 +1642,15 @@ spec:
                           type: string
                         namespace:
                           type: string
+                        progress:
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            totalBytes:
+                              format: int64
+                              type: integer
+                          type: object
                         type:
                           type: string
                       type: object
@@ -1671,6 +1728,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -1685,6 +1744,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -1701,6 +1762,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -1715,6 +1778,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -2089,12 +2154,29 @@ spec:
                 type: string
               profile:
                 properties:
+                  backupMethod:
+                    enum:
+                    - foreverincremental
+                    - periodicfull
+                    type: string
                   copyMethod:
                     enum:
                     - filesystem
                     - snapshot
                     type: string
                   filesystem:
+                    type: object
+                  fullBackup:
+                    properties:
+                      frequency:
+                        type: string
+                      method:
+                        enum:
+                        - activefull
+                        - syntheticfull
+                        type: string
+                    type: object
+                  incrementalBackup:
                     type: object
                   snapshot:
                     properties:
@@ -2166,7 +2248,27 @@ spec:
     singular: backup
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: cluster of the plan
+      jsonPath: .spec.cluster
+      name: CLUSTER
+      type: string
+    - description: storage of the plan
+      jsonPath: .spec.storage
+      name: STORAGE
+      type: string
+    - description: policy of the plan
+      jsonPath: .spec.policyName
+      name: POLICY
+      type: string
+    - description: templates of the plan
+      jsonPath: .spec.templates
+      name: TEMPLATES
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: Backup is the Schema for the backups API
@@ -2296,6 +2398,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -2310,6 +2414,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -2326,6 +2432,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -2340,6 +2448,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -2669,12 +2779,29 @@ spec:
                     type: string
                   profile:
                     properties:
+                      backupMethod:
+                        enum:
+                        - foreverincremental
+                        - periodicfull
+                        type: string
                       copyMethod:
                         enum:
                         - filesystem
                         - snapshot
                         type: string
                       filesystem:
+                        type: object
+                      fullBackup:
+                        properties:
+                          frequency:
+                            type: string
+                          method:
+                            enum:
+                            - activefull
+                            - syntheticfull
+                            type: string
+                        type: object
+                      incrementalBackup:
                         type: object
                       snapshot:
                         properties:
@@ -2877,6 +3004,36 @@ spec:
                 type: array
               currentJobName:
                 type: string
+              fullBackups:
+                description: Keep track of the full backupjobs
+                properties:
+                  jobStateMap:
+                    additionalProperties:
+                      items:
+                        properties:
+                          backupStartTime:
+                            format: date-time
+                            type: string
+                          dataBackupCompleted:
+                            type: boolean
+                          dataBackupStarted:
+                            type: boolean
+                          deleted:
+                            type: boolean
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    description: Map of prefix and JobStates slice
+                    type: object
+                  jobsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: Map of prefix and job names, will be deprecated
+                    type: object
+                type: object
               incompatibleNamespaces:
                 items:
                   description: IncompatibleNamespace - namespace, which is noticed
@@ -2906,6 +3063,20 @@ spec:
                   - name
                   type: object
                 type: array
+              locationInfo:
+                description: Keep track the backup prefix and num of jobs
+                properties:
+                  cycle:
+                    type: string
+                  periodEnd:
+                    format: date-time
+                    type: string
+                  periodStart:
+                    format: date-time
+                    type: string
+                  prefix:
+                    type: string
+                type: object
               namespaces:
                 items:
                   description: UnhealthyNamespace is a store for unhealthy resources
@@ -2941,6 +3112,22 @@ spec:
                 type: string
               policy:
                 properties:
+                  backupMethod:
+                    description: Backup method info
+                    properties:
+                      backupMethod:
+                        enum:
+                        - foreverincremental
+                        - periodicfull
+                        type: string
+                      frequency:
+                        type: string
+                      method:
+                        enum:
+                        - activefull
+                        - syntheticfull
+                        type: string
+                    type: object
                   copyMethod:
                     type: string
                   export:
@@ -3337,6 +3524,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  resourceCollector:
+                    type: string
                   templates:
                     items:
                       items:
@@ -3347,6 +3536,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -3363,6 +3554,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -3378,6 +3571,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -3392,6 +3587,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -3531,6 +3728,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
@@ -3588,10 +3786,16 @@ spec:
                   provider:
                     type: string
                 type: object
+              clusters:
+                items:
+                  type: string
+                type: array
               excludeClusterResources:
                 items:
                   properties:
                     group:
+                      type: string
+                    kind:
                       type: string
                     names:
                       items:
@@ -3608,6 +3812,8 @@ spec:
                   properties:
                     group:
                       type: string
+                    kind:
+                      type: string
                     names:
                       items:
                         type: string
@@ -3623,6 +3829,8 @@ spec:
                   properties:
                     group:
                       type: string
+                    kind:
+                      type: string
                     names:
                       items:
                         type: string
@@ -3637,6 +3845,8 @@ spec:
                 items:
                   properties:
                     group:
+                      type: string
+                    kind:
                       type: string
                     names:
                       items:
@@ -4435,7 +4645,16 @@ spec:
                   - type
                   type: object
                 type: object
+              errors:
+                items:
+                  type: string
+                type: array
+              itinerary:
+                type: string
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               progress:
                 additionalProperties:
@@ -4443,6 +4662,8 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    phase:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
@@ -4451,7 +4672,66 @@ spec:
               startTimestamp:
                 format: date-time
                 type: string
+              state:
+                type: string
+              steps:
+                description: StepProgress records history of a group steps' execution
+                properties:
+                  errorStep:
+                    description: StepInfo includes details of a step's execution
+                    properties:
+                      completionTimestamp:
+                        format: date-time
+                        type: string
+                      errorCount:
+                        additionalProperties:
+                          type: integer
+                        type: object
+                      firstFailureTimeStamp:
+                        format: date-time
+                        type: string
+                      name:
+                        type: string
+                      retryTimes:
+                        type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          type: object
+                        firstFailureTimeStamp:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  maxRetryCount:
+                    type: integer
+                  stepFailureTimeoutSeconds:
+                    type: integer
+                  totalRetryCount:
+                    type: integer
+                type: object
               stopTimestamp:
+                format: date-time
+                type: string
+              submitTimestamp:
                 format: date-time
                 type: string
               veleroExportRef:
@@ -5075,7 +5355,16 @@ spec:
                       type: string
                   type: object
                 type: array
+              errors:
+                items:
+                  type: string
+                type: array
+              itinerary:
+                type: string
               phase:
+                type: string
+              phaseAt:
+                format: date-time
                 type: string
               progress:
                 additionalProperties:
@@ -5083,12 +5372,73 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    phase:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
                   type: object
                 type: object
               startTimestamp:
+                format: date-time
+                type: string
+              state:
+                type: string
+              steps:
+                description: StepProgress records history of a group steps' execution
+                properties:
+                  errorStep:
+                    description: StepInfo includes details of a step's execution
+                    properties:
+                      completionTimestamp:
+                        format: date-time
+                        type: string
+                      errorCount:
+                        additionalProperties:
+                          type: integer
+                        type: object
+                      firstFailureTimeStamp:
+                        format: date-time
+                        type: string
+                      name:
+                        type: string
+                      retryTimes:
+                        type: integer
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          type: object
+                        firstFailureTimeStamp:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  maxRetryCount:
+                    type: integer
+                  stepFailureTimeoutSeconds:
+                    type: integer
+                  totalRetryCount:
+                    type: integer
+                type: object
+              submitTimestamp:
                 format: date-time
                 type: string
               veleroImportRef:
@@ -5166,6 +5516,162 @@ spec:
                       type: string
                   type: object
                 type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: datalayouts.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: DataLayout
+    listKind: DataLayoutList
+    plural: datalayouts
+    singular: datalayout
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: DataLayout is the Schema for the DataLayout API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DataLayoutSpec defines the desired state of DataLayout
+            properties:
+              readonlyClusters:
+                items:
+                  type: string
+                type: array
+              storageName:
+                type: string
+              targetCluster:
+                type: string
+              version:
+                type: string
+            required:
+            - storageName
+            - targetCluster
+            type: object
+          status:
+            properties:
+              clusterPrefixResult:
+                properties:
+                  prefixList:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: Cluster name to prefix map
+                    type: object
+                type: object
+              lastSyncTime:
+                format: date-time
+                type: string
+              locationSyncState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: datarepomaintenances.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: DataRepoMaintenance
+    listKind: DataRepoMaintenanceList
+    plural: datarepomaintenances
+    singular: datarepomaintenance
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: DataRepoMaintenance is the Schema for the DataRepoMaintenance
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DataRepoMaintenanceSpec defines the desired state of DataRepoMaintenance
+            properties:
+              backupLocation:
+                type: string
+              clusterName:
+                type: string
+              durationBeforePrune:
+                type: string
+              namespaces:
+                items:
+                  type: string
+                type: array
+              prefix:
+                type: string
+            required:
+            - backupLocation
+            - clusterName
+            - namespaces
+            - prefix
+            type: object
+          status:
+            properties:
+              result:
+                properties:
+                  maintenanceTime:
+                    format: date-time
+                    type: string
+                type: object
             type: object
         type: object
     served: true
@@ -6589,38 +7095,8 @@ spec:
                 type: string
               isInService:
                 type: boolean
-              lastRefreshTime:
-                format: date-time
-                type: string
               qosEnabled:
                 type: boolean
-              resourceList:
-                description: APIResourceList includes all resoure groups and resources
-                  from the cluster
-                items:
-                  properties:
-                    groupVersion:
-                      type: string
-                    resourceKinds:
-                      items:
-                        properties:
-                          kind:
-                            type: string
-                          resource:
-                            type: string
-                        required:
-                        - kind
-                        - resource
-                        type: object
-                      type: array
-                  type: object
-                type: array
-              userClusterFeatures:
-                description: UserClusterFeatures includes all enabled features for
-                  the cluster
-                items:
-                  type: string
-                type: array
               warnings:
                 items:
                   properties:
@@ -6705,11 +7181,275 @@ spec:
                 description: AgentNamespace is the namespace in which the agent (velero,
                   ...) is installed. Default is "qiming-backend"
                 type: string
+              amberApp:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               clientName:
                 description: ClientName is the unique name or id of this instace
                 maxLength: 128
                 minLength: 1
                 type: string
+              controller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              cron:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              dataMover:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  nodeAffinity:
+                    description: Node affinity is a group of node affinity scheduling
+                      rules.
+                    properties:
+                      preferredDuringSchedulingIgnoredDuringExecution:
+                        description: The scheduler will prefer to schedule pods to
+                          nodes that satisfy the affinity expressions specified by
+                          this field, but it may choose a node that violates one or
+                          more of the expressions. The node that is most preferred
+                          is the one with the greatest sum of weights, i.e. for each
+                          node that meets all of the scheduling requirements (resource
+                          request, requiredDuringScheduling affinity expressions,
+                          etc.), compute a sum by iterating through the elements of
+                          this field and adding "weight" to the sum if the node matches
+                          the corresponding matchExpressions; the node(s) with the
+                          highest sum are the most preferred.
+                        items:
+                          description: An empty preferred scheduling term matches
+                            all objects with implicit weight 0 (i.e. it's a no-op).
+                            A null preferred scheduling term matches no objects (i.e.
+                            is also a no-op).
+                          properties:
+                            preference:
+                              description: A node selector term, associated with the
+                                corresponding weight.
+                              properties:
+                                matchExpressions:
+                                  description: A list of node selector requirements
+                                    by node's labels.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchFields:
+                                  description: A list of node selector requirements
+                                    by node's fields.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                              type: object
+                            weight:
+                              description: Weight associated with matching the corresponding
+                                nodeSelectorTerm, in the range 1-100.
+                              format: int32
+                              type: integer
+                          required:
+                          - preference
+                          - weight
+                          type: object
+                        type: array
+                      requiredDuringSchedulingIgnoredDuringExecution:
+                        description: If the affinity requirements specified by this
+                          field are not met at scheduling time, the pod will not be
+                          scheduled onto the node. If the affinity requirements specified
+                          by this field cease to be met at some point during pod execution
+                          (e.g. due to an update), the system may or may not try to
+                          eventually evict the pod from its node.
+                        properties:
+                          nodeSelectorTerms:
+                            description: Required. A list of node selector terms.
+                              The terms are ORed.
+                            items:
+                              description: A null or empty node selector term matches
+                                no objects. The requirements of them are ANDed. The
+                                TopologySelectorTerm type implements a subset of the
+                                NodeSelectorTerm.
+                              properties:
+                                matchExpressions:
+                                  description: A list of node selector requirements
+                                    by node's labels.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchFields:
+                                  description: A list of node selector requirements
+                                    by node's fields.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                              type: object
+                            type: array
+                        required:
+                        - nodeSelectorTerms
+                        type: object
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               deployResticOnAllNodes:
                 type: boolean
               deploymentMode:
@@ -6718,6 +7458,40 @@ spec:
                 type: string
               developmentMode:
                 type: boolean
+              discovery:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              dmAgent:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              featureGates:
+                additionalProperties:
+                  type: boolean
+                type: object
               featureParameters:
                 additionalProperties:
                   type: string
@@ -6758,10 +7532,151 @@ spec:
               keys:
                 description: Keys includes an encrypted identifier of the instance
                 type: string
+              operator:
+                properties:
+                  featureGates:
+                    type: string
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              portal:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              resticDM:
+                properties:
+                  daemonSetOnAllNodes:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               serviceAccountName:
                 description: ServiceAccountName is the service account with all required
                   accesses to do backup and restore
                 type: string
+              snapshot:
+                properties:
+                  InstallVersion:
+                    type: string
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  snapshotDisabled:
+                    type: boolean
+                type: object
+              stub:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              velero:
+                properties:
+                  daemonSetOnAllNodes:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  imageResticHelper:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  plugins:
+                    items:
+                      type: string
+                    type: array
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  resticPodCPULimit:
+                    type: string
+                  resticPodCPURequest:
+                    type: string
+                  resticPodMemLimit:
+                    type: string
+                  resticPodMemRequest:
+                    type: string
+                  snapshotDisabled:
+                    type: boolean
+                  storage:
+                    properties:
+                      accessKey:
+                        type: string
+                      bucketName:
+                        type: string
+                      providerName:
+                        type: string
+                      region:
+                        type: string
+                      s3URL:
+                        type: string
+                      secretKey:
+                        type: string
+                    type: object
+                  useRestic:
+                    type: boolean
+                  veleroPodCPULimit:
+                    type: string
+                  veleroPodCPURequest:
+                    type: string
+                  veleroPodMemLimit:
+                    type: string
+                  veleroPodMemRequest:
+                    type: string
+                type: object
               version:
                 description: Version specifies the installed version
                 type: string
@@ -9613,6 +10528,8 @@ spec:
                         items:
                           type: string
                         type: array
+                      resourceCollector:
+                        type: string
                       templates:
                         items:
                           items:
@@ -9623,6 +10540,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -9639,6 +10558,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -9654,6 +10575,8 @@ spec:
                                       properties:
                                         group:
                                           type: string
+                                        kind:
+                                          type: string
                                         names:
                                           items:
                                             type: string
@@ -9668,6 +10591,8 @@ spec:
                                     items:
                                       properties:
                                         group:
+                                          type: string
+                                        kind:
                                           type: string
                                         names:
                                           items:
@@ -10225,6 +11150,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10239,6 +11166,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -10255,6 +11184,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10269,6 +11200,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -10568,6 +11501,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10582,6 +11517,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -10598,6 +11535,8 @@ spec:
                               properties:
                                 group:
                                   type: string
+                                kind:
+                                  type: string
                                 names:
                                   items:
                                     type: string
@@ -10612,6 +11551,8 @@ spec:
                             items:
                               properties:
                                 group:
+                                  type: string
+                                kind:
                                   type: string
                                 names:
                                   items:
@@ -10867,6 +11808,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -10881,6 +11824,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -10897,6 +11842,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -10911,6 +11858,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11362,6 +12311,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11376,6 +12327,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11392,6 +12345,8 @@ spec:
                           properties:
                             group:
                               type: string
+                            kind:
+                              type: string
                             names:
                               items:
                                 type: string
@@ -11406,6 +12361,8 @@ spec:
                         items:
                           properties:
                             group:
+                              type: string
+                            kind:
                               type: string
                             names:
                               items:
@@ -11661,6 +12618,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -11675,6 +12634,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -11691,6 +12652,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -11705,6 +12668,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -12359,6 +13324,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12373,6 +13340,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -12389,6 +13358,8 @@ spec:
                       properties:
                         group:
                           type: string
+                        kind:
+                          type: string
                         names:
                           items:
                             type: string
@@ -12403,6 +13374,8 @@ spec:
                     items:
                       properties:
                         group:
+                          type: string
+                        kind:
                           type: string
                         names:
                           items:
@@ -13135,6 +14108,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  resourceCollector:
+                    type: string
                   templates:
                     items:
                       items:
@@ -13145,6 +14120,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -13161,6 +14138,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -13176,6 +14155,8 @@ spec:
                                   properties:
                                     group:
                                       type: string
+                                    kind:
+                                      type: string
                                     names:
                                       items:
                                         type: string
@@ -13190,6 +14171,8 @@ spec:
                                 items:
                                   properties:
                                     group:
+                                      type: string
+                                    kind:
                                       type: string
                                     names:
                                       items:
@@ -15198,22 +16181,320 @@ spec:
           spec:
             description: TenantWorkerSpec defines the desired state of TenantWorker
             properties:
+              amberApp:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               backendControllerImage:
+                description: Deprecated
                 type: string
               backendOperatorImage:
+                description: Deprecated
                 type: string
               configs:
                 additionalProperties:
                   type: string
-                description: additional paramaters to configure the tenant worker,
-                  such as tech preview functions.
+                description: Deprecated
+                type: object
+              controller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
+              cron:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               cronImage:
+                description: Deprecated
                 type: string
+              dataMover:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  nodeAffinity:
+                    description: Node affinity is a group of node affinity scheduling
+                      rules.
+                    properties:
+                      preferredDuringSchedulingIgnoredDuringExecution:
+                        description: The scheduler will prefer to schedule pods to
+                          nodes that satisfy the affinity expressions specified by
+                          this field, but it may choose a node that violates one or
+                          more of the expressions. The node that is most preferred
+                          is the one with the greatest sum of weights, i.e. for each
+                          node that meets all of the scheduling requirements (resource
+                          request, requiredDuringScheduling affinity expressions,
+                          etc.), compute a sum by iterating through the elements of
+                          this field and adding "weight" to the sum if the node matches
+                          the corresponding matchExpressions; the node(s) with the
+                          highest sum are the most preferred.
+                        items:
+                          description: An empty preferred scheduling term matches
+                            all objects with implicit weight 0 (i.e. it's a no-op).
+                            A null preferred scheduling term matches no objects (i.e.
+                            is also a no-op).
+                          properties:
+                            preference:
+                              description: A node selector term, associated with the
+                                corresponding weight.
+                              properties:
+                                matchExpressions:
+                                  description: A list of node selector requirements
+                                    by node's labels.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchFields:
+                                  description: A list of node selector requirements
+                                    by node's fields.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                              type: object
+                            weight:
+                              description: Weight associated with matching the corresponding
+                                nodeSelectorTerm, in the range 1-100.
+                              format: int32
+                              type: integer
+                          required:
+                          - preference
+                          - weight
+                          type: object
+                        type: array
+                      requiredDuringSchedulingIgnoredDuringExecution:
+                        description: If the affinity requirements specified by this
+                          field are not met at scheduling time, the pod will not be
+                          scheduled onto the node. If the affinity requirements specified
+                          by this field cease to be met at some point during pod execution
+                          (e.g. due to an update), the system may or may not try to
+                          eventually evict the pod from its node.
+                        properties:
+                          nodeSelectorTerms:
+                            description: Required. A list of node selector terms.
+                              The terms are ORed.
+                            items:
+                              description: A null or empty node selector term matches
+                                no objects. The requirements of them are ANDed. The
+                                TopologySelectorTerm type implements a subset of the
+                                NodeSelectorTerm.
+                              properties:
+                                matchExpressions:
+                                  description: A list of node selector requirements
+                                    by node's labels.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchFields:
+                                  description: A list of node selector requirements
+                                    by node's fields.
+                                  items:
+                                    description: A node selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: The label key that the selector
+                                          applies to.
+                                        type: string
+                                      operator:
+                                        description: Represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists, DoesNotExist. Gt, and
+                                          Lt.
+                                        type: string
+                                      values:
+                                        description: An array of string values. If
+                                          the operator is In or NotIn, the values
+                                          array must be non-empty. If the operator
+                                          is Exists or DoesNotExist, the values array
+                                          must be empty. If the operator is Gt or
+                                          Lt, the values array must have a single
+                                          element, which will be interpreted as an
+                                          integer. This array is replaced during a
+                                          strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                              type: object
+                            type: array
+                        required:
+                        - nodeSelectorTerms
+                        type: object
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               dataMoverImage:
+                description: Deprecated
                 type: string
+              discovery:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               discoveryControllerImage:
+                description: Deprecated
                 type: string
+              dmAgent:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               hookRunner:
                 properties:
                   image:
@@ -15238,20 +16519,107 @@ spec:
                     type: string
                 type: object
               imageRep:
-                description: tenant worker configurations are independent for upgrade
+                description: Deprecated
                 type: string
               isReClaimed:
                 description: IsReClaimed indicts if resources of the tenant worker
                   needs to be reclaimed
                 type: boolean
+              operator:
+                properties:
+                  featureGates:
+                    type: string
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              portal:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               reSyncImageVersion:
-                description: ReSyncVersion indicts if image version resync should
-                  be triggered
+                description: Deprecated
                 type: boolean
+              resticDM:
+                properties:
+                  daemonSetOnAllNodes:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              snapshot:
+                properties:
+                  InstallVersion:
+                    type: string
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  snapshotDisabled:
+                    type: boolean
+                type: object
+              stub:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               tenantLimit:
                 description: TenantLimit caps the maximal tenant instances to be served
                 type: integer
+              tenantProcessor:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               tenantProcessorImage:
+                description: Deprecated
                 type: string
               tenantRefs:
                 description: TenantRefs includes current tenant instanaces for service
@@ -15316,13 +16684,85 @@ spec:
                       type: string
                   type: object
                 type: array
+              velero:
+                properties:
+                  daemonSetOnAllNodes:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  imageResticHelper:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  plugins:
+                    items:
+                      type: string
+                    type: array
+                  removeCRDsOnDeletion:
+                    type: boolean
+                  resticPodCPULimit:
+                    type: string
+                  resticPodCPURequest:
+                    type: string
+                  resticPodMemLimit:
+                    type: string
+                  resticPodMemRequest:
+                    type: string
+                  snapshotDisabled:
+                    type: boolean
+                  storage:
+                    properties:
+                      accessKey:
+                        type: string
+                      bucketName:
+                        type: string
+                      providerName:
+                        type: string
+                      region:
+                        type: string
+                      s3URL:
+                        type: string
+                      secretKey:
+                        type: string
+                    type: object
+                  useRestic:
+                    type: boolean
+                  veleroPodCPULimit:
+                    type: string
+                  veleroPodCPURequest:
+                    type: string
+                  veleroPodMemLimit:
+                    type: string
+                  veleroPodMemRequest:
+                    type: string
+                type: object
               veleroHelperImage:
+                description: Deprecated
                 type: string
               veleroImage:
+                description: Deprecated
                 type: string
               veleroInstallerImage:
+                description: Deprecated
                 type: string
               veleroPlugins:
+                description: Deprecated
                 type: string
               webServer:
                 properties:
@@ -15342,17 +16782,6 @@ spec:
                       a service
                     type: string
                 type: object
-            required:
-            - backendControllerImage
-            - backendOperatorImage
-            - discoveryControllerImage
-            - imageRep
-            - tenantLimit
-            - tenantProcessorImage
-            - veleroHelperImage
-            - veleroImage
-            - veleroInstallerImage
-            - veleroPlugins
             type: object
           status:
             description: TenantWorkerStatus defines the observed state of TenantWorker

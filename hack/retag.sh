@@ -1,21 +1,22 @@
 #!/bin/bash -e
 
-ys1000Repo=registry.cn-shanghai.aliyuncs.com/jibudata
+ys1000Repo=registry.cn-shanghai.aliyuncs.com/jibutech
 
 ys1000Images=(
     ${ys1000Repo}/qiming-operator
+    ${ys1000Repo}/webserver
+    ${ys1000Repo}/hookrunner
+    ${ys1000Repo}/agent-operator
     ${ys1000Repo}/mig-ui
     ${ys1000Repo}/mig-discovery
     ${ys1000Repo}/mig-controller
-    ${ys1000Repo}/velero-installer
-    ${ys1000Repo}/hookrunner
     ${ys1000Repo}/cron
     ${ys1000Repo}/helm-tool
     ${ys1000Repo}/self-restore
     ${ys1000Repo}/data-mover
-    ${ys1000Repo}/webserver
     ${ys1000Repo}/dm-agent
     ${ys1000Repo}/restic-dm
+    ${ys1000Repo}/stub
     ${ys1000Repo}/velero-plugin
 )
 
