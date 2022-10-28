@@ -1369,6 +1369,8 @@ spec:
                 description: BackupPlanRef is Backup Plan spec pointer. Created at
                   plan creation, and readonly
                 properties:
+                  application:
+                    type: string
                   clusterName:
                     description: Name of the cluster CR
                     type: string
@@ -1924,6 +1926,8 @@ spec:
           spec:
             description: BackupPlanSpec defines the desired state of BackupPlan
             properties:
+              application:
+                type: string
               clusterName:
                 description: Name of the cluster CR
                 type: string
@@ -2507,6 +2511,8 @@ spec:
           spec:
             description: BackupSpec defines the desired state of Backup
             properties:
+              application:
+                type: string
               closed:
                 description: Deprecated
                 type: boolean
@@ -4200,6 +4206,8 @@ spec:
                   config:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  kind:
+                    type: string
                   provider:
                     type: string
                 type: object
@@ -6785,6 +6793,147 @@ spec:
     served: true
     storage: true
     subresources: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: managedapplications.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ManagedApplication
+    listKind: ManagedApplicationList
+    plural: managedapplications
+    shortNames:
+    - ma
+    singular: managedapplication
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ManagedApplication is the Schema for the managedApplications
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ManagedApplicationSpec defines the desired state of ManagedApplication
+            properties:
+              cluster:
+                type: string
+              source:
+                items:
+                  properties:
+                    config:
+                      type: object
+                      x-kubernetes-preserve-unknown-fields: true
+                    kind:
+                      type: string
+                    provider:
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              templates:
+                items:
+                  type: string
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
@@ -11913,6 +12062,8 @@ spec:
                     description: BackupPlanRef is Backup Plan spec pointer. Created
                       at plan creation, and readonly
                     properties:
+                      application:
+                        type: string
                       clusterName:
                         description: Name of the cluster CR
                         type: string
@@ -12258,12 +12409,16 @@ spec:
                           type: string
                         type: object
                     type: object
+                  application:
+                    type: string
                   backupName:
                     description: BackupName is Backup Plan Name
                     type: string
                   backupPlanRef:
                     description: BackupPlanRef is Backup plan reference
                     properties:
+                      application:
+                        type: string
                       clusterName:
                         description: Name of the cluster CR
                         type: string
@@ -13068,12 +13223,16 @@ spec:
                       type: string
                     type: object
                 type: object
+              application:
+                type: string
               backupName:
                 description: BackupName is Backup Plan Name
                 type: string
               backupPlanRef:
                 description: BackupPlanRef is Backup plan reference
                 properties:
+                  application:
+                    type: string
                   clusterName:
                     description: Name of the cluster CR
                     type: string
@@ -13981,6 +14140,8 @@ spec:
                       type: string
                     type: object
                 type: object
+              application:
+                type: string
               backupRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
