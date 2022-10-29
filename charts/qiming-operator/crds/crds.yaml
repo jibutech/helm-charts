@@ -3158,6 +3158,13 @@ spec:
                     type: string
                   type: array
                 type: array
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
               volume:
                 properties:
                   excluded:
@@ -9825,6 +9832,13 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
             type: object
           status:
             description: MigPlanStatus defines the observed state of MigPlan
@@ -14558,6 +14572,13 @@ spec:
                     type: string
                   type: array
                 type: array
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
               volume:
                 properties:
                   excluded:
