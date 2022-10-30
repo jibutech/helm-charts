@@ -240,6 +240,15 @@ mysql:
       enabled: false
       size: 20Gi
       storageClass: ""
+    startupProbe:
+      timeoutSeconds: 60
+      initialDelaySeconds: 60
+    readinessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
+    livenessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
 
 clusterpedia:
   persistenceMatchNode: None
