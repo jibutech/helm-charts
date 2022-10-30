@@ -943,6 +943,8 @@ spec:
                     - dataOnly
                     - resourceOnly
                     type: string
+                  schedulePriority:
+                    type: integer
                   sourceClusterName:
                     type: string
                   storageName:
@@ -1086,6 +1088,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               exportResult:
                 properties:
                   DataExportRef:
@@ -3092,6 +3097,8 @@ spec:
                 type: object
               scheduleDisabled:
                 type: boolean
+              schedulePriority:
+                type: integer
               srcClusterRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -5085,6 +5092,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               phase:
@@ -5820,6 +5830,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               phase:
@@ -9121,6 +9134,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               namespaces:
@@ -11779,6 +11795,8 @@ spec:
                         format: date-time
                         type: string
                     type: object
+                  schedulePriority:
+                    type: integer
                   sourceCluster:
                     type: string
                   targetCluster:
@@ -11908,6 +11926,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               importResult:
                 properties:
                   dataImportRef:
@@ -14711,6 +14732,8 @@ spec:
                 description: ScheduleEnabled indicts if restore is automatically restored
                   periodically from corresponding latest available backup job
                 type: boolean
+              schedulePriority:
+                type: integer
               selectedBackupJob:
                 description: SelectedBackupJob is the backup job when restore plan
                   is created it can be usd to support scheduled execution and restore
