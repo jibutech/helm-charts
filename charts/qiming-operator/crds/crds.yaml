@@ -5302,6 +5302,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -5530,6 +5551,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -8693,6 +8718,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -8921,6 +8967,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -9263,6 +9313,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -9491,6 +9562,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -10354,6 +10429,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -10582,6 +10678,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -10657,6 +10757,27 @@ spec:
                           is default behavior while update is to overwrite any existing
                           resource during restore'
                         type: string
+                      imageRegistryMappings:
+                        description: replace images or registries
+                        items:
+                          properties:
+                            sourceName:
+                              description: source image or registry name
+                              type: string
+                            targetName:
+                              description: target image or registry name
+                              type: string
+                            targetPullSecretContents:
+                              description: target pull secret contents
+                              type: string
+                            targetPullSecretName:
+                              description: target pull secret name
+                              type: string
+                            type:
+                              description: type support values are image or registry
+                              type: string
+                          type: object
+                        type: array
                       podNodeSelections:
                         properties:
                           newNodeAffinity:
@@ -10887,6 +11008,10 @@ spec:
                           nodeSelectorPluginAction:
                             type: string
                         type: object
+                      preserveNodePorts:
+                        description: PreserveNodePorts specifies whether to restore
+                          old nodePorts from backup.
+                        type: boolean
                       storageClassMappings:
                         additionalProperties:
                           type: string
@@ -13921,6 +14046,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -14149,6 +14295,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
