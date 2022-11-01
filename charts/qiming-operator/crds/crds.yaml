@@ -4,6 +4,252 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: archivejobs.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ArchiveJob
+    listKind: ArchiveJobList
+    plural: archivejobs
+    singular: archivejob
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ArchiveJob is the Schema for the ArchiveJob API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ArchiveJobSpec defines the desired state of ArchiveJob
+            properties:
+              archivalMethod:
+                properties:
+                  foreverIncremental:
+                    type: boolean
+                  method:
+                    enum:
+                    - active
+                    - synthetic
+                    type: string
+                type: object
+              archivalPolicy:
+                properties:
+                  compressionLevel:
+                    enum:
+                    - auto
+                    - min
+                    - max
+                    type: string
+                  frequency:
+                    type: string
+                  prefix:
+                    type: boolean
+                  reclaimAfterCopy:
+                    type: boolean
+                  retention:
+                    type: integer
+                  worm:
+                    type: boolean
+                type: object
+              clusterName:
+                type: string
+              dataCheckpoint:
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  dataRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots"
+                    type: object
+                type: object
+              dataSource:
+                enum:
+                - backupjob
+                - datalocation
+                type: string
+              jobSource:
+                properties:
+                  backupJobName:
+                    type: string
+                type: object
+              rateLimitValue:
+                type: integer
+              targetRepo:
+                description: migstorage reference
+                properties:
+                  provider:
+                    type: string
+                  storageName:
+                    type: string
+                  transportType:
+                    type: string
+                  type:
+                    type: string
+                type: object
+            type: object
+          status:
+            properties:
+              completionTime:
+                format: date-time
+                type: string
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              expireTime:
+                format: date-time
+                type: string
+              phase:
+                type: string
+              prefix:
+                description: 'Archival prefix: clustername-backupname-archival'
+                type: string
+              snapshotsMap:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                  \n Value is restic snapshots"
+                type: object
+              startTime:
+                format: date-time
+                type: string
+              volumes:
+                items:
+                  properties:
+                    bytesDone:
+                      format: int64
+                      type: integer
+                    claimName:
+                      type: string
+                    namespace:
+                      type: string
+                    phase:
+                      type: string
+                    podName:
+                      type: string
+                    repoId:
+                      type: string
+                    snapshotId:
+                      type: string
+                    totalBytes:
+                      format: int64
+                      type: integer
+                    type:
+                      type: string
+                    volumeName:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: backupjobs.migration.yinhestor.com
 spec:
   group: migration.yinhestor.com
@@ -1208,6 +1454,21 @@ spec:
                     type: object
                   type: array
                 type: object
+              restorePoint:
+                description: Backup restore point
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots"
+                    type: object
+                type: object
               startTimestamp:
                 format: date-time
                 type: string
@@ -2411,10 +2672,11 @@ spec:
                       export:
                         properties:
                           dataRepo:
+                            description: migstorage reference
                             properties:
                               provider:
                                 type: string
-                              storage:
+                              storageName:
                                 type: string
                               transportType:
                                 type: string
@@ -2518,6 +2780,50 @@ spec:
             properties:
               application:
                 type: string
+              archiveContext:
+                properties:
+                  archivalMethod:
+                    properties:
+                      foreverIncremental:
+                        type: boolean
+                      method:
+                        enum:
+                        - active
+                        - synthetic
+                        type: string
+                    type: object
+                  archivalPolicy:
+                    properties:
+                      compressionLevel:
+                        enum:
+                        - auto
+                        - min
+                        - max
+                        type: string
+                      frequency:
+                        type: string
+                      prefix:
+                        type: boolean
+                      reclaimAfterCopy:
+                        type: boolean
+                      retention:
+                        type: integer
+                      worm:
+                        type: boolean
+                    type: object
+                  targetRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                type: object
               closed:
                 description: Deprecated
                 type: boolean
@@ -2532,76 +2838,12 @@ spec:
                     properties:
                       provider:
                         type: string
-                      storageRef:
-                        description: 'ObjectReference contains enough information
-                          to let you inspect or modify the referred object. --- New
-                          uses of this type are discouraged because of difficulty
-                          describing its usage when embedded in APIs. 1. Ignored fields.  It
-                          includes many fields which are not generally honored.  For
-                          instance, ResourceVersion and FieldPath are both very rarely
-                          valid in actual usage. 2. Invalid usage help.  It is impossible
-                          to add specific help for individual usage.  In most embedded
-                          usages, there are particular restrictions like, "must refer
-                          only to types A and B" or "UID not honored" or "name must
-                          be restricted". Those cannot be well described when embedded.
-                          3. Inconsistent validation.  Because the usages are different,
-                          the validation rules are different by usage, which makes
-                          it hard for users to predict what will happen. 4. The fields
-                          are both imprecise and overly precise.  Kind is not a precise
-                          mapping to a URL. This can produce ambiguity during interpretation
-                          and require a REST mapping.  In most cases, the dependency
-                          is on the group,resource tuple and the version of the actual
-                          struct is irrelevant. 5. We cannot easily change it.  Because
-                          this type is embedded in many locations, updates to this
-                          type will affect numerous schemas.  Don''t make new APIs
-                          embed an underspecified API type they do not control. Instead
-                          of using this type, create a locally provided and used type
-                          that is well-focused on your reference. For example, ServiceReferences
-                          for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                          .'
-                        properties:
-                          apiVersion:
-                            description: API version of the referent.
-                            type: string
-                          fieldPath:
-                            description: 'If referring to a piece of an object instead
-                              of an entire object, this string should contain a valid
-                              JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                              For example, if the object reference is to a container
-                              within a pod, this would take on a value like: "spec.containers{name}"
-                              (where "name" refers to the name of the container that
-                              triggered the event) or if no container name is specified
-                              "spec.containers[2]" (container with index 2 in this
-                              pod). This syntax is chosen only to have some well-defined
-                              way of referencing a part of an object. TODO: this design
-                              is not final and this field is subject to change in
-                              the future.'
-                            type: string
-                          kind:
-                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                            type: string
-                          name:
-                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                            type: string
-                          namespace:
-                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                            type: string
-                          resourceVersion:
-                            description: 'Specific resourceVersion to which this reference
-                              is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                            type: string
-                          uid:
-                            description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                            type: string
-                        type: object
+                      storageName:
+                        type: string
                       transportType:
                         type: string
                       type:
                         type: string
-                    required:
-                    - provider
-                    - transportType
-                    - type
                     type: object
                   executeSchedule:
                     type: string
@@ -3039,10 +3281,11 @@ spec:
                           export:
                             properties:
                               dataRepo:
+                                description: migstorage reference
                                 properties:
                                   provider:
                                     type: string
-                                  storage:
+                                  storageName:
                                     type: string
                                   transportType:
                                     type: string
@@ -3099,6 +3342,35 @@ spec:
                 type: boolean
               schedulePriority:
                 type: integer
+              scrubPolicy:
+                description: ScrubPolicy defines the scrub policy for all backupjob
+                  of this backup plan
+                properties:
+                  cluster:
+                    type: string
+                  frequency:
+                    type: string
+                  keepResource:
+                    type: boolean
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
+                type: object
               srcClusterRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -3541,6 +3813,9 @@ spec:
                   - workloads
                   type: object
                 type: array
+              nextArchiveTime:
+                format: date-time
+                type: string
               nextBackupTime:
                 format: date-time
                 type: string
@@ -4792,74 +5067,12 @@ spec:
                 properties:
                   provider:
                     type: string
-                  storageRef:
-                    description: 'ObjectReference contains enough information to let
-                      you inspect or modify the referred object. --- New uses of this
-                      type are discouraged because of difficulty describing its usage
-                      when embedded in APIs. 1. Ignored fields.  It includes many
-                      fields which are not generally honored.  For instance, ResourceVersion
-                      and FieldPath are both very rarely valid in actual usage. 2.
-                      Invalid usage help.  It is impossible to add specific help for
-                      individual usage.  In most embedded usages, there are particular
-                      restrictions like, "must refer only to types A and B" or "UID
-                      not honored" or "name must be restricted". Those cannot be well
-                      described when embedded. 3. Inconsistent validation.  Because
-                      the usages are different, the validation rules are different
-                      by usage, which makes it hard for users to predict what will
-                      happen. 4. The fields are both imprecise and overly precise.  Kind
-                      is not a precise mapping to a URL. This can produce ambiguity
-                      during interpretation and require a REST mapping.  In most cases,
-                      the dependency is on the group,resource tuple and the version
-                      of the actual struct is irrelevant. 5. We cannot easily change
-                      it.  Because this type is embedded in many locations, updates
-                      to this type will affect numerous schemas.  Don''t make new
-                      APIs embed an underspecified API type they do not control. Instead
-                      of using this type, create a locally provided and used type
-                      that is well-focused on your reference. For example, ServiceReferences
-                      for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                      .'
-                    properties:
-                      apiVersion:
-                        description: API version of the referent.
-                        type: string
-                      fieldPath:
-                        description: 'If referring to a piece of an object instead
-                          of an entire object, this string should contain a valid
-                          JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part
-                          of an object. TODO: this design is not final and this field
-                          is subject to change in the future.'
-                        type: string
-                      kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                        type: string
-                      name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                        type: string
-                      namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                        type: string
-                      resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                        type: string
-                      uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                        type: string
-                    type: object
+                  storageName:
+                    type: string
                   transportType:
                     type: string
                   type:
                     type: string
-                required:
-                - provider
-                - transportType
-                - type
                 type: object
               dataSources:
                 additionalProperties:
@@ -5087,6 +5300,7 @@ spec:
                   - dataReference
                   - type
                   type: object
+                description: Deprecated
                 type: object
               errors:
                 items:
@@ -5110,10 +5324,30 @@ spec:
                       type: integer
                     phase:
                       type: string
+                    repoId:
+                      description: Restic repo identifier
+                      type: string
+                    snapshotId:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
                   type: object
+                type: object
+              restorePoint:
+                description: Export restore point
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots"
+                    type: object
                 type: object
               startTimestamp:
                 format: date-time
@@ -5848,6 +6082,11 @@ spec:
                       type: integer
                     phase:
                       type: string
+                    repoId:
+                      description: Restic repo identifier
+                      type: string
+                    snapshotId:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
@@ -6146,6 +6385,216 @@ spec:
                     format: date-time
                     type: string
                 type: object
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: dataverifies.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DataVerify
+    listKind: DataVerifyList
+    plural: dataverifies
+    singular: dataverify
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DataVerify is the Schema for the backups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DataVerifySpec defines the desired configuration of DataVerify
+            properties:
+              archiveAfterVerfiy:
+                description: Do archival after data verify
+                type: boolean
+              backupJobName:
+                type: string
+              clusterName:
+                type: string
+              keepResource:
+                type: boolean
+              prefix:
+                description: Archival repo prefix
+                type: string
+              rateLimitValue:
+                type: integer
+              targetRepo:
+                description: Archival repo
+                properties:
+                  provider:
+                    type: string
+                  storageName:
+                    type: string
+                  transportType:
+                    type: string
+                  type:
+                    type: string
+                type: object
+            required:
+            - backupJobName
+            type: object
+          status:
+            description: DataScurbStatus defines the observed state of DataVerify
+            properties:
+              archivalResult:
+                properties:
+                  volumes:
+                    items:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        claimName:
+                          type: string
+                        namespace:
+                          type: string
+                        phase:
+                          type: string
+                        podName:
+                          type: string
+                        repoId:
+                          type: string
+                        snapshotId:
+                          type: string
+                        totalBytes:
+                          format: int64
+                          type: integer
+                        type:
+                          type: string
+                        volumeName:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              completionTime:
+                format: date-time
+                type: string
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              dataVerifyResult:
+                properties:
+                  resultMap:
+                    additionalProperties:
+                      properties:
+                        podName:
+                          description: Original pod name
+                          type: string
+                        progress:
+                          description: Restore progress
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            totalBytes:
+                              format: int64
+                              type: integer
+                          type: object
+                        result:
+                          type: string
+                        volumeName:
+                          description: PVC name
+                          type: string
+                      type: object
+                    description: Map of SnapshotID to ResultInfo
+                    type: object
+                type: object
+              phase:
+                type: string
+              startTime:
+                format: date-time
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -8229,6 +8678,20 @@ spec:
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
+              dataVerify:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               deployResticOnAllNodes:
                 type: boolean
               deploymentMode:
@@ -10107,6 +10570,8 @@ spec:
           spec:
             description: MigStorageSpec defines the desired state of MigStorage
             properties:
+              archiveStorage:
+                type: boolean
               backupStorageConfig:
                 description: BackupStorageConfig defines config for creating and storing
                   Backups
@@ -15884,6 +16349,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  unused:
+                    items:
+                      type: string
+                    type: array
                   used:
                     items:
                       type: string
@@ -17796,6 +18265,20 @@ spec:
               dataMoverImage:
                 description: Deprecated
                 type: string
+              dataVerify:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               discovery:
                 properties:
                   image:
