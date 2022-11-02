@@ -12604,6 +12604,32 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              volumes:
+                items:
+                  properties:
+                    PodName:
+                      type: string
+                    attributes:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
+                    type:
+                      type: string
+                  type: object
+                type: array
               warnings:
                 items:
                   properties:
