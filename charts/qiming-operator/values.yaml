@@ -25,7 +25,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "main-latest"
+  tag: "release-2.10.0-latest"
 
 image:
   registry:
@@ -92,7 +92,7 @@ components:
     image:
       registry:
       repository: jibutech/mig-ui
-      tag:
+      tag: "main-latest"
   discovery:
     image:
       registry:
@@ -132,7 +132,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.9.0"
+  version: "2.10.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
