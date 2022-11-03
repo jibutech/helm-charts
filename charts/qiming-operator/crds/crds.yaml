@@ -9456,9 +9456,29 @@ spec:
                 type: boolean
               context:
                 properties:
+                  clusterProvider:
+                    type: string
                   namespaceMapping:
                     additionalProperties:
                       type: string
+                    type: object
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
                     type: object
                   sourceCluster:
                     type: string
