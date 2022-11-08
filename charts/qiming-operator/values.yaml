@@ -13,6 +13,7 @@ featureGates:
   DataMover: true
   AmberApp: true
   Stub: true
+  Archive: false
 
 restore: false
 uploadToS3: false
