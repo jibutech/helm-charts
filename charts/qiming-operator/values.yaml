@@ -74,6 +74,11 @@ components:
       registry:
       repository: jibutech/data-mover
       tag:
+  dataVerify:
+    image:
+      registry:
+      repository: jibutech/data-verify
+      tag:
   amberApp:
     image:
       registry:
