@@ -132,7 +132,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          matchType: =
           value: MigControllerDown
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['migcluster']
@@ -141,7 +140,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          matchType: =
           value: MigClusterNotReady
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['migstorage']
@@ -150,7 +148,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          matchType: =
           value: MigStorageNotReady
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupplan']
@@ -159,7 +156,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          matchType: =
           value: SelfBackupPlanNotReady
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupplan']
@@ -168,7 +164,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          matchType: =
           value: BackupPlanNotReady
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
@@ -177,7 +172,6 @@ spec:
         repeatInterval: 30m
         matchers:
         - name: alertname
-          matchType: =
           value: BackupJobLongRunning
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
@@ -186,7 +180,6 @@ spec:
         repeatInterval: 30m
         matchers:
         - name: alertname
-          matchType: =
           value: BackupJobValidationError
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
@@ -195,7 +188,6 @@ spec:
         repeatInterval: 5m
         matchers:
         - name: alertname
-          matchType: =
           value: SelfBackupJobFailed
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
@@ -204,25 +196,20 @@ spec:
         repeatInterval: 5m
         matchers:
         - name: alertname
-          matchType: =
           value: BackupJobFailed
   inhibitRules:
     - sourceMatch:
         - name: alertname
-          matchType: =
           value: MigClusterNotReady
       targetMatch:
         - name: alertname
-          matchType: =
           value: BackupPlanNotReady
       equal: ['migcluster']
     - sourceMatch:
         - name: alertname
-          matchType: =
           value: MigStorageNotReady
       targetMatch:
         - name: alertname
-          matchType: =
           value: BackupPlanNotReady
       equal: ['migstorage']
   receivers:
