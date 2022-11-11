@@ -5945,6 +5945,25 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              policy:
+                description: RestorePolicy defines the policy for a restore
+                properties:
+                  dataVerify:
+                    description: DataVerify indicts if data should be verified during
+                      restore
+                    type: boolean
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
+                  name:
+                    type: string
+                  startOnceAt:
+                    description: StartOnceAt indicts if restore job should be launched
+                      at a certain time automatically
+                    format: date-time
+                    type: string
+                type: object
               restoreJobRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6648,6 +6667,8 @@ spec:
           spec:
             description: HookSpec defines the desired state of Hook
             properties:
+              description:
+                type: string
               execAction:
                 properties:
                   env:
