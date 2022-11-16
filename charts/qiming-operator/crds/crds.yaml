@@ -82,13 +82,39 @@ spec:
                       type:
                         type: string
                     type: object
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               dataSource:
@@ -103,6 +129,8 @@ spec:
                 type: object
               rateLimitValue:
                 type: integer
+              storageClassName:
+                type: string
               targetRepo:
                 description: migstorage reference
                 properties:
@@ -176,13 +204,39 @@ spec:
               prefix:
                 description: 'Archival prefix: clustername-backupname-archival'
                 type: string
+              snapshotVolumes:
+                additionalProperties:
+                  items:
+                    description: Volume info which needed for restore
+                    properties:
+                      capacity:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      claimName:
+                        type: string
+                      namespace:
+                        type: string
+                      podName:
+                        type: string
+                      snapshotId:
+                        type: string
+                      volumeName:
+                        type: string
+                    type: object
+                  type: array
+                description: Repo id to volume restore info
+                type: object
               snapshotsMap:
                 additionalProperties:
                   items:
                     type: string
                   type: array
                 description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                  \n Value is restic snapshots"
+                  \n Value is restic snapshots Info is not enough, have to include
+                  volume info for snapshotId Deprecated"
                 type: object
               startTime:
                 format: date-time
@@ -193,6 +247,12 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    capacity:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
                     claimName:
                       type: string
                     namespace:
@@ -204,6 +264,8 @@ spec:
                     repoId:
                       type: string
                     snapshotId:
+                      type: string
+                    storageClassName:
                       type: string
                     totalBytes:
                       format: int64
@@ -1184,6 +1246,7 @@ spec:
                         type: array
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
@@ -1455,18 +1518,44 @@ spec:
                   type: array
                 type: object
               restorePoint:
-                description: Backup restore point
+                description: Backup restore point - deprecated
                 properties:
                   backupName:
                     description: velero backup name
                     type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               startTimestamp:
@@ -2811,6 +2900,8 @@ spec:
                       worm:
                         type: boolean
                     type: object
+                  storageClassName:
+                    type: string
                   targetRepo:
                     description: migstorage reference
                     properties:
@@ -3370,6 +3461,8 @@ spec:
                           type: object
                         type: object
                     type: object
+                  storageClassName:
+                    type: string
                 type: object
               srcClusterRef:
                 description: 'ObjectReference contains enough information to let you
@@ -5335,18 +5428,44 @@ spec:
                   type: object
                 type: object
               restorePoint:
-                description: Export restore point
+                description: Export restore point - deprecated
                 properties:
                   backupName:
                     description: velero backup name
                     type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               startTimestamp:
@@ -5945,6 +6064,25 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              policy:
+                description: RestorePolicy defines the policy for a restore
+                properties:
+                  dataVerify:
+                    description: DataVerify indicts if data should be verified during
+                      restore
+                    type: boolean
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
+                  name:
+                    type: string
+                  startOnceAt:
+                    description: StartOnceAt indicts if restore job should be launched
+                      at a certain time automatically
+                    format: date-time
+                    type: string
+                type: object
               restoreJobRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6448,6 +6586,8 @@ spec:
                 type: string
               rateLimitValue:
                 type: integer
+              storageClassName:
+                type: string
               targetRepo:
                 description: Archival repo
                 properties:
@@ -6474,6 +6614,12 @@ spec:
                         bytesDone:
                           format: int64
                           type: integer
+                        capacity:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         claimName:
                           type: string
                         namespace:
@@ -6485,6 +6631,8 @@ spec:
                         repoId:
                           type: string
                         snapshotId:
+                          type: string
+                        storageClassName:
                           type: string
                         totalBytes:
                           format: int64
@@ -6648,6 +6796,8 @@ spec:
           spec:
             description: HookSpec defines the desired state of Hook
             properties:
+              description:
+                type: string
               execAction:
                 properties:
                   env:
