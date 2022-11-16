@@ -39,7 +39,7 @@ spec:
       for: 5m
       labels:
         severity: critical
-        namespace: qiming-migration
+        namespace: {{ .Release.Namespace }}
     - alert: MigClusterNotReady
       annotations:
         description: {{ `Cluster {{$labels.migcluster}} is not ready, connected state is {{$labels.connected}}.` }}
