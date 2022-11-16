@@ -3,7 +3,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    release: prometheus
+    {{- with .Values.alarm.labels }}
+    {{ toYaml . }}
+    {{- end }}
   name: metrics-monitor
   namespace: {{ .Release.Namespace }}
 spec:
@@ -22,7 +24,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    release: prometheus
+    {{- with .Values.alarm.labels }}
+    {{ toYaml . }}
+    {{- end }}
   name: ys1000-alerts
   namespace: {{ .Release.Namespace }}
 spec:
@@ -123,7 +127,9 @@ metadata:
   name: ys1000-alertmanager-config
   namespace: {{ .Release.Namespace }}
   labels:
-    release: prometheus
+    {{- with .Values.alarm.labels }}
+    {{ toYaml . }}
+    {{- end }}
     alertmanagerConfig: ys1000
 spec:
   route:
