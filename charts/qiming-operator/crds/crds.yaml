@@ -3442,6 +3442,7 @@ spec:
                   frequency:
                     type: string
                   keepResource:
+                    description: Deprecated
                     type: boolean
                   qos:
                     description: Qos define for cluster
@@ -4667,6 +4668,14 @@ spec:
                 type: array
               namespaceSelector:
                 properties:
+                  excludes:
+                    items:
+                      type: string
+                    type: array
+                  includes:
+                    items:
+                      type: string
+                    type: array
                   matchExpressions:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
@@ -4708,6 +4717,7 @@ spec:
                       are ANDed.
                     type: object
                   names:
+                    description: Deprecated
                     items:
                       type: string
                     type: array
@@ -6580,6 +6590,7 @@ spec:
               clusterName:
                 type: string
               keepResource:
+                description: Deprecated
                 type: boolean
               prefix:
                 description: Archival repo prefix
