@@ -16,7 +16,6 @@ spec:
   {{- else }}
   isUINodePortEnabled: false
   {{- end }}
-  keys: {{ .Values.migconfig.keys }}
   agentNamespace: {{ .Values.velero.namespace }}
   featureGates:
     {{- range $key, $val := .Values.featureGates }}
