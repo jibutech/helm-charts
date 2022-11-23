@@ -29,6 +29,6 @@ dependencies:
   version: 9.x.x
   condition: tags.mysql
 - name: clusterpedia
-  repository: https://clusterpedia-io.github.io/clusterpedia/charts
-  version: 0.x.x
+  repository: https://clusterpedia-io.github.io/clusterpedia-helm
+  version: 1.x.x
   condition: tags.clusterpedia
