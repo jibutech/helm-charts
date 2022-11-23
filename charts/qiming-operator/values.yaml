@@ -308,12 +308,26 @@ clusterpedia:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/apiserver
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
 
   clustersynchroManager:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/clustersynchro-manager
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
     featureGates:
 
       ## @param AllowSyncAllCustomResources is a feature gate for the ClusterSynchro to allow syncing of all custom resources
@@ -332,6 +346,13 @@ clusterpedia:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
 
   postgresql:
     enabled: false
