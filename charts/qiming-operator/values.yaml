@@ -310,11 +310,11 @@ clusterpedia:
       tag: v0.6.0-alpha.0
     resources:
       requests:
-        cpu: 100m
+        cpu: 200m
         memory: 128Mi
       limits:
-        cpu: "1"
-        memory: 2Gi
+        cpu: "2"
+        memory: 1Gi
 
   clustersynchroManager:
     image:
@@ -323,7 +323,7 @@ clusterpedia:
       tag: v0.6.0-alpha.0
     resources:
       requests:
-        cpu: 100m
+        cpu: 50m
         memory: 128Mi
       limits:
         cpu: "1"
@@ -342,17 +342,19 @@ clusterpedia:
 
   ## controller manager config
   controllerManager:
+    # disable controller manager
+    replicaCount: 0
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
       tag: v0.6.0-alpha.0
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 50m
+        memory: 64Mi
       limits:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 200m
+        memory: 256Mi
 
   postgresql:
     enabled: false
