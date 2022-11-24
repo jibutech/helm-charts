@@ -54,7 +54,7 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-529eb463-20221109131403
+      tag: v1.7.0-jibu-dev-146eb2ff-20221122233612
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
@@ -83,7 +83,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.0.7
+      tag: 0.0.8
   dmAgent:
     image:
       registry:
@@ -204,8 +204,8 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 1000m
-    memory: 1024Mi
+    cpu: 200m
+    memory: 256Mi
   requests:
     cpu: 100m
     memory: 128Mi
@@ -237,9 +237,16 @@ mysql:
     username: "webserver"
     password: "passw0rd"
   primary:
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     persistence:
       enabled: false
-      size: 20Gi
+      size: 30Gi
       storageClass: ""
     startupProbe:
       timeoutSeconds: 60
@@ -250,6 +257,38 @@ mysql:
     livenessProbe:
       initialDelaySeconds: 60
       timeoutSeconds: 60
+    configuration: |-
+      [mysqld]
+      default_authentication_plugin=mysql_native_password
+      skip-name-resolve
+      explicit_defaults_for_timestamp
+      basedir=/opt/bitnami/mysql
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      datadir=/bitnami/mysql/data
+      tmpdir=/opt/bitnami/mysql/tmp
+      max_allowed_packet=16M
+      bind-address=*
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+      log-error=/opt/bitnami/mysql/logs/mysqld.log
+      character-set-server=UTF8
+      collation-server=utf8_general_ci
+      slow_query_log=0
+      slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
+      long_query_time=10.0
+      binlog_expire_logs_seconds=3600
+
+      [client]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      default-character-set=UTF8
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+
+      [manager]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
 
 clusterpedia:
   persistenceMatchNode: None
@@ -264,12 +303,26 @@ clusterpedia:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/apiserver
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 200m
+        memory: 128Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi
 
   clustersynchroManager:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/clustersynchro-manager
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
     featureGates:
 
       ## @param AllowSyncAllCustomResources is a feature gate for the ClusterSynchro to allow syncing of all custom resources
@@ -284,10 +337,19 @@ clusterpedia:
 
   ## controller manager config
   controllerManager:
+    # disable controller manager
+    replicaCount: 0
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
       tag: v0.6.0-alpha.0
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
 
   postgresql:
     enabled: false
@@ -329,4 +391,3 @@ alarm:
     apiSecret: ""
   webhook:
     enabled: false
-
