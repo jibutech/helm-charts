@@ -33,7 +33,7 @@
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明 <br>
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator/crds'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -162,7 +162,7 @@
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator/crds'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
    
    例如：
