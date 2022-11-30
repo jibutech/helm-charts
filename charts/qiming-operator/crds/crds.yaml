@@ -4,6 +4,314 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: archivejobs.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ArchiveJob
+    listKind: ArchiveJobList
+    plural: archivejobs
+    singular: archivejob
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ArchiveJob is the Schema for the ArchiveJob API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ArchiveJobSpec defines the desired state of ArchiveJob
+            properties:
+              archivalMethod:
+                properties:
+                  foreverIncremental:
+                    type: boolean
+                  method:
+                    enum:
+                    - active
+                    - synthetic
+                    type: string
+                type: object
+              archivalPolicy:
+                properties:
+                  compressionLevel:
+                    enum:
+                    - auto
+                    - min
+                    - max
+                    type: string
+                  frequency:
+                    type: string
+                  prefix:
+                    type: boolean
+                  reclaimAfterCopy:
+                    type: boolean
+                  retention:
+                    type: integer
+                  worm:
+                    type: boolean
+                type: object
+              clusterName:
+                type: string
+              dataCheckpoint:
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  dataRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
+                    type: object
+                type: object
+              dataSource:
+                enum:
+                - backupjob
+                - datalocation
+                type: string
+              jobSource:
+                properties:
+                  backupJobName:
+                    type: string
+                type: object
+              rateLimitValue:
+                type: integer
+              storageClassName:
+                type: string
+              targetRepo:
+                description: migstorage reference
+                properties:
+                  provider:
+                    type: string
+                  storageName:
+                    type: string
+                  transportType:
+                    type: string
+                  type:
+                    type: string
+                type: object
+            type: object
+          status:
+            properties:
+              completionTime:
+                format: date-time
+                type: string
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              expireTime:
+                format: date-time
+                type: string
+              phase:
+                type: string
+              prefix:
+                description: 'Archival prefix: clustername-backupname-archival'
+                type: string
+              snapshotVolumes:
+                additionalProperties:
+                  items:
+                    description: Volume info which needed for restore
+                    properties:
+                      capacity:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      claimName:
+                        type: string
+                      namespace:
+                        type: string
+                      podName:
+                        type: string
+                      snapshotId:
+                        type: string
+                      volumeName:
+                        type: string
+                    type: object
+                  type: array
+                description: Repo id to volume restore info
+                type: object
+              snapshotsMap:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                  \n Value is restic snapshots Info is not enough, have to include
+                  volume info for snapshotId Deprecated"
+                type: object
+              startTime:
+                format: date-time
+                type: string
+              volumes:
+                items:
+                  properties:
+                    bytesDone:
+                      format: int64
+                      type: integer
+                    capacity:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    claimName:
+                      type: string
+                    namespace:
+                      type: string
+                    phase:
+                      type: string
+                    podName:
+                      type: string
+                    repoId:
+                      type: string
+                    snapshotId:
+                      type: string
+                    storageClassName:
+                      type: string
+                    totalBytes:
+                      format: int64
+                      type: integer
+                    type:
+                      type: string
+                    volumeName:
+                      type: string
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: backupjobs.migration.yinhestor.com
 spec:
   group: migration.yinhestor.com
@@ -14,7 +322,23 @@ spec:
     singular: backupjob
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .spec.backupContext.sourceClusterName
+      name: Cluster
+      type: string
+    - jsonPath: .status.startTimestamp
+      name: Start Time
+      type: date
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.completionTimestamp
+      name: Completion Time
+      type: date
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: BackupJob is the Schema for the backupjobs API
@@ -36,8 +360,192 @@ spec:
             properties:
               backupContext:
                 properties:
+                  clusterProvider:
+                    type: string
                   copyMethod:
                     type: string
+                  failureHooks:
+                    items:
+                      properties:
+                        execAction:
+                          properties:
+                            command:
+                              items:
+                                type: string
+                              type: array
+                            env:
+                              items:
+                                description: EnvVar represents an environment variable
+                                  present in a Container.
+                                properties:
+                                  name:
+                                    description: Name of the environment variable.
+                                      Must be a C_IDENTIFIER.
+                                    type: string
+                                  value:
+                                    description: 'Variable references $(VAR_NAME)
+                                      are expanded using the previous defined environment
+                                      variables in the container and any service environment
+                                      variables. If a variable cannot be resolved,
+                                      the reference in the input string will be unchanged.
+                                      The $(VAR_NAME) syntax can be escaped with a
+                                      double $$, ie: $$(VAR_NAME). Escaped references
+                                      will never be expanded, regardless of whether
+                                      the variable exists or not. Defaults to "".'
+                                    type: string
+                                  valueFrom:
+                                    description: Source for the environment variable's
+                                      value. Cannot be used if value is not empty.
+                                    properties:
+                                      configMapKeyRef:
+                                        description: Selects a key of a ConfigMap.
+                                        properties:
+                                          key:
+                                            description: The key to select.
+                                            type: string
+                                          name:
+                                            description: 'Name of the referent. More
+                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                              TODO: Add other useful fields. apiVersion,
+                                              kind, uid?'
+                                            type: string
+                                          optional:
+                                            description: Specify whether the ConfigMap
+                                              or its key must be defined
+                                            type: boolean
+                                        required:
+                                        - key
+                                        type: object
+                                      fieldRef:
+                                        description: 'Selects a field of the pod:
+                                          supports metadata.name, metadata.namespace,
+                                          `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
+                                          spec.nodeName, spec.serviceAccountName,
+                                          status.hostIP, status.podIP, status.podIPs.'
+                                        properties:
+                                          apiVersion:
+                                            description: Version of the schema the
+                                              FieldPath is written in terms of, defaults
+                                              to "v1".
+                                            type: string
+                                          fieldPath:
+                                            description: Path of the field to select
+                                              in the specified API version.
+                                            type: string
+                                        required:
+                                        - fieldPath
+                                        type: object
+                                      resourceFieldRef:
+                                        description: 'Selects a resource of the container:
+                                          only resources limits and requests (limits.cpu,
+                                          limits.memory, limits.ephemeral-storage,
+                                          requests.cpu, requests.memory and requests.ephemeral-storage)
+                                          are currently supported.'
+                                        properties:
+                                          containerName:
+                                            description: 'Container name: required
+                                              for volumes, optional for env vars'
+                                            type: string
+                                          divisor:
+                                            anyOf:
+                                            - type: integer
+                                            - type: string
+                                            description: Specifies the output format
+                                              of the exposed resources, defaults to
+                                              "1"
+                                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                            x-kubernetes-int-or-string: true
+                                          resource:
+                                            description: 'Required: resource to select'
+                                            type: string
+                                        required:
+                                        - resource
+                                        type: object
+                                      secretKeyRef:
+                                        description: Selects a key of a secret in
+                                          the pod's namespace
+                                        properties:
+                                          key:
+                                            description: The key of the secret to
+                                              select from.  Must be a valid secret
+                                              key.
+                                            type: string
+                                          name:
+                                            description: 'Name of the referent. More
+                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                              TODO: Add other useful fields. apiVersion,
+                                              kind, uid?'
+                                            type: string
+                                          optional:
+                                            description: Specify whether the Secret
+                                              or its key must be defined
+                                            type: boolean
+                                        required:
+                                        - key
+                                        type: object
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            envFrom:
+                              items:
+                                description: EnvFromSource represents the source of
+                                  a set of ConfigMaps
+                                properties:
+                                  configMapRef:
+                                    description: The ConfigMap to select from
+                                    properties:
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          must be defined
+                                        type: boolean
+                                    type: object
+                                  prefix:
+                                    description: An optional identifier to prepend
+                                      to each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                    type: string
+                                  secretRef:
+                                    description: The Secret to select from
+                                    properties:
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret must
+                                          be defined
+                                        type: boolean
+                                    type: object
+                                type: object
+                              type: array
+                            operation:
+                              type: string
+                            script:
+                              type: string
+                          type: object
+                        ignoreFailure:
+                          type: boolean
+                        image:
+                          type: string
+                        maxRetryCount:
+                          type: integer
+                        name:
+                          type: string
+                        runOn:
+                          type: string
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    type: array
                   locationInfo:
                     properties:
                       prefix:
@@ -536,6 +1044,24 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
                   resourceFilterRules:
                     properties:
                       namespaces:
@@ -720,11 +1246,14 @@ spec:
                         type: array
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
                     - resourceOnly
                     type: string
+                  schedulePriority:
+                    type: integer
                   sourceClusterName:
                     type: string
                   storageName:
@@ -868,6 +1397,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               exportResult:
                 properties:
                   DataExportRef:
@@ -985,6 +1517,47 @@ spec:
                     type: object
                   type: array
                 type: object
+              restorePoint:
+                description: Backup restore point - deprecated
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
+                    type: object
+                type: object
               startTimestamp:
                 format: date-time
                 type: string
@@ -1097,6 +1670,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
@@ -1150,6 +1724,8 @@ spec:
                 description: BackupPlanRef is Backup Plan spec pointer. Created at
                   plan creation, and readonly
                 properties:
+                  application:
+                    type: string
                   clusterName:
                     description: Name of the cluster CR
                     type: string
@@ -1705,6 +2281,8 @@ spec:
           spec:
             description: BackupPlanSpec defines the desired state of BackupPlan
             properties:
+              application:
+                type: string
               clusterName:
                 description: Name of the cluster CR
                 type: string
@@ -2183,10 +2761,11 @@ spec:
                       export:
                         properties:
                           dataRepo:
+                            description: migstorage reference
                             properties:
                               provider:
                                 type: string
-                              storage:
+                              storageName:
                                 type: string
                               transportType:
                                 type: string
@@ -2213,6 +2792,7 @@ spec:
                     type: object
                 type: object
               resourceType:
+                description: Deprecated
                 enum:
                 - default
                 - dataOnly
@@ -2288,7 +2868,56 @@ spec:
           spec:
             description: BackupSpec defines the desired state of Backup
             properties:
+              application:
+                type: string
+              archiveContext:
+                properties:
+                  archivalMethod:
+                    properties:
+                      foreverIncremental:
+                        type: boolean
+                      method:
+                        enum:
+                        - active
+                        - synthetic
+                        type: string
+                    type: object
+                  archivalPolicy:
+                    properties:
+                      compressionLevel:
+                        enum:
+                        - auto
+                        - min
+                        - max
+                        type: string
+                      frequency:
+                        type: string
+                      prefix:
+                        type: boolean
+                      reclaimAfterCopy:
+                        type: boolean
+                      retention:
+                        type: integer
+                      worm:
+                        type: boolean
+                    type: object
+                  storageClassName:
+                    type: string
+                  targetRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                type: object
               closed:
+                description: Deprecated
                 type: boolean
               cluster:
                 type: string
@@ -2301,76 +2930,12 @@ spec:
                     properties:
                       provider:
                         type: string
-                      storageRef:
-                        description: 'ObjectReference contains enough information
-                          to let you inspect or modify the referred object. --- New
-                          uses of this type are discouraged because of difficulty
-                          describing its usage when embedded in APIs. 1. Ignored fields.  It
-                          includes many fields which are not generally honored.  For
-                          instance, ResourceVersion and FieldPath are both very rarely
-                          valid in actual usage. 2. Invalid usage help.  It is impossible
-                          to add specific help for individual usage.  In most embedded
-                          usages, there are particular restrictions like, "must refer
-                          only to types A and B" or "UID not honored" or "name must
-                          be restricted". Those cannot be well described when embedded.
-                          3. Inconsistent validation.  Because the usages are different,
-                          the validation rules are different by usage, which makes
-                          it hard for users to predict what will happen. 4. The fields
-                          are both imprecise and overly precise.  Kind is not a precise
-                          mapping to a URL. This can produce ambiguity during interpretation
-                          and require a REST mapping.  In most cases, the dependency
-                          is on the group,resource tuple and the version of the actual
-                          struct is irrelevant. 5. We cannot easily change it.  Because
-                          this type is embedded in many locations, updates to this
-                          type will affect numerous schemas.  Don''t make new APIs
-                          embed an underspecified API type they do not control. Instead
-                          of using this type, create a locally provided and used type
-                          that is well-focused on your reference. For example, ServiceReferences
-                          for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                          .'
-                        properties:
-                          apiVersion:
-                            description: API version of the referent.
-                            type: string
-                          fieldPath:
-                            description: 'If referring to a piece of an object instead
-                              of an entire object, this string should contain a valid
-                              JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                              For example, if the object reference is to a container
-                              within a pod, this would take on a value like: "spec.containers{name}"
-                              (where "name" refers to the name of the container that
-                              triggered the event) or if no container name is specified
-                              "spec.containers[2]" (container with index 2 in this
-                              pod). This syntax is chosen only to have some well-defined
-                              way of referencing a part of an object. TODO: this design
-                              is not final and this field is subject to change in
-                              the future.'
-                            type: string
-                          kind:
-                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                            type: string
-                          name:
-                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                            type: string
-                          namespace:
-                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                            type: string
-                          resourceVersion:
-                            description: 'Specific resourceVersion to which this reference
-                              is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                            type: string
-                          uid:
-                            description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                            type: string
-                        type: object
+                      storageName:
+                        type: string
                       transportType:
                         type: string
                       type:
                         type: string
-                    required:
-                    - provider
-                    - transportType
-                    - type
                     type: object
                   executeSchedule:
                     type: string
@@ -2808,10 +3373,11 @@ spec:
                           export:
                             properties:
                               dataRepo:
+                                description: migstorage reference
                                 properties:
                                   provider:
                                     type: string
-                                  storage:
+                                  storageName:
                                     type: string
                                   transportType:
                                     type: string
@@ -2838,6 +3404,7 @@ spec:
                         type: object
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
@@ -2846,8 +3413,60 @@ spec:
                   retention:
                     type: integer
                 type: object
+              qos:
+                description: Qos define for cluster
+                properties:
+                  customRate:
+                    type: integer
+                  level:
+                    type: string
+                  workRange:
+                    additionalProperties:
+                      description: Qos time ranges
+                      properties:
+                        startTime:
+                          type: string
+                        stopTime:
+                          type: string
+                      type: object
+                    type: object
+                type: object
               scheduleDisabled:
                 type: boolean
+              schedulePriority:
+                type: integer
+              scrubPolicy:
+                description: ScrubPolicy defines the scrub policy for all backupjob
+                  of this backup plan
+                properties:
+                  cluster:
+                    type: string
+                  frequency:
+                    type: string
+                  keepResource:
+                    description: Deprecated
+                    type: boolean
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
+                  storageClassName:
+                    type: string
+                type: object
               srcClusterRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -2914,6 +3533,13 @@ spec:
                     type: string
                   type: array
                 type: array
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
               volume:
                 properties:
                   excluded:
@@ -3004,6 +3630,185 @@ spec:
                 type: array
               currentJobName:
                 type: string
+              failureHooks:
+                items:
+                  properties:
+                    execAction:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          items:
+                            description: EnvVar represents an environment variable
+                              present in a Container.
+                            properties:
+                              name:
+                                description: Name of the environment variable. Must
+                                  be a C_IDENTIFIER.
+                                type: string
+                              value:
+                                description: 'Variable references $(VAR_NAME) are
+                                  expanded using the previous defined environment
+                                  variables in the container and any service environment
+                                  variables. If a variable cannot be resolved, the
+                                  reference in the input string will be unchanged.
+                                  The $(VAR_NAME) syntax can be escaped with a double
+                                  $$, ie: $$(VAR_NAME). Escaped references will never
+                                  be expanded, regardless of whether the variable
+                                  exists or not. Defaults to "".'
+                                type: string
+                              valueFrom:
+                                description: Source for the environment variable's
+                                  value. Cannot be used if value is not empty.
+                                properties:
+                                  configMapKeyRef:
+                                    description: Selects a key of a ConfigMap.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          or its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                  fieldRef:
+                                    description: 'Selects a field of the pod: supports
+                                      metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                      `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                      spec.serviceAccountName, status.hostIP, status.podIP,
+                                      status.podIPs.'
+                                    properties:
+                                      apiVersion:
+                                        description: Version of the schema the FieldPath
+                                          is written in terms of, defaults to "v1".
+                                        type: string
+                                      fieldPath:
+                                        description: Path of the field to select in
+                                          the specified API version.
+                                        type: string
+                                    required:
+                                    - fieldPath
+                                    type: object
+                                  resourceFieldRef:
+                                    description: 'Selects a resource of the container:
+                                      only resources limits and requests (limits.cpu,
+                                      limits.memory, limits.ephemeral-storage, requests.cpu,
+                                      requests.memory and requests.ephemeral-storage)
+                                      are currently supported.'
+                                    properties:
+                                      containerName:
+                                        description: 'Container name: required for
+                                          volumes, optional for env vars'
+                                        type: string
+                                      divisor:
+                                        anyOf:
+                                        - type: integer
+                                        - type: string
+                                        description: Specifies the output format of
+                                          the exposed resources, defaults to "1"
+                                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                        x-kubernetes-int-or-string: true
+                                      resource:
+                                        description: 'Required: resource to select'
+                                        type: string
+                                    required:
+                                    - resource
+                                    type: object
+                                  secretKeyRef:
+                                    description: Selects a key of a secret in the
+                                      pod's namespace
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        envFrom:
+                          items:
+                            description: EnvFromSource represents the source of a
+                              set of ConfigMaps
+                            properties:
+                              configMapRef:
+                                description: The ConfigMap to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap must
+                                      be defined
+                                    type: boolean
+                                type: object
+                              prefix:
+                                description: An optional identifier to prepend to
+                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                type: string
+                              secretRef:
+                                description: The Secret to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret must be
+                                      defined
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        operation:
+                          type: string
+                        script:
+                          type: string
+                      type: object
+                    ignoreFailure:
+                      type: boolean
+                    image:
+                      type: string
+                    maxRetryCount:
+                      type: integer
+                    name:
+                      type: string
+                    runOn:
+                      type: string
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                type: array
               fullBackups:
                 description: Keep track of the full backupjobs
                 properties:
@@ -3104,6 +3909,9 @@ spec:
                   - workloads
                   type: object
                 type: array
+              nextArchiveTime:
+                format: date-time
+                type: string
               nextBackupTime:
                 format: date-time
                 type: string
@@ -3783,6 +4591,8 @@ spec:
                   config:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  kind:
+                    type: string
                   provider:
                     type: string
                 type: object
@@ -3860,6 +4670,14 @@ spec:
                 type: array
               namespaceSelector:
                 properties:
+                  excludes:
+                    items:
+                      type: string
+                    type: array
+                  includes:
+                    items:
+                      type: string
+                    type: array
                   matchExpressions:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
@@ -3901,6 +4719,7 @@ spec:
                       are ANDed.
                     type: object
                   names:
+                    description: Deprecated
                     items:
                       type: string
                     type: array
@@ -4127,6 +4946,8 @@ spec:
               kubeconfig:
                 description: KubeConfig provides the access information of the cluster
                 type: string
+              maintenanceMode:
+                type: boolean
               provider:
                 description: Provider
                 type: string
@@ -4231,6 +5052,8 @@ spec:
               phase:
                 description: Phase describes the overall status of Cluster
                 type: string
+              underMaintenance:
+                type: boolean
               version:
                 description: Version reflects the k8s version of cluster
                 type: string
@@ -4349,74 +5172,12 @@ spec:
                 properties:
                   provider:
                     type: string
-                  storageRef:
-                    description: 'ObjectReference contains enough information to let
-                      you inspect or modify the referred object. --- New uses of this
-                      type are discouraged because of difficulty describing its usage
-                      when embedded in APIs. 1. Ignored fields.  It includes many
-                      fields which are not generally honored.  For instance, ResourceVersion
-                      and FieldPath are both very rarely valid in actual usage. 2.
-                      Invalid usage help.  It is impossible to add specific help for
-                      individual usage.  In most embedded usages, there are particular
-                      restrictions like, "must refer only to types A and B" or "UID
-                      not honored" or "name must be restricted". Those cannot be well
-                      described when embedded. 3. Inconsistent validation.  Because
-                      the usages are different, the validation rules are different
-                      by usage, which makes it hard for users to predict what will
-                      happen. 4. The fields are both imprecise and overly precise.  Kind
-                      is not a precise mapping to a URL. This can produce ambiguity
-                      during interpretation and require a REST mapping.  In most cases,
-                      the dependency is on the group,resource tuple and the version
-                      of the actual struct is irrelevant. 5. We cannot easily change
-                      it.  Because this type is embedded in many locations, updates
-                      to this type will affect numerous schemas.  Don''t make new
-                      APIs embed an underspecified API type they do not control. Instead
-                      of using this type, create a locally provided and used type
-                      that is well-focused on your reference. For example, ServiceReferences
-                      for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                      .'
-                    properties:
-                      apiVersion:
-                        description: API version of the referent.
-                        type: string
-                      fieldPath:
-                        description: 'If referring to a piece of an object instead
-                          of an entire object, this string should contain a valid
-                          JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part
-                          of an object. TODO: this design is not final and this field
-                          is subject to change in the future.'
-                        type: string
-                      kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                        type: string
-                      name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                        type: string
-                      namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                        type: string
-                      resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                        type: string
-                      uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                        type: string
-                    type: object
+                  storageName:
+                    type: string
                   transportType:
                     type: string
                   type:
                     type: string
-                required:
-                - provider
-                - transportType
-                - type
                 type: object
               dataSources:
                 additionalProperties:
@@ -4644,11 +5405,15 @@ spec:
                   - dataReference
                   - type
                   type: object
+                description: Deprecated
                 type: object
               errors:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               phase:
@@ -4664,10 +5429,56 @@ spec:
                       type: integer
                     phase:
                       type: string
+                    repoId:
+                      description: Restic repo identifier
+                      type: string
+                    snapshotId:
+                      type: string
                     totalBytes:
                       format: int64
                       type: integer
                   type: object
+                type: object
+              restorePoint:
+                description: Export restore point - deprecated
+                properties:
+                  backupName:
+                    description: velero backup name
+                    type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
+                  snapshotsMap:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
+                    type: object
                 type: object
               startTimestamp:
                 format: date-time
@@ -4866,6 +5677,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -5094,6 +5926,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -5240,6 +6076,25 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              policy:
+                description: RestorePolicy defines the policy for a restore
+                properties:
+                  dataVerify:
+                    description: DataVerify indicts if data should be verified during
+                      restore
+                    type: boolean
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
+                  name:
+                    type: string
+                  startOnceAt:
+                    description: StartOnceAt indicts if restore job should be launched
+                      at a certain time automatically
+                    format: date-time
+                    type: string
+                type: object
               restoreJobRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -5359,6 +6214,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               phase:
@@ -5373,6 +6231,11 @@ spec:
                       format: int64
                       type: integer
                     phase:
+                      type: string
+                    repoId:
+                      description: Restic repo identifier
+                      type: string
+                    snapshotId:
                       type: string
                     totalBytes:
                       format: int64
@@ -5691,6 +6554,227 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: dataverifies.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DataVerify
+    listKind: DataVerifyList
+    plural: dataverifies
+    singular: dataverify
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DataVerify is the Schema for the backups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DataVerifySpec defines the desired configuration of DataVerify
+            properties:
+              archiveAfterVerfiy:
+                description: Do archival after data verify
+                type: boolean
+              backupJobName:
+                type: string
+              clusterName:
+                type: string
+              keepResource:
+                description: Deprecated
+                type: boolean
+              prefix:
+                description: Archival repo prefix
+                type: string
+              rateLimitValue:
+                type: integer
+              storageClassName:
+                type: string
+              targetRepo:
+                description: Archival repo
+                properties:
+                  provider:
+                    type: string
+                  storageName:
+                    type: string
+                  transportType:
+                    type: string
+                  type:
+                    type: string
+                type: object
+            required:
+            - backupJobName
+            type: object
+          status:
+            description: DataScurbStatus defines the observed state of DataVerify
+            properties:
+              archivalResult:
+                properties:
+                  volumes:
+                    items:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        capacity:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        claimName:
+                          type: string
+                        namespace:
+                          type: string
+                        phase:
+                          type: string
+                        podName:
+                          type: string
+                        repoId:
+                          type: string
+                        snapshotId:
+                          type: string
+                        storageClassName:
+                          type: string
+                        totalBytes:
+                          format: int64
+                          type: integer
+                        type:
+                          type: string
+                        volumeName:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              completionTime:
+                format: date-time
+                type: string
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              dataVerifyResult:
+                properties:
+                  resultMap:
+                    additionalProperties:
+                      properties:
+                        podName:
+                          description: Original pod name
+                          type: string
+                        progress:
+                          description: Restore progress
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            totalBytes:
+                              format: int64
+                              type: integer
+                          type: object
+                        result:
+                          type: string
+                        volumeName:
+                          description: PVC name
+                          type: string
+                      type: object
+                    description: Map of SnapshotID to ResultInfo
+                    type: object
+                type: object
+              phase:
+                type: string
+              startTime:
+                format: date-time
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: hooks.ys.jibudata.com
 spec:
   group: ys.jibudata.com
@@ -5725,6 +6809,8 @@ spec:
           spec:
             description: HookSpec defines the desired state of Hook
             properties:
+              description:
+                type: string
               execAction:
                 properties:
                   env:
@@ -5868,6 +6954,166 @@ spec:
                           type: object
                       type: object
                     type: array
+                  failure:
+                    properties:
+                      command:
+                        items:
+                          type: string
+                        type: array
+                      env:
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must
+                                be a C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previous defined environment variables in
+                                the container and any service environment variables.
+                                If a variable cannot be resolved, the reference in
+                                the input string will be unchanged. The $(VAR_NAME)
+                                syntax can be escaped with a double $$, ie: $$(VAR_NAME).
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to
+                                "".'
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports
+                                    metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in
+                                        the specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container:
+                                    only resources limits and requests (limits.cpu,
+                                    limits.memory, limits.ephemeral-storage, requests.cpu,
+                                    requests.memory and requests.ephemeral-storage)
+                                    are currently supported.'
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      type: string
+                                    divisor:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Specifies the output format of
+                                        the exposed resources, defaults to "1"
+                                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      envFrom:
+                        items:
+                          description: EnvFromSource represents the source of a set
+                            of ConfigMaps
+                          properties:
+                            configMapRef:
+                              description: The ConfigMap to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the ConfigMap must
+                                    be defined
+                                  type: boolean
+                              type: object
+                            prefix:
+                              description: An optional identifier to prepend to each
+                                key in the ConfigMap. Must be a C_IDENTIFIER.
+                              type: string
+                            secretRef:
+                              description: The Secret to select from
+                              properties:
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret must be
+                                    defined
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
+                      operation:
+                        type: string
+                      script:
+                        type: string
+                    type: object
                   post:
                     properties:
                       command:
@@ -6204,6 +7450,147 @@ spec:
     served: true
     storage: true
     subresources: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: managedapplications.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ManagedApplication
+    listKind: ManagedApplicationList
+    plural: managedapplications
+    shortNames:
+    - ma
+    singular: managedapplication
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ManagedApplication is the Schema for the managedApplications
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ManagedApplicationSpec defines the desired state of ManagedApplication
+            properties:
+              cluster:
+                type: string
+              source:
+                items:
+                  properties:
+                    config:
+                      type: object
+                      x-kubernetes-preserve-unknown-fields: true
+                    kind:
+                      type: string
+                    provider:
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              templates:
+                items:
+                  type: string
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
@@ -6892,6 +8279,8 @@ spec:
                 - isOnPublicCloud
                 - provider
                 type: object
+              maintenanceMode:
+                type: boolean
               qos:
                 description: Qos define for cluster
                 properties:
@@ -7096,6 +8485,8 @@ spec:
               isInService:
                 type: boolean
               qosEnabled:
+                type: boolean
+              underMaintenance:
                 type: boolean
               warnings:
                 items:
@@ -7449,6 +8840,20 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                type: object
+              dataVerify:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               deployResticOnAllNodes:
                 type: boolean
@@ -7952,6 +9357,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -8180,6 +9606,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -8189,9 +9619,29 @@ spec:
                 type: boolean
               context:
                 properties:
+                  clusterProvider:
+                    type: string
                   namespaceMapping:
                     additionalProperties:
                       type: string
+                    type: object
+                  qos:
+                    description: Qos define for cluster
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: Qos time ranges
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
                     type: object
                   sourceCluster:
                     type: string
@@ -8330,6 +9780,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               itinerary:
                 type: string
               namespaces:
@@ -8522,6 +9975,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -8750,6 +10224,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -9091,6 +10569,13 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
             type: object
           status:
             description: MigPlanStatus defines the observed state of MigPlan
@@ -9268,6 +10753,8 @@ spec:
           spec:
             description: MigStorageSpec defines the desired state of MigStorage
             properties:
+              archiveStorage:
+                type: boolean
               backupStorageConfig:
                 description: BackupStorageConfig defines config for creating and storing
                   Backups
@@ -9606,6 +11093,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -9834,6 +11342,10 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -9909,6 +11421,27 @@ spec:
                           is default behavior while update is to overwrite any existing
                           resource during restore'
                         type: string
+                      imageRegistryMappings:
+                        description: replace images or registries
+                        items:
+                          properties:
+                            sourceName:
+                              description: source image or registry name
+                              type: string
+                            targetName:
+                              description: target image or registry name
+                              type: string
+                            targetPullSecretContents:
+                              description: target pull secret contents
+                              type: string
+                            targetPullSecretName:
+                              description: target pull secret name
+                              type: string
+                            type:
+                              description: type support values are image or registry
+                              type: string
+                          type: object
+                        type: array
                       podNodeSelections:
                         properties:
                           newNodeAffinity:
@@ -10139,6 +11672,10 @@ spec:
                           nodeSelectorPluginAction:
                             type: string
                         type: object
+                      preserveNodePorts:
+                        description: PreserveNodePorts specifies whether to restore
+                          old nodePorts from backup.
+                        type: boolean
                       storageClassMappings:
                         additionalProperties:
                           type: string
@@ -10152,6 +11689,188 @@ spec:
                     type: string
                   dataOnly:
                     type: boolean
+                  failureHooks:
+                    items:
+                      properties:
+                        execAction:
+                          properties:
+                            command:
+                              items:
+                                type: string
+                              type: array
+                            env:
+                              items:
+                                description: EnvVar represents an environment variable
+                                  present in a Container.
+                                properties:
+                                  name:
+                                    description: Name of the environment variable.
+                                      Must be a C_IDENTIFIER.
+                                    type: string
+                                  value:
+                                    description: 'Variable references $(VAR_NAME)
+                                      are expanded using the previous defined environment
+                                      variables in the container and any service environment
+                                      variables. If a variable cannot be resolved,
+                                      the reference in the input string will be unchanged.
+                                      The $(VAR_NAME) syntax can be escaped with a
+                                      double $$, ie: $$(VAR_NAME). Escaped references
+                                      will never be expanded, regardless of whether
+                                      the variable exists or not. Defaults to "".'
+                                    type: string
+                                  valueFrom:
+                                    description: Source for the environment variable's
+                                      value. Cannot be used if value is not empty.
+                                    properties:
+                                      configMapKeyRef:
+                                        description: Selects a key of a ConfigMap.
+                                        properties:
+                                          key:
+                                            description: The key to select.
+                                            type: string
+                                          name:
+                                            description: 'Name of the referent. More
+                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                              TODO: Add other useful fields. apiVersion,
+                                              kind, uid?'
+                                            type: string
+                                          optional:
+                                            description: Specify whether the ConfigMap
+                                              or its key must be defined
+                                            type: boolean
+                                        required:
+                                        - key
+                                        type: object
+                                      fieldRef:
+                                        description: 'Selects a field of the pod:
+                                          supports metadata.name, metadata.namespace,
+                                          `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
+                                          spec.nodeName, spec.serviceAccountName,
+                                          status.hostIP, status.podIP, status.podIPs.'
+                                        properties:
+                                          apiVersion:
+                                            description: Version of the schema the
+                                              FieldPath is written in terms of, defaults
+                                              to "v1".
+                                            type: string
+                                          fieldPath:
+                                            description: Path of the field to select
+                                              in the specified API version.
+                                            type: string
+                                        required:
+                                        - fieldPath
+                                        type: object
+                                      resourceFieldRef:
+                                        description: 'Selects a resource of the container:
+                                          only resources limits and requests (limits.cpu,
+                                          limits.memory, limits.ephemeral-storage,
+                                          requests.cpu, requests.memory and requests.ephemeral-storage)
+                                          are currently supported.'
+                                        properties:
+                                          containerName:
+                                            description: 'Container name: required
+                                              for volumes, optional for env vars'
+                                            type: string
+                                          divisor:
+                                            anyOf:
+                                            - type: integer
+                                            - type: string
+                                            description: Specifies the output format
+                                              of the exposed resources, defaults to
+                                              "1"
+                                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                            x-kubernetes-int-or-string: true
+                                          resource:
+                                            description: 'Required: resource to select'
+                                            type: string
+                                        required:
+                                        - resource
+                                        type: object
+                                      secretKeyRef:
+                                        description: Selects a key of a secret in
+                                          the pod's namespace
+                                        properties:
+                                          key:
+                                            description: The key of the secret to
+                                              select from.  Must be a valid secret
+                                              key.
+                                            type: string
+                                          name:
+                                            description: 'Name of the referent. More
+                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                              TODO: Add other useful fields. apiVersion,
+                                              kind, uid?'
+                                            type: string
+                                          optional:
+                                            description: Specify whether the Secret
+                                              or its key must be defined
+                                            type: boolean
+                                        required:
+                                        - key
+                                        type: object
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            envFrom:
+                              items:
+                                description: EnvFromSource represents the source of
+                                  a set of ConfigMaps
+                                properties:
+                                  configMapRef:
+                                    description: The ConfigMap to select from
+                                    properties:
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          must be defined
+                                        type: boolean
+                                    type: object
+                                  prefix:
+                                    description: An optional identifier to prepend
+                                      to each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                    type: string
+                                  secretRef:
+                                    description: The Secret to select from
+                                    properties:
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret must
+                                          be defined
+                                        type: boolean
+                                    type: object
+                                type: object
+                              type: array
+                            operation:
+                              type: string
+                            script:
+                              type: string
+                          type: object
+                        ignoreFailure:
+                          type: boolean
+                        image:
+                          type: string
+                        maxRetryCount:
+                          type: integer
+                        name:
+                          type: string
+                        runOn:
+                          type: string
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    type: array
                   importData:
                     type: boolean
                   namespaceMapping:
@@ -10705,6 +12424,27 @@ spec:
                           type: array
                         type: array
                     type: object
+                  restorePolicy:
+                    description: RestorePolicy defines the policy for a restore
+                    properties:
+                      dataVerify:
+                        description: DataVerify indicts if data should be verified
+                          during restore
+                        type: boolean
+                      frequency:
+                        description: Frequency uses cron format same as frequency
+                          in backup policy
+                        type: string
+                      name:
+                        type: string
+                      startOnceAt:
+                        description: StartOnceAt indicts if restore job should be
+                          launched at a certain time automatically
+                        format: date-time
+                        type: string
+                    type: object
+                  schedulePriority:
+                    type: integer
                   sourceCluster:
                     type: string
                   targetCluster:
@@ -10834,6 +12574,9 @@ spec:
                 items:
                   type: string
                 type: array
+              executionTimestamp:
+                format: date-time
+                type: string
               importResult:
                 properties:
                   dataImportRef:
@@ -11044,6 +12787,32 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              volumes:
+                items:
+                  properties:
+                    PodName:
+                      type: string
+                    attributes:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
+                    type:
+                      type: string
+                  type: object
+                type: array
               warnings:
                 items:
                   properties:
@@ -11127,6 +12896,8 @@ spec:
                     description: BackupPlanRef is Backup Plan spec pointer. Created
                       at plan creation, and readonly
                     properties:
+                      application:
+                        type: string
                       clusterName:
                         description: Name of the cluster CR
                         type: string
@@ -11472,12 +13243,16 @@ spec:
                           type: string
                         type: object
                     type: object
+                  application:
+                    type: string
                   backupName:
                     description: BackupName is Backup Plan Name
                     type: string
                   backupPlanRef:
                     description: BackupPlanRef is Backup plan reference
                     properties:
+                      application:
+                        type: string
                       clusterName:
                         description: Name of the cluster CR
                         type: string
@@ -12282,12 +14057,16 @@ spec:
                       type: string
                     type: object
                 type: object
+              application:
+                type: string
               backupName:
                 description: BackupName is Backup Plan Name
                 type: string
               backupPlanRef:
                 description: BackupPlanRef is Backup plan reference
                 properties:
+                  application:
+                    type: string
                   clusterName:
                     description: Name of the cluster CR
                     type: string
@@ -12962,6 +14741,27 @@ spec:
                       behavior while update is to overwrite any existing resource
                       during restore'
                     type: string
+                  imageRegistryMappings:
+                    description: replace images or registries
+                    items:
+                      properties:
+                        sourceName:
+                          description: source image or registry name
+                          type: string
+                        targetName:
+                          description: target image or registry name
+                          type: string
+                        targetPullSecretContents:
+                          description: target pull secret contents
+                          type: string
+                        targetPullSecretName:
+                          description: target pull secret name
+                          type: string
+                        type:
+                          description: type support values are image or registry
+                          type: string
+                      type: object
+                    type: array
                   podNodeSelections:
                     properties:
                       newNodeAffinity:
@@ -13190,11 +14990,17 @@ spec:
                       nodeSelectorPluginAction:
                         type: string
                     type: object
+                  preserveNodePorts:
+                    description: PreserveNodePorts specifies whether to restore old
+                      nodePorts from backup.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
                     type: object
                 type: object
+              application:
+                type: string
               backupRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -13538,11 +15344,20 @@ spec:
               policy:
                 description: RestorePolicy defines the policy for a restore
                 properties:
+                  dataVerify:
+                    description: DataVerify indicts if data should be verified during
+                      restore
+                    type: boolean
                   frequency:
                     description: Frequency uses cron format same as frequency in backup
                       policy
                     type: string
                   name:
+                    type: string
+                  startOnceAt:
+                    description: StartOnceAt indicts if restore job should be launched
+                      at a certain time automatically
+                    format: date-time
                     type: string
                 type: object
               resourceSelector:
@@ -13591,12 +15406,26 @@ spec:
                 description: ScheduleEnabled indicts if restore is automatically restored
                   periodically from corresponding latest available backup job
                 type: boolean
+              schedulePriority:
+                type: integer
+              selectedBackupJob:
+                description: SelectedBackupJob is the backup job when restore plan
+                  is created it can be usd to support scheduled execution and restore
+                  retry
+                type: string
               templates:
                 items:
                   items:
                     type: string
                   type: array
                 type: array
+              timeouts:
+                properties:
+                  executionTimeout:
+                    type: string
+                  queueTimeout:
+                    type: string
+                type: object
               volume:
                 properties:
                   excluded:
@@ -13680,6 +15509,185 @@ spec:
                       type: object
                     reason:
                       type: string
+                  type: object
+                type: array
+              failureHooks:
+                items:
+                  properties:
+                    execAction:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          items:
+                            description: EnvVar represents an environment variable
+                              present in a Container.
+                            properties:
+                              name:
+                                description: Name of the environment variable. Must
+                                  be a C_IDENTIFIER.
+                                type: string
+                              value:
+                                description: 'Variable references $(VAR_NAME) are
+                                  expanded using the previous defined environment
+                                  variables in the container and any service environment
+                                  variables. If a variable cannot be resolved, the
+                                  reference in the input string will be unchanged.
+                                  The $(VAR_NAME) syntax can be escaped with a double
+                                  $$, ie: $$(VAR_NAME). Escaped references will never
+                                  be expanded, regardless of whether the variable
+                                  exists or not. Defaults to "".'
+                                type: string
+                              valueFrom:
+                                description: Source for the environment variable's
+                                  value. Cannot be used if value is not empty.
+                                properties:
+                                  configMapKeyRef:
+                                    description: Selects a key of a ConfigMap.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          or its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                  fieldRef:
+                                    description: 'Selects a field of the pod: supports
+                                      metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                      `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                      spec.serviceAccountName, status.hostIP, status.podIP,
+                                      status.podIPs.'
+                                    properties:
+                                      apiVersion:
+                                        description: Version of the schema the FieldPath
+                                          is written in terms of, defaults to "v1".
+                                        type: string
+                                      fieldPath:
+                                        description: Path of the field to select in
+                                          the specified API version.
+                                        type: string
+                                    required:
+                                    - fieldPath
+                                    type: object
+                                  resourceFieldRef:
+                                    description: 'Selects a resource of the container:
+                                      only resources limits and requests (limits.cpu,
+                                      limits.memory, limits.ephemeral-storage, requests.cpu,
+                                      requests.memory and requests.ephemeral-storage)
+                                      are currently supported.'
+                                    properties:
+                                      containerName:
+                                        description: 'Container name: required for
+                                          volumes, optional for env vars'
+                                        type: string
+                                      divisor:
+                                        anyOf:
+                                        - type: integer
+                                        - type: string
+                                        description: Specifies the output format of
+                                          the exposed resources, defaults to "1"
+                                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                        x-kubernetes-int-or-string: true
+                                      resource:
+                                        description: 'Required: resource to select'
+                                        type: string
+                                    required:
+                                    - resource
+                                    type: object
+                                  secretKeyRef:
+                                    description: Selects a key of a secret in the
+                                      pod's namespace
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        envFrom:
+                          items:
+                            description: EnvFromSource represents the source of a
+                              set of ConfigMaps
+                            properties:
+                              configMapRef:
+                                description: The ConfigMap to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap must
+                                      be defined
+                                    type: boolean
+                                type: object
+                              prefix:
+                                description: An optional identifier to prepend to
+                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                type: string
+                              secretRef:
+                                description: The Secret to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret must be
+                                      defined
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        operation:
+                          type: string
+                        script:
+                          type: string
+                      type: object
+                    ignoreFailure:
+                      type: boolean
+                    image:
+                      type: string
+                    maxRetryCount:
+                      type: integer
+                    name:
+                      type: string
+                    runOn:
+                      type: string
+                    timeoutSeconds:
+                      type: integer
                   type: object
                 type: array
               incompatibleNamespaces:
@@ -14547,6 +16555,10 @@ spec:
               backupPolicy:
                 properties:
                   total:
+                    items:
+                      type: string
+                    type: array
+                  unused:
                     items:
                       type: string
                     type: array
@@ -16462,6 +18474,20 @@ spec:
               dataMoverImage:
                 description: Deprecated
                 type: string
+              dataVerify:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                type: object
               discovery:
                 properties:
                   image:
