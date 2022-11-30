@@ -2792,6 +2792,7 @@ spec:
                     type: object
                 type: object
               resourceType:
+                description: Deprecated
                 enum:
                 - default
                 - dataOnly
@@ -3403,6 +3404,7 @@ spec:
                         type: object
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
