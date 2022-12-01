@@ -373,7 +373,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
-      tag: 8.0.29-debian-10-r23
+      tag: 8.0.29
     auth:
       rootPassword: "passw0rd"
       database: clusterpedia
