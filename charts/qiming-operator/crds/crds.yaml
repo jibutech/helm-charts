@@ -82,13 +82,39 @@ spec:
                       type:
                         type: string
                     type: object
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               dataSource:
@@ -103,6 +129,8 @@ spec:
                 type: object
               rateLimitValue:
                 type: integer
+              storageClassName:
+                type: string
               targetRepo:
                 description: migstorage reference
                 properties:
@@ -176,13 +204,39 @@ spec:
               prefix:
                 description: 'Archival prefix: clustername-backupname-archival'
                 type: string
+              snapshotVolumes:
+                additionalProperties:
+                  items:
+                    description: Volume info which needed for restore
+                    properties:
+                      capacity:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      claimName:
+                        type: string
+                      namespace:
+                        type: string
+                      podName:
+                        type: string
+                      snapshotId:
+                        type: string
+                      volumeName:
+                        type: string
+                    type: object
+                  type: array
+                description: Repo id to volume restore info
+                type: object
               snapshotsMap:
                 additionalProperties:
                   items:
                     type: string
                   type: array
                 description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                  \n Value is restic snapshots"
+                  \n Value is restic snapshots Info is not enough, have to include
+                  volume info for snapshotId Deprecated"
                 type: object
               startTime:
                 format: date-time
@@ -193,6 +247,12 @@ spec:
                     bytesDone:
                       format: int64
                       type: integer
+                    capacity:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
                     claimName:
                       type: string
                     namespace:
@@ -204,6 +264,8 @@ spec:
                     repoId:
                       type: string
                     snapshotId:
+                      type: string
+                    storageClassName:
                       type: string
                     totalBytes:
                       format: int64
@@ -1184,6 +1246,7 @@ spec:
                         type: array
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
@@ -1455,18 +1518,44 @@ spec:
                   type: array
                 type: object
               restorePoint:
-                description: Backup restore point
+                description: Backup restore point - deprecated
                 properties:
                   backupName:
                     description: velero backup name
                     type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               startTimestamp:
@@ -2703,6 +2792,7 @@ spec:
                     type: object
                 type: object
               resourceType:
+                description: Deprecated
                 enum:
                 - default
                 - dataOnly
@@ -2811,6 +2901,8 @@ spec:
                       worm:
                         type: boolean
                     type: object
+                  storageClassName:
+                    type: string
                   targetRepo:
                     description: migstorage reference
                     properties:
@@ -2830,8 +2922,7 @@ spec:
               cluster:
                 type: string
               exportPolicy:
-                description: DataExportPolicy defines the data export policy for backup.
-                  Deprecated
+                description: Deprecated
                 properties:
                   dataRepo:
                     description: migstorage reference
@@ -3075,29 +3166,7 @@ spec:
                   type: object
                 type: array
               migStorageRef:
-                description: 'ObjectReference contains enough information to let you
-                  inspect or modify the referred object. --- New uses of this type
-                  are discouraged because of difficulty describing its usage when
-                  embedded in APIs. 1. Ignored fields.  It includes many fields which
-                  are not generally honored.  For instance, ResourceVersion and FieldPath
-                  are both very rarely valid in actual usage. 2. Invalid usage help.  It
-                  is impossible to add specific help for individual usage.  In most
-                  embedded usages, there are particular restrictions like, "must refer
-                  only to types A and B" or "UID not honored" or "name must be restricted".
-                  Those cannot be well described when embedded. 3. Inconsistent validation.  Because
-                  the usages are different, the validation rules are different by
-                  usage, which makes it hard for users to predict what will happen.
-                  4. The fields are both imprecise and overly precise.  Kind is not
-                  a precise mapping to a URL. This can produce ambiguity during interpretation
-                  and require a REST mapping.  In most cases, the dependency is on
-                  the group,resource tuple and the version of the actual struct is
-                  irrelevant. 5. We cannot easily change it.  Because this type is
-                  embedded in many locations, updates to this type will affect numerous
-                  schemas.  Don''t make new APIs embed an underspecified API type
-                  they do not control. Instead of using this type, create a locally
-                  provided and used type that is well-focused on your reference. For
-                  example, ServiceReferences for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                  .'
+                description: Deprecated
                 properties:
                   apiVersion:
                     description: API version of the referent.
@@ -3210,7 +3279,7 @@ spec:
                   type: object
                 type: array
               policy:
-                description: BackupPolicy defines the policy for backup. Deprecated
+                description: Deprecated
                 properties:
                   copyMethod:
                     type: string
@@ -3312,6 +3381,7 @@ spec:
                         type: object
                     type: object
                   resourceType:
+                    description: Deprecated
                     enum:
                     - default
                     - dataOnly
@@ -3351,6 +3421,7 @@ spec:
                   frequency:
                     type: string
                   keepResource:
+                    description: Deprecated
                     type: boolean
                   qos:
                     description: Qos define for cluster
@@ -3370,31 +3441,11 @@ spec:
                           type: object
                         type: object
                     type: object
+                  storageClassName:
+                    type: string
                 type: object
               srcClusterRef:
-                description: 'ObjectReference contains enough information to let you
-                  inspect or modify the referred object. --- New uses of this type
-                  are discouraged because of difficulty describing its usage when
-                  embedded in APIs. 1. Ignored fields.  It includes many fields which
-                  are not generally honored.  For instance, ResourceVersion and FieldPath
-                  are both very rarely valid in actual usage. 2. Invalid usage help.  It
-                  is impossible to add specific help for individual usage.  In most
-                  embedded usages, there are particular restrictions like, "must refer
-                  only to types A and B" or "UID not honored" or "name must be restricted".
-                  Those cannot be well described when embedded. 3. Inconsistent validation.  Because
-                  the usages are different, the validation rules are different by
-                  usage, which makes it hard for users to predict what will happen.
-                  4. The fields are both imprecise and overly precise.  Kind is not
-                  a precise mapping to a URL. This can produce ambiguity during interpretation
-                  and require a REST mapping.  In most cases, the dependency is on
-                  the group,resource tuple and the version of the actual struct is
-                  irrelevant. 5. We cannot easily change it.  Because this type is
-                  embedded in many locations, updates to this type will affect numerous
-                  schemas.  Don''t make new APIs embed an underspecified API type
-                  they do not control. Instead of using this type, create a locally
-                  provided and used type that is well-focused on your reference. For
-                  example, ServiceReferences for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                  .'
+                description: Deprecated
                 properties:
                   apiVersion:
                     description: API version of the referent.
@@ -3438,6 +3489,7 @@ spec:
                   type: array
                 type: array
               timeouts:
+                description: Deprecated
                 properties:
                   executionTimeout:
                     type: string
@@ -4574,6 +4626,14 @@ spec:
                 type: array
               namespaceSelector:
                 properties:
+                  excludes:
+                    items:
+                      type: string
+                    type: array
+                  includes:
+                    items:
+                      type: string
+                    type: array
                   matchExpressions:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
@@ -4615,6 +4675,7 @@ spec:
                       are ANDed.
                     type: object
                   names:
+                    description: Deprecated
                     items:
                       type: string
                     type: array
@@ -5335,18 +5396,44 @@ spec:
                   type: object
                 type: object
               restorePoint:
-                description: Export restore point
+                description: Export restore point - deprecated
                 properties:
                   backupName:
                     description: velero backup name
                     type: string
+                  snapshotVolumes:
+                    additionalProperties:
+                      items:
+                        description: Volume info which needed for restore
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          claimName:
+                            type: string
+                          namespace:
+                            type: string
+                          podName:
+                            type: string
+                          snapshotId:
+                            type: string
+                          volumeName:
+                            type: string
+                        type: object
+                      type: array
+                    description: Repo id to volume restore info
+                    type: object
                   snapshotsMap:
                     additionalProperties:
                       items:
                         type: string
                       type: array
                     description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots"
+                      \n Value is restic snapshots Info is not enough, have to include
+                      volume info for snapshotId Deprecated"
                     type: object
                 type: object
               startTimestamp:
@@ -5952,6 +6039,25 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              policy:
+                description: RestorePolicy defines the policy for a restore
+                properties:
+                  dataVerify:
+                    description: DataVerify indicts if data should be verified during
+                      restore
+                    type: boolean
+                  frequency:
+                    description: Frequency uses cron format same as frequency in backup
+                      policy
+                    type: string
+                  name:
+                    type: string
+                  startOnceAt:
+                    description: StartOnceAt indicts if restore job should be launched
+                      at a certain time automatically
+                    format: date-time
+                    type: string
+                type: object
               restoreJobRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6449,12 +6555,15 @@ spec:
               clusterName:
                 type: string
               keepResource:
+                description: Deprecated
                 type: boolean
               prefix:
                 description: Archival repo prefix
                 type: string
               rateLimitValue:
                 type: integer
+              storageClassName:
+                type: string
               targetRepo:
                 description: Archival repo
                 properties:
@@ -6481,6 +6590,12 @@ spec:
                         bytesDone:
                           format: int64
                           type: integer
+                        capacity:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         claimName:
                           type: string
                         namespace:
@@ -6492,6 +6607,8 @@ spec:
                         repoId:
                           type: string
                         snapshotId:
+                          type: string
+                        storageClassName:
                           type: string
                         totalBytes:
                           format: int64
@@ -7416,6 +7533,8 @@ spec:
                 type: object
               skipConfig:
                 type: boolean
+              skipValidation:
+                type: boolean
               srcCluster:
                 type: string
               syncPolicy:
@@ -7796,6 +7915,8 @@ spec:
           spec:
             description: HookSpec defines the desired state of Hook
             properties:
+              description:
+                type: string
               execAction:
                 properties:
                   env:
@@ -12042,6 +12163,206 @@ spec:
         type: object
     served: true
     storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: resourcesyncs.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: ResourceSync
+    listKind: ResourceSyncList
+    plural: resourcesyncs
+    singular: resourcesync
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: ResourceSync is the Schema for the resourcesync API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drConfigName:
+                type: string
+              drInstanceName:
+                type: string
+              operation:
+                description: Operation
+                type: string
+              primaryName:
+                type: string
+            required:
+            - drConfigName
+            - drInstanceName
+            type: object
+          status:
+            properties:
+              jobStatusInfo:
+                additionalProperties:
+                  properties:
+                    backups:
+                      items:
+                        properties:
+                          completedItems:
+                            type: integer
+                          completionTime:
+                            format: date-time
+                            type: string
+                          criticalErrors:
+                            items:
+                              properties:
+                                code:
+                                  type: string
+                                durable:
+                                  type: boolean
+                                message:
+                                  type: string
+                                params:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                reason:
+                                  type: string
+                              type: object
+                            type: array
+                          name:
+                            type: string
+                          startTime:
+                            format: date-time
+                            type: string
+                          status:
+                            type: string
+                          succeeded:
+                            type: boolean
+                          totalItems:
+                            type: integer
+                          warnings:
+                            items:
+                              properties:
+                                code:
+                                  type: string
+                                durable:
+                                  type: boolean
+                                message:
+                                  type: string
+                                params:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                reason:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                    restores:
+                      items:
+                        properties:
+                          completedItems:
+                            type: integer
+                          completionTime:
+                            format: date-time
+                            type: string
+                          criticalErrors:
+                            items:
+                              properties:
+                                code:
+                                  type: string
+                                durable:
+                                  type: boolean
+                                message:
+                                  type: string
+                                params:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                reason:
+                                  type: string
+                              type: object
+                            type: array
+                          name:
+                            type: string
+                          startTime:
+                            format: date-time
+                            type: string
+                          status:
+                            type: string
+                          succeeded:
+                            type: boolean
+                          totalItems:
+                            type: integer
+                          warnings:
+                            items:
+                              properties:
+                                code:
+                                  type: string
+                                durable:
+                                  type: boolean
+                                message:
+                                  type: string
+                                params:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                reason:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                  type: object
+                type: object
+              operationResults:
+                items:
+                  properties:
+                    completionTime:
+                      format: date-time
+                      type: string
+                    operation:
+                      description: Operation
+                      type: string
+                    performOn:
+                      type: string
+                    result:
+                      description: Operation result
+                      type: string
+                    startTime:
+                      format: date-time
+                      type: string
+                  type: object
+                type: array
+              phase:
+                description: Phase
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
