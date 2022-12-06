@@ -62,7 +62,7 @@ components:
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
     - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
-    - jibutech/velero-plugin:2.10.2
+    - jibutech/velero-plugin:release-2.10.2-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
