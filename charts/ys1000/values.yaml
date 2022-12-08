@@ -1,4 +1,4 @@
-# Default values for qiming-operator.
+# Default values for ys1000.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -14,6 +14,7 @@ featureGates:
   AmberApp: true
   Stub: true
   Archive: false
+  DisasterRecovery: false
 
 restore: false
 uploadToS3: false
