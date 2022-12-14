@@ -26,7 +26,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "2.10.1"
+  tag: "2.10.2"
 
 image:
   registry:
@@ -61,8 +61,8 @@ components:
       tag: v1.7.0
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b1c547a-202209050731
-    - jibutech/velero-plugin:2.10.1
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b99d08e-20221122124825
+    - jibutech/velero-plugin:2.10.2
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -138,7 +138,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "2.10.1"
+  version: "2.10.2"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -233,7 +233,7 @@ mysql:
   image:
     registry: registry.cn-shanghai.aliyuncs.com
     repository: jibutech/mysql
-    tag: 8.0.29-debian-10-r23
+    tag: 8.0.29
     pullPolicy: IfNotPresent
     pullSecrets: []
   auth:
@@ -373,7 +373,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
-      tag: 8.0.29-debian-10-r23
+      tag: 8.0.29
     auth:
       rootPassword: "passw0rd"
       database: clusterpedia
