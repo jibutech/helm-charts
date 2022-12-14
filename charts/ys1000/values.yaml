@@ -100,6 +100,7 @@ components:
       registry:
       repository: jibutech/mig-ui
       tag:
+    serviceType: NodePort
   discovery:
     image:
       registry:
@@ -139,7 +140,6 @@ migconfig:
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
-  isUINodePortEnabled: true
   UIadminPassword: "passw0rd"
 
 s3Config:
@@ -303,7 +303,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/apiserver
-      tag: v0.6.0-alpha.0
+      tag: v0.6.0
     resources:
       requests:
         cpu: 200m
@@ -316,7 +316,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/clustersynchro-manager
-      tag: v0.6.0-alpha.0
+      tag: v0.6.0
     resources:
       requests:
         cpu: 50m
@@ -343,7 +343,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
-      tag: v0.6.0-alpha.0
+      tag: v0.6.0
     resources:
       requests:
         cpu: 50m
@@ -351,6 +351,13 @@ clusterpedia:
       limits:
         cpu: 200m
         memory: 256Mi
+
+  hookJob:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/cloudshell
+      tag: v0.4.0
+      pullPolicy: IfNotPresent
 
   postgresql:
     enabled: false

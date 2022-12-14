@@ -7710,6 +7710,7 @@ spec:
                     type: object
                 type: object
               operation:
+                description: Operation
                 type: string
             required:
             - drInstanceName
@@ -9961,8 +9962,6 @@ spec:
                         type: string
                     type: object
                 type: object
-              deployResticOnAllNodes:
-                type: boolean
               deploymentMode:
                 description: DeploymentMode indicates if the installation can support
                   multi-clusters or not
@@ -10003,12 +10002,6 @@ spec:
                 additionalProperties:
                   type: boolean
                 type: object
-              featureParameters:
-                additionalProperties:
-                  type: string
-                description: FeatureParameters indicates the optional feature parameters
-                  passed to all components
-                type: object
               hookRunner:
                 properties:
                   image:
@@ -10040,10 +10033,6 @@ spec:
                 description: IsUINodePortEnabled makes UI service to nodeport if true,
                   otherwise to clustertype by default
                 type: boolean
-              keys:
-                description: Keys includes an encrypted identifier of the instance
-                  Deprecated
-                type: string
               operator:
                 properties:
                   featureGates:
@@ -10075,6 +10064,10 @@ spec:
                       tag:
                         type: string
                     type: object
+                  serviceType:
+                    description: Service Type string describes ingress methods for
+                      a service
+                    type: string
                 type: object
               resticDM:
                 properties:
@@ -19924,6 +19917,10 @@ spec:
                       tag:
                         type: string
                     type: object
+                  serviceType:
+                    description: Service Type string describes ingress methods for
+                      a service
+                    type: string
                 type: object
               reSyncImageVersion:
                 description: Deprecated
