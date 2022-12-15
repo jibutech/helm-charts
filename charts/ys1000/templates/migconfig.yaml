@@ -11,11 +11,6 @@ spec:
   serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
   deploymentMode: {{ .Values.migconfig.deploymentMode }}
   isAdminCluster: {{ .Values.migconfig.isAdminCluster }}
-  {{- if contains "NodePort" .Values.service.type }}
-  isUINodePortEnabled: true
-  {{- else }}
-  isUINodePortEnabled: false
-  {{- end }}
   agentNamespace: {{ .Values.velero.namespace }}
   featureGates:
     {{- range $key, $val := .Values.featureGates }}
