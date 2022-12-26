@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "qiming-operator.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
       app: qiming-operator
@@ -42,10 +40,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: UI_ENABLE_FLAG
-          value: "true"
-        - name: VELERO_DISABLE_SNAPSHOT
-          value: {{ .Values.components.velero.snapshotDisabled | quote }}
         - name: POD_VOLUME_OPERATION_TIMEOUT
           value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
         image: "{{ .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"

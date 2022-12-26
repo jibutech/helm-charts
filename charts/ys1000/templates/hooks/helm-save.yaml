@@ -32,6 +32,6 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: AGENT_NAMESPACE
-          value: {{ .Values.velero.namespace }}
+          value: {{ .Values.migconfig.agentNamespace }}
       serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
 {{- end }}

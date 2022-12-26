@@ -31,7 +31,7 @@ spec:
             memory: 512Mi
         env:
         - name: AGENT_NAMESPACE
-          value: {{ .Values.velero.namespace }}
+          value: {{ .Values.migconfig.agentNamespace }}
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
