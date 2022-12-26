@@ -4,6 +4,8 @@ kind: MigStorage
 metadata:
   name: {{ .Values.s3Config.name }}
   namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   default: true
   backupStorageConfig:
