@@ -141,20 +141,9 @@ migconfig:
   deploymentMode: "standalone"
   isAdminCluster: false
   UIadminPassword: "passw0rd"
-
-s3Config:
-  skipped: false
-  name: "default"
-  provider: "aws"
-  accessKey: "abc"
-  secretKey: "xyz"
-  bucket: "default"
-  s3Url: ""
-  region: "default"
+  agentNamespace: qiming-backend
 
 velero:
-  enabled: true
-  namespace: qiming-backend
   resticPodVolumeOperationTimeout: 240m
 
 serviceAccount:
@@ -210,13 +199,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 1
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 

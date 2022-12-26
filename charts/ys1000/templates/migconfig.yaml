@@ -11,7 +11,7 @@ spec:
   serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
   deploymentMode: {{ .Values.migconfig.deploymentMode }}
   isAdminCluster: {{ .Values.migconfig.isAdminCluster }}
-  agentNamespace: {{ .Values.velero.namespace }}
+  agentNamespace: {{ .Values.migconfig.agentNamespace }}
   featureGates:
     {{- range $key, $val := .Values.featureGates }}
     {{ $key }}: {{ $val }}
