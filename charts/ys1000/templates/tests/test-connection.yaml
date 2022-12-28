@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "qiming-operator.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "qiming-operator.fullname" . }}:{{ include "qiming-operator.uiService.port" . }}']
   restartPolicy: Never
