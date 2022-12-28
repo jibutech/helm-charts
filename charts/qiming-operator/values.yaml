@@ -26,7 +26,7 @@ selfBackup:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "release-2.10.3-latest"
+  tag: "2.10.3"
 
 image:
   registry:
@@ -62,7 +62,7 @@ components:
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
     - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b99d08e-20221122124825
-    - jibutech/velero-plugin:release-2.10.3-latest
+    - jibutech/velero-plugin:2.10.3
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
