@@ -1402,7 +1402,7 @@ spec:
                 type: string
               exportResult:
                 properties:
-                  DataExportRef:
+                  dataExportRef:
                     description: 'ObjectReference contains enough information to let
                       you inspect or modify the referred object. --- New uses of this
                       type are discouraged because of difficulty describing its usage
@@ -1462,7 +1462,7 @@ spec:
                         description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                         type: string
                     type: object
-                  ExportStatus:
+                  exportStatus:
                     type: string
                 type: object
               exportScheduledAt:
@@ -4920,6 +4920,11 @@ spec:
               canceled:
                 description: Cancel by user
                 type: boolean
+              context:
+                properties:
+                  sourceCluster:
+                    type: string
+                type: object
               dataRepo:
                 description: migstorage reference
                 properties:
@@ -5637,6 +5642,23 @@ spec:
               canceled:
                 description: Cancel by user
                 type: boolean
+              context:
+                properties:
+                  dataRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                  targetCluster:
+                    type: string
+                type: object
               dataExportRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6050,6 +6072,8 @@ spec:
               submitTimestamp:
                 format: date-time
                 type: string
+              valid:
+                type: boolean
               veleroImportRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -12798,6 +12822,8 @@ spec:
                           type: string
                         type: object
                     type: object
+                  backedUpItems:
+                    type: integer
                   backupJobUID:
                     type: string
                   backupPlan:
@@ -13629,6 +13655,7 @@ spec:
                     type: string
                 type: object
               verify:
+                description: Deprecated
                 type: boolean
             type: object
           status:
@@ -13689,6 +13716,7 @@ spec:
                   type: string
                 type: array
               executionTimestamp:
+                description: Deprecated
                 format: date-time
                 type: string
               importResult:
@@ -13838,6 +13866,7 @@ spec:
                         type: string
                       type: array
                   type: object
+                description: Deprecated
                 type: object
               startTimestamp:
                 format: date-time
@@ -13901,6 +13930,8 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              valid:
+                type: boolean
               volumes:
                 items:
                   properties:
