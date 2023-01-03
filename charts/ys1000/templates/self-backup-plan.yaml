@@ -11,6 +11,12 @@ spec:
   volume:
     excludes:
     - pod: "*"
+  filters:
+    includeClusterResources:
+    - resource: apiservices
+      group: apiregistration.k8s.io
+      names:
+      - v1beta1.clusterpedia.io
   namespaces:
   - {{ .Release.Namespace }}
   policyName: ys1000-self-backup-internal
