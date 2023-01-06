@@ -16,14 +16,6 @@ featureGates:
   Archive: false
   DisasterRecovery: false
 
-restore: false
-uploadToS3: false
-
-selfBackup:
-  enabled: false
-  frequency: 49 */1 * * *
-  retention: 168
-
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
@@ -55,7 +47,7 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-146eb2ff-20221122233612
+      tag: v1.7.0-jibu-dev-00442275-20230104040914
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
