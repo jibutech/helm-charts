@@ -10149,10 +10149,6 @@ spec:
                 description: IsAdminCluster indicates if the cluster is only for backup
                   management or not
                 type: boolean
-              isUINodePortEnabled:
-                description: IsUINodePortEnabled makes UI service to nodeport if true,
-                  otherwise to clustertype by default
-                type: boolean
               operator:
                 properties:
                   featureGates:

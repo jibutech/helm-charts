@@ -134,6 +134,7 @@ migconfig:
   isAdminCluster: false
   UIadminPassword: "passw0rd"
   agentNamespace: qiming-backend
+  selfBackupIntervalSeconds: 300
 
 velero:
   resticPodVolumeOperationTimeout: 240m
