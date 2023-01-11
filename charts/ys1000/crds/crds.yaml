@@ -9488,6 +9488,8 @@ spec:
                 type: object
               maintenanceMode:
                 type: boolean
+              needManualRepair:
+                type: boolean
               qos:
                 description: Qos define for cluster
                 properties:
