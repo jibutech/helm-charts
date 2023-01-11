@@ -9836,17 +9836,6 @@ spec:
                 type: object
               csiAddon:
                 properties:
-                  image:
-                    properties:
-                      pullPolicy:
-                        type: string
-                      registry:
-                        type: string
-                      repository:
-                        type: string
-                      tag:
-                        type: string
-                    type: object
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
@@ -19713,17 +19702,6 @@ spec:
                 type: string
               csiAddon:
                 properties:
-                  image:
-                    properties:
-                      pullPolicy:
-                        type: string
-                      registry:
-                        type: string
-                      repository:
-                        type: string
-                      tag:
-                        type: string
-                    type: object
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
