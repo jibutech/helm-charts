@@ -1402,6 +1402,8 @@ spec:
                 type: string
               exportResult:
                 properties:
+                  ExportStatus:
+                    type: string
                   dataExportRef:
                     description: 'ObjectReference contains enough information to let
                       you inspect or modify the referred object. --- New uses of this
@@ -1462,8 +1464,6 @@ spec:
                         description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                         type: string
                     type: object
-                  exportStatus:
-                    type: string
                 type: object
               exportScheduledAt:
                 format: date-time
