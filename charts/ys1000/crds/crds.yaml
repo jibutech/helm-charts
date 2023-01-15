@@ -10178,8 +10178,8 @@ spec:
                 type: object
               resticDM:
                 properties:
-                  daemonSetOnAllNodes:
-                    type: boolean
+                  hostPodsPath:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -10193,6 +10193,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  workPodCountLimit:
+                    type: integer
                 type: object
               serviceAccountName:
                 description: ServiceAccountName is the service account with all required
@@ -20048,8 +20050,8 @@ spec:
                 type: boolean
               resticDM:
                 properties:
-                  daemonSetOnAllNodes:
-                    type: boolean
+                  hostPodsPath:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -20063,6 +20065,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  workPodCountLimit:
+                    type: integer
                 type: object
               snapshot:
                 properties:
