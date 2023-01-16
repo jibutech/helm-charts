@@ -10,11 +10,12 @@ tags:
 
 featureGates:
   ClusterCache: true
-  DataMover: true
+  DataMover: false
   AmberApp: true
   Stub: true
   Archive: false
   DisasterRecovery: false
+  DMAgent: true
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
