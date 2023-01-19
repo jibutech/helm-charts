@@ -77,7 +77,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.0.9
+      tag: 0.1.0
   dmAgent:
     image:
       registry:
