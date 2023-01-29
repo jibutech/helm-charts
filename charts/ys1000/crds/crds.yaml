@@ -7921,6 +7921,90 @@ spec:
             type: object
           status:
             properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operationStatus:
+                description: Help to track operation state and detailed operation
+                  status
+                properties:
+                  completeStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  completeStep:
+                    type: string
+                  operationState:
+                    type: string
+                  startStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  startStep:
+                    type: string
+                type: object
               phase:
                 enum:
                 - Processed
@@ -7929,6 +8013,23 @@ spec:
               processedTimestamp:
                 format: date-time
                 type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
