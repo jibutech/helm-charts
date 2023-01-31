@@ -1,0 +1,401 @@
+# Default values for ys1000.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+tags:
+  mysql: true
+  clusterpedia: true
+
+featureGates:
+  ClusterCache: true
+  DataMover: true
+  AmberApp: true
+  Stub: true
+  Archive: false
+  DisasterRecovery: false
+
+restore: false
+uploadToS3: false
+
+selfBackup:
+  enabled: false
+  frequency: 49 */1 * * *
+  retention: 168
+
+imageBase:
+  registry: registry.cn-shanghai.aliyuncs.com
+  pullPolicy: Always
+  tag: "release-3.0.0-latest"
+
+image:
+  registry:
+  repository: jibutech/qiming-operator
+  tag:
+
+components:
+  webserver:
+    image:
+      registry:
+      repository: jibutech/webserver
+      tag:
+    serviceType: ClusterIP
+  hookrunner:
+    image:
+      registry:
+      repository: jibutech/hookrunner
+      tag:
+  operator:
+    image:
+      registry:
+      repository: jibutech/agent-operator
+      tag:
+  velero:
+    image:
+      registry:
+      repository: jibutech/velero
+      tag: v1.7.0-jibu-dev-00442275-20230104040914
+    imageResticHelper:
+      registry:
+      repository: jibutech/velero-restic-restore-helper
+      tag: v1.7.0
+    plugins:
+    - jibutech/velero-plugin-for-aws:v1.3.0
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b99d08e-20221122124825
+    - jibutech/velero-plugin:release-3.0.0-latest
+    resticPodMemRequest: 1Gi
+    resticPodMemLimit: 8Gi
+    resticPodCPURequest: 500m
+    resticPodCPULimit: 1000m
+    useRestic: true
+    snapshotDisabled: false
+  dataMover:
+    image:
+      registry:
+      repository: jibutech/data-mover
+      tag:
+  dataVerify:
+    image:
+      registry:
+      repository: jibutech/data-verify
+      tag:
+  amberApp:
+    image:
+      registry:
+      repository: jibutech/amberapp
+      tag: 0.0.8
+  dmAgent:
+    image:
+      registry:
+      repository: jibutech/dm-agent
+      tag:
+  resticDM:
+    image:
+      registry:
+      repository: jibutech/restic-dm
+      tag:
+  portal:
+    image:
+      registry:
+      repository: jibutech/mig-ui
+      tag:
+    serviceType: NodePort
+  discovery:
+    image:
+      registry:
+      repository: jibutech/mig-discovery
+      tag:
+  controller:
+    image:
+      registry:
+      repository: jibutech/mig-controller
+      tag:
+  cron:
+    image:
+      registry:
+      repository: jibutech/cron
+      tag:
+  agentStub:
+    image:
+      registry:
+      repository: jibutech/stub
+      tag:
+
+componentImages:
+  helmTool:
+    registry:
+    repository: jibutech/helm-tool
+    tag:
+  selfRestore:
+    registry:
+    repository: jibutech/self-restore
+    tag:
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+migconfig:
+  version: "3.0.0"
+  clientName: "default"
+  deploymentMode: "standalone"
+  isAdminCluster: false
+  UIadminPassword: "passw0rd"
+
+s3Config:
+  skipped: false
+  name: "default"
+  provider: "aws"
+  accessKey: "abc"
+  secretKey: "xyz"
+  bucket: "default"
+  s3Url: ""
+  region: "default"
+
+velero:
+  enabled: true
+  namespace: qiming-backend
+  resticPodVolumeOperationTimeout: 240m
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  name: ui-service
+  type: ClusterIP
+  port: 9000
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  # hostname is default host for the ingress resource
+  hostname: ys1000.local
+  # path is sub-url for ys1000, default is "/"
+  path: /
+  pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: "1"
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+mysql:
+  fullnameOverride: mysql
+  image:
+    registry: registry.cn-shanghai.aliyuncs.com
+    repository: jibutech/mysql
+    tag: 8.0.29-debian-10-r23
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  auth:
+    rootPassword: "passw0rd"
+    database: webserver
+    username: "webserver"
+    password: "passw0rd"
+  primary:
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    persistence:
+      enabled: false
+      size: 30Gi
+      storageClass: ""
+    startupProbe:
+      timeoutSeconds: 60
+      initialDelaySeconds: 60
+    readinessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
+    livenessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
+    configuration: |-
+      [mysqld]
+      default_authentication_plugin=mysql_native_password
+      skip-name-resolve
+      explicit_defaults_for_timestamp
+      basedir=/opt/bitnami/mysql
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      datadir=/bitnami/mysql/data
+      tmpdir=/opt/bitnami/mysql/tmp
+      max_allowed_packet=16M
+      bind-address=*
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+      log-error=/opt/bitnami/mysql/logs/mysqld.log
+      character-set-server=UTF8
+      collation-server=utf8_general_ci
+      slow_query_log=0
+      slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
+      long_query_time=10.0
+      binlog_expire_logs_seconds=3600
+
+      [client]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      default-character-set=UTF8
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+
+      [manager]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+
+clusterpedia:
+  persistenceMatchNode: None
+  storageInstallMode: "external"
+  fullnameOverride: ys
+
+  #global:
+  #  imageRegistry: ""
+
+  apiserver:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/apiserver
+      tag: v0.6.0
+    resources:
+      requests:
+        cpu: 200m
+        memory: 128Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi
+
+  clustersynchroManager:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/clustersynchro-manager
+      tag: v0.6.0
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
+    featureGates:
+
+      ## @param AllowSyncAllCustomResources is a feature gate for the ClusterSynchro to allow syncing of all custom resources
+      ## owner: @iceber
+      ## alpha: v0.3.0
+      AllowSyncAllCustomResources: true
+
+      ## @param AllowSyncAllResources is a feature gate for the ClusterSynchro to allow syncing of all resources
+      ## owner: @iceber
+      ## alpha: v0.3.0
+      AllowSyncAllResources: true
+
+  ## controller manager config
+  controllerManager:
+    # disable controller manager
+    replicaCount: 0
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/controller-manager
+      tag: v0.6.0
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
+  hookJob:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/cloudshell
+      tag: v0.4.0
+      pullPolicy: IfNotPresent
+
+  postgresql:
+    enabled: false
+
+  externalStorage:
+    type: "mysql"
+    host: "mysql"
+    port: 3306
+    user: "root"
+    password: "passw0rd"
+    database: "clusterpedia"
+    createDatabase: true
+
+  mysql:
+    enabled: false
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/mysql
+      tag: 8.0.29-debian-10-r23
+    auth:
+      rootPassword: "passw0rd"
+      database: clusterpedia
+#      username: "clusterpedia"
+#      password: "passw0rd"
+    primary:
+      persistence:
+        enabled: false
+        size: 20Gi
+
+alarm:
+  enabled: false
+  labels:
+    release: prometheus
+  wechat:
+    enabled: false
+    corpID: ""
+    agentID: ""
+    toUser: ""
+    apiSecret: ""
+  webhook:
+    enabled: false

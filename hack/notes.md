@@ -11,7 +11,7 @@
 ```
 cd helm-charts
 
-helm package charts/qiming-operator
+helm package charts/ys1000
 helm repo index . --url  https://jibutech.github.io/helm-charts/
 ```
 5. correct index.yaml for only new helm chart package
