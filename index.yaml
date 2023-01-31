@@ -2,6 +2,138 @@ apiVersion: v1
 entries:
   qiming-operator:
   - apiVersion: v2
+    appVersion: 2.10.3
+    created: "2022-12-28T09:28:52.609224006+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia-helm
+      version: 1.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 0934eedb18506894474a0b8ba0c924fff2edb654613da84705575f528cec5535
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.10.3.tgz
+    version: 2.10.3
+  - apiVersion: v2
+    appVersion: 2.10.2
+    created: "2022-12-13T20:24:11.328292+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia-helm
+      version: 1.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 7700e813eb5bd25e1876eb30f1e96ca937f56f24497f61d685dcfd8943d83688
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.10.2.tgz
+    version: 2.10.2
+  - apiVersion: v2
+    appVersion: 2.10.1
+    created: "2022-11-30T16:41:15.409830461+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia-helm
+      version: 1.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: eacd9c044953b1b3619030f2e9f8458c60d5d99c6d1963aae984f653a91f9bb4
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.10.1.tgz
+    version: 2.10.1
+  - apiVersion: v2
+    appVersion: 2.9.0
+    created: "2022-10-24T13:30:44.837812449+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia/charts
+      version: 0.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 83404f38b589450d412fc6651fc0794c72bd4a2a25c13a1f67bdd920895a4e9c
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.9.0.tgz
+    version: 2.9.0
+  - apiVersion: v2
+    appVersion: 2.8.4
+    created: "2022-10-10T14:40:56.508829854+08:00"
+    dependencies:
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 26c25ff4cf9e7c4beebc510fa8d664a0eeebe92b05de16a5f3e18012ddf80b9d
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.8.4.tgz
+    version: 2.8.4
+  - apiVersion: v2
+    appVersion: 2.8.3
+    created: "2022-09-27T15:06:19.202489972+08:00"
+    dependencies:
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 3f64ebd1b52e08fe89055df33fcc53d4a69dd00e3b3be670cd679fff6562e287
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.8.3.tgz
+    version: 2.8.3
+  - apiVersion: v2
+    appVersion: 2.8.2
+    created: "2022-09-20T09:09:48.83609428+08:00"
+    dependencies:
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 9680061f72d7f5688c59b39c2cea63052087e89f6364cff20c89c23c450ea15f
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.8.2.tgz
+    version: 2.8.2
+  - apiVersion: v2
+    appVersion: 2.8.0
+    created: "2022-08-29T10:42:57.764004782+08:00"
+    dependencies:
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: 9b34b7fda9ec8e2cb9eefa49285b76e2cb0ced79a76d13b4a3bed2d4c7fc7e04
+    name: qiming-operator
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/qiming-operator-2.8.0.tgz
+    version: 2.8.0
+  - apiVersion: v2
     appVersion: 2.7.0
     created: "2022-07-27T10:27:10.613006502+08:00"
     dependencies:
@@ -135,74 +267,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/qiming-operator-2.2.2.tgz
     version: 2.2.2
-  - apiVersion: v2
-    appVersion: 2.2.1
-    created: "2022-02-11T09:46:33.642995332+08:00"
-    description: ys1000 provides data protection and management services for cloud native applications.
-    digest: 7304f445943752416a0b261de20ed0779514c9f067904444c4dbb752ce37732e
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-2.2.1.tgz
-    version: 2.2.1
-  - apiVersion: v2
-    appVersion: 2.2.0
-    created: "2022-01-27T10:13:49.860972478+08:00"
-    description: A Helm chart for YS1000 data management platform
-    digest: fed99e1711cda3bcdb995ea4019688bd6cb3785aec378f893b159c5dd43b7b48
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-2.2.0.tgz
-    version: 2.2.0
-  - apiVersion: v2
-    appVersion: 2.1.0
-    created: "2021-11-25T20:22:50.733282599+08:00"
-    description: A Helm chart for YS1000 data management platform
-    digest: e23fb45cbab90365c9cd6aa44675b9e448476ca3765e7fa2c21204a3e64c32ae
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-2.1.0.tgz
-    version: 2.1.0
-  - apiVersion: v2
-    appVersion: 2.0.4
-    created: "2021-10-28T15:52:22.4015862+08:00"
-    description: A Helm chart for YS1000 data management platform
-    digest: 2177809da286cae9d2a9daac4e6144cdc591e49d29407bf1f7485ba49bd1c15c
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-2.0.4.tgz
-    version: 2.0.4
-  - apiVersion: v2
-    appVersion: 2.0.3
-    created: "2021-09-28T14:25:42.99544615+08:00"
-    description: A Helm chart for YS1000 data management platform
-    digest: 8d80c80b3d06740c7eedd19b8555d147bd43d1304129abcd1ac4c030c21282c4
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-2.0.3.tgz
-    version: 2.0.3
-  - apiVersion: v2
-    appVersion: 1.0.2
-    created: "2021-08-26T17:24:49.03129786+08:00"
-    description: A Helm chart for yinhestor data management platform
-    digest: c035ad049bc9b90cb3002da833fcc766a110fbee0a3fe5705324329969db36a2
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-1.0.2.tgz
-    version: 1.0.2
-  - apiVersion: v2
-    appVersion: 1.0.1
-    created: "2021-05-13T08:13:08.001776454+08:00"
-    description: A Helm chart for yinhestor data management platform
-    digest: 81c42c8057ef0456511c915b04779fd89508d57fecd9487414bfb081866d5cbd
-    name: qiming-operator
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/qiming-operator-1.0.1.tgz
-    version: 1.0.1
-generated: "2022-07-27T10:27:10.550320309+08:00"
+generated: "2022-12-28T09:28:52.527189104+08:00"

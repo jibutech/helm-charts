@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "qiming-operator.fullname" . }}
+  labels:
+    {{- include "qiming-operator.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: qiming-operator
+      {{- include "qiming-operator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: qiming-operator
+        {{- include "qiming-operator.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=127.0.0.1:8080
+        - --leader-elect
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: WATCH_NAMESPACES
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: UI_ENABLE_FLAG
+          value: "true"
+        - name: VELERO_DISABLE_SNAPSHOT
+          value: {{ .Values.components.velero.snapshotDisabled | quote }}
+        - name: POD_VOLUME_OPERATION_TIMEOUT
+          value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
+        image: "{{ .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+        name: manager 
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
+      terminationGracePeriodSeconds: 10
+      

@@ -1,0 +1,122 @@
+apiVersion: migration.yinhestor.com/v1alpha1
+kind: Migconfig
+metadata:
+  name: qiming-config
+  labels:
+    app.kubernetes.io/name: qiming-operator
+    app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
+spec:
+  version: {{ .Values.migconfig.version }}
+  clientName: {{ .Values.migconfig.clientName }}
+  serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
+  deploymentMode: {{ .Values.migconfig.deploymentMode }}
+  isAdminCluster: {{ .Values.migconfig.isAdminCluster }}
+  {{- if contains "NodePort" .Values.service.type }}
+  isUINodePortEnabled: true
+  {{- else }}
+  isUINodePortEnabled: false
+  {{- end }}
+  keys: {{ .Values.migconfig.keys }}
+  agentNamespace: {{ .Values.velero.namespace }}
+  featureGates:
+    {{- range $key, $val := .Values.featureGates }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
+  image:
+    registry: {{ .Values.imageBase.registry }}
+    pullPolicy: {{ .Values.imageBase.pullPolicy }}
+    tag: {{ .Values.imageBase.tag }}
+  portal:
+    image:
+      registry: {{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.portal.image.repository }}
+      pullPolicy: {{ .Values.components.portal.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.portal.image.tag | default .Values.imageBase.tag }}
+  discovery:
+    image:
+      registry: {{ .Values.components.discovery.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.discovery.image.repository }}
+      pullPolicy: {{ .Values.components.discovery.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.discovery.image.tag | default .Values.imageBase.tag }}
+  controller:
+    image:
+      registry: {{ .Values.components.controller.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.controller.image.repository }}
+      pullPolicy: {{ .Values.components.controller.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.controller.image.tag | default .Values.imageBase.tag }}
+  cron:
+    image:
+      registry: {{ .Values.components.cron.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.cron.image.repository }}
+      pullPolicy: {{ .Values.components.cron.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.cron.image.tag | default .Values.imageBase.tag }}
+  webServer:
+    image:
+      registry: {{ .Values.components.webserver.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.webserver.image.repository }}
+      pullPolicy: {{ .Values.components.webserver.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.webserver.image.tag | default .Values.imageBase.tag }}
+    serviceType: {{ .Values.components.webserver.serviceType }}
+  hookRunner:
+    image:
+      registry: {{ .Values.components.hookrunner.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.hookrunner.image.repository }}
+      pullPolicy: {{ .Values.components.hookrunner.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.hookrunner.image.tag | default .Values.imageBase.tag }}
+  operator:
+    image:
+      registry: {{ .Values.components.operator.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.operator.image.repository }}
+      pullPolicy: {{ .Values.components.operator.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.operator.image.tag | default .Values.imageBase.tag }}
+  velero:
+    image:
+      registry: {{ .Values.components.velero.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.velero.image.repository }}
+      pullPolicy: {{ .Values.components.velero.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.velero.image.tag | default .Values.imageBase.tag }}
+    imageResticHelper:
+      registry: {{ .Values.components.velero.imageResticHelper.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.velero.imageResticHelper.repository }}
+      pullPolicy: {{ .Values.components.velero.imageResticHelper.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.velero.imageResticHelper.tag | default .Values.imageBase.tag }}
+    plugins:
+    {{- range .Values.components.velero.plugins }}
+    - {{ . | quote }}
+    {{- end }}
+    resticPodMemRequest: {{ .Values.components.velero.resticPodMemRequest }}
+    resticPodMemLimit: {{ .Values.components.velero.resticPodMemLimit }}
+    resticPodCPURequest: {{ .Values.components.velero.resticPodCPURequest }}
+    resticPodCPULimit: {{ .Values.components.velero.resticPodCPULimit }}
+    useRestic: {{ .Values.components.velero.useRestic }}
+    snapshotDisabled: {{ .Values.components.velero.snapshotDisabled }}
+  dataMover:
+    image:
+      registry: {{ .Values.components.dataMover.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.dataMover.image.repository }}
+      pullPolicy: {{ .Values.components.dataMover.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.dataMover.image.tag | default .Values.imageBase.tag }}
+  amberApp:
+    image:
+      registry: {{ .Values.components.amberApp.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.amberApp.image.repository }}
+      pullPolicy: {{ .Values.components.amberApp.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.amberApp.image.tag | default .Values.imageBase.tag }}
+  dmAgent:
+    image:
+      registry: {{ .Values.components.dmAgent.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.dmAgent.image.repository }}
+      pullPolicy: {{ .Values.components.dmAgent.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.dmAgent.image.tag | default .Values.imageBase.tag }}
+  resticDM:
+    image:
+      registry: {{ .Values.components.resticDM.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.resticDM.image.repository }}
+      pullPolicy: {{ .Values.components.resticDM.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.resticDM.image.tag | default .Values.imageBase.tag }}
+  stub:
+    image:
+      registry: {{ .Values.components.agentStub.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.agentStub.image.repository }}
+      pullPolicy: {{ .Values.components.agentStub.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.agentStub.image.tag | default .Values.imageBase.tag }}
