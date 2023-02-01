@@ -1,9 +1,9 @@
 dependencies:
 - name: mysql
-  repository: https://charts.bitnami.com/bitnami
-  version: 9.4.5
+  repository: https://jibutech.github.io/helm-charts
+  version: 1.0.0
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
-  version: 1.2.0
-digest: sha256:712a47152d8507c93d859bb4fd15e8ab50f7b6a2400bea0cf4f2c67d08c42d20
-generated: "2022-12-23T16:57:38.002435127+08:00"
+  version: 1.4.0
+digest: sha256:468be508bfa9ac423a53ff6ea9332400c90d8c35d8a5e04371610ff4803235d1
+generated: "2023-02-01T12:14:00.974414+08:00"
