@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+replicaCount: 1
+
 tags:
   mysql: true
   clusterpedia: true
@@ -120,6 +122,15 @@ components:
       repository: jibutech/stub
       tag:
 
+componentImages:
+  helmTool:
+    registry:
+    repository: jibutech/helm-tool
+    tag:
+  selfRestore:
+    registry:
+    repository: jibutech/self-restore
+    tag:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -214,17 +225,19 @@ tolerations: []
 affinity: {}
 
 mysql:
+  fullnameOverride: mysql
   image:
     registry: registry.cn-shanghai.aliyuncs.com
     repository: jibutech/mysql
-    tag: 8.0.32
+    tag: 8.0.29-debian-10-r23
     pullPolicy: IfNotPresent
+    pullSecrets: []
   auth:
     rootPassword: "passw0rd"
     database: webserver
+    username: "webserver"
+    password: "passw0rd"
   primary:
-    args:
-    - --binlog-expire-logs-seconds=3600
     resources:
       limits:
         cpu: 1000m
@@ -236,6 +249,47 @@ mysql:
       enabled: false
       size: 30Gi
       storageClass: ""
+    startupProbe:
+      timeoutSeconds: 60
+      initialDelaySeconds: 60
+    readinessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
+    livenessProbe:
+      initialDelaySeconds: 60
+      timeoutSeconds: 60
+    configuration: |-
+      [mysqld]
+      default_authentication_plugin=mysql_native_password
+      skip-name-resolve
+      explicit_defaults_for_timestamp
+      basedir=/opt/bitnami/mysql
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      datadir=/bitnami/mysql/data
+      tmpdir=/opt/bitnami/mysql/tmp
+      max_allowed_packet=16M
+      bind-address=*
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+      log-error=/opt/bitnami/mysql/logs/mysqld.log
+      character-set-server=UTF8
+      collation-server=utf8_general_ci
+      slow_query_log=0
+      slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
+      long_query_time=10.0
+      binlog_expire_logs_seconds=3600
+
+      [client]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      default-character-set=UTF8
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+
+      [manager]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
 
 clusterpedia:
   persistenceMatchNode: None
@@ -319,6 +373,19 @@ clusterpedia:
 
   mysql:
     enabled: false
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/mysql
+      tag: 8.0.29-debian-10-r23
+    auth:
+      rootPassword: "passw0rd"
+      database: clusterpedia
+#      username: "clusterpedia"
+#      password: "passw0rd"
+    primary:
+      persistence:
+        enabled: false
+        size: 20Gi
 
 alarm:
   enabled: false
