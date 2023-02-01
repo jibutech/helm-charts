@@ -221,7 +221,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/apiserver
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 200m
@@ -234,7 +234,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/clustersynchro-manager
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 50m
@@ -261,7 +261,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 50m
