@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mysql.fullname" . }}
+  labels:
+    {{- include "mysql.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      {{- include "mysql.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+        {{- include "mysql.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: mysql
+        {{- if .Values.primary.args }}
+        args: {{- include "common.tplvalues.render" (dict "value" .Values.primary.args "context" $) | nindent 10 }}
+        {{- end }}
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mysql.fullname" . }}
+              key: mysql-root-password
+        - name: MYSQL_DATABASE
+          value: {{ .Values.auth.database | quote }}
+        ports:
+        - containerPort: 3306
+          name: mysql
+        {{- if .Values.primary.resources }}
+        resources: {{ toYaml .Values.primary.resources | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+        {{- if .Values.primary.configuration }}
+        - name: config
+          mountPath: /etc/mysql/conf.d/my.cnf
+          subPath: my.cnf
+        {{- end }}
+      volumes:
+      {{- if .Values.primary.configuration }}
+      - name: config
+        configMap:
+          name: {{ include "mysql.fullname" . }}
+      {{- end }}
+      {{- if .Values.primary.persistence.enabled }}
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ include "mysql.fullname" . }}
+      {{- else }}
+      - name: data
+        emptyDir: {}
+      {{- end }}

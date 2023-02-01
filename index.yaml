@@ -1,5 +1,18 @@
 apiVersion: v1
 entries:
+  mysql:
+  - apiVersion: v2
+    appVersion: 8.0.32
+    created: "2023-02-01T11:40:25.922318+08:00"
+    description: MySQL is a fast, reliable, scalable, and easy to use open source
+      relational database system. Designed to handle mission-critical, heavy-load
+      production applications.
+    digest: 2450ea5ac49b429614a928d20154dcce61507d3aeeb384ffb8d87e4d47e56099
+    name: mysql
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/mysql-1.0.0.tgz
+    version: 1.0.0
   qiming-operator:
   - apiVersion: v2
     appVersion: 2.10.3
@@ -287,4 +300,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.0.0.tgz
     version: 3.0.0
-generated: "2023-01-31T16:29:23.935141146+08:00"
+generated: "2023-02-01T11:40:25.935141146+08:00"

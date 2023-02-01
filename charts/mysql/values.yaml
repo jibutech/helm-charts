@@ -1,0 +1,94 @@
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  registry: registry.cn-shanghai.aliyuncs.com
+  repository: jibutech/mysql
+  tag: 8.0.32
+  pullPolicy: IfNotPresent
+
+auth:
+  ## @param auth.rootPassword Password for the `root` user. Ignored if existing secret is provided
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#setting-the-root-password-on-first-run
+  ##
+  rootPassword: "passw0rd"
+  ## @param auth.createDatabase Wheter to create the .Values.auth.database or not
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-on-first-run
+  ##
+  createDatabase: true
+  ## @param auth.database Name for a custom database to create
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-on-first-run
+  ##
+  database: "my_database"
+  ## @param auth.username Name for a custom user to create
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-user-on-first-run
+  ##
+  username: ""
+  ## @param auth.password Password for the new user. Ignored if existing secret is provided
+  ##
+  password: ""
+
+primary:
+  ## @param primary.name Name of the primary database (eg primary, master, leader, ...)
+  ##
+  name: primary
+  ## @param primary.command Override default container command on MySQL Primary container(s) (useful when using custom images)
+  ##
+  command: []
+  ## @param primary.args Override default container args on MySQL Primary container(s) (useful when using custom images)
+  ##
+  args: []
+  ## @param primary.lifecycleHooks for the MySQL Primary container(s) to automate configuration before or after startup
+  ##
+  lifecycleHooks: {}
+  ## @param primary.hostAliases Deployment pod host aliases
+  ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
+  ##
+  hostAliases: []
+#  resources:
+#    limits:
+#      cpu: 1000m
+#      memory: 2048Mi
+#    requests:
+#      cpu: 100m
+#      memory: 128Mi
+  ## @param primary.configuration [string] Configure MySQL Primary with a custom my.cnf file
+  ## ref: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
+  ##
+#  configuration: |-
+#    [mysqld]
+#    default_authentication_plugin=mysql_native_password
+#    skip-name-resolve
+#    explicit_defaults_for_timestamp
+#    basedir=/opt/bitnami/mysql
+#    plugin_dir=/opt/bitnami/mysql/lib/plugin
+#    port=3306
+#    socket=/opt/bitnami/mysql/tmp/mysql.sock
+#    datadir=/bitnami/mysql/data
+#    tmpdir=/opt/bitnami/mysql/tmp
+#    max_allowed_packet=16M
+#    bind-address=*
+#    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+#    log-error=/opt/bitnami/mysql/logs/mysqld.log
+#    character-set-server=UTF8
+#    collation-server=utf8_general_ci
+#    slow_query_log=0
+#    slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
+#    long_query_time=10.0
+#    binlog_expire_logs_seconds=3600
+#
+#    [client]
+#    port=3306
+#    socket=/opt/bitnami/mysql/tmp/mysql.sock
+#    default-character-set=UTF8
+#    plugin_dir=/opt/bitnami/mysql/lib/plugin
+#
+#    [manager]
+#    port=3306
+#    socket=/opt/bitnami/mysql/tmp/mysql.sock
+#    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+
+  persistence:
+    enabled: false
+    storageClass: ""
+    size: 20Gi
