@@ -22,9 +22,10 @@
    添加完成之后，您可以通过执行命令 `helm search repo qiming` 来查看可选安装的软件版本，例如:
 
    ```bash
-   [root@test-master ~]# helm search repo qiming
-   NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
-   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
+   [root@test-master ~]# NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+   qiming/qiming-operator  2.10.3          2.10.3          ys1000 provides data protection for cloud nativ...
+   qiming/ys1000           3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
+
    ```
 
 2. 您可以使用以下两种方法进行安装:
@@ -54,7 +55,8 @@
       STATUS: deployed
       REVISION: 1
       ```
-
+    **注意-1**:3.0及以上版本需要使用qiming/ys1000 chart安装ys1000
+    
     说明:
     使用如下命令来检查安装状态正否正常
 
