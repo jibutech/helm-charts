@@ -3099,6 +3099,8 @@ spec:
                         type: object
                     type: object
                 type: object
+              group:
+                type: string
               hook:
                 items:
                   properties:
