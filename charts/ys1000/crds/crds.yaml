@@ -14710,6 +14710,8 @@ spec:
                         format: date-time
                         type: string
                     type: object
+                  sandboxEnabled:
+                    type: boolean
                   schedulePriority:
                     type: integer
                   sourceCluster:
@@ -17789,6 +17791,8 @@ spec:
                       for details on syntax.
                     type: string
                 type: object
+              sandboxEnabled:
+                type: boolean
               scheduleEnabled:
                 description: ScheduleEnabled indicts if restore is automatically restored
                   periodically from corresponding latest available backup job
