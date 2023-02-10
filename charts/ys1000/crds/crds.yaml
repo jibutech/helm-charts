@@ -1361,69 +1361,10 @@ spec:
                         any change in format, content, or metadata results in a new
                         name.
                       properties:
-                        dockerImageConfig:
-                          description: DockerImageConfig is a JSON blob that the runtime
-                            uses to set up the container. This is a part of manifest
-                            schema v2.
-                          type: string
-                        dockerImageLayers:
-                          description: DockerImageLayers represents the layers in
-                            the image. May not be set if the image does not define
-                            that data.
-                          items:
-                            description: ImageLayer represents a single layer of the
-                              image. Some images may have multiple layers. Some may
-                              have none.
-                            properties:
-                              mediaType:
-                                description: MediaType of the referenced object.
-                                type: string
-                              name:
-                                description: Name of the layer as defined by the underlying
-                                  store.
-                                type: string
-                              size:
-                                description: Size of the layer in bytes as defined
-                                  by the underlying store.
-                                format: int64
-                                type: integer
-                            required:
-                            - mediaType
-                            - name
-                            - size
-                            type: object
-                          type: array
-                        dockerImageManifest:
-                          description: DockerImageManifest is the raw JSON of the
-                            manifest
-                          type: string
-                        dockerImageManifestMediaType:
-                          description: DockerImageManifestMediaType specifies the
-                            mediaType of manifest. This is a part of manifest schema
-                            v2.
-                          type: string
-                        dockerImageMetadata:
-                          description: DockerImageMetadata contains metadata about
-                            this image
-                          type: object
-                          x-kubernetes-preserve-unknown-fields: true
-                        dockerImageMetadataVersion:
-                          description: DockerImageMetadataVersion conveys the version
-                            of the object, which if empty defaults to "1.0"
-                          type: string
                         dockerImageReference:
                           description: DockerImageReference is the string that can
                             be used to pull this image.
                           type: string
-                        dockerImageSignatures:
-                          description: DockerImageSignatures provides the signatures
-                            as opaque blobs. This is a part of manifest schema v1.
-                          items:
-                            format: byte
-                            type: string
-                          type: array
-                      required:
-                      - dockerImageLayers
                       type: object
                     type: object
                 type: object
@@ -9053,8 +8994,6 @@ spec:
           spec:
             description: ImageBackupSpec defines the image backup request
             properties:
-              backupJobName:
-                type: string
               canceled:
                 type: boolean
               images:
@@ -9068,7 +9007,6 @@ spec:
                   type: string
                 type: object
             required:
-            - backupJobName
             - images
             - registryName
             type: object
@@ -9144,65 +9082,10 @@ spec:
                     a hash of their contents (metadata and content) and any change
                     in format, content, or metadata results in a new name.
                   properties:
-                    dockerImageConfig:
-                      description: DockerImageConfig is a JSON blob that the runtime
-                        uses to set up the container. This is a part of manifest schema
-                        v2.
-                      type: string
-                    dockerImageLayers:
-                      description: DockerImageLayers represents the layers in the
-                        image. May not be set if the image does not define that data.
-                      items:
-                        description: ImageLayer represents a single layer of the image.
-                          Some images may have multiple layers. Some may have none.
-                        properties:
-                          mediaType:
-                            description: MediaType of the referenced object.
-                            type: string
-                          name:
-                            description: Name of the layer as defined by the underlying
-                              store.
-                            type: string
-                          size:
-                            description: Size of the layer in bytes as defined by
-                              the underlying store.
-                            format: int64
-                            type: integer
-                        required:
-                        - mediaType
-                        - name
-                        - size
-                        type: object
-                      type: array
-                    dockerImageManifest:
-                      description: DockerImageManifest is the raw JSON of the manifest
-                      type: string
-                    dockerImageManifestMediaType:
-                      description: DockerImageManifestMediaType specifies the mediaType
-                        of manifest. This is a part of manifest schema v2.
-                      type: string
-                    dockerImageMetadata:
-                      description: DockerImageMetadata contains metadata about this
-                        image
-                      type: object
-                      x-kubernetes-preserve-unknown-fields: true
-                    dockerImageMetadataVersion:
-                      description: DockerImageMetadataVersion conveys the version
-                        of the object, which if empty defaults to "1.0"
-                      type: string
                     dockerImageReference:
                       description: DockerImageReference is the string that can be
                         used to pull this image.
                       type: string
-                    dockerImageSignatures:
-                      description: DockerImageSignatures provides the signatures as
-                        opaque blobs. This is a part of manifest schema v1.
-                      items:
-                        format: byte
-                        type: string
-                      type: array
-                  required:
-                  - dockerImageLayers
                   type: object
                 type: object
               valid:
@@ -9275,91 +9158,25 @@ spec:
           spec:
             description: ImageRegistrySpec defines the access config of a registry
             properties:
-              auth:
-                description: 'DockerAuthConfig contains the auths TODO: move this
-                  to secret'
-                properties:
-                  auth:
-                    type: string
-                  identitytoken:
-                    description: IdentityToken is used to authenticate the user and
-                      get an access token for the registry.
-                    type: string
-                  password:
-                    type: string
-                  registrytoken:
-                    description: RegistryToken is a bearer token to be sent to a registry
-                    type: string
-                  serveraddress:
-                    type: string
-                  username:
-                    type: string
-                type: object
-              dockerConfig:
-                description: DockerConfig is used to parse the ~/.docker/config.json
-                properties:
-                  HttpHeaders:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  auths:
-                    additionalProperties:
-                      description: 'DockerAuthConfig contains the auths TODO: move
-                        this to secret'
-                      properties:
-                        auth:
-                          type: string
-                        identitytoken:
-                          description: IdentityToken is used to authenticate the user
-                            and get an access token for the registry.
-                          type: string
-                        password:
-                          type: string
-                        registrytoken:
-                          description: RegistryToken is a bearer token to be sent
-                            to a registry
-                          type: string
-                        serveraddress:
-                          type: string
-                        username:
-                          type: string
-                      type: object
-                    type: object
-                  credHelpers:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  credsStore:
-                    type: string
-                  detachKeys:
-                    type: string
-                  proxies:
-                    additionalProperties:
-                      description: DockerProxyConfig contains proxy configuration
-                        settings
-                      properties:
-                        allProxy:
-                          type: string
-                        ftpProxy:
-                          type: string
-                        httpProxy:
-                          type: string
-                        httpsProxy:
-                          type: string
-                        noProxy:
-                          type: string
-                      type: object
-                    type: object
-                type: object
               host:
+                type: string
+              password:
+                type: string
+              project:
+                type: string
+              regcert:
+                description: base64 encoded public pem cert of registry
                 type: string
               tags:
                 additionalProperties:
                   type: string
                 type: object
+              tls:
+                description: TLSConf specifies whether TLS is enabled for a host
+                type: string
+              username:
+                type: string
             required:
-            - auth
-            - dockerConfig
             - host
             type: object
           status:
