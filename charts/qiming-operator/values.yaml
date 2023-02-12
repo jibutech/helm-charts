@@ -38,7 +38,7 @@ components:
     image:
       registry:
       repository: jibutech/webserver
-      tag:
+      tag: enfei-2.10.5
     serviceType: ClusterIP
   hookrunner:
     image:
@@ -108,12 +108,12 @@ components:
     image:
       registry:
       repository: jibutech/mig-controller
-      tag:
+      tag: enfei-2.10.5
   cron:
     image:
       registry:
       repository: jibutech/cron
-      tag:
+      tag: enfei-2.10.5
   agentStub:
     image:
       registry:
