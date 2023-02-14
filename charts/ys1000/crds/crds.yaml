@@ -1351,10 +1351,6 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
-                  newImages:
-                    items:
-                      type: string
-                    type: array
                   successfulImages:
                     additionalProperties:
                       description: ImageInfo is an immutable representation of a container
@@ -9075,10 +9071,6 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
-              newImages:
-                items:
-                  type: string
-                type: array
               phase:
                 type: string
               startTime:
@@ -13972,6 +13964,10 @@ spec:
                         timeoutSeconds:
                           type: integer
                       type: object
+                    type: array
+                  images:
+                    items:
+                      type: string
                     type: array
                   importData:
                     type: boolean
