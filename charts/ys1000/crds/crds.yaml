@@ -366,6 +366,8 @@ spec:
                     type: string
                   copyMethod:
                     type: string
+                  dataTransferTimeout:
+                    type: string
                   failureHooks:
                     items:
                       properties:
@@ -2918,6 +2920,17 @@ spec:
                 type: object
               cluster:
                 type: string
+              executionContext:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  executionTimeout:
+                    description: Deprecated
+                    type: string
+                  queueTimeout:
+                    description: Deprecated
+                    type: string
+                type: object
               fallbackToDefault:
                 description: FallbackToDefault is a flag if you want to fall back
                   to default cluster or storage if it is empty
@@ -3348,14 +3361,6 @@ spec:
                     type: string
                   type: array
                 type: array
-              timeouts:
-                description: Deprecated
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
-                    type: string
-                type: object
               volume:
                 properties:
                   excludes:
@@ -4976,6 +4981,8 @@ spec:
                 type: boolean
               context:
                 properties:
+                  dataTransferTimeout:
+                    type: string
                   resourceFilterRules:
                     properties:
                       namespaces:
@@ -5891,6 +5898,8 @@ spec:
                       type:
                         type: string
                     type: object
+                  dataTransferTimeout:
+                    type: string
                   targetCluster:
                     type: string
                 type: object
@@ -12125,6 +12134,17 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              executionContext:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  executionTimeout:
+                    description: Deprecated
+                    type: string
+                  queueTimeout:
+                    description: Deprecated
+                    type: string
+                type: object
               forceOverwrite:
                 type: boolean
               hooks:
@@ -12399,13 +12419,6 @@ spec:
                     type: string
                   uid:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                    type: string
-                type: object
-              timeouts:
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
                     type: string
                 type: object
             type: object
@@ -13776,6 +13789,8 @@ spec:
                     type: string
                   dataOnly:
                     type: boolean
+                  dataTransferTimeout:
+                    type: string
                   failureHooks:
                     items:
                       properties:
@@ -17329,6 +17344,17 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
+              executionContext:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  executionTimeout:
+                    description: Deprecated
+                    type: string
+                  queueTimeout:
+                    description: Deprecated
+                    type: string
+                type: object
               filters:
                 properties:
                   excludeClusterResources:
@@ -17748,13 +17774,6 @@ spec:
                     type: string
                   type: array
                 type: array
-              timeouts:
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
-                    type: string
-                type: object
               volume:
                 properties:
                   excludes:
