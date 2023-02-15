@@ -14,6 +14,7 @@ featureGates:
   Archive: false
   DisasterRecovery: false
   DMAgent: true
+  ImageBackup: true
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
