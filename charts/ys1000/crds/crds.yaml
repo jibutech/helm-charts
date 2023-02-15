@@ -5872,6 +5872,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -7074,6 +7078,10 @@ spec:
                     replicaCount:
                       format: int32
                       type: integer
+                    restoreImages:
+                      description: use backupped images to replace images in specs
+                        of pod/deployment/daemonset, etc.
+                      type: boolean
                     storageClassMappings:
                       additionalProperties:
                         type: string
@@ -7479,6 +7487,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -9164,6 +9176,10 @@ spec:
               password:
                 type: string
               project:
+                type: string
+              pullPassword:
+                type: string
+              pullUsername:
                 type: string
               regcert:
                 description: base64 encoded public pem cert of registry
@@ -11432,6 +11448,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -12061,6 +12081,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -13425,6 +13449,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -13766,11 +13794,19 @@ spec:
                       replicaCount:
                         format: int32
                         type: integer
+                      restoreImages:
+                        description: use backupped images to replace images in specs
+                          of pod/deployment/daemonset, etc.
+                        type: boolean
                       storageClassMappings:
                         additionalProperties:
                           type: string
                         type: object
                     type: object
+                  backedUpImages:
+                    items:
+                      type: string
+                    type: array
                   backedUpItems:
                     type: integer
                   backupJobUID:
@@ -17211,6 +17247,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
