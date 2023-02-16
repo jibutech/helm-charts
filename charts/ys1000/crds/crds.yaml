@@ -1502,12 +1502,16 @@ spec:
                 items:
                   properties:
                     images:
-                      items:
+                      additionalProperties:
                         type: string
-                      type: array
+                      description: mapping between image and image id from container
+                        status
+                      type: object
                     name:
                       type: string
                     namespace:
+                      type: string
+                    nodename:
                       type: string
                   type: object
                 type: array
