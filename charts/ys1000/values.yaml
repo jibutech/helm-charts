@@ -52,10 +52,13 @@ components:
       registry:
       repository: jibutech/velero-restic-restore-helper
       tag: v1.7.0
+    imageInternalPlugin:
+      registry:
+      repository: jibutech/velero-plugin
+      tag:
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
     - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b99d08e-20221122124825
-    - jibutech/velero-plugin:main-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
