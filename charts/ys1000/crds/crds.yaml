@@ -1231,6 +1231,19 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
+                                          type: string
+                                      type: object
+                                    type: array
                                   includes:
                                     description: Includes includes volume data in
                                       backup
@@ -1640,6 +1653,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -2019,6 +2036,19 @@ spec:
                               type: string
                           type: object
                         type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
+                              type: string
+                          type: object
+                        type: array
                       includes:
                         description: Includes includes volume data in backup
                         items:
@@ -2219,6 +2249,10 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
                         name:
                           type: string
                         namespace:
@@ -2566,6 +2600,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -3372,6 +3419,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -4298,6 +4358,19 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              includedFiles:
+                                items:
+                                  properties:
+                                    files:
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      type: string
+                                    pvcName:
+                                      type: string
+                                  type: object
+                                type: array
                               includes:
                                 description: Includes includes volume data in backup
                                 items:
@@ -4597,6 +4670,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -5141,6 +5227,19 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
+                                          type: string
+                                      type: object
+                                    type: array
                                   includes:
                                     description: Includes includes volume data in
                                       backup
@@ -5250,6 +5349,10 @@ spec:
                               description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                               type: string
                           type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
                         params:
                           additionalProperties:
                             type: string
@@ -5271,6 +5374,10 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
                         name:
                           type: string
                         namespace:
@@ -5424,6 +5531,10 @@ spec:
                           description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                           type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     params:
                       additionalProperties:
                         type: string
@@ -5456,6 +5567,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -6030,6 +6145,10 @@ spec:
                           description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                           type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     params:
                       additionalProperties:
                         type: string
@@ -6202,6 +6321,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -10860,6 +10983,17 @@ spec:
                       tag:
                         type: string
                     type: object
+                  imageInternalPlugin:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                   imageResticHelper:
                     properties:
                       pullPolicy:
@@ -13809,7 +13943,12 @@ spec:
                     type: object
                   backedUpImages:
                     items:
-                      type: string
+                      properties:
+                        backup:
+                          type: string
+                        origin:
+                          type: string
+                      type: object
                     type: array
                   backedUpItems:
                     type: integer
@@ -14005,10 +14144,13 @@ spec:
                           type: integer
                       type: object
                     type: array
-                  images:
-                    items:
-                      type: string
-                    type: array
+                  imageBackupPolicy:
+                    properties:
+                      backupEnabled:
+                        type: boolean
+                      registryName:
+                        type: string
+                    type: object
                   importData:
                     type: boolean
                   namespaceMapping:
@@ -14537,6 +14679,19 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
+                                          type: string
+                                      type: object
+                                    type: array
                                   includes:
                                     description: Includes includes volume data in
                                       backup
@@ -15057,6 +15212,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -15444,6 +15603,19 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          includedFiles:
+                            items:
+                              properties:
+                                files:
+                                  items:
+                                    type: string
+                                  type: array
+                                namespace:
+                                  type: string
+                                pvcName:
+                                  type: string
+                              type: object
+                            type: array
                           includes:
                             description: Includes includes volume data in backup
                             items:
@@ -15796,6 +15968,19 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          includedFiles:
+                            items:
+                              properties:
+                                files:
+                                  items:
+                                    type: string
+                                  type: array
+                                namespace:
+                                  type: string
+                                pvcName:
+                                  type: string
+                              type: object
+                            type: array
                           includes:
                             description: Includes includes volume data in backup
                             items:
@@ -16040,6 +16225,19 @@ spec:
                                 type: string
                               type: array
                             pod:
+                              type: string
+                          type: object
+                        type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
                               type: string
                           type: object
                         type: array
@@ -16604,6 +16802,19 @@ spec:
                               type: string
                           type: object
                         type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
+                              type: string
+                          type: object
+                        type: array
                       includes:
                         description: Includes includes volume data in backup
                         items:
@@ -16845,6 +17056,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -17828,6 +18052,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
+                          type: string
+                      type: object
+                    type: array
                   includes:
                     description: Includes includes volume data in backup
                     items:
@@ -18646,6 +18883,19 @@ spec:
                                         type: string
                                       type: array
                                     pod:
+                                      type: string
+                                  type: object
+                                type: array
+                              includedFiles:
+                                items:
+                                  properties:
+                                    files:
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      type: string
+                                    pvcName:
                                       type: string
                                   type: object
                                 type: array
@@ -21112,6 +21362,17 @@ spec:
                   daemonSetOnAllNodes:
                     type: boolean
                   image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  imageInternalPlugin:
                     properties:
                       pullPolicy:
                         type: string
