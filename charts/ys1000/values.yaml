@@ -15,6 +15,7 @@ featureGates:
   DisasterRecovery: false
   DMAgent: true
   ImageBackup: true
+  EtcdStub: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
@@ -115,6 +116,11 @@ components:
     image:
       registry:
       repository: jibutech/stub
+      tag:
+  etcdStub:
+    image:
+      registry:
+      repository: jibutech/etcd-stub
       tag:
 
 imagePullSecrets: []
