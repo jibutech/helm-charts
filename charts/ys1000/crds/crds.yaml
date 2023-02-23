@@ -1358,27 +1358,6 @@ spec:
             properties:
               backedUpItems:
                 type: integer
-              backupImages:
-                properties:
-                  failedImages:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  successfulImages:
-                    additionalProperties:
-                      description: ImageInfo is an immutable representation of a container
-                        image and metadata at a point in time. Images are named by
-                        taking a hash of their contents (metadata and content) and
-                        any change in format, content, or metadata results in a new
-                        name.
-                      properties:
-                        dockerImageReference:
-                          description: DockerImageReference is the string that can
-                            be used to pull this image.
-                          type: string
-                      type: object
-                    type: object
-                type: object
               completionTimestamp:
                 format: date-time
                 type: string
@@ -1511,23 +1490,6 @@ spec:
               exportScheduledAt:
                 format: date-time
                 type: string
-              images:
-                items:
-                  properties:
-                    images:
-                      additionalProperties:
-                        type: string
-                      description: mapping between image and image id from container
-                        status
-                      type: object
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                    nodename:
-                      type: string
-                  type: object
-                type: array
               itinerary:
                 type: string
               namespaces:
@@ -1562,6 +1524,37 @@ spec:
               phaseAt:
                 format: date-time
                 type: string
+              podImages:
+                items:
+                  properties:
+                    images:
+                      description: mapping from image to image id from container status
+                        and backupped image
+                      items:
+                        properties:
+                          backup:
+                            description: the image url that is backupped, empty if
+                              image is not successfully backupped
+                            type: string
+                          failReason:
+                            description: the reason of backup failure
+                            type: string
+                          imageID:
+                            description: the imageID capatured from POD.Status.ContainerStatus[].ImageID
+                            type: string
+                          origin:
+                            description: the origin image in POD spec
+                            type: string
+                        type: object
+                      type: array
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    nodeName:
+                      type: string
+                  type: object
+                type: array
               resources:
                 additionalProperties:
                   items:
