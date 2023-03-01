@@ -301,6 +301,10 @@ clusterpedia:
 
   mysql:
     enabled: false
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/mysql
+      tag: 8.0.32
 
 alarm:
   enabled: false
