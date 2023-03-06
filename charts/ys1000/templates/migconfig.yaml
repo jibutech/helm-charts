@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: qiming-operator
     app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
 spec:
-  version: {{ .Values.migconfig.version }}
+  version: {{ .Chart.AppVersion }}
   clientName: {{ .Values.migconfig.clientName }}
   serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
   deploymentMode: {{ .Values.migconfig.deploymentMode }}
