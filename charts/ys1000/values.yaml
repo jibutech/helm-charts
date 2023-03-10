@@ -17,6 +17,7 @@ featureGates:
   DMAgent: true
   ImageBackup: true
   EtcdStub: false
+  Auth: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
@@ -318,6 +319,10 @@ dex:
     pullPolicy: Always
   service:
     type: NodePort
+    ports:
+      http:
+        port: 5556
+        nodePort: 32000
   config:
     issuer: http://0.0.0.0:32000/dex
     oauth2:
