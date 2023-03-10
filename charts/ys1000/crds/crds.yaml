@@ -1704,6 +1704,30 @@ spec:
                 description: BackupPlanRef is Backup Plan spec pointer. Created at
                   plan creation, and readonly
                 properties:
+                  amberapp:
+                    properties:
+                      databases:
+                        type: string
+                      disabled:
+                        type: boolean
+                      endpoint:
+                        type: string
+                      hookName:
+                        type: string
+                      params:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      password:
+                        type: string
+                      provider:
+                        type: string
+                      timeoutSeconds:
+                        format: int32
+                        type: integer
+                      username:
+                        type: string
+                    type: object
                   application:
                     type: string
                   clusterName:
@@ -2275,6 +2299,30 @@ spec:
           spec:
             description: BackupPlanSpec defines the desired state of BackupPlan
             properties:
+              amberapp:
+                properties:
+                  databases:
+                    type: string
+                  disabled:
+                    type: boolean
+                  endpoint:
+                    type: string
+                  hookName:
+                    type: string
+                  params:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  password:
+                    type: string
+                  provider:
+                    type: string
+                  timeoutSeconds:
+                    format: int32
+                    type: integer
+                  username:
+                    type: string
+                type: object
               application:
                 type: string
               clusterName:
@@ -10904,6 +10952,22 @@ spec:
               version:
                 description: Version specifies the installed version
                 type: string
+              volSync:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               watchedNamespaces:
                 description: WatchedNamespaces indicates multiple namespaces backend
                   controllers need to watch and reconcile
@@ -10923,6 +10987,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  issuer:
+                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service
@@ -14856,6 +14922,30 @@ spec:
                     description: BackupPlanRef is Backup Plan spec pointer. Created
                       at plan creation, and readonly
                     properties:
+                      amberapp:
+                        properties:
+                          databases:
+                            type: string
+                          disabled:
+                            type: boolean
+                          endpoint:
+                            type: string
+                          hookName:
+                            type: string
+                          params:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          password:
+                            type: string
+                          provider:
+                            type: string
+                          timeoutSeconds:
+                            format: int32
+                            type: integer
+                          username:
+                            type: string
+                        type: object
                       application:
                         type: string
                       clusterName:
@@ -15221,6 +15311,30 @@ spec:
                   backupPlanRef:
                     description: BackupPlanRef is Backup plan reference
                     properties:
+                      amberapp:
+                        properties:
+                          databases:
+                            type: string
+                          disabled:
+                            type: boolean
+                          endpoint:
+                            type: string
+                          hookName:
+                            type: string
+                          params:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          password:
+                            type: string
+                          provider:
+                            type: string
+                          timeoutSeconds:
+                            format: int32
+                            type: integer
+                          username:
+                            type: string
+                        type: object
                       application:
                         type: string
                       clusterName:
@@ -16055,6 +16169,30 @@ spec:
               backupPlanRef:
                 description: BackupPlanRef is Backup plan reference
                 properties:
+                  amberapp:
+                    properties:
+                      databases:
+                        type: string
+                      disabled:
+                        type: boolean
+                      endpoint:
+                        type: string
+                      hookName:
+                        type: string
+                      params:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      password:
+                        type: string
+                      provider:
+                        type: string
+                      timeoutSeconds:
+                        format: int32
+                        type: integer
+                      username:
+                        type: string
+                    type: object
                   application:
                     type: string
                   clusterName:
@@ -20808,6 +20946,22 @@ spec:
               veleroPlugins:
                 description: Deprecated
                 type: string
+              volSync:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               webServer:
                 properties:
                   image:
@@ -20821,6 +20975,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  issuer:
+                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service

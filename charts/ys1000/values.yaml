@@ -5,6 +5,7 @@
 tags:
   mysql: true
   clusterpedia: true
+  dex: false
 
 featureGates:
   ClusterCache: true
@@ -80,7 +81,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.1.0
+      tag: 0.1.1
   dmAgent:
     image:
       registry:
@@ -122,6 +123,11 @@ components:
       registry:
       repository: jibutech/etcd-stub
       tag:
+  volSync:
+    image:
+      registry:
+      repository: jibutech/volsync
+      tag: 0.6.1
 
 imagePullSecrets: []
 nameOverride: ""
@@ -304,6 +310,48 @@ clusterpedia:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
       tag: 8.0.32
+
+dex:
+  image:
+    repository: registry.cn-shanghai.aliyuncs.com/jibutech/dex
+    tag: 1.0.0
+    pullPolicy: Always
+  service:
+    type: NodePort
+  config:
+    issuer: http://0.0.0.0:32000/dex
+    oauth2:
+      skipApprovalScreen: true
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+    web:
+      http: 0.0.0.0:5556
+    staticClients:
+    - id: ys1000
+      redirectURIs:
+      - 'http://127.0.0.1:5555/callback'
+      name: 'YS1000'
+      secret: ZXmhbABsRS1tcHItcnVjlmVa12u
+    enablePasswordDB: true
+    staticPasswords:
+    - email: "admin@example.com"
+      # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
+      hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
+      username: "admin"
+      userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+    connectors:
+    - type: mockCallback
+      id: mock
+      name: Example
+    - type: cas
+      id: cas
+      name: CAS
+      config:
+        server: http://0.0.0.0:31888/cas/
+        redirectURI: http://0.0.0.0:32000/dex/callback
+        insecureSkipVerify: true
 
 alarm:
   enabled: false
