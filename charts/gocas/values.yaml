@@ -1,0 +1,53 @@
+image:
+  registry: registry.cn-shanghai.aliyuncs.com
+  repository: jibutech/gocas
+  tag: 0.0.1
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+config:
+  title: GoCAS - Single Sign-On
+  url: http://0.0.0.0:31888
+  url_prefix: /cas
+  template_path: /app/template
+  rest_api: true
+  # trust_authentication: never | on-gateway | always
+  trust_authentication: never
+
+  listen: 127.0.0.1:8080
+
+  mongo:
+    host: mongodb://gocas:gocas@mongodb:27017/gocas?authSource=gocas
+
+  throttling:
+    max_failures_by_ip: 5
+    max_failures_by_username: 5
+    decrement_interval: 1m
+
+  #services:
+  #- http://127.0.0.1.xip.io:5000
+
+  ticket_validity:
+    login_ticket: 120
+    ticket_granting_ticket: 3600
+    service_ticket: 30
+
+  protocol: cas
+  # protocol: oauth
+  authenticator: dummy
+  # authenticator: ldap
+
+mongodb:
+  fullnameOverride: "mongodb"
+  auth:
+    rootPassword: "passw0rd"
+    usernames: ["gocas"]
+    passwords: ["gocas"]
+    databases: ["gocas"]
+  persistence:
+    enabled: false
+  arbiter:
+    enabled: false

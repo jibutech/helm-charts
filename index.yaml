@@ -1,5 +1,20 @@
 apiVersion: v1
 entries:
+  gocas:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2023-03-10T15:38:36.483584+08:00"
+    dependencies:
+    - name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.x.x
+    description: A demo cas server
+    digest: 0a92ba68b2893b9afb116ce199f0056461ef52f13381aa1f63b5f8147b31e890
+    name: gocas
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/gocas-0.0.1.tgz
+    version: 0.0.1
   mysql:
   - apiVersion: v2
     appVersion: 8.0.32
@@ -253,7 +268,8 @@ entries:
   - apiVersion: v2
     appVersion: 2.3.1
     created: "2022-03-21T19:54:47.661280188+08:00"
-    description: ys1000 provides data protection and management services for cloud native applications.
+    description: ys1000 provides data protection and management services for cloud
+      native applications.
     digest: 9ac13ec989ad4c87a6d715028ee717dbd250dc8dbe3c29b51b4ac4ada767909b
     name: qiming-operator
     type: application
@@ -263,7 +279,8 @@ entries:
   - apiVersion: v2
     appVersion: 2.3.0
     created: "2022-03-10T12:32:49.359532774+08:00"
-    description: ys1000 provides data protection and management services for cloud native applications.
+    description: ys1000 provides data protection and management services for cloud
+      native applications.
     digest: f7ef6ba22f46eaf9b21d93b659c7bcde15034100f7dfc51ab0d9d94468bec2fa
     name: qiming-operator
     type: application
@@ -273,7 +290,8 @@ entries:
   - apiVersion: v2
     appVersion: 2.2.2
     created: "2022-02-22T18:21:14.604758951+08:00"
-    description: ys1000 provides data protection and management services for cloud native applications.
+    description: ys1000 provides data protection and management services for cloud
+      native applications.
     digest: 9a1e89a45c5e98c90242f6e657e52190c3495cc34b7e13cc2b32ac1fe853cbaf
     name: qiming-operator
     type: application
@@ -300,4 +318,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.0.0.tgz
     version: 3.0.0
-generated: "2023-02-01T11:40:25.935141146+08:00"
+generated: "2023-03-10T15:38:36.477149+08:00"
