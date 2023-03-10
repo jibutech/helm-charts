@@ -18,6 +18,7 @@ featureGates:
   ImageBackup: true
   EtcdStub: false
   Auth: false
+  Migration: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
