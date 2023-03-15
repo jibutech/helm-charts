@@ -16,15 +16,16 @@
 1. 使用以下命令添加 **Helm** 软件仓库:
 
    ```bash
-   $ helm repo add qiming https://jibutech.github.io/helm-charts/
+   $ helm repo add jibutech https://jibutech.github.io/helm-charts/
    ```
 
-   添加完成之后，您可以通过执行命令 `helm search repo qiming` 来查看可选安装的软件版本，例如:
+   添加完成之后，您可以通过执行命令 `helm search repo jibutech` 来查看可选安装的软件版本，例如:
 
    ```bash
-   [root@test-master ~]# NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
-   qiming/qiming-operator  2.10.3          2.10.3          ys1000 provides data protection for cloud nativ...
-   qiming/ys1000           3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
+    NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
+    jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
+    jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
+    jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
 
    ```
 
@@ -34,7 +35,7 @@
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明 <br>
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -44,24 +45,34 @@
     使用**Helm**命令行参数`--set key=value[,key=value] `来指定必要的配置参数，例如:
 
       ```bash
-      helm install qiming/qiming-operator --namespace qiming-migration \
-          --create-namespace --generate-name --set service.type=NodePort \
-          --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
-          --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
-
-      NAME: qiming-operator-1635128765
-      LAST DEPLOYED: Mon Oct 20 10:26:10 2021
-      NAMESPACE: qiming-migration
+      helm install ys1000 jibutech/ys1000 --create-namespace --namespace ys1000
+      NAME: ys1000
+      LAST DEPLOYED: Wed Mar 15 14:41:10 2023
+      NAMESPACE: ys1000
       STATUS: deployed
       REVISION: 1
+      NOTES:
+      1. Check the application status Ready by running these commands:
+        NOTE: It may take a few minutes to pull docker images.
+              You can watch the status of by running `kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w`
+        kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com 
+
+      2. After status is ready, get the application URL by running these commands:
+        export NODE_PORT=$(kubectl get --namespace ys1000 -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+        export NODE_IP=$(kubectl get nodes --namespace ys1000 -o jsonpath="{.items[0].status.addresses[0].address}")
+        echo http://$NODE_IP:$NODE_PORT
+
+      3. Login web UI with the token by running these commands:
+        export SECRET=$(kubectl -n ys1000 get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
+        export TOKEN=$(kubectl -n ys1000 describe secrets $SECRET |grep token: | awk '{print $2}')
+        echo $TOKEN
       ```
-    **注意-1**:3.0及以上版本需要使用qiming/ys1000 chart安装ys1000
     
     说明:
     使用如下命令来检查安装状态正否正常
 
      ```bash
-     kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w
+     kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w
      ```
 
    b. 通过 **YAML** 文件指定参数进行安装
@@ -74,13 +85,13 @@
 
       ```bash
       # step 1: generate default values.yaml
-      helm inspect values  qiming/qiming-operator > values.yaml
+      helm inspect values  jibutech/ys1000 > values.yaml
 
       # step 2: fill required arguments in values.yaml
       vim values.yaml
 
       # step 3: install by specifying the values.yaml
-      helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
+      helm install jibutech/ys1000 --namespace ys1000 -f values.yaml --generate-name
       ```
 
 3. 获取已安装的软件的运行状态
@@ -94,17 +105,17 @@
       如果变成 `Error` ，则说明初始化过程失败，需要查找错误原因。
 
       ```bash
-      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
-      NAME        AGE     PHASE   CREATED AT             VERSION
-      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
+      kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w
+      NAME            AGE   PHASE   CREATED AT             VERSION
+      qiming-config   52s   Ready   2023-03-15T06:41:11Z   3.1.1
       ```
 
     使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
 
       ```bash
-      [root@remote-dev ~]# helm list -n qiming-migration
-      NAME           	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
-      qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
+      helm list -n ys1000
+      NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+      ys1000  ys1000          1               2023-03-15 14:41:10.704452362 +0800 CST deployed        ys1000-3.1.1    3.1.1 
       ```
 
 4. 访问图形管理界面（UI）
@@ -114,26 +125,13 @@
       **注意**：软件通过 K8S Service 来暴露对外访问接口；Web URL 基于 K8S 配置以及安装中指定的参数不同， 暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和   `nodeport`，下文以 `nodeport` 安装方式为例:
 
       ```bash
-      [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-      [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-
-      [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
-      http://192.168.0.2:31151
+      export NODE_PORT=$(kubectl get --namespace ys1000 -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+      export NODE_IP=$(kubectl get nodes --namespace ys1000 -o jsonpath="{.items[0].status.addresses[0].address}")
+      echo http://$NODE_IP:$NODE_PORT
+      http://192.168.0.119:31761
       ```
 
-    b. 登录管理界面
-
-    目前支持两种登录方式，集群令牌访问和用户名密码访问。
-
-    1. 集群令牌获取:
-
-    ```bash
-    export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-    export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-    echo $TOKEN
-    ```
-
-    2. 使用用户名和密码：
+    b. 登录管理界面, 使用用户名和密码：
 
     默认用户名 `admin` 默认密码 `passw0rd`.
     密码可以在安装时指定：
@@ -144,19 +142,15 @@
 
 ## 升级
 
-1. 使用命令 `helm repo update` 更新可用的软件版本, 并可以通过 `helm search repo qiming` 来查看更新后的软件版本列表，例如：
+1. 使用命令 `helm repo update` 更新可用的软件版本, 并可以通过 `helm search repo jibutech` 来查看更新后的软件版本列表，例如：
 
    ```bash
-   [root@ ~]# helm search repo qiming
-   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
-   [root@ ~]# helm search repo qiming --versions
-   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
-   qiming/qiming-operator  2.6.0           2.6.0           ys1000 provides data protection for cloud nativ...
-   qiming/qiming-operator  2.5.3           2.5.3           ys1000 provides data protection for cloud nativ...
-   qiming/qiming-operator  2.5.0           2.5.0           ys1000 provides data protection for cloud nativ...
-   ...
+  helm search repo jibutech --versions
+  NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
+  jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
+  jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
+  jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
+  jibutech/ys1000 3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
    ```
 
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
@@ -164,36 +158,21 @@
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    
    例如：
    
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.6.1 --set migconfig.UIadminPassword=`<your password>`
+   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.1.1 --set migconfig.UIadminPassword=`<your password>`
    ```
 
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
-   ```
-   # example of values.yaml
-   s3Config:
-     provider: "aws"
-     accessKey: "abc"
-     secretKey: "xyz"
-     bucket: "default"
-     s3Url: ""
-     region: "default"
-   migconfig:
-     UIadminPassword: "password"
-   selfBackup:
-     enabled: true
-     frequency: 0 */3 * * *
-     retention: 168
-   ```
+
    例如：
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator qiming/qiming-operator --namespace qiming-migration --version=2.5.0 -f values.yaml
+   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.1.1 -f values.yaml
    ```
    
 
@@ -204,12 +183,12 @@
    指定当前已安装的软件名`release name` 和 软件所在的命名空间`namespace`
 
    ```bash
-   [root@remote-dev ~]# helm list -n qiming-migration
-   NAME                      	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
-   qiming-operator-1618982398	qiming-migration	4       	2021-04-21 13:41:27.365865385 +0800 CST	deployed	qiming-operator-0.2.1	0.2.1
+   helm list -n ys1000
+   NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+   ys1000  ys1000          1               2023-03-15 14:41:10.704452362 +0800 CST deployed        ys1000-3.1.1    3.1.1 
 
-   [root@remote-dev ~]# helm uninstall qiming-operator-1618982398 -n qiming-migration
-   release "qiming-operator-1618982398" uninstalled
+   helm uninstall ys1000 -n ys1000
+   release "ys1000" uninstalled
    ```
 
    **注意**: `velero` 组件和资源对象默认仍然保留在命名空间中, 已防止数据丢失。
@@ -226,17 +205,11 @@
 
 ## 配置
 
-此表列出安装阶段所需的必要和可选参数，且指定过的参数在升级时需要同样指定，否则使用默认值：
+此表列出安装阶段所需的必要和可选参数，且指定过的参数在升级时需要同样指定，否则使用默认值:
 
 | 参数命名                               | 描述                                         | 示例                                          |
 | ------------------------------------- | ------------------------------------------- | --------------------------------------------- |
 | service.type                          | 服务类型                                     | --set service.type=NodePort                   |
-| s3Config.provider                     | S3 提供商                                    | --set s3Config.provider=aws                   |
-| s3Config.name                         | 所配置的 S3 服务名字， 也即数据备份仓库名字       | --set s3Config.name=minio                     |
-| s3Config.accessKey                    | 访问 S3 所需要的 access key                   | --set s3Config.accessKey=minio                |
-| s3Config.secretKey                    | 访问 S3 所需要的 secret key                   | --set s3Config.secretKey=passw0rd             |
-| s3Config.bucket                       | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
-| s3Config.s3Url                        | S3 URL                                      | --set s3Config.s3Url=http://172.16.0.10:30170 |
 | migconfig.UIadminPassword             | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
 | selfBackup.enabled                    | 是否打开自备份（可选，默认为false）              | --set selfBackup.enabled=true                |
 | mysql.primary.persistence.enabled     | 是否对mysql数据做持久化（可选，默认为false）      | --set mysql.primary.persistence.enabled=true  |
