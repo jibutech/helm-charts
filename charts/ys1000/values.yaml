@@ -2,32 +2,25 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 tags:
   mysql: true
   clusterpedia: true
 
 featureGates:
   ClusterCache: true
-  DataMover: true
+  DataMover: false
   AmberApp: true
   Stub: true
   Archive: false
   DisasterRecovery: false
-
-restore: false
-uploadToS3: false
-
-selfBackup:
-  enabled: false
-  frequency: 49 */1 * * *
-  retention: 168
+  DMAgent: true
+  ImageBackup: true
+  EtcdStub: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "release-3.0.0-latest"
+  tag: "release-3.1.1-latest"
 
 image:
   registry:
@@ -55,15 +48,18 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-00442275-20230104040914
+      tag: v1.7.0-jibu-dev-567a6b4d-20230118125816
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
       tag: v1.7.0
+    imageInternalPlugin:
+      registry:
+      repository: jibutech/velero-plugin
+      tag:
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
     - jibutech/velero-plugin-for-csi:v0.2.0-jibu-b99d08e-20221122124825
-    - jibutech/velero-plugin:release-3.0.0-latest
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -84,7 +80,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.0.8
+      tag: 0.1.1
   dmAgent:
     image:
       registry:
@@ -121,40 +117,26 @@ components:
       registry:
       repository: jibutech/stub
       tag:
+  etcdStub:
+    image:
+      registry:
+      repository: jibutech/etcd-stub
+      tag:
 
-componentImages:
-  helmTool:
-    registry:
-    repository: jibutech/helm-tool
-    tag:
-  selfRestore:
-    registry:
-    repository: jibutech/self-restore
-    tag:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "3.0.0"
+  version: "3.1.1"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
   UIadminPassword: "passw0rd"
-
-s3Config:
-  skipped: false
-  name: "default"
-  provider: "aws"
-  accessKey: "abc"
-  secretKey: "xyz"
-  bucket: "default"
-  s3Url: ""
-  region: "default"
+  agentNamespace: qiming-backend
+  selfBackupIntervalSeconds: 300
 
 velero:
-  enabled: true
-  namespace: qiming-backend
   resticPodVolumeOperationTimeout: 240m
 
 serviceAccount:
@@ -178,11 +160,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  name: ui-service
-  type: ClusterIP
-  port: 9000
 
 ingress:
   enabled: false
@@ -211,13 +188,6 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 1
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
 nodeSelector: {}
 
 tolerations: []
@@ -229,15 +199,14 @@ mysql:
   image:
     registry: registry.cn-shanghai.aliyuncs.com
     repository: jibutech/mysql
-    tag: 8.0.29-debian-10-r23
+    tag: 8.0.32
     pullPolicy: IfNotPresent
-    pullSecrets: []
   auth:
     rootPassword: "passw0rd"
     database: webserver
-    username: "webserver"
-    password: "passw0rd"
   primary:
+    args:
+    - --binlog-expire-logs-seconds=3600
     resources:
       limits:
         cpu: 1000m
@@ -249,47 +218,6 @@ mysql:
       enabled: false
       size: 30Gi
       storageClass: ""
-    startupProbe:
-      timeoutSeconds: 60
-      initialDelaySeconds: 60
-    readinessProbe:
-      initialDelaySeconds: 60
-      timeoutSeconds: 60
-    livenessProbe:
-      initialDelaySeconds: 60
-      timeoutSeconds: 60
-    configuration: |-
-      [mysqld]
-      default_authentication_plugin=mysql_native_password
-      skip-name-resolve
-      explicit_defaults_for_timestamp
-      basedir=/opt/bitnami/mysql
-      plugin_dir=/opt/bitnami/mysql/lib/plugin
-      port=3306
-      socket=/opt/bitnami/mysql/tmp/mysql.sock
-      datadir=/bitnami/mysql/data
-      tmpdir=/opt/bitnami/mysql/tmp
-      max_allowed_packet=16M
-      bind-address=*
-      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
-      log-error=/opt/bitnami/mysql/logs/mysqld.log
-      character-set-server=UTF8
-      collation-server=utf8_general_ci
-      slow_query_log=0
-      slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
-      long_query_time=10.0
-      binlog_expire_logs_seconds=3600
-
-      [client]
-      port=3306
-      socket=/opt/bitnami/mysql/tmp/mysql.sock
-      default-character-set=UTF8
-      plugin_dir=/opt/bitnami/mysql/lib/plugin
-
-      [manager]
-      port=3306
-      socket=/opt/bitnami/mysql/tmp/mysql.sock
-      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
 
 clusterpedia:
   persistenceMatchNode: None
@@ -303,7 +231,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/apiserver
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 200m
@@ -316,7 +244,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/clustersynchro-manager
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 50m
@@ -343,7 +271,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/controller-manager
-      tag: v0.6.0
+      tag: v0.6.2
     resources:
       requests:
         cpu: 50m
@@ -376,16 +304,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
-      tag: 8.0.29-debian-10-r23
-    auth:
-      rootPassword: "passw0rd"
-      database: clusterpedia
-#      username: "clusterpedia"
-#      password: "passw0rd"
-    primary:
-      persistence:
-        enabled: false
-        size: 20Gi
+      tag: 8.0.32
 
 alarm:
   enabled: false

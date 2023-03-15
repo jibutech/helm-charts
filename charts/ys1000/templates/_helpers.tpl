@@ -64,6 +64,10 @@ Create the name of the service account to use
 {{/*
 ui service name
 */}}
-{{- define "qiming-operator.uiService" -}}
-{{- printf "%s-%s"  .Values.service.name .Values.migconfig.clientName }}
+{{- define "qiming-operator.uiService.name" -}}
+{{- printf "ui-service-%s"  .Values.migconfig.clientName }}
+{{- end }}
+
+{{- define "qiming-operator.uiService.port" -}}
+9000
 {{- end }}

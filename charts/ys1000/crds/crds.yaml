@@ -241,6 +241,8 @@ spec:
               startTime:
                 format: date-time
                 type: string
+              valid:
+                type: boolean
               volumes:
                 items:
                   properties:
@@ -363,6 +365,8 @@ spec:
                   clusterProvider:
                     type: string
                   copyMethod:
+                    type: string
+                  dataTransferTimeout:
                     type: string
                   failureHooks:
                     items:
@@ -546,6 +550,13 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  imageBackupPolicy:
+                    properties:
+                      backupEnabled:
+                        type: boolean
+                      registryName:
+                        type: string
+                    type: object
                   locationInfo:
                     properties:
                       prefix:
@@ -1207,9 +1218,6 @@ spec:
                                 type: string
                               volume:
                                 properties:
-                                  excluded:
-                                    description: Deprecated
-                                    type: boolean
                                   excludes:
                                     description: Excludes excludes volume data in
                                       backup
@@ -1220,6 +1228,19 @@ spec:
                                             type: string
                                           type: array
                                         pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
                                           type: string
                                       type: object
                                     type: array
@@ -1398,11 +1419,14 @@ spec:
                   type: string
                 type: array
               executionTimestamp:
+                description: Deprecated
                 format: date-time
                 type: string
               exportResult:
                 properties:
-                  DataExportRef:
+                  ExportStatus:
+                    type: string
+                  dataExportRef:
                     description: 'ObjectReference contains enough information to let
                       you inspect or modify the referred object. --- New uses of this
                       type are discouraged because of difficulty describing its usage
@@ -1462,8 +1486,6 @@ spec:
                         description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                         type: string
                     type: object
-                  ExportStatus:
-                    type: string
                 type: object
               exportScheduledAt:
                 format: date-time
@@ -1502,6 +1524,37 @@ spec:
               phaseAt:
                 format: date-time
                 type: string
+              podImages:
+                items:
+                  properties:
+                    images:
+                      description: mapping from image to image id from container status
+                        and backupped image
+                      items:
+                        properties:
+                          backup:
+                            description: the image url that is backupped, empty if
+                              image is not successfully backupped
+                            type: string
+                          failReason:
+                            description: the reason of backup failure
+                            type: string
+                          imageID:
+                            description: the imageID capatured from POD.Status.ContainerStatus[].ImageID
+                            type: string
+                          origin:
+                            description: the origin image in POD spec
+                            type: string
+                        type: object
+                      type: array
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    nodeName:
+                      type: string
+                  type: object
+                type: array
               resources:
                 additionalProperties:
                   items:
@@ -1516,47 +1569,6 @@ spec:
                         type: array
                     type: object
                   type: array
-                type: object
-              restorePoint:
-                description: Backup restore point - deprecated
-                properties:
-                  backupName:
-                    description: velero backup name
-                    type: string
-                  snapshotVolumes:
-                    additionalProperties:
-                      items:
-                        description: Volume info which needed for restore
-                        properties:
-                          capacity:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          claimName:
-                            type: string
-                          namespace:
-                            type: string
-                          podName:
-                            type: string
-                          snapshotId:
-                            type: string
-                          volumeName:
-                            type: string
-                        type: object
-                      type: array
-                    description: Repo id to volume restore info
-                    type: object
-                  snapshotsMap:
-                    additionalProperties:
-                      items:
-                        type: string
-                      type: array
-                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots Info is not enough, have to include
-                      volume info for snapshotId Deprecated"
-                    type: object
                 type: object
               startTimestamp:
                 format: date-time
@@ -1623,6 +1635,8 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              valid:
+                type: boolean
               volumes:
                 items:
                   properties:
@@ -1632,6 +1646,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -1999,9 +2017,6 @@ spec:
                     type: string
                   volume:
                     properties:
-                      excluded:
-                        description: Deprecated
-                        type: boolean
                       excludes:
                         description: Excludes excludes volume data in backup
                         items:
@@ -2011,6 +2026,19 @@ spec:
                                 type: string
                               type: array
                             pod:
+                              type: string
+                          type: object
+                        type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
                               type: string
                           type: object
                         type: array
@@ -2214,6 +2242,10 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
                         name:
                           type: string
                         namespace:
@@ -2552,9 +2584,6 @@ spec:
                 type: string
               volume:
                 properties:
-                  excluded:
-                    description: Deprecated
-                    type: boolean
                   excludes:
                     description: Excludes excludes volume data in backup
                     items:
@@ -2564,6 +2593,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -2916,39 +2958,17 @@ spec:
                         type: string
                     type: object
                 type: object
-              closed:
-                description: Deprecated
-                type: boolean
               cluster:
                 type: string
-              exportPolicy:
-                description: Deprecated
+              executionContext:
                 properties:
-                  dataRepo:
-                    description: migstorage reference
-                    properties:
-                      provider:
-                        type: string
-                      storageName:
-                        type: string
-                      transportType:
-                        type: string
-                      type:
-                        type: string
-                    type: object
-                  executeSchedule:
+                  dataTransferTimeout:
                     type: string
-                  exportData:
-                    type: boolean
-                  exportFrequency:
-                    type: integer
-                  exportSchedule:
+                  executionTimeout:
+                    description: Deprecated
                     type: string
-                  exportTimes:
-                    items:
-                      type: string
-                    type: array
-                  exportType:
+                  queueTimeout:
+                    description: Deprecated
                     type: string
                 type: object
               fallbackToDefault:
@@ -3073,6 +3093,8 @@ spec:
                         type: object
                     type: object
                 type: object
+              group:
+                type: string
               hook:
                 items:
                   properties:
@@ -3084,87 +3106,13 @@ spec:
                       type: integer
                   type: object
                 type: array
-              hooks:
-                items:
-                  description: MigPlanHook hold a referene to a MigHook along with
-                    the desired phase to run it in
-                  properties:
-                    executionNamespace:
-                      type: string
-                    phase:
-                      type: string
-                    reference:
-                      description: 'ObjectReference contains enough information to
-                        let you inspect or modify the referred object. --- New uses
-                        of this type are discouraged because of difficulty describing
-                        its usage when embedded in APIs. 1. Ignored fields.  It includes
-                        many fields which are not generally honored.  For instance,
-                        ResourceVersion and FieldPath are both very rarely valid in
-                        actual usage. 2. Invalid usage help.  It is impossible to
-                        add specific help for individual usage.  In most embedded
-                        usages, there are particular restrictions like, "must refer
-                        only to types A and B" or "UID not honored" or "name must
-                        be restricted". Those cannot be well described when embedded.
-                        3. Inconsistent validation.  Because the usages are different,
-                        the validation rules are different by usage, which makes it
-                        hard for users to predict what will happen. 4. The fields
-                        are both imprecise and overly precise.  Kind is not a precise
-                        mapping to a URL. This can produce ambiguity during interpretation
-                        and require a REST mapping.  In most cases, the dependency
-                        is on the group,resource tuple and the version of the actual
-                        struct is irrelevant. 5. We cannot easily change it.  Because
-                        this type is embedded in many locations, updates to this type
-                        will affect numerous schemas.  Don''t make new APIs embed
-                        an underspecified API type they do not control. Instead of
-                        using this type, create a locally provided and used type that
-                        is well-focused on your reference. For example, ServiceReferences
-                        for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                        .'
-                      properties:
-                        apiVersion:
-                          description: API version of the referent.
-                          type: string
-                        fieldPath:
-                          description: 'If referring to a piece of an object instead
-                            of an entire object, this string should contain a valid
-                            JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                            For example, if the object reference is to a container
-                            within a pod, this would take on a value like: "spec.containers{name}"
-                            (where "name" refers to the name of the container that
-                            triggered the event) or if no container name is specified
-                            "spec.containers[2]" (container with index 2 in this pod).
-                            This syntax is chosen only to have some well-defined way
-                            of referencing a part of an object. TODO: this design
-                            is not final and this field is subject to change in the
-                            future.'
-                          type: string
-                        kind:
-                          description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                          type: string
-                        name:
-                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                          type: string
-                        namespace:
-                          description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                          type: string
-                        resourceVersion:
-                          description: 'Specific resourceVersion to which this reference
-                            is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                          type: string
-                        uid:
-                          description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                          type: string
-                      type: object
-                    serviceAccount:
-                      type: string
-                    type:
-                      type: string
-                  required:
-                  - phase
-                  - reference
-                  - type
-                  type: object
-                type: array
+              imageBackupPolicy:
+                properties:
+                  backupEnabled:
+                    type: boolean
+                  registryName:
+                    type: string
+                type: object
               migStorageRef:
                 description: Deprecated
                 properties:
@@ -3278,41 +3226,6 @@ spec:
                   - supported
                   type: object
                 type: array
-              policy:
-                description: Deprecated
-                properties:
-                  copyMethod:
-                    type: string
-                  frequency:
-                    description: "Cron job like frequency Refer to https://en.wikipedia.org/wiki/Cron
-                      for format \n Predefined schedules: Entry                  |
-                      Description                                | Equivalent To -----
-                      \                 | -----------                                |
-                      ------------- @yearly (or @annually) | Run once a year, midnight,
-                      Jan. 1st        | 0 0 1 1 * @monthly               | Run once
-                      a month, midnight, first of month | 0 0 1 * * @weekly                |
-                      Run once a week, midnight between Sat/Sun  | 0 0 * * 0 @daily
-                      (or @midnight)  | Run once a day, midnight                   |
-                      0 0 * * * @hourly                | Run once an hour, beginning
-                      of hour        | 0 * * * * \n Intervals: @every <duration> example:
-                      \"@every 2h\" means a schedule that activates every 2 hours
-                      since backup plan added"
-                    type: string
-                  name:
-                    type: string
-                  pause:
-                    type: boolean
-                  repeat:
-                    type: boolean
-                  retention:
-                    description: A Duration represents the elapsed time between two
-                      instants as an int64 nanosecond count. The representation limits
-                      the largest representable duration to approximately 290 years.
-                    format: int64
-                    type: integer
-                  snapshotKeptMaxCount:
-                    type: integer
-                type: object
               policyName:
                 type: string
               policyOverrides:
@@ -3488,19 +3401,8 @@ spec:
                     type: string
                   type: array
                 type: array
-              timeouts:
-                description: Deprecated
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
-                    type: string
-                type: object
               volume:
                 properties:
-                  excluded:
-                    description: Deprecated
-                    type: boolean
                   excludes:
                     description: Excludes excludes volume data in backup
                     items:
@@ -3510,6 +3412,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -4424,9 +4339,6 @@ spec:
                             type: string
                           volume:
                             properties:
-                              excluded:
-                                description: Deprecated
-                                type: boolean
                               excludes:
                                 description: Excludes excludes volume data in backup
                                 items:
@@ -4436,6 +4348,19 @@ spec:
                                         type: string
                                       type: array
                                     pod:
+                                      type: string
+                                  type: object
+                                type: array
+                              includedFiles:
+                                items:
+                                  properties:
+                                    files:
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      type: string
+                                    pvcName:
                                       type: string
                                   type: object
                                 type: array
@@ -4729,9 +4654,6 @@ spec:
                 type: object
               volume:
                 properties:
-                  excluded:
-                    description: Deprecated
-                    type: boolean
                   excludes:
                     description: Excludes excludes volume data in backup
                     items:
@@ -4741,6 +4663,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -5123,6 +5058,206 @@ spec:
               canceled:
                 description: Cancel by user
                 type: boolean
+              context:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  resourceFilterRules:
+                    properties:
+                      namespaces:
+                        items:
+                          type: string
+                        type: array
+                      resourceCollector:
+                        type: string
+                      templates:
+                        items:
+                          items:
+                            properties:
+                              filters:
+                                properties:
+                                  excludeClusterResources:
+                                    items:
+                                      properties:
+                                        group:
+                                          type: string
+                                        kind:
+                                          type: string
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        resource:
+                                          type: string
+                                        version:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  excludeResources:
+                                    items:
+                                      properties:
+                                        group:
+                                          type: string
+                                        kind:
+                                          type: string
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        resource:
+                                          type: string
+                                        version:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includeClusterResources:
+                                    items:
+                                      properties:
+                                        group:
+                                          type: string
+                                        kind:
+                                          type: string
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        resource:
+                                          type: string
+                                        version:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includeResources:
+                                    items:
+                                      properties:
+                                        group:
+                                          type: string
+                                        kind:
+                                          type: string
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        resource:
+                                          type: string
+                                        version:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  selector:
+                                    description: A label selector is a label query
+                                      over a set of resources. The result of matchLabels
+                                      and matchExpressions are ANDed. An empty label
+                                      selector matches all objects. A null label selector
+                                      matches no objects.
+                                    properties:
+                                      matchExpressions:
+                                        description: matchExpressions is a list of
+                                          label selector requirements. The requirements
+                                          are ANDed.
+                                        items:
+                                          description: A label selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: key is the label key that
+                                                the selector applies to.
+                                              type: string
+                                            operator:
+                                              description: operator represents a key's
+                                                relationship to a set of values. Valid
+                                                operators are In, NotIn, Exists and
+                                                DoesNotExist.
+                                              type: string
+                                            values:
+                                              description: values is an array of string
+                                                values. If the operator is In or NotIn,
+                                                the values array must be non-empty.
+                                                If the operator is Exists or DoesNotExist,
+                                                the values array must be empty. This
+                                                array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        description: matchLabels is a map of {key,value}
+                                          pairs. A single {key,value} in the matchLabels
+                                          map is equivalent to an element of matchExpressions,
+                                          whose key field is "key", the operator is
+                                          "In", and the values array contains only
+                                          "value". The requirements are ANDed.
+                                        type: object
+                                    type: object
+                                type: object
+                              namespaces:
+                                items:
+                                  type: string
+                                type: array
+                              templateName:
+                                type: string
+                              volume:
+                                properties:
+                                  excludes:
+                                    description: Excludes excludes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    description: Includes includes volume data in
+                                      backup
+                                    items:
+                                      properties:
+                                        names:
+                                          items:
+                                            type: string
+                                          type: array
+                                        pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  option:
+                                    description: Option is the option for volume related
+                                      resources like pvc, pv, snapshot, ...
+                                    type: string
+                                type: object
+                            type: object
+                          type: array
+                        type: array
+                    type: object
+                  sourceCluster:
+                    type: string
+                type: object
               dataRepo:
                 description: migstorage reference
                 properties:
@@ -5135,81 +5270,124 @@ spec:
                   type:
                     type: string
                 type: object
-              dataSources:
-                additionalProperties:
-                  properties:
-                    dataReference:
-                      description: 'ObjectReference contains enough information to
-                        let you inspect or modify the referred object. --- New uses
-                        of this type are discouraged because of difficulty describing
-                        its usage when embedded in APIs. 1. Ignored fields.  It includes
-                        many fields which are not generally honored.  For instance,
-                        ResourceVersion and FieldPath are both very rarely valid in
-                        actual usage. 2. Invalid usage help.  It is impossible to
-                        add specific help for individual usage.  In most embedded
-                        usages, there are particular restrictions like, "must refer
-                        only to types A and B" or "UID not honored" or "name must
-                        be restricted". Those cannot be well described when embedded.
-                        3. Inconsistent validation.  Because the usages are different,
-                        the validation rules are different by usage, which makes it
-                        hard for users to predict what will happen. 4. The fields
-                        are both imprecise and overly precise.  Kind is not a precise
-                        mapping to a URL. This can produce ambiguity during interpretation
-                        and require a REST mapping.  In most cases, the dependency
-                        is on the group,resource tuple and the version of the actual
-                        struct is irrelevant. 5. We cannot easily change it.  Because
-                        this type is embedded in many locations, updates to this type
-                        will affect numerous schemas.  Don''t make new APIs embed
-                        an underspecified API type they do not control. Instead of
-                        using this type, create a locally provided and used type that
-                        is well-focused on your reference. For example, ServiceReferences
-                        for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                        .'
+              dataSource:
+                properties:
+                  dataSourceType:
+                    type: string
+                  dataSources:
+                    additionalProperties:
                       properties:
-                        apiVersion:
-                          description: API version of the referent.
+                        dataReference:
+                          description: 'ObjectReference contains enough information
+                            to let you inspect or modify the referred object. ---
+                            New uses of this type are discouraged because of difficulty
+                            describing its usage when embedded in APIs. 1. Ignored
+                            fields.  It includes many fields which are not generally
+                            honored.  For instance, ResourceVersion and FieldPath
+                            are both very rarely valid in actual usage. 2. Invalid
+                            usage help.  It is impossible to add specific help for
+                            individual usage.  In most embedded usages, there are
+                            particular restrictions like, "must refer only to types
+                            A and B" or "UID not honored" or "name must be restricted".
+                            Those cannot be well described when embedded. 3. Inconsistent
+                            validation.  Because the usages are different, the validation
+                            rules are different by usage, which makes it hard for
+                            users to predict what will happen. 4. The fields are both
+                            imprecise and overly precise.  Kind is not a precise mapping
+                            to a URL. This can produce ambiguity during interpretation
+                            and require a REST mapping.  In most cases, the dependency
+                            is on the group,resource tuple and the version of the
+                            actual struct is irrelevant. 5. We cannot easily change
+                            it.  Because this type is embedded in many locations,
+                            updates to this type will affect numerous schemas.  Don''t
+                            make new APIs embed an underspecified API type they do
+                            not control. Instead of using this type, create a locally
+                            provided and used type that is well-focused on your reference.
+                            For example, ServiceReferences for admission registration:
+                            https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
+                            .'
+                          properties:
+                            apiVersion:
+                              description: API version of the referent.
+                              type: string
+                            fieldPath:
+                              description: 'If referring to a piece of an object instead
+                                of an entire object, this string should contain a
+                                valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                                For example, if the object reference is to a container
+                                within a pod, this would take on a value like: "spec.containers{name}"
+                                (where "name" refers to the name of the container
+                                that triggered the event) or if no container name
+                                is specified "spec.containers[2]" (container with
+                                index 2 in this pod). This syntax is chosen only to
+                                have some well-defined way of referencing a part of
+                                an object. TODO: this design is not final and this
+                                field is subject to change in the future.'
+                              type: string
+                            kind:
+                              description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                              type: string
+                            namespace:
+                              description: 'Namespace of the referent. More info:
+                                https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                              type: string
+                            resourceVersion:
+                              description: 'Specific resourceVersion to which this
+                                reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                              type: string
+                            uid:
+                              description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                              type: string
+                          type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        type:
                           type: string
-                        fieldPath:
-                          description: 'If referring to a piece of an object instead
-                            of an entire object, this string should contain a valid
-                            JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                            For example, if the object reference is to a container
-                            within a pod, this would take on a value like: "spec.containers{name}"
-                            (where "name" refers to the name of the container that
-                            triggered the event) or if no container name is specified
-                            "spec.containers[2]" (container with index 2 in this pod).
-                            This syntax is chosen only to have some well-defined way
-                            of referencing a part of an object. TODO: this design
-                            is not final and this field is subject to change in the
-                            future.'
+                      required:
+                      - dataReference
+                      - type
+                      type: object
+                    description: 'key: ns/pvc, value: vs info'
+                    type: object
+                  podVolumeInfo:
+                    items:
+                      properties:
+                        PodName:
                           type: string
-                        kind:
-                          description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                          type: string
+                        attributes:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
                         name:
-                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                           type: string
                         namespace:
-                          description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
                           type: string
-                        resourceVersion:
-                          description: 'Specific resourceVersion to which this reference
-                            is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                          type: string
-                        uid:
-                          description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        progress:
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            totalBytes:
+                              format: int64
+                              type: integer
+                          type: object
+                        type:
                           type: string
                       type: object
-                    params:
-                      additionalProperties:
-                        type: string
-                      type: object
-                    type:
-                      type: string
-                  required:
-                  - dataReference
-                  - type
-                  type: object
+                    type: array
                 type: object
               policy:
                 properties:
@@ -5279,13 +5457,8 @@ spec:
                       type: string
                   type: object
                 type: array
-              dataLocations:
-                description: RawMessage is a raw encoded JSON value. It implements
-                  Marshaler and Unmarshaler and can be used to delay JSON decoding
-                  or precompute a JSON encoding.
-                format: byte
+              dataMoverName:
                 type: string
-                x-kubernetes-preserve-unknown-fields: true
               dataSources:
                 additionalProperties:
                   properties:
@@ -5351,6 +5524,10 @@ spec:
                           description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                           type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     params:
                       additionalProperties:
                         type: string
@@ -5363,11 +5540,8 @@ spec:
                   type: object
                 description: Deprecated
                 type: object
-              errors:
-                items:
-                  type: string
-                type: array
               executionTimestamp:
+                description: Deprecated
                 format: date-time
                 type: string
               itinerary:
@@ -5380,61 +5554,33 @@ spec:
               progress:
                 additionalProperties:
                   properties:
-                    bytesDone:
-                      format: int64
-                      type: integer
-                    phase:
+                    PodName:
                       type: string
-                    repoId:
-                      description: Restic repo identifier
-                      type: string
-                    snapshotId:
-                      type: string
-                    totalBytes:
-                      format: int64
-                      type: integer
-                  type: object
-                type: object
-              restorePoint:
-                description: Export restore point - deprecated
-                properties:
-                  backupName:
-                    description: velero backup name
-                    type: string
-                  snapshotVolumes:
-                    additionalProperties:
-                      items:
-                        description: Volume info which needed for restore
-                        properties:
-                          capacity:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          claimName:
-                            type: string
-                          namespace:
-                            type: string
-                          podName:
-                            type: string
-                          snapshotId:
-                            type: string
-                          volumeName:
-                            type: string
-                        type: object
-                      type: array
-                    description: Repo id to volume restore info
-                    type: object
-                  snapshotsMap:
-                    additionalProperties:
+                    attributes:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    includedFiles:
                       items:
                         type: string
                       type: array
-                    description: "Key is repo id: pvb.status.repoIdentifier: s3:https://obs.cn-east-3.myhuaweicloud.com/zb-test-1/host-cluster/restic/mysql-demo
-                      \n Value is restic snapshots Info is not enough, have to include
-                      volume info for snapshotId Deprecated"
-                    type: object
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
+                    type:
+                      type: string
+                  type: object
+                description: 'snapshot export key: ns/pvc, podVolume key ns/pod/volume'
                 type: object
               startTimestamp:
                 format: date-time
@@ -5495,70 +5641,11 @@ spec:
                   totalRetryCount:
                     type: integer
                 type: object
-              stopTimestamp:
-                format: date-time
-                type: string
               submitTimestamp:
                 format: date-time
                 type: string
-              veleroExportRef:
-                description: 'ObjectReference contains enough information to let you
-                  inspect or modify the referred object. --- New uses of this type
-                  are discouraged because of difficulty describing its usage when
-                  embedded in APIs. 1. Ignored fields.  It includes many fields which
-                  are not generally honored.  For instance, ResourceVersion and FieldPath
-                  are both very rarely valid in actual usage. 2. Invalid usage help.  It
-                  is impossible to add specific help for individual usage.  In most
-                  embedded usages, there are particular restrictions like, "must refer
-                  only to types A and B" or "UID not honored" or "name must be restricted".
-                  Those cannot be well described when embedded. 3. Inconsistent validation.  Because
-                  the usages are different, the validation rules are different by
-                  usage, which makes it hard for users to predict what will happen.
-                  4. The fields are both imprecise and overly precise.  Kind is not
-                  a precise mapping to a URL. This can produce ambiguity during interpretation
-                  and require a REST mapping.  In most cases, the dependency is on
-                  the group,resource tuple and the version of the actual struct is
-                  irrelevant. 5. We cannot easily change it.  Because this type is
-                  embedded in many locations, updates to this type will affect numerous
-                  schemas.  Don''t make new APIs embed an underspecified API type
-                  they do not control. Instead of using this type, create a locally
-                  provided and used type that is well-focused on your reference. For
-                  example, ServiceReferences for admission registration: https://github.com/kubernetes/api/blob/release-1.17/admissionregistration/v1/types.go#L533
-                  .'
-                properties:
-                  apiVersion:
-                    description: API version of the referent.
-                    type: string
-                  fieldPath:
-                    description: 'If referring to a piece of an object instead of
-                      an entire object, this string should contain a valid JSON/Go
-                      field access statement, such as desiredState.manifest.containers[2].
-                      For example, if the object reference is to a container within
-                      a pod, this would take on a value like: "spec.containers{name}"
-                      (where "name" refers to the name of the container that triggered
-                      the event) or if no container name is specified "spec.containers[2]"
-                      (container with index 2 in this pod). This syntax is chosen
-                      only to have some well-defined way of referencing a part of
-                      an object. TODO: this design is not final and this field is
-                      subject to change in the future.'
-                    type: string
-                  kind:
-                    description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                    type: string
-                  name:
-                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                    type: string
-                  namespace:
-                    description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                    type: string
-                  resourceVersion:
-                    description: 'Specific resourceVersion to which this reference
-                      is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
-                    type: string
-                  uid:
-                    description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                    type: string
-                type: object
+              valid:
+                type: boolean
               warnings:
                 items:
                   properties:
@@ -5654,7 +5741,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -5893,6 +5984,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -5901,6 +5996,25 @@ spec:
               canceled:
                 description: Cancel by user
                 type: boolean
+              context:
+                properties:
+                  dataRepo:
+                    description: migstorage reference
+                    properties:
+                      provider:
+                        type: string
+                      storageName:
+                        type: string
+                      transportType:
+                        type: string
+                      type:
+                        type: string
+                    type: object
+                  dataTransferTimeout:
+                    type: string
+                  targetCluster:
+                    type: string
+                type: object
               dataExportRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6024,6 +6138,10 @@ spec:
                           description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                           type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     params:
                       additionalProperties:
                         type: string
@@ -6190,20 +6308,33 @@ spec:
               progress:
                 additionalProperties:
                   properties:
-                    bytesDone:
-                      format: int64
-                      type: integer
-                    phase:
+                    PodName:
                       type: string
-                    repoId:
-                      description: Restic repo identifier
+                    attributes:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
+                    name:
                       type: string
-                    snapshotId:
+                    namespace:
                       type: string
-                    totalBytes:
-                      format: int64
-                      type: integer
+                    progress:
+                      properties:
+                        bytesDone:
+                          format: int64
+                          type: integer
+                        totalBytes:
+                          format: int64
+                          type: integer
+                      type: object
+                    type:
+                      type: string
                   type: object
+                description: ns/pvc as the key
                 type: object
               startTimestamp:
                 format: date-time
@@ -6267,6 +6398,8 @@ spec:
               submitTimestamp:
                 format: date-time
                 type: string
+              valid:
+                type: boolean
               veleroImportRef:
                 description: 'ObjectReference contains enough information to let you
                   inspect or modify the referred object. --- New uses of this type
@@ -6791,6 +6924,291 @@ spec:
                 items:
                   type: string
                 type: array
+              clusterRestoreActions:
+                additionalProperties:
+                  description: RestoreActions defines the action for a restore
+                  properties:
+                    existingResourcePolicy:
+                      description: 'ExistingResourcePolicy: none or update none is
+                        default behavior while update is to overwrite any existing
+                        resource during restore'
+                      type: string
+                    imageRegistryMappings:
+                      description: replace images or registries
+                      items:
+                        properties:
+                          sourceName:
+                            description: source image or registry name
+                            type: string
+                          targetName:
+                            description: target image or registry name
+                            type: string
+                          targetPullSecretContents:
+                            description: target pull secret contents
+                            type: string
+                          targetPullSecretName:
+                            description: target pull secret name
+                            type: string
+                          type:
+                            description: type support values are image or registry
+                            type: string
+                        type: object
+                      type: array
+                    ingressAnnotationMappings:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    ingressClassNameMappings:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    podNodeSelections:
+                      properties:
+                        newNodeAffinity:
+                          description: Node affinity is a group of node affinity scheduling
+                            rules.
+                          properties:
+                            preferredDuringSchedulingIgnoredDuringExecution:
+                              description: The scheduler will prefer to schedule pods
+                                to nodes that satisfy the affinity expressions specified
+                                by this field, but it may choose a node that violates
+                                one or more of the expressions. The node that is most
+                                preferred is the one with the greatest sum of weights,
+                                i.e. for each node that meets all of the scheduling
+                                requirements (resource request, requiredDuringScheduling
+                                affinity expressions, etc.), compute a sum by iterating
+                                through the elements of this field and adding "weight"
+                                to the sum if the node matches the corresponding matchExpressions;
+                                the node(s) with the highest sum are the most preferred.
+                              items:
+                                description: An empty preferred scheduling term matches
+                                  all objects with implicit weight 0 (i.e. it's a
+                                  no-op). A null preferred scheduling term matches
+                                  no objects (i.e. is also a no-op).
+                                properties:
+                                  preference:
+                                    description: A node selector term, associated
+                                      with the corresponding weight.
+                                    properties:
+                                      matchExpressions:
+                                        description: A list of node selector requirements
+                                          by node's labels.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchFields:
+                                        description: A list of node selector requirements
+                                          by node's fields.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                    type: object
+                                  weight:
+                                    description: Weight associated with matching the
+                                      corresponding nodeSelectorTerm, in the range
+                                      1-100.
+                                    format: int32
+                                    type: integer
+                                required:
+                                - preference
+                                - weight
+                                type: object
+                              type: array
+                            requiredDuringSchedulingIgnoredDuringExecution:
+                              description: If the affinity requirements specified
+                                by this field are not met at scheduling time, the
+                                pod will not be scheduled onto the node. If the affinity
+                                requirements specified by this field cease to be met
+                                at some point during pod execution (e.g. due to an
+                                update), the system may or may not try to eventually
+                                evict the pod from its node.
+                              properties:
+                                nodeSelectorTerms:
+                                  description: Required. A list of node selector terms.
+                                    The terms are ORed.
+                                  items:
+                                    description: A null or empty node selector term
+                                      matches no objects. The requirements of them
+                                      are ANDed. The TopologySelectorTerm type implements
+                                      a subset of the NodeSelectorTerm.
+                                    properties:
+                                      matchExpressions:
+                                        description: A list of node selector requirements
+                                          by node's labels.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchFields:
+                                        description: A list of node selector requirements
+                                          by node's fields.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                              required:
+                              - nodeSelectorTerms
+                              type: object
+                          type: object
+                        newNodeName:
+                          type: string
+                        newNodeSelector:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        nodeAffinityPluginAction:
+                          type: string
+                        nodeNamePluginAction:
+                          type: string
+                        nodeSelectorPluginAction:
+                          type: string
+                      type: object
+                    preserveNodePorts:
+                      description: PreserveNodePorts specifies whether to restore
+                        old nodePorts from backup.
+                      type: boolean
+                    replicaCount:
+                      format: int32
+                      type: integer
+                    restoreImages:
+                      description: use backupped images to replace images in specs
+                        of pod/deployment/daemonset, etc.
+                      type: boolean
+                    storageClassMappings:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                description: restoreActions
+                type: object
               drConfig:
                 description: drconfig reference
                 type: string
@@ -6918,7 +7336,7 @@ spec:
                   nodename
                 type: string
               restoreActions:
-                description: restoreActions
+                description: Deprecated
                 properties:
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
@@ -6946,7 +7364,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -7185,6 +7607,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -7485,15 +7911,17 @@ spec:
                   poolMirrorType:
                     description: pool mirror type, supported value are image,pool
                     type: string
-                  poolName:
-                    description: ceph blockpool name
-                    type: string
                   rbdMirrorMode:
                     description: rbd mirror mode, supported value are snapshot,journal
                     type: string
                   schedulingInterval:
                     description: mirror interval, such as 15m, which means 15 minutes
                     type: string
+                  storageClassNames:
+                    description: ceph storageclass name
+                    items:
+                      type: string
+                    type: array
                 type: object
               dstCluster:
                 type: string
@@ -7546,47 +7974,49 @@ spec:
             description: DrConfigStatus defines the observed state of DrConfig
             properties:
               cephMirrorStatus:
-                description: PoolMirroringStatusSummarySpec is the summary output
-                  of the command
-                properties:
-                  daemon_health:
-                    description: DaemonHealth is the health of the mirroring daemon
-                    type: string
-                  health:
-                    description: Health is the mirroring health
-                    type: string
-                  image_health:
-                    description: ImageHealth is the health of the mirrored image
-                    type: string
-                  states:
-                    description: States is the various state for all mirrored images
-                    nullable: true
-                    properties:
-                      error:
-                        description: Error is when the mirroring state is errored
-                        type: integer
-                      replaying:
-                        description: Replaying is when the replay of the mirroring
-                          journal is on-going
-                        type: integer
-                      starting_replay:
-                        description: StartingReplay is when the replay of the mirroring
-                          journal starts
-                        type: integer
-                      stopped:
-                        description: Stopped is when the mirroring state is stopped
-                        type: integer
-                      stopping_replay:
-                        description: StopReplaying is when the replay of the mirroring
-                          journal stops
-                        type: integer
-                      syncing:
-                        description: Syncing is when the image is syncing
-                        type: integer
-                      unknown:
-                        description: Unknown is when the mirroring state is unknown
-                        type: integer
-                    type: object
+                additionalProperties:
+                  description: rook 1.8.8 PoolMirroringStatusSummarySpec is the summary
+                    output of the command
+                  properties:
+                    daemon_health:
+                      description: DaemonHealth is the health of the mirroring daemon
+                      type: string
+                    health:
+                      description: Health is the mirroring health
+                      type: string
+                    image_health:
+                      description: ImageHealth is the health of the mirrored image
+                      type: string
+                    states:
+                      description: States is the various state for all mirrored images
+                      nullable: true
+                      properties:
+                        error:
+                          description: Error is when the mirroring state is errored
+                          type: integer
+                        replaying:
+                          description: Replaying is when the replay of the mirroring
+                            journal is on-going
+                          type: integer
+                        starting_replay:
+                          description: StartingReplay is when the replay of the mirroring
+                            journal starts
+                          type: integer
+                        stopped:
+                          description: Stopped is when the mirroring state is stopped
+                          type: integer
+                        stopping_replay:
+                          description: StopReplaying is when the replay of the mirroring
+                            journal stops
+                          type: integer
+                        syncing:
+                          description: Syncing is when the image is syncing
+                          type: integer
+                        unknown:
+                          description: Unknown is when the mirroring state is unknown
+                          type: integer
+                      type: object
+                  type: object
                 type: object
               criticalErrors:
                 items:
@@ -7718,6 +8148,90 @@ spec:
             type: object
           status:
             properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operationStatus:
+                description: Help to track operation state and detailed operation
+                  status
+                properties:
+                  completeStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  completeStep:
+                    type: string
+                  operationState:
+                    type: string
+                  startStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  startStep:
+                    type: string
+                type: object
               phase:
                 enum:
                 - Processed
@@ -7726,6 +8240,23 @@ spec:
               processedTimestamp:
                 format: date-time
                 type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -8570,6 +9101,308 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: imagebackups.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ImageBackup
+    listKind: ImageBackupList
+    plural: imagebackups
+    singular: imagebackup
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ImageBackup describe the behaviours of an image backup
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ImageBackupSpec defines the image backup request
+            properties:
+              canceled:
+                type: boolean
+              images:
+                items:
+                  type: string
+                type: array
+              registryName:
+                type: string
+              targetPullSecretContents:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - images
+            - registryName
+            type: object
+          status:
+            properties:
+              completionTime:
+                format: date-time
+                type: string
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              failedImages:
+                additionalProperties:
+                  type: string
+                type: object
+              phase:
+                type: string
+              startTime:
+                format: date-time
+                type: string
+              successfulImages:
+                additionalProperties:
+                  description: ImageInfo is an immutable representation of a container
+                    image and metadata at a point in time. Images are named by taking
+                    a hash of their contents (metadata and content) and any change
+                    in format, content, or metadata results in a new name.
+                  properties:
+                    dockerImageReference:
+                      description: DockerImageReference is the string that can be
+                        used to pull this image.
+                      type: string
+                  type: object
+                type: object
+              valid:
+                type: boolean
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: imageregistries.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ImageRegistry
+    listKind: ImageRegistryList
+    plural: imageregistries
+    shortNames:
+    - ir
+    singular: imageregistry
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ImageRegistry is config of docker image registry
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ImageRegistrySpec defines the access config of a registry
+            properties:
+              host:
+                type: string
+              password:
+                type: string
+              project:
+                type: string
+              pullPassword:
+                type: string
+              pullUsername:
+                type: string
+              regcert:
+                description: base64 encoded public pem cert of registry
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              tls:
+                description: TLSConf specifies whether TLS is enabled for a host
+                type: string
+              username:
+                type: string
+            required:
+            - host
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              phase:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: managedapplications.ys.jibudata.com
 spec:
   group: ys.jibudata.com
@@ -9356,6 +10189,19 @@ spec:
                 description: ClusterRegistry overrides image registry deployed in
                   corresponding user cluster
                 type: string
+              etcdConfig:
+                properties:
+                  capacity:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  etcdBackupEnabled:
+                    type: boolean
+                  storageClassName:
+                    type: string
+                type: object
               ignoredNamespaces:
                 items:
                   type: string
@@ -9593,6 +10439,10 @@ spec:
                 type: boolean
               qosEnabled:
                 type: boolean
+              snapshotDisabled:
+                type: boolean
+              snapshotV1Used:
+                type: boolean
               underMaintenance:
                 type: boolean
               warnings:
@@ -9727,6 +10577,11 @@ spec:
                       tag:
                         type: string
                     type: object
+                type: object
+              csiAddon:
+                properties:
+                  removeCRDsOnDeletion:
+                    type: boolean
                 type: object
               dataMover:
                 properties:
@@ -9998,6 +10853,30 @@ spec:
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
+              etcdStub:
+                properties:
+                  capacity:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  enabled:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  storageClass:
+                    type: string
+                type: object
               featureGates:
                 additionalProperties:
                   type: boolean
@@ -10029,10 +10908,6 @@ spec:
                 description: IsAdminCluster indicates if the cluster is only for backup
                   management or not
                 type: boolean
-              isUINodePortEnabled:
-                description: IsUINodePortEnabled makes UI service to nodeport if true,
-                  otherwise to clustertype by default
-                type: boolean
               operator:
                 properties:
                   featureGates:
@@ -10053,6 +10928,8 @@ spec:
                 type: object
               portal:
                 properties:
+                  disabled:
+                    type: boolean
                   image:
                     properties:
                       pullPolicy:
@@ -10071,8 +10948,8 @@ spec:
                 type: object
               resticDM:
                 properties:
-                  daemonSetOnAllNodes:
-                    type: boolean
+                  hostPodsPath:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -10086,6 +10963,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  workPodCountLimit:
+                    type: integer
                 type: object
               serviceAccountName:
                 description: ServiceAccountName is the service account with all required
@@ -10114,11 +10993,27 @@ spec:
                         type: string
                     type: object
                 type: object
+              tenant:
+                properties:
+                  namespacePrefix:
+                    type: string
+                type: object
               velero:
                 properties:
                   daemonSetOnAllNodes:
                     type: boolean
                   image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  imageInternalPlugin:
                     properties:
                       pullPolicy:
                         type: string
@@ -10478,7 +11373,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -10717,6 +11616,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -11103,7 +12006,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -11342,6 +12249,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -11405,6 +12316,17 @@ spec:
                     type: string
                   uid:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                    type: string
+                type: object
+              executionContext:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  executionTimeout:
+                    description: Deprecated
+                    type: string
+                  queueTimeout:
+                    description: Deprecated
                     type: string
                 type: object
               forceOverwrite:
@@ -11681,13 +12603,6 @@ spec:
                     type: string
                   uid:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
-                    type: string
-                type: object
-              timeouts:
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
                     type: string
                 type: object
             type: object
@@ -11967,15 +12882,7 @@ spec:
                 type: boolean
               quota:
                 properties:
-                  ClusterCapacityLimitQuota:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                      x-kubernetes-int-or-string: true
-                    type: object
-                  totalCapacityQuota:
+                  capacity:
                     anyOf:
                     - type: integer
                     - type: string
@@ -12111,6 +13018,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              selfRestoreState:
+                type: string
               testResults:
                 additionalProperties:
                   description: TestResult defines test result in a managed cluster
@@ -12213,6 +13122,23 @@ spec:
             type: object
           status:
             properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
               jobStatusInfo:
                 additionalProperties:
                   properties:
@@ -12350,6 +13276,26 @@ spec:
               phase:
                 description: Phase
                 type: string
+              state:
+                description: State
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
@@ -12428,7 +13374,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -12667,6 +13617,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -12763,7 +13717,11 @@ spec:
                               type: string
                           type: object
                         type: array
-                      ingressAnnotations:
+                      ingressAnnotationMappings:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      ingressClassNameMappings:
                         additionalProperties:
                           type: string
                         type: object
@@ -13004,11 +13962,26 @@ spec:
                       replicaCount:
                         format: int32
                         type: integer
+                      restoreImages:
+                        description: use backupped images to replace images in specs
+                          of pod/deployment/daemonset, etc.
+                        type: boolean
                       storageClassMappings:
                         additionalProperties:
                           type: string
                         type: object
                     type: object
+                  backedUpImages:
+                    items:
+                      properties:
+                        backup:
+                          type: string
+                        origin:
+                          type: string
+                      type: object
+                    type: array
+                  backedUpItems:
+                    type: integer
                   backupJobUID:
                     type: string
                   backupPlan:
@@ -13017,6 +13990,8 @@ spec:
                     type: string
                   dataOnly:
                     type: boolean
+                  dataTransferTimeout:
+                    type: string
                   failureHooks:
                     items:
                       properties:
@@ -13199,6 +14174,13 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  imageBackupPolicy:
+                    properties:
+                      backupEnabled:
+                        type: boolean
+                      registryName:
+                        type: string
+                    type: object
                   importData:
                     type: boolean
                   namespaceMapping:
@@ -13714,9 +14696,6 @@ spec:
                                 type: string
                               volume:
                                 properties:
-                                  excluded:
-                                    description: Deprecated
-                                    type: boolean
                                   excludes:
                                     description: Excludes excludes volume data in
                                       backup
@@ -13727,6 +14706,19 @@ spec:
                                             type: string
                                           type: array
                                         pod:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includedFiles:
+                                    items:
+                                      properties:
+                                        files:
+                                          items:
+                                            type: string
+                                          type: array
+                                        namespace:
+                                          type: string
+                                        pvcName:
                                           type: string
                                       type: object
                                     type: array
@@ -13771,10 +14763,131 @@ spec:
                         format: date-time
                         type: string
                     type: object
+                  sandboxEnabled:
+                    type: boolean
                   schedulePriority:
                     type: integer
                   sourceCluster:
                     type: string
+                  statusFilters:
+                    properties:
+                      excludeClusterResources:
+                        items:
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            resource:
+                              type: string
+                            version:
+                              type: string
+                          type: object
+                        type: array
+                      excludeResources:
+                        items:
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            resource:
+                              type: string
+                            version:
+                              type: string
+                          type: object
+                        type: array
+                      includeClusterResources:
+                        items:
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            resource:
+                              type: string
+                            version:
+                              type: string
+                          type: object
+                        type: array
+                      includeResources:
+                        items:
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            names:
+                              items:
+                                type: string
+                              type: array
+                            resource:
+                              type: string
+                            version:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                   targetCluster:
                     type: string
                 type: object
@@ -13843,6 +14956,7 @@ spec:
                     type: string
                 type: object
               verify:
+                description: Deprecated
                 type: boolean
             type: object
           status:
@@ -13903,6 +15017,7 @@ spec:
                   type: string
                 type: array
               executionTimestamp:
+                description: Deprecated
                 format: date-time
                 type: string
               importResult:
@@ -14052,6 +15167,7 @@ spec:
                         type: string
                       type: array
                   type: object
+                description: Deprecated
                 type: object
               startTimestamp:
                 format: date-time
@@ -14115,6 +15231,8 @@ spec:
                 type: string
               totalItems:
                 type: integer
+              valid:
+                type: boolean
               volumes:
                 items:
                   properties:
@@ -14124,6 +15242,10 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    includedFiles:
+                      items:
+                        type: string
+                      type: array
                     name:
                       type: string
                     namespace:
@@ -14499,9 +15621,6 @@ spec:
                         type: string
                       volume:
                         properties:
-                          excluded:
-                            description: Deprecated
-                            type: boolean
                           excludes:
                             description: Excludes excludes volume data in backup
                             items:
@@ -14511,6 +15630,19 @@ spec:
                                     type: string
                                   type: array
                                 pod:
+                                  type: string
+                              type: object
+                            type: array
+                          includedFiles:
+                            items:
+                              properties:
+                                files:
+                                  items:
+                                    type: string
+                                  type: array
+                                namespace:
+                                  type: string
+                                pvcName:
                                   type: string
                               type: object
                             type: array
@@ -14854,9 +15986,6 @@ spec:
                         type: string
                       volume:
                         properties:
-                          excluded:
-                            description: Deprecated
-                            type: boolean
                           excludes:
                             description: Excludes excludes volume data in backup
                             items:
@@ -14866,6 +15995,19 @@ spec:
                                     type: string
                                   type: array
                                 pod:
+                                  type: string
+                              type: object
+                            type: array
+                          includedFiles:
+                            items:
+                              properties:
+                                files:
+                                  items:
+                                    type: string
+                                  type: array
+                                namespace:
+                                  type: string
+                                pvcName:
                                   type: string
                               type: object
                             type: array
@@ -15104,9 +16246,6 @@ spec:
                     type: string
                   volume:
                     properties:
-                      excluded:
-                        description: Deprecated
-                        type: boolean
                       excludes:
                         description: Excludes excludes volume data in backup
                         items:
@@ -15116,6 +16255,19 @@ spec:
                                 type: string
                               type: array
                             pod:
+                              type: string
+                          type: object
+                        type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
                               type: string
                           type: object
                         type: array
@@ -15668,9 +16820,6 @@ spec:
                     type: string
                   volume:
                     properties:
-                      excluded:
-                        description: Deprecated
-                        type: boolean
                       excludes:
                         description: Excludes excludes volume data in backup
                         items:
@@ -15680,6 +16829,19 @@ spec:
                                 type: string
                               type: array
                             pod:
+                              type: string
+                          type: object
+                        type: array
+                      includedFiles:
+                        items:
+                          properties:
+                            files:
+                              items:
+                                type: string
+                              type: array
+                            namespace:
+                              type: string
+                            pvcName:
                               type: string
                           type: object
                         type: array
@@ -15915,9 +17077,6 @@ spec:
                 type: string
               volume:
                 properties:
-                  excluded:
-                    description: Deprecated
-                    type: boolean
                   excludes:
                     description: Excludes excludes volume data in backup
                     items:
@@ -15927,6 +17086,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -16090,7 +17262,11 @@ spec:
                           type: string
                       type: object
                     type: array
-                  ingressAnnotations:
+                  ingressAnnotationMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  ingressClassNameMappings:
                     additionalProperties:
                       type: string
                     type: object
@@ -16329,6 +17505,10 @@ spec:
                   replicaCount:
                     format: int32
                     type: integer
+                  restoreImages:
+                    description: use backupped images to replace images in specs of
+                      pod/deployment/daemonset, etc.
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -16456,6 +17636,17 @@ spec:
                     type: string
                   uid:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                    type: string
+                type: object
+              executionContext:
+                properties:
+                  dataTransferTimeout:
+                    type: string
+                  executionTimeout:
+                    description: Deprecated
+                    type: string
+                  queueTimeout:
+                    description: Deprecated
                     type: string
                 type: object
               filters:
@@ -16737,6 +17928,8 @@ spec:
                       for details on syntax.
                     type: string
                 type: object
+              sandboxEnabled:
+                type: boolean
               scheduleEnabled:
                 description: ScheduleEnabled indicts if restore is automatically restored
                   periodically from corresponding latest available backup job
@@ -16748,24 +17941,135 @@ spec:
                   is created it can be usd to support scheduled execution and restore
                   retry
                 type: string
+              statusFilters:
+                description: StatusFilters is a resource filter to determine which
+                  resources should preserve status, if it is not specified, no status
+                  will be preserved.
+                properties:
+                  excludeClusterResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        kind:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  excludeResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        kind:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  includeClusterResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        kind:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  includeResources:
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        kind:
+                          type: string
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
+                  selector:
+                    description: A label selector is a label query over a set of resources.
+                      The result of matchLabels and matchExpressions are ANDed. An
+                      empty label selector matches all objects. A null label selector
+                      matches no objects.
+                    properties:
+                      matchExpressions:
+                        description: matchExpressions is a list of label selector
+                          requirements. The requirements are ANDed.
+                        items:
+                          description: A label selector requirement is a selector
+                            that contains values, a key, and an operator that relates
+                            the key and values.
+                          properties:
+                            key:
+                              description: key is the label key that the selector
+                                applies to.
+                              type: string
+                            operator:
+                              description: operator represents a key's relationship
+                                to a set of values. Valid operators are In, NotIn,
+                                Exists and DoesNotExist.
+                              type: string
+                            values:
+                              description: values is an array of string values. If
+                                the operator is In or NotIn, the values array must
+                                be non-empty. If the operator is Exists or DoesNotExist,
+                                the values array must be empty. This array is replaced
+                                during a strategic merge patch.
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - key
+                          - operator
+                          type: object
+                        type: array
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: matchLabels is a map of {key,value} pairs. A
+                          single {key,value} in the matchLabels map is equivalent
+                          to an element of matchExpressions, whose key field is "key",
+                          the operator is "In", and the values array contains only
+                          "value". The requirements are ANDed.
+                        type: object
+                    type: object
+                type: object
               templates:
                 items:
                   items:
                     type: string
                   type: array
                 type: array
-              timeouts:
-                properties:
-                  executionTimeout:
-                    type: string
-                  queueTimeout:
-                    type: string
-                type: object
               volume:
                 properties:
-                  excluded:
-                    description: Deprecated
-                    type: boolean
                   excludes:
                     description: Excludes excludes volume data in backup
                     items:
@@ -16775,6 +18079,19 @@ spec:
                             type: string
                           type: array
                         pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
                           type: string
                       type: object
                     type: array
@@ -17587,9 +18904,6 @@ spec:
                             type: string
                           volume:
                             properties:
-                              excluded:
-                                description: Deprecated
-                                type: boolean
                               excludes:
                                 description: Excludes excludes volume data in backup
                                 items:
@@ -17599,6 +18913,19 @@ spec:
                                         type: string
                                       type: array
                                     pod:
+                                      type: string
+                                  type: object
+                                type: array
+                              includedFiles:
+                                items:
+                                  properties:
+                                    files:
+                                      items:
+                                        type: string
+                                      type: array
+                                    namespace:
+                                      type: string
+                                    pvcName:
                                       type: string
                                   type: object
                                 type: array
@@ -19010,6 +20337,9 @@ spec:
           spec:
             description: SystemSettingSpec defines the desired state of SystemSetting
             properties:
+              config:
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               report:
                 description: Sends report to specified addresses including backupjobs,
                   migrations, restorejobs status every day at notifyTime
@@ -19033,11 +20363,10 @@ spec:
                     type: string
                 type: object
               systemReportEnabled:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                  Important: Run "make" to regenerate code after modifying this file
-                  Reports includes backupjobs, migrations, restorejobs status'
                 type: boolean
               systemReportSecret:
+                type: string
+              type:
                 type: string
             type: object
           status:
@@ -19586,6 +20915,11 @@ spec:
               cronImage:
                 description: Deprecated
                 type: string
+              csiAddon:
+                properties:
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               dataMover:
                 properties:
                   image:
@@ -19856,6 +21190,30 @@ spec:
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
+              etcdStub:
+                properties:
+                  capacity:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  enabled:
+                    type: boolean
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  storageClass:
+                    type: string
+                type: object
               hookRunner:
                 properties:
                   image:
@@ -19906,6 +21264,8 @@ spec:
                 type: object
               portal:
                 properties:
+                  disabled:
+                    type: boolean
                   image:
                     properties:
                       pullPolicy:
@@ -19927,8 +21287,8 @@ spec:
                 type: boolean
               resticDM:
                 properties:
-                  daemonSetOnAllNodes:
-                    type: boolean
+                  hostPodsPath:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -19942,6 +21302,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  workPodCountLimit:
+                    type: integer
                 type: object
               snapshot:
                 properties:
@@ -20054,6 +21416,17 @@ spec:
                   daemonSetOnAllNodes:
                     type: boolean
                   image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  imageInternalPlugin:
                     properties:
                       pullPolicy:
                         type: string

@@ -11,7 +11,7 @@ spec:
   serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
   deploymentMode: {{ .Values.migconfig.deploymentMode }}
   isAdminCluster: {{ .Values.migconfig.isAdminCluster }}
-  agentNamespace: {{ .Values.velero.namespace }}
+  agentNamespace: {{ .Values.migconfig.agentNamespace }}
   featureGates:
     {{- range $key, $val := .Values.featureGates }}
     {{ $key }}: {{ $val }}
@@ -75,6 +75,11 @@ spec:
       repository: {{ .Values.components.velero.imageResticHelper.repository }}
       pullPolicy: {{ .Values.components.velero.imageResticHelper.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.velero.imageResticHelper.tag | default .Values.imageBase.tag }}
+    imageInternalPlugin:
+      registry: {{ .Values.components.velero.imageInternalPlugin.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.velero.imageInternalPlugin.repository }}
+      pullPolicy: {{ .Values.components.velero.imageInternalPlugin.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.velero.imageInternalPlugin.tag | default .Values.imageBase.tag }}
     plugins:
     {{- range .Values.components.velero.plugins }}
     - {{ . | quote }}
@@ -115,3 +120,9 @@ spec:
       repository: {{ .Values.components.agentStub.image.repository }}
       pullPolicy: {{ .Values.components.agentStub.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.agentStub.image.tag | default .Values.imageBase.tag }}
+  etcdStub:
+    image:
+      registry: {{ .Values.components.etcdStub.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.etcdStub.image.repository }}
+      pullPolicy: {{ .Values.components.etcdStub.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.etcdStub.image.tag | default .Values.imageBase.tag }}

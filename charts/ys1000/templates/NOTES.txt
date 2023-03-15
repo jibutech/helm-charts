@@ -1,9 +1,3 @@
-{{- if .Values.restore }}
-Restore is completed successfully, you can delete this release now.
-If there is anything wrong, check the restore log by:
-kubectl logs -l app.kubernetes.io/component=self-restore -n {{ .Release.Namespace }} --tail -1
-
-{{- else }}
 1. Check the application status Ready by running these commands:
   NOTE: It may take a few minutes to pull docker images.
         You can watch the status of by running `kubectl --namespace {{ .Release.Namespace }} get migconfigs.migration.yinhestor.com -w`
@@ -16,16 +10,16 @@ kubectl logs -l app.kubernetes.io/component=self-restore -n {{ .Release.Namespac
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
   {{- end }}
 {{- end }}
-{{- else if contains "NodePort" .Values.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "qiming-operator.uiService" .}} )
+{{- else if contains "NodePort" .Values.components.portal.serviceType }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "qiming-operator.uiService.name" .}} )
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
   echo http://$NODE_IP:$NODE_PORT
-{{- else if contains "LoadBalancer" .Values.service.type }}
+{{- else if contains "LoadBalancer" .Values.components.portal.serviceType }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "qiming-operator.uiService"  . }}'
-  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "qiming-operator.uiService" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
-  echo http://$SERVICE_IP:{{ .Values.service.port }}
-{{- else if contains "ClusterIP" .Values.service.type }}
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "qiming-operator.uiService.name" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "qiming-operator.uiService.name" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ include "qiming-operator.uiService.port" . }}
+{{- else if contains "ClusterIP" .Values.components.portal.serviceType }}
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name=qiming-operator,app.kubernetes.io/instance="migconfig.{{ .Release.Namespace }}",app.kubernetes.io/component=ui-discovery" -o jsonpath="{.items[0].metadata.name}")
   export CONTAINER_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8080 to use your application"
@@ -36,4 +30,3 @@ kubectl logs -l app.kubernetes.io/component=self-restore -n {{ .Release.Namespac
   export SECRET=$(kubectl -n {{ .Release.Namespace }} get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
   export TOKEN=$(kubectl -n {{ .Release.Namespace }} describe secrets $SECRET |grep token: | awk '{print $2}')
   echo $TOKEN
-{{- end }}
