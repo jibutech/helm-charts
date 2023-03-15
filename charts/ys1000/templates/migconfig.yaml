@@ -131,3 +131,9 @@ spec:
       repository: {{ .Values.components.etcdStub.image.repository }}
       pullPolicy: {{ .Values.components.etcdStub.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.etcdStub.image.tag | default .Values.imageBase.tag }}
+  volSync:
+    image:
+      registry: {{ .Values.components.volSync.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.volSync.image.repository }}
+      pullPolicy: {{ .Values.components.volSync.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.volSync.image.tag | default .Values.imageBase.tag }}
