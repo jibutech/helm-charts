@@ -22,18 +22,19 @@
    添加完成之后，您可以通过执行命令 `helm search repo qiming` 来查看可选安装的软件版本，例如:
 
    ```bash
-   [root@test-master ~]# helm search repo qiming
-   NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
-   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
+   [root@test-master ~]# NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+   qiming/qiming-operator  2.10.3          2.10.3          ys1000 provides data protection for cloud nativ...
+   qiming/ys1000           3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
+
    ```
 
 2. 您可以使用以下两种方法进行安装:
 
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节 <br>
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明 <br>
-   **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
+   **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -54,7 +55,8 @@
       STATUS: deployed
       REVISION: 1
       ```
-
+    **注意-1**:3.0及以上版本需要使用qiming/ys1000 chart安装ys1000
+    
     说明:
     使用如下命令来检查安装状态正否正常
 
@@ -160,9 +162,9 @@
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
-   **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
+   **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
    
    例如：
