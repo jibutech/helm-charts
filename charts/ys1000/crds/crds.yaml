@@ -11080,6 +11080,22 @@ spec:
               version:
                 description: Version specifies the installed version
                 type: string
+              volSync:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               watchedNamespaces:
                 description: WatchedNamespaces indicates multiple namespaces backend
                   controllers need to watch and reconcile
@@ -21502,6 +21518,22 @@ spec:
               veleroPlugins:
                 description: Deprecated
                 type: string
+              volSync:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               webServer:
                 properties:
                   image:

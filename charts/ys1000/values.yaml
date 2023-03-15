@@ -122,6 +122,11 @@ components:
       registry:
       repository: jibutech/etcd-stub
       tag:
+  volSync:
+    image:
+      registry:
+      repository: jibutech/volsync
+      tag: 0.6.1
 
 imagePullSecrets: []
 nameOverride: ""
