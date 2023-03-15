@@ -8301,6 +8301,71 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: globalclusters.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: GlobalCluster
+    listKind: GlobalClusterList
+    plural: globalclusters
+    shortNames:
+    - gc
+    singular: globalcluster
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: GlobalCluster is the Schema for the workspaces API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: GlobalClusterSpec defines the desired state of GlobalCluster
+            properties:
+              shadowOf:
+                properties:
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                type: object
+              visibleToLocalWorkspaces:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: hooks.ys.jibudata.com
 spec:
   group: ys.jibudata.com
@@ -10226,6 +10291,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              tenantSource:
+                type: boolean
               url:
                 type: string
             required:
@@ -10418,6 +10485,13 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                type: object
+              auth:
+                properties:
+                  issuer:
+                    type: string
+                  redirectURI:
+                    type: string
                 type: object
               clientName:
                 description: ClientName is the unique name or id of this instace
@@ -10987,8 +11061,6 @@ spec:
                       tag:
                         type: string
                     type: object
-                  issuer:
-                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service
@@ -20975,8 +21047,6 @@ spec:
                       tag:
                         type: string
                     type: object
-                  issuer:
-                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service
@@ -21020,6 +21090,192 @@ spec:
                 description: State describes if the tenant worker can serve any tenant
                   instance
                 type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: workspacebindings.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: WorkSpaceBinding
+    listKind: WorkSpaceBindingList
+    plural: workspacebindings
+    shortNames:
+    - wb
+    singular: workspacebinding
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: WorkSpaceBinding is the Schema for the workspacebindings API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          subjects:
+            items:
+              description: Subject contains a reference to the object or user identities
+                a role binding applies to.  This can either hold a direct API object
+                reference, or a value for non-objects such as user and group names.
+              properties:
+                apiGroup:
+                  description: APIGroup holds the API group of the referenced subject.
+                    Defaults to "" for ServiceAccount subjects. Defaults to "rbac.authorization.k8s.io"
+                    for User and Group subjects.
+                  type: string
+                kind:
+                  description: Kind of object being referenced. Values defined by
+                    this API group are "User", "Group", and "ServiceAccount". If the
+                    Authorizer does not recognized the kind value, the Authorizer
+                    should report an error.
+                  type: string
+                name:
+                  description: Name of the object being referenced.
+                  type: string
+                namespace:
+                  description: Namespace of the referenced object.  If the object
+                    kind is non-namespace, such as "User" or "Group", and this value
+                    is not empty the Authorizer should report an error.
+                  type: string
+              required:
+              - kind
+              - name
+              type: object
+            type: array
+          workSpaceRef:
+            properties:
+              cluster:
+                type: string
+              name:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: workspaces.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: WorkSpace
+    listKind: WorkSpaceList
+    plural: workspaces
+    shortNames:
+    - ws
+    singular: workspace
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: WorkSpace is the Schema for the workspaces API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WorkSpaceSpec defines the desired state of WorkSpace
+            properties:
+              cluster:
+                type: string
+              name:
+                type: string
+              source:
+                items:
+                  properties:
+                    cluster:
+                      type: string
+                    localWorkSpaces:
+                      items:
+                        type: string
+                      type: array
+                    namespaces:
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              ref:
+                properties:
+                  cluster:
+                    type: string
+                  name:
+                    type: string
+                type: object
+              sourceStatus:
+                items:
+                  properties:
+                    cluster:
+                      type: string
+                    localWorkSpaces:
+                      items:
+                        type: string
+                      type: array
+                    namespaces:
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                type: array
             type: object
         type: object
     served: true
