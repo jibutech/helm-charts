@@ -144,14 +144,14 @@
 
 1. 使用命令 `helm repo update` 更新可用的软件版本, 并可以通过 `helm search repo jibutech` 来查看更新后的软件版本列表，例如：
 
-   ```bash
-  helm search repo jibutech --versions
-  NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
-  jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
-  jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
-  jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
-  jibutech/ys1000 3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
-   ```
+    ```bash
+    helm search repo jibutech --versions
+    NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
+    jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
+    jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
+    jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
+    jibutech/ys1000 3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
+    ```
 
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
