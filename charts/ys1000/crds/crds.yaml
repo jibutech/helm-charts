@@ -5981,6 +5981,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
@@ -7195,6 +7200,11 @@ spec:
                       description: PreserveNodePorts specifies whether to restore
                         old nodePorts from backup.
                       type: boolean
+                    pvcNameMappings:
+                      additionalProperties:
+                        type: string
+                      description: pvc name mapping, change restore pvc name
+                      type: object
                     replicaCount:
                       format: int32
                       type: integer
@@ -7604,6 +7614,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
@@ -11613,6 +11628,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
@@ -12246,6 +12266,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
@@ -13614,6 +13639,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
@@ -13959,6 +13989,11 @@ spec:
                         description: PreserveNodePorts specifies whether to restore
                           old nodePorts from backup.
                         type: boolean
+                      pvcNameMappings:
+                        additionalProperties:
+                          type: string
+                        description: pvc name mapping, change restore pvc name
+                        type: object
                       replicaCount:
                         format: int32
                         type: integer
@@ -17502,6 +17537,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaCount:
                     format: int32
                     type: integer
