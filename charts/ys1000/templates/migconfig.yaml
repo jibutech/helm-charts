@@ -20,6 +20,11 @@ spec:
     registry: {{ .Values.imageBase.registry }}
     pullPolicy: {{ .Values.imageBase.pullPolicy }}
     tag: {{ .Values.imageBase.tag }}
+  auth:
+    issuer: {{ .Values.dex.config.issuer }}
+    {{- with (first .Values.dex.config.staticClients) }}
+    redirectURI: {{ (first .redirectURIs) }}
+    {{- end }}
   portal:
     image:
       registry: {{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}
@@ -52,7 +57,6 @@ spec:
       pullPolicy: {{ .Values.components.webserver.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.webserver.image.tag | default .Values.imageBase.tag }}
     serviceType: {{ .Values.components.webserver.serviceType }}
-    issuer: {{ .Values.dex.config.issuer }}
   hookRunner:
     image:
       registry: {{ .Values.components.hookrunner.image.registry | default .Values.imageBase.registry }}
