@@ -127,6 +127,11 @@ components:
       registry:
       repository: jibutech/volsync
       tag: 0.6.1
+  drInitContainer:
+    image:
+      registry:
+      repository: jibutech/dr-initcontainer
+      tag:
 
 imagePullSecrets: []
 nameOverride: ""
