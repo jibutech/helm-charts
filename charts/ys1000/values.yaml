@@ -104,7 +104,7 @@ components:
     image:
       registry:
       repository: jibutech/mig-discovery
-      tag:
+      tag: 3.2.0
   controller:
     image:
       registry:

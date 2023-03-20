@@ -64,7 +64,19 @@ spec:
                     type: boolean
                 type: object
               clusterName:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               dataCheckpoint:
                 properties:
                   backupName:
@@ -364,6 +376,17 @@ spec:
                 properties:
                   clusterProvider:
                     type: string
+                  clusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                   copyMethod:
                     type: string
                   dataTransferTimeout:
@@ -1264,6 +1287,7 @@ spec:
                   schedulePriority:
                     type: integer
                   sourceClusterName:
+                    description: Deprecated
                     type: string
                   storageName:
                     type: string
@@ -2969,7 +2993,15 @@ spec:
                     type: object
                 type: object
               cluster:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                type: object
               executionContext:
                 properties:
                   dataTransferTimeout:
@@ -3304,7 +3336,15 @@ spec:
                   of this backup plan
                 properties:
                   cluster:
+                    description: Deprecated
                     type: string
+                  clusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                    type: object
                   frequency:
                     type: string
                   keepResource:
@@ -3332,7 +3372,15 @@ spec:
                     type: string
                 type: object
               storage:
+                description: Deprecated
                 type: string
+              storageRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                type: object
               templates:
                 items:
                   items:
@@ -3390,6 +3438,17 @@ spec:
               addedTimestamp:
                 format: date-time
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -4267,6 +4326,17 @@ spec:
                       type: array
                     type: array
                 type: object
+              scrubClusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               state:
                 type: string
               storage:
@@ -4350,6 +4420,7 @@ spec:
             description: BackupTemplateSpec defines the desired state of BackupTemplate
             properties:
               application:
+                description: Deprecated
                 properties:
                   config:
                     type: object
@@ -4359,7 +4430,17 @@ spec:
                   provider:
                     type: string
                 type: object
+              clusterRefs:
+                items:
+                  properties:
+                    cluster:
+                      type: string
+                    global:
+                      type: boolean
+                  type: object
+                type: array
               clusters:
+                description: Deprecated
                 items:
                   type: string
                 type: array
@@ -4481,11 +4562,6 @@ spec:
                       is "In", and the values array contains only "value". The requirements
                       are ANDed.
                     type: object
-                  names:
-                    description: Deprecated
-                    items:
-                      type: string
-                    type: array
                 type: object
               selector:
                 description: A label selector is a label query over a set of resources.
@@ -4942,6 +5018,17 @@ spec:
                 type: boolean
               context:
                 properties:
+                  clusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                   dataTransferTimeout:
                     type: string
                   resourceFilterRules:
@@ -5138,6 +5225,7 @@ spec:
                         type: array
                     type: object
                   sourceCluster:
+                    description: Deprecated
                     type: string
                 type: object
               dataRepo:
@@ -5883,6 +5971,17 @@ spec:
                 type: boolean
               context:
                 properties:
+                  clusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                   dataRepo:
                     description: migstorage reference
                     properties:
@@ -5898,6 +5997,7 @@ spec:
                   dataTransferTimeout:
                     type: string
                   targetCluster:
+                    description: Deprecated
                     type: string
                 type: object
               dataExportRef:
@@ -6496,7 +6596,19 @@ spec:
               backupLocation:
                 type: string
               clusterName:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               durationBeforePrune:
                 type: string
               namespaces:
@@ -6506,10 +6618,7 @@ spec:
               prefix:
                 type: string
             required:
-            - backupLocation
             - clusterName
-            - namespaces
-            - prefix
             type: object
           status:
             properties:
@@ -6574,7 +6683,15 @@ spec:
               backupJobName:
                 type: string
               clusterName:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                type: object
               keepResource:
                 description: Deprecated
                 type: boolean
@@ -6640,6 +6757,17 @@ spec:
                           type: string
                       type: object
                     type: array
+                type: object
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
                 type: object
               completionTime:
                 format: date-time
@@ -9394,7 +9522,15 @@ spec:
             description: ManagedApplicationSpec defines the desired state of ManagedApplication
             properties:
               cluster:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                type: object
               source:
                 items:
                   properties:
@@ -9410,6 +9546,17 @@ spec:
             type: object
           status:
             properties:
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -14452,7 +14599,19 @@ spec:
                   schedulePriority:
                     type: integer
                   sourceCluster:
+                    description: Deprecated
                     type: string
+                  sourceClusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                   statusFilters:
                     properties:
                       excludeClusterResources:
@@ -14573,7 +14732,19 @@ spec:
                         type: object
                     type: object
                   targetCluster:
+                    description: Deprecated
                     type: string
+                  targetClusterRef:
+                    properties:
+                      cluster:
+                        type: string
+                      global:
+                        type: boolean
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                 type: object
               inactivated:
                 type: boolean
@@ -17298,7 +17469,15 @@ spec:
                 description: Deprecated
                 type: boolean
               cluster:
+                description: Deprecated
                 type: string
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                type: object
               destClusterRef:
                 description: Deprecated
                 properties:
@@ -17690,6 +17869,17 @@ spec:
           status:
             description: RestoreStatus defines the observed state of Restore
             properties:
+              clusterRef:
+                properties:
+                  cluster:
+                    type: string
+                  global:
+                    type: boolean
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -21254,6 +21444,8 @@ spec:
             type: object
           status:
             properties:
+              delegatedNamespace:
+                type: string
               ref:
                 properties:
                   cluster:

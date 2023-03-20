@@ -25,6 +25,10 @@ spec:
     {{- with (first .Values.dex.config.staticClients) }}
     redirectURI: {{ (first .redirectURIs) }}
     {{- end }}
+  tenant:
+    namespacePrefix: "workspace-"
+  watchedNamespaces:
+  - "*"
   portal:
     image:
       registry: {{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}
