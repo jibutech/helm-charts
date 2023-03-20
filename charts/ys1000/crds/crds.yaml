@@ -9169,6 +9169,8 @@ spec:
                     description: Server is the hostname or IP address of the NFS server
                     type: string
                 type: object
+              preserveSnapshotAtFailover:
+                type: boolean
               rsyncConfig:
                 properties:
                   copyMethod:
@@ -9188,6 +9190,8 @@ spec:
                 type: boolean
               skipValidation:
                 type: boolean
+              snapshotTarget:
+                type: string
               srcCluster:
                 type: string
               syncPolicy:
