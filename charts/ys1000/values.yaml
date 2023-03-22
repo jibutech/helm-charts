@@ -17,8 +17,10 @@ featureGates:
   DMAgent: true
   ImageBackup: true
   EtcdStub: false
-  Auth: false
   Migration: false
+  Auth: true
+  Tenant: false
+
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
@@ -139,7 +141,6 @@ migconfig:
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
-  UIadminPassword: "passw0rd"
   agentNamespace: qiming-backend
   selfBackupIntervalSeconds: 300
 
