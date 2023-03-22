@@ -16,6 +16,9 @@ featureGates:
   DMAgent: true
   ImageBackup: true
   EtcdStub: false
+  CSIAddon: false
+  VolSync: false
+  Migration: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
