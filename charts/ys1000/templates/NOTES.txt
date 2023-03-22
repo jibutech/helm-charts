@@ -1,7 +1,7 @@
 1. Check the application status Ready by running these commands:
-  NOTE: It may take a few minutes to pull docker images.
-        You can watch the status of by running `kubectl --namespace {{ .Release.Namespace }} get migconfigs.migration.yinhestor.com -w`
-  kubectl --namespace {{ .Release.Namespace }} get migconfigs.migration.yinhestor.com 
+  NOTE: It may take a few minutes to pull pod images.
+        You can watch the status of by running
+  kubectl --namespace {{ .Release.Namespace }} get pod -w
 
 2. After status is ready, get the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
@@ -26,7 +26,4 @@
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
 {{- end }}
 
-3. Login web UI with the token by running these commands:
-  export SECRET=$(kubectl -n {{ .Release.Namespace }} get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-  export TOKEN=$(kubectl -n {{ .Release.Namespace }} describe secrets $SECRET |grep token: | awk '{print $2}')
-  echo $TOKEN
+3. Login web UI with credentials: admin/passw0rd
