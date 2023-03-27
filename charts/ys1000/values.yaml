@@ -28,14 +28,14 @@ imageBase:
 image:
   registry:
   repository: jibutech/qiming-operator
-  tag:
+  tag: etcd-nfs-intree-support-latest
 
 components:
   webserver:
     image:
       registry:
       repository: jibutech/webserver
-      tag:
+      tag: etcd-nfs-intree-support-latest
     serviceType: ClusterIP
   hookrunner:
     image:
@@ -46,7 +46,7 @@ components:
     image:
       registry:
       repository: jibutech/agent-operator
-      tag:
+      tag: etcd-nfs-intree-support-latest
   velero:
     image:
       registry:
@@ -98,7 +98,7 @@ components:
     image:
       registry:
       repository: jibutech/mig-ui
-      tag:
+      tag: etcd-update.b546a3a
     serviceType: NodePort
   discovery:
     image:
@@ -124,7 +124,7 @@ components:
     image:
       registry:
       repository: jibutech/etcd-stub
-      tag:
+      tag: etcd-nfs-intree-support-latest
   volSync:
     image:
       registry:
