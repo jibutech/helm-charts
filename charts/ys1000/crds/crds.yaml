@@ -698,12 +698,6 @@ spec:
                         type: string
                       name:
                         type: string
-                      resourceType:
-                        enum:
-                        - default
-                        - dataOnly
-                        - resourceOnly
-                        type: string
                       retention:
                         type: integer
                       snapshotLimit:
@@ -1284,6 +1278,12 @@ spec:
                           type: array
                         type: array
                     type: object
+                  resourceType:
+                    enum:
+                    - default
+                    - dataOnly
+                    - resourceOnly
+                    type: string
                   schedulePriority:
                     type: integer
                   sourceClusterName:
@@ -1557,29 +1557,9 @@ spec:
                 format: date-time
                 type: string
               steps:
-                description: StepProgress records history of a group steps' execution
                 properties:
-                  errorStep:
-                    description: Deprecated
-                    properties:
-                      completionTimestamp:
-                        format: date-time
-                        type: string
-                      errorCount:
-                        additionalProperties:
-                          type: integer
-                        type: object
-                      firstFailureTimeStamp:
-                        format: date-time
-                        type: string
-                      name:
-                        type: string
-                      retryTimes:
-                        type: integer
-                      startTimestamp:
-                        format: date-time
-                        type: string
-                    type: object
+                  current:
+                    type: integer
                   history:
                     items:
                       description: StepInfo includes details of a step's execution
@@ -1603,14 +1583,7 @@ spec:
                           type: string
                       type: object
                     type: array
-                  maxRetryCount:
-                    description: Deprecated
-                    type: integer
-                  stepFailureTimeoutSeconds:
-                    description: Deprecated
-                    type: integer
-                  totalRetryCount:
-                    description: Deprecated
+                  total:
                     type: integer
                 type: object
               stopTimestamp:
@@ -2867,13 +2840,6 @@ spec:
                         type: integer
                     type: object
                 type: object
-              resourceType:
-                description: Deprecated
-                enum:
-                - default
-                - dataOnly
-                - resourceOnly
-                type: string
               retention:
                 type: integer
             type: object
@@ -3299,13 +3265,6 @@ spec:
                             type: integer
                         type: object
                     type: object
-                  resourceType:
-                    description: Deprecated
-                    enum:
-                    - default
-                    - dataOnly
-                    - resourceOnly
-                    type: string
                   retention:
                     type: integer
                 type: object
@@ -3768,12 +3727,6 @@ spec:
                   frequency:
                     type: string
                   name:
-                    type: string
-                  resourceType:
-                    enum:
-                    - default
-                    - dataOnly
-                    - resourceOnly
                     type: string
                   retention:
                     type: integer
@@ -4326,6 +4279,12 @@ spec:
                       type: array
                     type: array
                 type: object
+              resourceType:
+                enum:
+                - default
+                - dataOnly
+                - resourceOnly
+                type: string
               scrubClusterRef:
                 properties:
                   cluster:
@@ -5558,29 +5517,9 @@ spec:
               state:
                 type: string
               steps:
-                description: StepProgress records history of a group steps' execution
                 properties:
-                  errorStep:
-                    description: Deprecated
-                    properties:
-                      completionTimestamp:
-                        format: date-time
-                        type: string
-                      errorCount:
-                        additionalProperties:
-                          type: integer
-                        type: object
-                      firstFailureTimeStamp:
-                        format: date-time
-                        type: string
-                      name:
-                        type: string
-                      retryTimes:
-                        type: integer
-                      startTimestamp:
-                        format: date-time
-                        type: string
-                    type: object
+                  current:
+                    type: integer
                   history:
                     items:
                       description: StepInfo includes details of a step's execution
@@ -5604,14 +5543,7 @@ spec:
                           type: string
                       type: object
                     type: array
-                  maxRetryCount:
-                    description: Deprecated
-                    type: integer
-                  stepFailureTimeoutSeconds:
-                    description: Deprecated
-                    type: integer
-                  totalRetryCount:
-                    description: Deprecated
+                  total:
                     type: integer
                 type: object
               submitTimestamp:
@@ -6327,29 +6259,9 @@ spec:
               state:
                 type: string
               steps:
-                description: StepProgress records history of a group steps' execution
                 properties:
-                  errorStep:
-                    description: Deprecated
-                    properties:
-                      completionTimestamp:
-                        format: date-time
-                        type: string
-                      errorCount:
-                        additionalProperties:
-                          type: integer
-                        type: object
-                      firstFailureTimeStamp:
-                        format: date-time
-                        type: string
-                      name:
-                        type: string
-                      retryTimes:
-                        type: integer
-                      startTimestamp:
-                        format: date-time
-                        type: string
-                    type: object
+                  current:
+                    type: integer
                   history:
                     items:
                       description: StepInfo includes details of a step's execution
@@ -6373,14 +6285,7 @@ spec:
                           type: string
                       type: object
                     type: array
-                  maxRetryCount:
-                    description: Deprecated
-                    type: integer
-                  stepFailureTimeoutSeconds:
-                    description: Deprecated
-                    type: integer
-                  totalRetryCount:
-                    description: Deprecated
+                  total:
                     type: integer
                 type: object
               submitTimestamp:
@@ -14989,29 +14894,9 @@ spec:
                 format: date-time
                 type: string
               steps:
-                description: StepProgress records history of a group steps' execution
                 properties:
-                  errorStep:
-                    description: Deprecated
-                    properties:
-                      completionTimestamp:
-                        format: date-time
-                        type: string
-                      errorCount:
-                        additionalProperties:
-                          type: integer
-                        type: object
-                      firstFailureTimeStamp:
-                        format: date-time
-                        type: string
-                      name:
-                        type: string
-                      retryTimes:
-                        type: integer
-                      startTimestamp:
-                        format: date-time
-                        type: string
-                    type: object
+                  current:
+                    type: integer
                   history:
                     items:
                       description: StepInfo includes details of a step's execution
@@ -15035,14 +14920,7 @@ spec:
                           type: string
                       type: object
                     type: array
-                  maxRetryCount:
-                    description: Deprecated
-                    type: integer
-                  stepFailureTimeoutSeconds:
-                    description: Deprecated
-                    type: integer
-                  totalRetryCount:
-                    description: Deprecated
+                  total:
                     type: integer
                 type: object
               submitTimestamp:
