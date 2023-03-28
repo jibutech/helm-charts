@@ -6299,6 +6299,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
@@ -8317,6 +8322,11 @@ spec:
                       description: PreserveNodePorts specifies whether to restore
                         old nodePorts from backup.
                       type: boolean
+                    pvcNameMappings:
+                      additionalProperties:
+                        type: string
+                      description: pvc name mapping, change restore pvc name
+                      type: object
                     replicaAction:
                       description: set replica for a specified workload with filter
                       items:
@@ -9532,6 +9542,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
@@ -14374,6 +14389,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
@@ -15806,6 +15826,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
@@ -17973,6 +17998,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
@@ -19127,6 +19157,11 @@ spec:
                         description: PreserveNodePorts specifies whether to restore
                           old nodePorts from backup.
                         type: boolean
+                      pvcNameMappings:
+                        additionalProperties:
+                          type: string
+                        description: pvc name mapping, change restore pvc name
+                        type: object
                       replicaAction:
                         description: set replica for a specified workload with filter
                         items:
@@ -23488,6 +23523,11 @@ spec:
                     description: PreserveNodePorts specifies whether to restore old
                       nodePorts from backup.
                     type: boolean
+                  pvcNameMappings:
+                    additionalProperties:
+                      type: string
+                    description: pvc name mapping, change restore pvc name
+                    type: object
                   replicaAction:
                     description: set replica for a specified workload with filter
                     items:
