@@ -338,6 +338,7 @@ dex:
     staticClients:
     - id: ys1000
       redirectURIs:
+      - 'http://0.0.0.0:30180/login'
       - 'http://127.0.0.1:5555/callback'
       name: 'YS1000'
       secret: ZXmhbABsRS1tcHItcnVjlmVa12u
