@@ -16,11 +16,14 @@ featureGates:
   DMAgent: true
   ImageBackup: true
   EtcdStub: false
+  CSIAddon: false
+  VolSync: false
+  Migration: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "release-3.1.1-latest"
+  tag: "3.2.0"
 
 image:
   registry:
@@ -48,7 +51,7 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-567a6b4d-20230118125816
+      tag: v1.7.0-jibu-dev-31377ffc-20230321140130
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
@@ -80,7 +83,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.1.1
+      tag: 0.1.2
   dmAgent:
     image:
       registry:
@@ -122,13 +125,24 @@ components:
       registry:
       repository: jibutech/etcd-stub
       tag:
+  volSync:
+    image:
+      registry:
+      repository: jibutech/volsync
+      tag: 0.6.1
+  drInitContainer:
+    image:
+      registry:
+      repository: jibutech/dr-initcontainer
+      tag: 0.1.0
+      pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "3.1.1"
+  version: "3.2.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
