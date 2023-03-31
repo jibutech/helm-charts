@@ -17,6 +17,8 @@ featureGates:
   DMAgent: true
   ImageBackup: true
   EtcdStub: false
+  CSIAddon: false
+  VolSync: false
   Migration: false
   Auth: true
   Tenant: false
@@ -132,6 +134,12 @@ components:
       registry:
       repository: jibutech/volsync
       tag: 0.6.1
+  drInitContainer:
+    image:
+      registry:
+      repository: jibutech/dr-initcontainer
+      tag: 0.1.0
+      pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""

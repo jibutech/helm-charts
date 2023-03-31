@@ -141,3 +141,9 @@ spec:
       repository: {{ .Values.components.volSync.image.repository }}
       pullPolicy: {{ .Values.components.volSync.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.volSync.image.tag | default .Values.imageBase.tag }}
+  drInitContainer:
+    image:
+      registry: {{ .Values.components.drInitContainer.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.drInitContainer.image.repository }}
+      pullPolicy: {{ .Values.components.drInitContainer.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.drInitContainer.image.tag | default .Values.imageBase.tag }}
