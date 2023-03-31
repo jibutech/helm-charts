@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gocas.fullname" . }}
+  labels:
+    {{- include "gocas.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cas
+      {{- include "gocas.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: cas
+        {{- include "gocas.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: cas
+        volumeMounts:
+        - name: config
+          mountPath: /app/conf.d/gocas.yaml
+          subPath: gocas.yaml
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "gocas.fullname" . }}
