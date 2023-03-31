@@ -5715,6 +5715,9 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
@@ -7732,6 +7735,9 @@ spec:
                 additionalProperties:
                   description: RestoreActions defines the action for a restore
                   properties:
+                    cronJobSuspend:
+                      description: cronjob suspend
+                      type: boolean
                     existingResourcePolicy:
                       description: 'ExistingResourcePolicy: none or update none is
                         default behavior while update is to overwrite any existing
@@ -8958,6 +8964,9 @@ spec:
               restoreActions:
                 description: Deprecated
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
@@ -13849,6 +13858,9 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
@@ -15286,6 +15298,9 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
@@ -17458,6 +17473,9 @@ spec:
               actions:
                 description: Deprecated
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
@@ -18605,6 +18623,9 @@ spec:
                   actions:
                     description: RestoreActions defines the action for a restore
                     properties:
+                      cronJobSuspend:
+                        description: cronjob suspend
+                        type: boolean
                       existingResourcePolicy:
                         description: 'ExistingResourcePolicy: none or update none
                           is default behavior while update is to overwrite any existing
@@ -22983,6 +23004,9 @@ spec:
               actions:
                 description: RestoreActions defines the action for a restore
                 properties:
+                  cronJobSuspend:
+                    description: cronjob suspend
+                    type: boolean
                   existingResourcePolicy:
                     description: 'ExistingResourcePolicy: none or update none is default
                       behavior while update is to overwrite any existing resource
