@@ -68,10 +68,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -92,10 +92,10 @@ spec:
                         type: string
                       storageRef:
                         properties:
-                          cluster:
-                            type: string
                           global:
                             type: boolean
+                          name:
+                            type: string
                         type: object
                       transportType:
                         type: string
@@ -160,10 +160,10 @@ spec:
                     type: string
                   storageRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -400,10 +400,10 @@ spec:
                     type: string
                   clusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -1316,10 +1316,10 @@ spec:
                     type: string
                   storageRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -2852,10 +2852,10 @@ spec:
                                 type: string
                               storageRef:
                                 properties:
-                                  cluster:
-                                    type: string
                                   global:
                                     type: boolean
+                                  name:
+                                    type: string
                                 type: object
                               transportType:
                                 type: string
@@ -2996,10 +2996,10 @@ spec:
                         type: string
                       storageRef:
                         properties:
-                          cluster:
-                            type: string
                           global:
                             type: boolean
+                          name:
+                            type: string
                         type: object
                       transportType:
                         type: string
@@ -3012,10 +3012,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                 type: object
               executionContext:
                 properties:
@@ -3293,10 +3293,10 @@ spec:
                                     type: string
                                   storageRef:
                                     properties:
-                                      cluster:
-                                        type: string
                                       global:
                                         type: boolean
+                                      name:
+                                        type: string
                                     type: object
                                   transportType:
                                     type: string
@@ -3356,10 +3356,10 @@ spec:
                     type: string
                   clusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                     type: object
                   frequency:
                     type: string
@@ -3392,10 +3392,10 @@ spec:
                 type: string
               storageRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                 type: object
               templates:
                 items:
@@ -3496,10 +3496,10 @@ spec:
                         type: string
                       storageRef:
                         properties:
-                          cluster:
-                            type: string
                           global:
                             type: boolean
+                          name:
+                            type: string
                           sourceName:
                             type: string
                           sourceNamespace:
@@ -3513,10 +3513,10 @@ spec:
                 type: object
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -4401,10 +4401,10 @@ spec:
                 type: string
               scrubClusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -4414,10 +4414,10 @@ spec:
                 type: string
               storageRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -4508,10 +4508,10 @@ spec:
               clusterRefs:
                 items:
                   properties:
-                    cluster:
-                      type: string
                     global:
                       type: boolean
+                    name:
+                      type: string
                   type: object
                 type: array
               clusters:
@@ -5095,10 +5095,10 @@ spec:
                 properties:
                   clusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -5312,10 +5312,10 @@ spec:
                     type: string
                   storageRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -6845,10 +6845,10 @@ spec:
                 properties:
                   clusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -6863,10 +6863,10 @@ spec:
                         type: string
                       storageRef:
                         properties:
-                          cluster:
-                            type: string
                           global:
                             type: boolean
+                          name:
+                            type: string
                           sourceName:
                             type: string
                           sourceNamespace:
@@ -7459,10 +7459,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -7546,10 +7546,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                 type: object
               keepResource:
                 description: Deprecated
@@ -7571,10 +7571,10 @@ spec:
                     type: string
                   storageRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -7634,10 +7634,10 @@ spec:
                 type: object
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -11009,7 +11009,7 @@ spec:
     listKind: GlobalStorageList
     plural: globalstorages
     shortNames:
-    - gc
+    - gs
     singular: globalstorage
   scope: Cluster
   versions:
@@ -12098,10 +12098,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                 type: object
               source:
                 items:
@@ -12120,10 +12120,10 @@ spec:
             properties:
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
@@ -19685,10 +19685,10 @@ spec:
                     type: string
                   sourceClusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -19818,10 +19818,10 @@ spec:
                     type: string
                   targetClusterRef:
                     properties:
-                      cluster:
-                        type: string
                       global:
                         type: boolean
+                      name:
+                        type: string
                       sourceName:
                         type: string
                       sourceNamespace:
@@ -23338,10 +23338,10 @@ spec:
                 type: string
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                 type: object
               destClusterRef:
                 description: Deprecated
@@ -23736,10 +23736,10 @@ spec:
             properties:
               clusterRef:
                 properties:
-                  cluster:
-                    type: string
                   global:
                     type: boolean
+                  name:
+                    type: string
                   sourceName:
                     type: string
                   sourceNamespace:
