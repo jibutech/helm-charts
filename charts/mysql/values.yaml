@@ -92,3 +92,7 @@ primary:
     enabled: false
     storageClass: ""
     size: 20Gi
+    nfsEnabled: false
+    nfs:
+      server: ""
+      path: ""
