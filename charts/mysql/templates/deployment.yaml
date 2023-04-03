@@ -53,9 +53,16 @@ spec:
           name: {{ include "mysql.fullname" . }}
       {{- end }}
       {{- if .Values.primary.persistence.enabled }}
+      {{- if .Values.primary.persistence.nfsEnabled }}
+      - name: data
+        nfs:
+          server: {{ .Values.primary.persistence.nfs.server }}
+          path: {{ .Values.primary.persistence.nfs.path }}
+      {{- else }}
       - name: data
         persistentVolumeClaim:
           claimName: {{ include "mysql.fullname" . }}
+      {{- end }}
       {{- else }}
       - name: data
         emptyDir: {}
