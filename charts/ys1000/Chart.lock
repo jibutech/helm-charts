@@ -1,7 +1,7 @@
 dependencies:
 - name: mysql
   repository: https://jibutech.github.io/helm-charts
-  version: 1.0.0
+  version: 1.0.1
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
   version: 1.4.0

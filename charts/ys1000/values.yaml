@@ -232,6 +232,10 @@ mysql:
       enabled: false
       size: 30Gi
       storageClass: ""
+      nfsEnabled: false
+      nfs:
+        server: ""
+        path: ""
 
 clusterpedia:
   persistenceMatchNode: None
