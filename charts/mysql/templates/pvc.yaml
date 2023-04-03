@@ -1,4 +1,4 @@
-{{- if .Values.primary.persistence.enabled }}
+{{- if and (not .Values.primary.persistence.nfsEnabled) .Values.primary.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
