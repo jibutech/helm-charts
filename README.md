@@ -6,10 +6,9 @@
 
 ## 先决条件
 
-- Kuberentes 版本支持 >= Kubernetes 1.18
+- Kuberentes 版本支持 >= Kubernetes 1.17
 - Helm 版本支持 >= 3.5
 - 在线安装请确保 K8S 集群节点可以访问和拉取容器镜像 (container images)
-- S3 (AWS S3 兼容) 对象存储
 
 ## 在线安装
 
@@ -23,19 +22,20 @@
 
    ```bash
     NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
-    jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
-    jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
-    jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
+    qiming/gocas    0.0.1           0.0.1           A demo cas server                                 
+    qiming/mysql    1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
+    qiming/ys1000   3.2.0           3.2.0           ys1000 provides data protection for cloud nativ...
+
 
    ```
 
 2. 您可以使用以下两种方法进行安装:
 
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节 <br>
-   **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明 <br>
+   **注意-2**: YS1000 v3.0以上的版本与之前版本不兼容，如果需要升级请联系技术支持 <br>
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.2.0'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -72,7 +72,7 @@
     使用如下命令来检查安装状态正否正常
 
      ```bash
-     kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w
+     kubectl --namespace ys1000 get pod -w
      ```
 
    b. 通过 **YAML** 文件指定参数进行安装
@@ -81,7 +81,9 @@
 
     1. 下载 values.yaml 模板配置文件
 
-    2. 修改配置文件中的配置参数 3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
+    2. 修改配置文件中的配置参数 
+    
+    3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
 
       ```bash
       # step 1: generate default values.yaml
@@ -146,11 +148,11 @@
 
     ```bash
     helm search repo jibutech --versions
-    NAME            CHART VERSION   APP VERSION     DESCRIPTION                                       
-    jibutech/gocas  0.0.1           0.0.1           A demo cas server                                 
-    jibutech/mysql  1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
-    jibutech/ys1000 3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
-    jibutech/ys1000 3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
+    qiming/gocas    0.0.1           0.0.1           A demo cas server                                 
+    qiming/mysql    1.0.0           8.0.32          MySQL is a fast, reliable, scalable, and easy t...
+    qiming/ys1000   3.2.0           3.2.0           ys1000 provides data protection for cloud nativ...
+    qiming/ys1000   3.1.1           3.1.1           ys1000 provides data protection for cloud nativ...
+    qiming/ys1000   3.0.0           3.0.0           ys1000 provides data protection for cloud nativ...
     ```
 
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
@@ -158,27 +160,53 @@
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.2.0'
    ```
    
    例如：
    
    ```bash
-   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.1.1 --set migconfig.UIadminPassword=`<your password>`
+   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.2.0 --set migconfig.UIadminPassword=`<your password>`
    ```
 
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
+   
+   ```
+   # example of values.yaml
+   migconfig:
+     UIadminPassword: "password"
+     selfBackupIntervalSeconds: 3000
+   featureGates:
+     ClusterCache: true
+     DataMover: false
+     AmberApp: true
+     Stub: true
+     Archive: true
+     DisasterRecovery: true
+     DMAgent: true
+     ImageBackup: true
+     EtcdStub: true
+   velero:
+     resticPodVolumeOperationTimeout: 120m
+   components:
+     portal:
+       serviceType: NodePort
+     webServer:
+       serviceType: NodePort
+    ```
 
    例如：
 
    ```bash
-   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.1.1 -f values.yaml
+   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.2.0 -f values.yaml
    ```
    
 
 ## 卸载
 
-1. 卸载已安装的 Helm chart
+1. 登录ys1000，确保所有任务已经被清除，移除受管集群和备份仓库
+
+2. 卸载已安装的 Helm chart
 
    指定当前已安装的软件名`release name` 和 软件所在的命名空间`namespace`
 
@@ -209,13 +237,18 @@
 
 | 参数命名                               | 描述                                         | 示例                                          |
 | ------------------------------------- | ------------------------------------------- | --------------------------------------------- |
-| service.type                          | 服务类型                                     | --set service.type=NodePort                   |
-| migconfig.UIadminPassword             | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
-| selfBackup.enabled                    | 是否打开自备份（可选，默认为false）              | --set selfBackup.enabled=true                |
+| components.portal.serviceType         | 服务类型（可选，默认为 ClusterIP）              | --set components.portal.serviceType=NodePort   |
+| components.webServer.serviceType      | 服务类型（可选，默认为 ClusterIP）              | --set components.portal.serviceType=NodePort   |
+| migconfig.UIadminPassword             | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=123456         |
+| migconfig.selfBackupIntervalSeconds   | 指定YS1000自备份间隔时长（可选，默认为“300”秒）   | --set migconfig.selfBackupIntervalSeconds=600     |
+| featureGates.Archive                  | 是否开启归档功能（可选，默认为false）             | --set featureGates.Archive=true           |
+| featureGates.DisasterRecovery         | 是否开启容灾功能（可选，默认为false）             | --set featureGates.DisasterRecovery=true  |
+| featureGates.EtcdStub                 | 是否开启etcd备份功能（可选，默认为false）         | --set featureGates.EtcdStub=true          |
+| velero.resticPodVolumeOperationTimeout| restic拷贝podvolume的超时时长（可选，默认为“240m”| --set velero.resticPodVolumeOperationTimeout=120m |
 | mysql.primary.persistence.enabled     | 是否对mysql数据做持久化（可选，默认为false）      | --set mysql.primary.persistence.enabled=true  |
 | mysql.primary.persistence.storageClass| 是否指定mysql存储类型（可选，默认为空）           | --set mysql.primary.persistence.storageClass=rook-ceph-block|
-| auth.rootPassword                     | 指定数据库root用户的密码（可选，默认为"passw0rd"）| --set auth.rootPassword=123456                |
-| auth.database                         | 指定webserver使用的数据库（可选，默认为"webserver"）| --set auth.database=web                    |
+| mysql.auth.rootPassword               | 指定数据库root用户的密码（可选，默认为"passw0rd"）| --set mysql.auth.rootPassword=123456           |
+| mysql.auth.database                   | 指定webserver使用的数据库（可选，默认为"webserver"）| --set mysql.auth.database=web                
 | auth.username                         | 指定数据库的用户（可选，默认为"webserver"）      | --set auth.username=webuser                    |
 | auth.password                         | 指定数据库的密码（可选，默认为"passw0rd"）       | --set auth.password=123456                      |
 
