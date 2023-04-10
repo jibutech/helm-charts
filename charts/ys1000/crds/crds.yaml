@@ -585,12 +585,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -897,12 +922,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -1079,12 +1129,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -3720,12 +3795,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -3996,12 +4096,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -4175,12 +4300,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -11710,10 +11860,34 @@ spec:
                 type: boolean
               image:
                 type: string
+              kubeConfigSecretRef:
+                description: SecretKeySelector selects a key of a Secret.
+                properties:
+                  key:
+                    description: The key of the secret to select from.  Must be a
+                      valid secret key.
+                    type: string
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                  optional:
+                    description: Specify whether the Secret or its key must be defined
+                    type: boolean
+                required:
+                - key
+                type: object
               maxRetryCount:
                 type: integer
               runOn:
                 type: string
+              serviceAccount:
+                properties:
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                type: object
               timeoutSeconds:
                 type: integer
             type: object
@@ -19037,12 +19211,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -19232,12 +19431,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -19414,12 +19638,37 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        kubeConfigSecretRef:
+                          description: SecretKeySelector selects a key of a Secret.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         maxRetryCount:
                           type: integer
                         name:
                           type: string
                         runOn:
                           type: string
+                        serviceAccount:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -23881,12 +24130,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -24060,12 +24334,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -24239,12 +24538,37 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
                     maxRetryCount:
                       type: integer
                     name:
                       type: string
                     runOn:
                       type: string
+                    serviceAccount:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      type: object
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -27109,6 +27433,69 @@ spec:
     storage: true
     subresources:
       status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: users.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: User
+    listKind: UserList
+    plural: users
+    singular: user
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: User is the Schema for the users API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: UserSpec defines the desired state of User
+            properties:
+              description:
+                type: string
+              displayName:
+                type: string
+              email:
+                description: Unique email address(https://www.ietf.org/rfc/rfc5322.txt).
+                type: string
+              name:
+                type: string
+              password:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
