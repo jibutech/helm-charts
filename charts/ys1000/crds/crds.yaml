@@ -1391,6 +1391,8 @@ spec:
                   - type
                   type: object
                 type: array
+              createdByDr:
+                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -3482,6 +3484,8 @@ spec:
                   - type
                   type: object
                 type: array
+              createdByDr:
+                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -12591,6 +12595,15 @@ spec:
                         type: object
                     type: object
                 type: object
+              agentResourceQuota:
+                additionalProperties:
+                  anyOf:
+                  - type: integer
+                  - type: string
+                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                  x-kubernetes-int-or-string: true
+                description: Resource quota for agent Refer to https://pkg.go.dev/k8s.io/api/core/v1#ResourceList
+                type: object
               azureResourceGroup:
                 description: 'TODO: commonize the provider with migstorage'
                 type: string
@@ -12626,6 +12639,8 @@ spec:
                 description: ClusterRegistry overrides image registry deployed in
                   corresponding user cluster
                 type: string
+              drInstanceMaxWorkers:
+                type: integer
               etcdConfig:
                 properties:
                   capacity:
@@ -12791,6 +12806,8 @@ spec:
                   - name
                   type: object
                 type: array
+              standardJobMaxWorkers:
+                type: integer
               storageClasses:
                 items:
                   description: StorageClass is an available storage class in the cluster
@@ -20763,6 +20780,8 @@ spec:
                   - type
                   type: object
                 type: array
+              createdByDr:
+                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -24721,6 +24740,8 @@ spec:
                   - type
                   type: object
                 type: array
+              createdByDr:
+                type: boolean
               criticalErrors:
                 items:
                   properties:
