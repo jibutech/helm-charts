@@ -23,7 +23,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.2.0"
+  tag: "v3.2.1.0"
 
 image:
   registry:
@@ -142,7 +142,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "3.2.0"
+  version: "3.2.1.0"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
@@ -232,6 +232,10 @@ mysql:
       enabled: false
       size: 30Gi
       storageClass: ""
+      nfsEnabled: false
+      nfs:
+        server: ""
+        path: ""
 
 clusterpedia:
   persistenceMatchNode: None
