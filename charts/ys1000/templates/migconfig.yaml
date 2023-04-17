@@ -5,6 +5,8 @@ metadata:
   labels:
     app.kubernetes.io/name: qiming-operator
     app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   version: {{ .Chart.AppVersion }}
   clientName: {{ .Values.migconfig.clientName }}
