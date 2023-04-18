@@ -7606,6 +7606,8 @@ spec:
                 type: array
               prefix:
                 type: string
+              skipPruneDuringDeletion:
+                type: boolean
             required:
             - clusterName
             type: object
@@ -13659,6 +13661,19 @@ spec:
                       tag:
                         type: string
                     type: object
+                type: object
+              deletionPolicy:
+                properties:
+                  cancelRunningJobs:
+                    type: boolean
+                  force:
+                    type: boolean
+                  removeResources:
+                    type: boolean
+                  staleClusters:
+                    items:
+                      type: string
+                    type: array
                 type: object
               deploymentMode:
                 description: DeploymentMode indicates if the installation can support

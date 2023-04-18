@@ -140,6 +140,11 @@ components:
       repository: jibutech/dr-initcontainer
       tag: 0.1.0
       pullPolicy: IfNotPresent
+  helmHook:
+    image:
+      registry:
+      repository: jibutech/helm-hook
+      tag:
 
 imagePullSecrets: []
 nameOverride: ""
@@ -151,6 +156,11 @@ migconfig:
   isAdminCluster: false
   agentNamespace: qiming-backend
   selfBackupIntervalSeconds: 300
+  deletionPolicy:
+    removeResources: false
+    staleClusters:
+    cancelRunningJobs: false
+    force: false
 
 velero:
   resticPodVolumeOperationTimeout: 240m

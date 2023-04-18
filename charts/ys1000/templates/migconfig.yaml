@@ -29,6 +29,11 @@ spec:
     {{- end }}
   tenant:
     namespacePrefix: "workspace-"
+  deletionPolicy:
+    removeResources: {{ .Values.migconfig.deletionPolicy.removeResources }}
+    staleClusters: {{ .Values.migconfig.deletionPolicy.staleClusters }}
+    cancelRunningJobs: {{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
+    force: {{ .Values.migconfig.deletionPolicy.force }}
   watchedNamespaces:
   - "*"
   portal:
