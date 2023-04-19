@@ -12612,6 +12612,53 @@ spec:
               caBundle:
                 format: byte
                 type: string
+              clusterBackupConfig:
+                description: ClusterBackupConfig contains configurations for cluster
+                  backup
+                properties:
+                  capacity:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  etcdBackupEnabled:
+                    type: boolean
+                  kubeCertConfig:
+                    properties:
+                      backupFromMaster:
+                        type: boolean
+                      kubeCertBackupEnabled:
+                        type: boolean
+                      kubeCertPath:
+                        type: string
+                    type: object
+                  nfs:
+                    description: Represents an NFS mount that lasts the lifetime of
+                      a pod. NFS volumes do not support ownership management or SELinux
+                      relabeling.
+                    properties:
+                      path:
+                        description: 'Path that is exported by the NFS server. More
+                          info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                        type: string
+                      readOnly:
+                        description: 'ReadOnly here will force the NFS export to be
+                          mounted with read-only permissions. Defaults to false. More
+                          info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                        type: boolean
+                      server:
+                        description: 'Server is the hostname or IP address of the
+                          NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                        type: string
+                    required:
+                    - path
+                    - server
+                    type: object
+                  storageClassName:
+                    description: storage configuration to store cluster backup data
+                    type: string
+                type: object
               clusterInfo:
                 description: ClusterClaim is configured definition for managed cluster
                   information
@@ -12676,6 +12723,7 @@ spec:
                     - server
                     type: object
                   storageClassName:
+                    description: storage configuration to store cluster backup data
                     type: string
                 type: object
               ignoredNamespaces:
