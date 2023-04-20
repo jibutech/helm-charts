@@ -607,15 +607,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -944,15 +941,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -1151,15 +1145,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -3817,15 +3808,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -4118,15 +4106,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -4322,15 +4307,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -11881,15 +11863,12 @@ spec:
                 type: object
               maxRetryCount:
                 type: integer
+              namespace:
+                type: string
               runOn:
                 type: string
               serviceAccount:
-                properties:
-                  name:
-                    type: string
-                  namespace:
-                    type: string
-                type: object
+                type: string
               timeoutSeconds:
                 type: integer
             type: object
@@ -19248,15 +19227,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -19468,15 +19444,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -19675,15 +19648,12 @@ spec:
                           type: integer
                         name:
                           type: string
+                        namespace:
+                          type: string
                         runOn:
                           type: string
                         serviceAccount:
-                          properties:
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
+                          type: string
                         timeoutSeconds:
                           type: integer
                       type: object
@@ -24167,15 +24137,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -24371,15 +24338,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
@@ -24575,15 +24539,12 @@ spec:
                       type: integer
                     name:
                       type: string
+                    namespace:
+                      type: string
                     runOn:
                       type: string
                     serviceAccount:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
+                      type: string
                     timeoutSeconds:
                       type: integer
                   type: object
