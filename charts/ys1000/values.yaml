@@ -27,7 +27,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "main-latest"
+  tag: "release-3.3.0-latest"
 
 image:
   registry:
