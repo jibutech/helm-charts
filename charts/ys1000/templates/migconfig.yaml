@@ -31,9 +31,14 @@ spec:
     namespacePrefix: "workspace-"
   deletionPolicy:
     removeResources: {{ .Values.migconfig.deletionPolicy.removeResources }}
-    staleClusters: {{ .Values.migconfig.deletionPolicy.staleClusters }}
     cancelRunningJobs: {{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
     force: {{ .Values.migconfig.deletionPolicy.force }}
+    {{- with .Values.migconfig.deletionPolicy.staleClusters }}
+    staleClusters:
+    {{- range . }}
+    - {{ . | quote }}
+    {{- end }}
+    {{- end }}
   watchedNamespaces:
   - "*"
   portal:
