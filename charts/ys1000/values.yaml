@@ -145,6 +145,11 @@ components:
       registry:
       repository: jibutech/helm-hook
       tag:
+  appHookWorker:
+    image:
+      registry:
+      repository: jibutech/apphook-worker
+      tag: 0.1.0
 
 imagePullSecrets: []
 nameOverride: ""
