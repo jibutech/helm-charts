@@ -27,7 +27,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "release-3.3.0-latest"
+  tag: "main-latest"
 
 image:
   registry:
@@ -87,7 +87,7 @@ components:
     image:
       registry:
       repository: jibutech/amberapp
-      tag: 0.1.2
+      tag:
   dmAgent:
     image:
       registry:
