@@ -23,7 +23,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "v3.2.1.0"
+  tag: "3.2.2"
 
 image:
   registry:
@@ -142,7 +142,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "3.2.1.0"
+  version: "3.2.2"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
