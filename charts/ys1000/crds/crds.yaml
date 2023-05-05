@@ -359,17 +359,20 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.backupContext.sourceClusterName
+    - jsonPath: .spec.backupContext.clusterRef.name
       name: Cluster
       type: string
     - jsonPath: .status.startTimestamp
-      name: Start Time
+      name: Start-Time
       type: date
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
     - jsonPath: .status.phase
       name: Phase
       type: string
     - jsonPath: .status.completionTimestamp
-      name: Completion Time
+      name: Completion-Time
       type: date
     - jsonPath: .metadata.creationTimestamp
       name: AGE
@@ -17442,6 +17445,12 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -17488,7 +17497,7 @@ spec:
                       properties:
                         copyMethod:
                           type: string
-                        dataBackupJobResourceFilterRules:
+                        dataBackupResourceFilterRules:
                           properties:
                             namespaces:
                               items:
@@ -17894,6 +17903,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  resumeApplicationAfterFinalMigration:
+                    type: boolean
+                  shutDownApplicationBeforeFinalMigration:
+                    type: boolean
                   sourceClusterRef:
                     properties:
                       global:
@@ -17933,15 +17946,15 @@ spec:
               backupRestoreJobPairs:
                 items:
                   properties:
-                    dataBackupPlan:
+                    dataBackupJobName:
                       type: string
-                    dataRestorePlan:
+                    dataRestoreJobName:
                       type: string
                     name:
                       type: string
-                    resourceBackupPlan:
+                    resourceBackupJobName:
                       type: string
-                    resourceRestorePlan:
+                    resourceRestoreJobName:
                       type: string
                   type: object
                 type: array
@@ -18084,6 +18097,12 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.ready
+      name: Ready
+      type: string
+    - jsonPath: .status.frozen
+      name: Frozen
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -21716,6 +21735,10 @@ spec:
                   dataTransferTimeout:
                     type: string
                 type: object
+              resumeApplicationAfterFinalMigration:
+                type: boolean
+              shutDownApplicationBeforeFinalMigration:
+                type: boolean
               sourceClusterRef:
                 properties:
                   global:
@@ -22441,7 +22464,23 @@ spec:
     singular: restorejob
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .status.startTimestamp
+      name: Start-Time
+      type: date
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.completionTimestamp
+      name: Completion-Time
+      type: date
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: RestoreJob is the Schema for the restorejobs API
@@ -24948,6 +24987,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
