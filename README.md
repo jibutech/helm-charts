@@ -160,7 +160,7 @@
    **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置** <br>
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.2.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    
    例如：
