@@ -359,17 +359,20 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.backupContext.sourceClusterName
+    - jsonPath: .spec.backupContext.clusterRef.name
       name: Cluster
       type: string
     - jsonPath: .status.startTimestamp
-      name: Start Time
+      name: Start-Time
       type: date
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
     - jsonPath: .status.phase
       name: Phase
       type: string
     - jsonPath: .status.completionTimestamp
-      name: Completion Time
+      name: Completion-Time
       type: date
     - jsonPath: .metadata.creationTimestamp
       name: AGE
@@ -1502,6 +1505,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              databaseDumpRequired:
+                type: boolean
               details:
                 additionalProperties:
                   items:
@@ -1789,6 +1794,41 @@ spec:
                         type: string
                       hookName:
                         type: string
+                      logicDumpConfig:
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          logicDump:
+                            type: boolean
+                          nfs:
+                            description: Represents an NFS mount that lasts the lifetime
+                              of a pod. NFS volumes do not support ownership management
+                              or SELinux relabeling.
+                            properties:
+                              path:
+                                description: 'Path that is exported by the NFS server.
+                                  More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: string
+                              readOnly:
+                                description: 'ReadOnly here will force the NFS export
+                                  to be mounted with read-only permissions. Defaults
+                                  to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: boolean
+                              server:
+                                description: 'Server is the hostname or IP address
+                                  of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: string
+                            required:
+                            - path
+                            - server
+                            type: object
+                          storageClass:
+                            type: string
+                        type: object
                       params:
                         additionalProperties:
                           type: string
@@ -2387,6 +2427,41 @@ spec:
                     type: string
                   hookName:
                     type: string
+                  logicDumpConfig:
+                    properties:
+                      capacity:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      logicDump:
+                        type: boolean
+                      nfs:
+                        description: Represents an NFS mount that lasts the lifetime
+                          of a pod. NFS volumes do not support ownership management
+                          or SELinux relabeling.
+                        properties:
+                          path:
+                            description: 'Path that is exported by the NFS server.
+                              More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly here will force the NFS export
+                              to be mounted with read-only permissions. Defaults to
+                              false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: boolean
+                          server:
+                            description: 'Server is the hostname or IP address of
+                              the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                            type: string
+                        required:
+                        - path
+                        - server
+                        type: object
+                      storageClass:
+                        type: string
+                    type: object
                   params:
                     additionalProperties:
                       type: string
@@ -17370,6 +17445,12 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -17392,10 +17473,8 @@ spec:
             type: object
           spec:
             properties:
-              backupRestorePairs:
-                items:
-                  type: string
-                type: array
+              canceled:
+                type: boolean
               context:
                 properties:
                   backupRestorePairs:
@@ -17413,14 +17492,472 @@ spec:
                           type: string
                       type: object
                     type: array
+                  backupTemplatesPairs:
+                    items:
+                      properties:
+                        copyMethod:
+                          type: string
+                        dataBackupResourceFilterRules:
+                          properties:
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            resourceCollector:
+                              type: string
+                            templates:
+                              items:
+                                items:
+                                  properties:
+                                    filters:
+                                      properties:
+                                        excludeClusterResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        excludeResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includeClusterResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includeResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        selector:
+                                          description: A label selector is a label
+                                            query over a set of resources. The result
+                                            of matchLabels and matchExpressions are
+                                            ANDed. An empty label selector matches
+                                            all objects. A null label selector matches
+                                            no objects.
+                                          properties:
+                                            matchExpressions:
+                                              description: matchExpressions is a list
+                                                of label selector requirements. The
+                                                requirements are ANDed.
+                                              items:
+                                                description: A label selector requirement
+                                                  is a selector that contains values,
+                                                  a key, and an operator that relates
+                                                  the key and values.
+                                                properties:
+                                                  key:
+                                                    description: key is the label
+                                                      key that the selector applies
+                                                      to.
+                                                    type: string
+                                                  operator:
+                                                    description: operator represents
+                                                      a key's relationship to a set
+                                                      of values. Valid operators are
+                                                      In, NotIn, Exists and DoesNotExist.
+                                                    type: string
+                                                  values:
+                                                    description: values is an array
+                                                      of string values. If the operator
+                                                      is In or NotIn, the values array
+                                                      must be non-empty. If the operator
+                                                      is Exists or DoesNotExist, the
+                                                      values array must be empty.
+                                                      This array is replaced during
+                                                      a strategic merge patch.
+                                                    items:
+                                                      type: string
+                                                    type: array
+                                                required:
+                                                - key
+                                                - operator
+                                                type: object
+                                              type: array
+                                            matchLabels:
+                                              additionalProperties:
+                                                type: string
+                                              description: matchLabels is a map of
+                                                {key,value} pairs. A single {key,value}
+                                                in the matchLabels map is equivalent
+                                                to an element of matchExpressions,
+                                                whose key field is "key", the operator
+                                                is "In", and the values array contains
+                                                only "value". The requirements are
+                                                ANDed.
+                                              type: object
+                                          type: object
+                                      type: object
+                                    namespaces:
+                                      items:
+                                        type: string
+                                      type: array
+                                    templateName:
+                                      type: string
+                                    volume:
+                                      properties:
+                                        excludes:
+                                          description: Excludes excludes volume data
+                                            in backup
+                                          items:
+                                            properties:
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              pod:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includedFiles:
+                                          items:
+                                            properties:
+                                              files:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              namespace:
+                                                type: string
+                                              pvcName:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includes:
+                                          description: Includes includes volume data
+                                            in backup
+                                          items:
+                                            properties:
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              pod:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        option:
+                                          description: Option is the option for volume
+                                            related resources like pvc, pv, snapshot,
+                                            ...
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              type: array
+                          type: object
+                        name:
+                          type: string
+                        resourceBackupResourceFilterRules:
+                          properties:
+                            namespaces:
+                              items:
+                                type: string
+                              type: array
+                            resourceCollector:
+                              type: string
+                            templates:
+                              items:
+                                items:
+                                  properties:
+                                    filters:
+                                      properties:
+                                        excludeClusterResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        excludeResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includeClusterResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includeResources:
+                                          items:
+                                            properties:
+                                              group:
+                                                type: string
+                                              kind:
+                                                type: string
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              resource:
+                                                type: string
+                                              version:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        selector:
+                                          description: A label selector is a label
+                                            query over a set of resources. The result
+                                            of matchLabels and matchExpressions are
+                                            ANDed. An empty label selector matches
+                                            all objects. A null label selector matches
+                                            no objects.
+                                          properties:
+                                            matchExpressions:
+                                              description: matchExpressions is a list
+                                                of label selector requirements. The
+                                                requirements are ANDed.
+                                              items:
+                                                description: A label selector requirement
+                                                  is a selector that contains values,
+                                                  a key, and an operator that relates
+                                                  the key and values.
+                                                properties:
+                                                  key:
+                                                    description: key is the label
+                                                      key that the selector applies
+                                                      to.
+                                                    type: string
+                                                  operator:
+                                                    description: operator represents
+                                                      a key's relationship to a set
+                                                      of values. Valid operators are
+                                                      In, NotIn, Exists and DoesNotExist.
+                                                    type: string
+                                                  values:
+                                                    description: values is an array
+                                                      of string values. If the operator
+                                                      is In or NotIn, the values array
+                                                      must be non-empty. If the operator
+                                                      is Exists or DoesNotExist, the
+                                                      values array must be empty.
+                                                      This array is replaced during
+                                                      a strategic merge patch.
+                                                    items:
+                                                      type: string
+                                                    type: array
+                                                required:
+                                                - key
+                                                - operator
+                                                type: object
+                                              type: array
+                                            matchLabels:
+                                              additionalProperties:
+                                                type: string
+                                              description: matchLabels is a map of
+                                                {key,value} pairs. A single {key,value}
+                                                in the matchLabels map is equivalent
+                                                to an element of matchExpressions,
+                                                whose key field is "key", the operator
+                                                is "In", and the values array contains
+                                                only "value". The requirements are
+                                                ANDed.
+                                              type: object
+                                          type: object
+                                      type: object
+                                    namespaces:
+                                      items:
+                                        type: string
+                                      type: array
+                                    templateName:
+                                      type: string
+                                    volume:
+                                      properties:
+                                        excludes:
+                                          description: Excludes excludes volume data
+                                            in backup
+                                          items:
+                                            properties:
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              pod:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includedFiles:
+                                          items:
+                                            properties:
+                                              files:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              namespace:
+                                                type: string
+                                              pvcName:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includes:
+                                          description: Includes includes volume data
+                                            in backup
+                                          items:
+                                            properties:
+                                              names:
+                                                items:
+                                                  type: string
+                                                type: array
+                                              pod:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        option:
+                                          description: Option is the option for volume
+                                            related resources like pvc, pv, snapshot,
+                                            ...
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                  namespaces:
+                    items:
+                      type: string
+                    type: array
+                  resumeApplicationAfterFinalMigration:
+                    type: boolean
+                  shutDownApplicationBeforeFinalMigration:
+                    type: boolean
+                  sourceClusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
+                  targetClusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
                 type: object
-              dataVerification:
-                type: boolean
+              customBackupRestorePairs:
+                items:
+                  type: string
+                type: array
               final:
+                type: boolean
+              plan:
+                type: string
+              skipDataVerification:
                 type: boolean
             type: object
           status:
             properties:
+              backupRestoreJobPairs:
+                items:
+                  properties:
+                    dataBackupJobName:
+                      type: string
+                    dataRestoreJobName:
+                      type: string
+                    name:
+                      type: string
+                    resourceBackupJobName:
+                      type: string
+                    resourceRestoreJobName:
+                      type: string
+                  type: object
+                type: array
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -17451,6 +17988,9 @@ spec:
                   - type
                   type: object
                 type: array
+              createdAt:
+                format: date-time
+                type: string
               criticalErrors:
                 items:
                   properties:
@@ -17468,6 +18008,46 @@ spec:
                       type: string
                   type: object
                 type: array
+              finishedAt:
+                format: date-time
+                type: string
+              phase:
+                type: string
+              startedAt:
+                format: date-time
+                type: string
+              steps:
+                properties:
+                  current:
+                    type: integer
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          type: object
+                        firstFailureTimeStamp:
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          type: integer
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  total:
+                    type: integer
+                type: object
+              valid:
+                type: boolean
               warnings:
                 items:
                   properties:
@@ -17517,6 +18097,12 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.ready
+      name: Ready
+      type: string
+    - jsonPath: .status.frozen
+      name: Frozen
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -21149,6 +21735,10 @@ spec:
                   dataTransferTimeout:
                     type: string
                 type: object
+              resumeApplicationAfterFinalMigration:
+                type: boolean
+              shutDownApplicationBeforeFinalMigration:
+                type: boolean
               sourceClusterRef:
                 properties:
                   global:
@@ -21235,6 +21825,36 @@ spec:
                       type: string
                   type: object
                 type: array
+              frozen:
+                type: boolean
+              namespaces:
+                items:
+                  type: string
+                type: array
+              ready:
+                type: boolean
+              sourceClusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
+              targetClusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               warnings:
                 items:
                   properties:
@@ -21844,7 +22464,23 @@ spec:
     singular: restorejob
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .status.startTimestamp
+      name: Start-Time
+      type: date
+    - jsonPath: .status.steps.history[-1:].name
+      name: CURRENT-STEP
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .status.completionTimestamp
+      name: Completion-Time
+      type: date
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: RestoreJob is the Schema for the restorejobs API
@@ -24036,6 +24672,7 @@ spec:
                     type: object
                 type: object
               inactivated:
+                description: Deprecated
                 type: boolean
               keepAnnotations:
                 description: Context holds the information passed from restorePlan
@@ -24350,6 +24987,7 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}
 status:
   acceptedNames:
     kind: ""
@@ -24422,6 +25060,41 @@ spec:
                             type: string
                           hookName:
                             type: string
+                          logicDumpConfig:
+                            properties:
+                              capacity:
+                                anyOf:
+                                - type: integer
+                                - type: string
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                x-kubernetes-int-or-string: true
+                              logicDump:
+                                type: boolean
+                              nfs:
+                                description: Represents an NFS mount that lasts the
+                                  lifetime of a pod. NFS volumes do not support ownership
+                                  management or SELinux relabeling.
+                                properties:
+                                  path:
+                                    description: 'Path that is exported by the NFS
+                                      server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: string
+                                  readOnly:
+                                    description: 'ReadOnly here will force the NFS
+                                      export to be mounted with read-only permissions.
+                                      Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: boolean
+                                  server:
+                                    description: 'Server is the hostname or IP address
+                                      of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: string
+                                required:
+                                - path
+                                - server
+                                type: object
+                              storageClass:
+                                type: string
+                            type: object
                           params:
                             additionalProperties:
                               type: string
@@ -24811,6 +25484,41 @@ spec:
                             type: string
                           hookName:
                             type: string
+                          logicDumpConfig:
+                            properties:
+                              capacity:
+                                anyOf:
+                                - type: integer
+                                - type: string
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                x-kubernetes-int-or-string: true
+                              logicDump:
+                                type: boolean
+                              nfs:
+                                description: Represents an NFS mount that lasts the
+                                  lifetime of a pod. NFS volumes do not support ownership
+                                  management or SELinux relabeling.
+                                properties:
+                                  path:
+                                    description: 'Path that is exported by the NFS
+                                      server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: string
+                                  readOnly:
+                                    description: 'ReadOnly here will force the NFS
+                                      export to be mounted with read-only permissions.
+                                      Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: boolean
+                                  server:
+                                    description: 'Server is the hostname or IP address
+                                      of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                    type: string
+                                required:
+                                - path
+                                - server
+                                type: object
+                              storageClass:
+                                type: string
+                            type: object
                           params:
                             additionalProperties:
                               type: string
@@ -25669,6 +26377,41 @@ spec:
                         type: string
                       hookName:
                         type: string
+                      logicDumpConfig:
+                        properties:
+                          capacity:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          logicDump:
+                            type: boolean
+                          nfs:
+                            description: Represents an NFS mount that lasts the lifetime
+                              of a pod. NFS volumes do not support ownership management
+                              or SELinux relabeling.
+                            properties:
+                              path:
+                                description: 'Path that is exported by the NFS server.
+                                  More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: string
+                              readOnly:
+                                description: 'ReadOnly here will force the NFS export
+                                  to be mounted with read-only permissions. Defaults
+                                  to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: boolean
+                              server:
+                                description: 'Server is the hostname or IP address
+                                  of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                type: string
+                            required:
+                            - path
+                            - server
+                            type: object
+                          storageClass:
+                            type: string
+                        type: object
                       params:
                         additionalProperties:
                           type: string
