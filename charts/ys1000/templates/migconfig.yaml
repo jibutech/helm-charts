@@ -159,3 +159,9 @@ spec:
       repository: {{ .Values.components.drInitContainer.image.repository }}
       pullPolicy: {{ .Values.components.drInitContainer.image.pullPolicy | default .Values.imageBase.pullPolicy }}
       tag: {{ .Values.components.drInitContainer.image.tag | default .Values.imageBase.tag }}
+  appHookWorker:
+    image:
+      registry: {{ .Values.components.appHookWorker.image.registry | default .Values.imageBase.registry }}
+      repository: {{ .Values.components.appHookWorker.image.repository }}
+      pullPolicy: {{ .Values.components.appHookWorker.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+      tag: {{ .Values.components.appHookWorker.image.tag | default .Values.imageBase.tag }}

@@ -13536,6 +13536,22 @@ spec:
                   removeCRDsOnDeletion:
                     type: boolean
                 type: object
+              appHookWorker:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
               auth:
                 properties:
                   issuer:
@@ -31411,6 +31427,22 @@ spec:
             description: TenantWorkerSpec defines the desired state of TenantWorker
             properties:
               amberApp:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
+                  removeCRDsOnDeletion:
+                    type: boolean
+                type: object
+              appHookWorker:
                 properties:
                   image:
                     properties:
