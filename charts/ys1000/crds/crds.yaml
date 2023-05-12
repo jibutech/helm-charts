@@ -10446,6 +10446,12 @@ spec:
                           type: string
                         desiredRole:
                           type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncTime:
+                          format: date-time
+                          type: string
                         pvcName:
                           type: string
                         pvcNamespace:
@@ -10517,6 +10523,12 @@ spec:
                         currentRole:
                           type: string
                         desiredRole:
+                          type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncTime:
+                          format: date-time
                           type: string
                         pvcName:
                           type: string
@@ -10658,19 +10670,88 @@ spec:
                 type: object
               preserveSnapshotAtFailover:
                 type: boolean
-              rsyncConfig:
+              rcloneConfig:
                 properties:
                   copyMethod:
-                    description: copyMethod describes how a point-in-time (PiT) image
+                    description: CopyMethod describes how a point-in-time (PiT) image
                       of the destination volume should be created.
                     enum:
                     - None
                     - Clone
                     - Snapshot
                     type: string
-                  trigger:
-                    description: rsync trigger method, supported value are manual
-                      or a interval, such as 15m, which means 15 minutes
+                  frequency:
+                    description: Frequency is a cronstr that can be used to schedule
+                      replication
+                    type: string
+                  storageName:
+                    description: Migstorage name which is used to get s3 credentials
+                    type: string
+                  volumeSnapshotClassName:
+                    description: VolumeSnapshotClassName can be used to specify the
+                      VSC to be used if copyMethod is Snapshot. If not set, it will
+                      try to find the vsc with same name as storageclass provisioner.
+                    type: string
+                type: object
+              rsyncConfig:
+                properties:
+                  copyMethod:
+                    description: CopyMethod describes how a point-in-time (PiT) image
+                      of the destination volume should be created.
+                    enum:
+                    - None
+                    - Clone
+                    - Snapshot
+                    type: string
+                  frequency:
+                    description: Frequency is a cronstr that can be used to schedule
+                      replication
+                    type: string
+                  port:
+                    description: port is the SSH port to connect to for replication.
+                      Defaults to 22.
+                    format: int32
+                    maximum: 65535
+                    minimum: 0
+                    type: integer
+                  sshUser:
+                    description: sshUser is the username for outgoing SSH connections.
+                      Defaults to "root".
+                    type: string
+                  volumeSnapshotClassName:
+                    description: VolumeSnapshotClassName can be used to specify the
+                      VSC to be used if copyMethod is Snapshot. If not set, it will
+                      try to find the vsc with same name as storageclass provisioner.
+                    type: string
+                type: object
+              rsynctlsConfig:
+                properties:
+                  address:
+                    description: address is the remote address to connect to for replication.
+                    type: string
+                  copyMethod:
+                    description: CopyMethod describes how a point-in-time (PiT) image
+                      of the destination volume should be created.
+                    enum:
+                    - None
+                    - Clone
+                    - Snapshot
+                    type: string
+                  frequency:
+                    description: Frequency is a cronstr that can be used to schedule
+                      replication
+                    type: string
+                  port:
+                    description: port is the port to connect to for replication. Defaults
+                      to 8000.
+                    format: int32
+                    maximum: 65535
+                    minimum: 0
+                    type: integer
+                  volumeSnapshotClassName:
+                    description: VolumeSnapshotClassName can be used to specify the
+                      VSC to be used if copyMethod is Snapshot. If not set, it will
+                      try to find the vsc with same name as storageclass provisioner.
                     type: string
                 type: object
               skipConfig:
