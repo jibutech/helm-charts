@@ -372,16 +372,16 @@ dex:
       username: "admin"
       userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
     connectors:
-    - type: mockCallback
-      id: mock
-      name: Example
-    - type: cas
-      id: cas
-      name: CAS
-      config:
-        server: http://0.0.0.0:31888/cas/
-        redirectURI: http://0.0.0.0:32000/dex/callback
-        insecureSkipVerify: true
+#    - type: mockCallback
+#      id: mock
+#      name: Example
+#    - type: cas
+#      id: cas
+#      name: CAS
+#      config:
+#        server: http://0.0.0.0:31888/cas/
+#        redirectURI: http://0.0.0.0:32000/dex/callback
+#        insecureSkipVerify: true
 
 alarm:
   enabled: false
