@@ -119,7 +119,7 @@ components:
       registry:
       repository: jibutech/cron
       tag:
-  agentStub:
+  stub:
     image:
       registry:
       repository: jibutech/stub
@@ -140,6 +140,8 @@ components:
       repository: jibutech/dr-initcontainer
       tag: 0.1.0
       pullPolicy: IfNotPresent
+
+tools:
   helmHook:
     image:
       registry:
@@ -156,9 +158,12 @@ migconfig:
   isAdminCluster: false
   agentNamespace: qiming-backend
   selfBackupIntervalSeconds: 300
+#  template:
+#    spec:
+#      tolerations:
   deletionPolicy:
     removeResources: false
-    staleClusters:
+#    staleClusters:
     cancelRunningJobs: false
     force: false
 
