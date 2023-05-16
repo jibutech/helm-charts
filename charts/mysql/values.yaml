@@ -1,6 +1,8 @@
 nameOverride: ""
 fullnameOverride: ""
 
+tolerations: []
+
 image:
   registry: registry.cn-shanghai.aliyuncs.com
   repository: jibutech/mysql
