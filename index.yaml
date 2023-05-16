@@ -11,38 +11,6 @@ entries:
     description: A demo cas server
     digest: 0a92ba68b2893b9afb116ce199f0056461ef52f13381aa1f63b5f8147b31e890
     name: gocas
-<<<<<<< HEAD
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/gocas-0.0.1.tgz
-    version: 0.0.1
-  mysql:
-  - apiVersion: v2
-    appVersion: 8.0.32
-    created: "2023-04-03T14:03:31.439647+08:00"
-    description: MySQL is a fast, reliable, scalable, and easy to use open source
-      relational database system. Designed to handle mission-critical, heavy-load
-      production applications.
-    digest: e3b23a7e90fa484483be5f13d475f215ec53e5b44707e8f7d9b8265c273bc4b6
-    name: mysql
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/mysql-1.0.1.tgz
-    version: 1.0.1
-  - apiVersion: v2
-    appVersion: 8.0.32
-    created: "2023-02-01T11:40:25.922318+08:00"
-    description: MySQL is a fast, reliable, scalable, and easy to use open source
-      relational database system. Designed to handle mission-critical, heavy-load
-      production applications.
-    digest: 2450ea5ac49b429614a928d20154dcce61507d3aeeb384ffb8d87e4d47e56099
-    name: mysql
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/mysql-1.0.0.tgz
-    version: 1.0.0
-  ys1000:
-=======
     type: application
     urls:
     - https://jibutech.github.io/helm-charts/gocas-0.0.1.tgz
@@ -111,7 +79,6 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.2.1+1c2f05e.tgz
     version: 3.2.1+1c2f05e
->>>>>>> main
   - apiVersion: v2
     appVersion: 3.2.0
     created: "2023-03-31T21:53:53.444388+08:00"
@@ -169,8 +136,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.0.0.tgz
     version: 3.0.0
-<<<<<<< HEAD
-generated: "2023-04-03T14:03:31.42303+08:00"
-=======
 generated: "2023-05-04T14:59:41.711155+08:00"
->>>>>>> main
