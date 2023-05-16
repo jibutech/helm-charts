@@ -35,7 +35,7 @@ image:
   tag:
 
 components:
-  webserver:
+  webServer:
     image:
       registry:
       repository: jibutech/webserver
@@ -43,9 +43,15 @@ components:
     serviceType: ClusterIP
 #    database:
 #      username:
+#        value: root
 #      password:
-#      host:
-  hookrunner:
+#        valueFrom:
+#          secretKeyRef:
+#            key: mysql-root-password
+#            name: mysql
+#            optional: true
+#      host: mysql
+  hookRunner:
     image:
       registry:
       repository: jibutech/hookrunner
@@ -123,7 +129,7 @@ components:
       registry:
       repository: jibutech/cron
       tag:
-  agentStub:
+  stub:
     image:
       registry:
       repository: jibutech/stub
@@ -144,16 +150,18 @@ components:
       repository: jibutech/dr-initcontainer
       tag: 0.1.0
       pullPolicy: IfNotPresent
-  helmHook:
-    image:
-      registry:
-      repository: jibutech/helm-hook
-      tag:
   appHookWorker:
     image:
       registry:
       repository: jibutech/apphook-worker
       tag: 0.1.0
+
+tools:
+  helmHook:
+    image:
+      registry:
+      repository: jibutech/helm-hook
+      tag:
 
 imagePullSecrets: []
 nameOverride: ""

@@ -26,8 +26,8 @@ spec:
         - --stale-clusters={{ join "," .Values.migconfig.deletionPolicy.staleClusters }}
         - --cancel-running-jobs={{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
         - --force={{ .Values.migconfig.deletionPolicy.force }}
-        image: "{{ .Values.components.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.helmHook.image.repository }}:{{ .Values.components.helmHook.image.tag | default .Values.imageBase.tag }}"
-        imagePullPolicy: {{ .Values.components.helmHook.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+        image: "{{ .Values.tools.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.tools.helmHook.image.repository }}:{{ .Values.tools.helmHook.image.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.tools.helmHook.image.pullPolicy | default .Values.imageBase.pullPolicy }}
         resources:
           requests:
             cpu: 200m
