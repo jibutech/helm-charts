@@ -35,13 +35,13 @@ image:
   tag:
 
 components:
-  webserver:
+  webServer:
     image:
       registry:
       repository: jibutech/webserver
       tag:
     serviceType: ClusterIP
-  hookrunner:
+  hookRunner:
     image:
       registry:
       repository: jibutech/hookrunner
