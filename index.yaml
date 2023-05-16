@@ -43,7 +43,7 @@ entries:
   ys1000:
   - apiVersion: v2
     appVersion: 3.3.0
-    created: "2023-05-16T22:38:00.704954+08:00"
+    created: "2023-05-16T23:18:59.531702+08:00"
     dependencies:
     - condition: tags.mysql
       name: mysql
@@ -58,7 +58,7 @@ entries:
       repository: https://charts.dexidp.io
       version: 0.x.x
     description: ys1000 provides data protection for cloud native apps.
-    digest: 8c4a7d954a6b02e7f80c95f40395f7f5b067e25891c28d9dbbe9b6b9153b97a5
+    digest: 06972934fc8a86169751927de8a970e911966697c3cf3678c89c44c7659a1173
     name: ys1000
     type: application
     urls:
@@ -159,4 +159,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.0.0.tgz
     version: 3.0.0
-generated: "2023-05-16T22:38:41.711155+08:00"
+generated: "2023-05-16T23:18:59.404214+08:00"
