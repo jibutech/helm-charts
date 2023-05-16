@@ -1,0 +1,44 @@
+{{- if .Values.migconfig.deletionPolicy.removeResources }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-cleanup"
+  labels:
+    {{- include "qiming-operator.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cleanup
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "10"
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "qiming-operator.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: cleanup
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: cleanup
+        args:
+        - cleanup
+        - --namespace=$(POD_NAMESPACE)
+        - --stale-clusters={{ join "," .Values.migconfig.deletionPolicy.staleClusters }}
+        - --cancel-running-jobs={{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
+        - --force={{ .Values.migconfig.deletionPolicy.force }}
+        image: "{{ .Values.components.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.components.helmHook.image.repository }}:{{ .Values.components.helmHook.image.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.components.helmHook.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 200m
+            memory: 512Mi
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+      serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
+{{- end }}

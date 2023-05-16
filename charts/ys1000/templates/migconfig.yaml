@@ -5,8 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/name: qiming-operator
     app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
-  version: {{ .Values.migconfig.version }}
+  version: {{ .Chart.AppVersion }}
   clientName: {{ .Values.migconfig.clientName }}
   serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
   deploymentMode: {{ .Values.migconfig.deploymentMode }}
@@ -20,6 +22,25 @@ spec:
     registry: {{ .Values.imageBase.registry }}
     pullPolicy: {{ .Values.imageBase.pullPolicy }}
     tag: {{ .Values.imageBase.tag }}
+  auth:
+    issuer: {{ .Values.dex.config.issuer }}
+    {{- with (first .Values.dex.config.staticClients) }}
+    redirectURI: {{ (first .redirectURIs) }}
+    {{- end }}
+  tenant:
+    namespacePrefix: "workspace-"
+  deletionPolicy:
+    removeResources: {{ .Values.migconfig.deletionPolicy.removeResources }}
+    cancelRunningJobs: {{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
+    force: {{ .Values.migconfig.deletionPolicy.force }}
+    {{- with .Values.migconfig.deletionPolicy.staleClusters }}
+    staleClusters:
+    {{- range . }}
+    - {{ . | quote }}
+    {{- end }}
+    {{- end }}
+  watchedNamespaces:
+  - "*"
   portal:
     image:
       registry: {{ .Values.components.portal.image.registry | default .Values.imageBase.registry }}

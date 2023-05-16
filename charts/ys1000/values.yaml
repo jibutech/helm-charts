@@ -5,6 +5,7 @@
 tags:
   mysql: true
   clusterpedia: true
+  dex: false
 
 featureGates:
   ClusterCache: true
@@ -19,11 +20,14 @@ featureGates:
   CSIAddon: false
   VolSync: false
   Migration: false
+  Auth: true
+  Tenant: false
+
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.2.2"
+  tag: "3.3.0"
 
 image:
   registry:
@@ -51,7 +55,7 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-31377ffc-20230321140130
+      tag: v1.7.0-jibu-dev-2f846640-20230413072023
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
@@ -104,7 +108,7 @@ components:
     image:
       registry:
       repository: jibutech/mig-discovery
-      tag:
+      tag: 3.2.0
   controller:
     image:
       registry:
@@ -136,19 +140,27 @@ components:
       repository: jibutech/dr-initcontainer
       tag: 0.1.0
       pullPolicy: IfNotPresent
+  helmHook:
+    image:
+      registry:
+      repository: jibutech/helm-hook
+      tag:
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 migconfig:
-  version: "3.2.2"
   clientName: "default"
   deploymentMode: "standalone"
   isAdminCluster: false
-  UIadminPassword: "passw0rd"
   agentNamespace: qiming-backend
   selfBackupIntervalSeconds: 300
+  deletionPolicy:
+    removeResources: false
+    staleClusters:
+    cancelRunningJobs: false
+    force: false
 
 velero:
   resticPodVolumeOperationTimeout: 240m
@@ -323,6 +335,53 @@ clusterpedia:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
       tag: 8.0.32
+
+dex:
+  image:
+    repository: registry.cn-shanghai.aliyuncs.com/jibutech/dex
+    tag: 1.0.0
+    pullPolicy: Always
+  service:
+    type: NodePort
+    ports:
+      http:
+        port: 5556
+        nodePort: 32000
+  config:
+    issuer: http://0.0.0.0:32000/dex
+    oauth2:
+      skipApprovalScreen: true
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+    web:
+      http: 0.0.0.0:5556
+    staticClients:
+    - id: ys1000
+      redirectURIs:
+      - 'http://0.0.0.0:30180/login'
+      - 'http://127.0.0.1:5555/callback'
+      name: 'YS1000'
+      secret: ZXmhbABsRS1tcHItcnVjlmVa12u
+    enablePasswordDB: true
+    staticPasswords:
+    - email: "admin@example.com"
+      # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
+      hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
+      username: "admin"
+      userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+    connectors:
+#    - type: mockCallback
+#      id: mock
+#      name: Example
+#    - type: cas
+#      id: cas
+#      name: CAS
+#      config:
+#        server: http://0.0.0.0:31888/cas/
+#        redirectURI: http://0.0.0.0:32000/dex/callback
+#        insecureSkipVerify: true
 
 alarm:
   enabled: false

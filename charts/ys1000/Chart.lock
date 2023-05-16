@@ -5,5 +5,8 @@ dependencies:
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
   version: 1.4.0
-digest: sha256:468be508bfa9ac423a53ff6ea9332400c90d8c35d8a5e04371610ff4803235d1
-generated: "2023-02-01T12:14:00.974414+08:00"
+- name: dex
+  repository: https://charts.dexidp.io
+  version: 0.13.0
+digest: sha256:243f3003da4ecf38d9625b64c2d61de9c3d27fcab0d9a35ec01537810ae1f1e3
+generated: "2023-03-07T20:28:54.310958+08:00"
