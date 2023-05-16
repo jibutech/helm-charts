@@ -35,7 +35,7 @@
    **注意-2**: YS1000 v3.0以上的版本与之前版本不兼容，如果需要升级请联系技术支持 <br>
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级(根据版本替换最后的release#)
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.2.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
