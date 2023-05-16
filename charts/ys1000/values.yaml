@@ -41,6 +41,10 @@ components:
       repository: jibutech/webserver
       tag:
     serviceType: ClusterIP
+#    database:
+#      username:
+#      password:
+#      host:
   hookrunner:
     image:
       registry:
