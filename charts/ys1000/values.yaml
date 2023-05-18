@@ -51,6 +51,9 @@ components:
       registry:
       repository: jibutech/agent-operator
       tag:
+#    template:
+#      spec:
+#        tolerations: []
   velero:
     image:
       registry:
