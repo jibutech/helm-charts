@@ -1486,8 +1486,6 @@ spec:
                   - type
                   type: object
                 type: array
-              createdByDr:
-                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -3676,8 +3674,6 @@ spec:
                   - type
                   type: object
                 type: array
-              createdByDr:
-                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -9237,9 +9233,12 @@ spec:
                         type: object
                     type: object
                 type: object
+              isAutoPrePullImage:
+                description: auto prepull image in secondary cluster
+                type: boolean
               podRestoreMethod:
-                description: Pod Restore method none/replica/nodename, default is
-                  nodename
+                description: Pod Restore method none/replica/nodelabel/initcontainer,
+                  default is nodelabel
                 type: string
               restoreActions:
                 description: Deprecated
@@ -13146,6 +13145,8 @@ spec:
                             - nodeSelectorTerms
                             type: object
                         type: object
+                      tolerateAllNodes:
+                        type: boolean
                     type: object
                 type: object
               agentResourceQuota:
@@ -13898,6 +13899,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  tolerateAllNodes:
+                    type: boolean
                 type: object
               dataVerify:
                 properties:
@@ -14048,6 +14051,20 @@ spec:
                     type: string
                   tag:
                     type: string
+                type: object
+              imagePuller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               isAdminCluster:
                 description: IsAdminCluster indicates if the cluster is only for backup
@@ -23276,8 +23293,6 @@ spec:
                   - type
                   type: object
                 type: array
-              createdByDr:
-                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -27210,8 +27225,6 @@ spec:
                   - type
                   type: object
                 type: array
-              createdByDr:
-                type: boolean
               criticalErrors:
                 items:
                   properties:
@@ -30229,6 +30242,8 @@ spec:
                     type: object
                   removeCRDsOnDeletion:
                     type: boolean
+                  tolerateAllNodes:
+                    type: boolean
                 type: object
               dataMoverImage:
                 description: Deprecated
@@ -30362,6 +30377,20 @@ spec:
                     type: string
                   tag:
                     type: string
+                type: object
+              imagePuller:
+                properties:
+                  image:
+                    properties:
+                      pullPolicy:
+                        type: string
+                      registry:
+                        type: string
+                      repository:
+                        type: string
+                      tag:
+                        type: string
+                    type: object
                 type: object
               imageRep:
                 description: Deprecated
