@@ -150,6 +150,12 @@ components:
       repository: jibutech/dr-initcontainer
       tag: 0.1.0
       pullPolicy: IfNotPresent
+  imagePuller:
+    image:
+      registry:
+      repository: jibutech/imagepuller
+      tag: 0.1.0
+      pullPolicy: IfNotPresent
   appHookWorker:
     image:
       registry:
