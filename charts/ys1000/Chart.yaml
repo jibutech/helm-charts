@@ -30,7 +30,7 @@ dependencies:
   condition: tags.mysql
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
-  version: 1.x.x
+  version: 1.4.x
   condition: tags.clusterpedia
 - name: dex
   repository: https://charts.dexidp.io
