@@ -20,6 +20,9 @@ spec:
         app: qiming-operator
         {{- include "qiming-operator.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.migconfig.template }}
+      {{- toYaml .spec | nindent 6 }}
+      {{- end }}
       containers:
       - args:
         - --health-probe-bind-address=:8081
