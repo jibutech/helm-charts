@@ -29,16 +29,10 @@ spec:
     {{- end }}
   tenant:
     namespacePrefix: "workspace-"
-  deletionPolicy:
-    removeResources: {{ .Values.migconfig.deletionPolicy.removeResources }}
-    cancelRunningJobs: {{ .Values.migconfig.deletionPolicy.cancelRunningJobs }}
-    force: {{ .Values.migconfig.deletionPolicy.force }}
-    {{- with .Values.migconfig.deletionPolicy.staleClusters }}
-    staleClusters:
-    {{- range . }}
-    - {{ . | quote }}
-    {{- end }}
-    {{- end }}
+  {{- with .Values.migconfig.template }}
+  template: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  deletionPolicy: {{- toYaml .Values.migconfig.deletionPolicy | nindent 4 }}
   watchedNamespaces:
   - "*"
   {{- toYaml .Values.components | nindent 2 }}

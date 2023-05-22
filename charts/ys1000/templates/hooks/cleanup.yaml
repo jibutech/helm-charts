@@ -17,6 +17,9 @@ spec:
         {{- include "qiming-operator.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: cleanup
     spec:
+      {{- with .Values.migconfig.template.spec }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
       restartPolicy: Never
       containers:
       - name: cleanup
