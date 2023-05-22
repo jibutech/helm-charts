@@ -30,7 +30,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
    **NOTE**: if any previous ys1000 was installed , please do crd update before installation or upgrade by:
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
 
    Option 1: CLI commands
@@ -132,7 +132,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    
    **NOTE**: please do crd update before upgrade by:
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/qiming-operator'
    ```
    
    If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
