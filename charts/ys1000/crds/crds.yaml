@@ -7216,6 +7216,8 @@ spec:
               policy:
                 description: RestorePolicy defines the policy for a restore
                 properties:
+                  autoConvert:
+                    type: boolean
                   dataVerify:
                     description: DataVerify indicts if data should be verified during
                       restore
@@ -23686,6 +23688,8 @@ spec:
                   restorePolicy:
                     description: RestorePolicy defines the policy for a restore
                     properties:
+                      autoConvert:
+                        type: boolean
                       dataVerify:
                         description: DataVerify indicts if data should be verified
                           during restore
@@ -27623,6 +27627,8 @@ spec:
               policy:
                 description: RestorePolicy defines the policy for a restore
                 properties:
+                  autoConvert:
+                    type: boolean
                   dataVerify:
                     description: DataVerify indicts if data should be verified during
                       restore
