@@ -1671,6 +1671,8 @@ spec:
                 type: integer
               valid:
                 type: boolean
+              veleroBackup:
+                type: string
               volumes:
                 items:
                   properties:
