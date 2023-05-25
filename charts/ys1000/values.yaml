@@ -68,7 +68,7 @@ components:
     image:
       registry:
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-b9c96674-20230524140347
+      tag: v1.7.0-jibu-dev-b9c96674-20230525022532
     imageResticHelper:
       registry:
       repository: jibutech/velero-restic-restore-helper
