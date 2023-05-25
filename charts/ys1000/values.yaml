@@ -151,7 +151,7 @@ components:
     image:
       registry:
       repository: jibutech/dr-initcontainer
-      tag: 0.1.0
+      tag: 0.2.0
       pullPolicy: IfNotPresent
   imagePuller:
     image:
