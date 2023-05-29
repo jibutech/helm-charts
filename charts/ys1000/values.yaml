@@ -19,7 +19,6 @@ featureGates:
   EtcdStub: false
   CSIAddon: false
   VolSync: false
-  Migration: false
   Auth: true
   Tenant: false
 
