@@ -1642,20 +1642,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -5845,20 +5856,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -7410,20 +7432,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -14823,6 +14856,7 @@ spec:
                         type: object
                     type: object
                   useRestic:
+                    description: Deprecated
                     type: boolean
                   veleroPodCPULimit:
                     type: string
@@ -16688,20 +16722,31 @@ spec:
                   errorStep:
                     description: Deprecated
                     properties:
+                      canceledAt:
+                        format: date-time
+                        type: string
                       completionTimestamp:
                         format: date-time
                         type: string
                       errorCount:
                         additionalProperties:
                           type: integer
+                        description: Deprecated
                         type: object
+                      failedAt:
+                        format: date-time
+                        type: string
                       firstFailureTimeStamp:
+                        description: Deprecated
                         format: date-time
                         type: string
                       name:
                         type: string
                       retryTimes:
+                        description: Deprecated
                         type: integer
+                      skipped:
+                        type: boolean
                       startTimestamp:
                         format: date-time
                         type: string
@@ -16710,20 +16755,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -18441,10 +18497,6 @@ spec:
                           type: string
                         name:
                           type: string
-                        resourceBackupPlan:
-                          type: string
-                        resourceRestorePlan:
-                          type: string
                         restorePlan:
                           type: string
                       type: object
@@ -18788,20 +18840,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -20735,10 +20798,6 @@ spec:
                     backupPlan:
                       type: string
                     name:
-                      type: string
-                    resourceBackupPlan:
-                      type: string
-                    resourceRestorePlan:
                       type: string
                     restorePlan:
                       type: string
@@ -24156,20 +24215,31 @@ spec:
                     items:
                       description: StepInfo includes details of a step's execution
                       properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
                         completionTimestamp:
                           format: date-time
                           type: string
                         errorCount:
                           additionalProperties:
                             type: integer
+                          description: Deprecated
                           type: object
+                        failedAt:
+                          format: date-time
+                          type: string
                         firstFailureTimeStamp:
+                          description: Deprecated
                           format: date-time
                           type: string
                         name:
                           type: string
                         retryTimes:
+                          description: Deprecated
                           type: integer
+                        skipped:
+                          type: boolean
                         startTimestamp:
                           format: date-time
                           type: string
@@ -31894,6 +31964,7 @@ spec:
                         type: object
                     type: object
                   useRestic:
+                    description: Deprecated
                     type: boolean
                   veleroPodCPULimit:
                     type: string
