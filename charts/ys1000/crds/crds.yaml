@@ -20997,17 +20997,6 @@ spec:
                 type: array
               frozen:
                 type: boolean
-              incompatibleResources:
-                items:
-                  properties:
-                    group:
-                      type: string
-                    kind:
-                      type: string
-                    version:
-                      type: string
-                  type: object
-                type: array
               namespaces:
                 items:
                   type: string
@@ -21024,6 +21013,84 @@ spec:
                     type: string
                   sourceNamespace:
                     type: string
+                type: object
+              summary:
+                properties:
+                  estimatedTotalItems:
+                    type: integer
+                  images:
+                    items:
+                      type: string
+                    type: array
+                  incompatibleResources:
+                    items:
+                      properties:
+                        namespace:
+                          type: string
+                        resources:
+                          items:
+                            properties:
+                              group:
+                                type: string
+                              kind:
+                                type: string
+                              names:
+                                items:
+                                  type: string
+                                type: array
+                              resource:
+                                type: string
+                              version:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  lastUpdateTime:
+                    format: date-time
+                    type: string
+                  nfsVolumeCount:
+                    type: integer
+                  pvcCount:
+                    type: integer
+                  pvcTotalSize:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                  resources:
+                    items:
+                      properties:
+                        namespace:
+                          type: string
+                        resources:
+                          items:
+                            properties:
+                              group:
+                                type: string
+                              kind:
+                                type: string
+                              names:
+                                items:
+                                  type: string
+                                type: array
+                              resource:
+                                type: string
+                              version:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  snapshotClasses:
+                    items:
+                      type: string
+                    type: array
+                  storageClasses:
+                    items:
+                      type: string
+                    type: array
                 type: object
               targetClusterRef:
                 properties:
