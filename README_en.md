@@ -105,25 +105,11 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
     http://192.168.0.2:31151
     ```
 
-    b. Login web UI
+    b. Login web UI with username/password
 
-      There are two ways to login the web UI.
-
-    1. With the kubeconfig by running these commands
-
-    ```bash
-    kubectl config view --flatten
-    ```
-    or
-    ```bash
-    cat ~/.kube/config
-    ```
-
-    2. With username/password
-
-        The default username is `admin` and default password is `passw0rd`.
-        The password can be set during installation by flag,
-
+   The default username is `admin` and default password is `passw0rd`.
+   The password can be set during installation by flag,
+   
     ```bash
     --set migconfig.UIadminPassword=<your new password>
     ```

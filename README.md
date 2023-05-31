@@ -122,23 +122,9 @@
 
     b. 登录管理界面
 
-    目前支持两种登录方式，集群kubeconfig访问和用户名密码访问。
-
-    1. 集群kubeconfig获取:
-
-    ```bash
-    kubectl config view --flatten
-    ```
-    或者
-    ```bash
-    cat ~/.kube/config
-    ```
-
-    2. 使用用户名和密码：
-
-    默认用户名 `admin` 默认密码 `passw0rd`.
+    目前支持用户名密码访问。默认用户名 `admin` 默认密码 `passw0rd`.
     密码可以在安装时指定：
-
+    
     ```bash
     --set migconfig.UIadminPassword=<your new password>
     ```
