@@ -1685,6 +1685,8 @@ spec:
                 type: integer
               valid:
                 type: boolean
+              veleroBackup:
+                type: string
               volumes:
                 items:
                   properties:
@@ -18709,6 +18711,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataTransferTimeout:
+                    type: string
                   namespaces:
                     items:
                       type: string
