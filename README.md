@@ -24,7 +24,7 @@
    ```bash
    [root@~]# helm search repo jibutech
    NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
-   jibutech/ys1000         3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
+   jibutech/ys1000         3.3.2           3.3.2           ys1000 provides data protection for cloud nativ...
    ```
 
 2. 您可以使用以下两种方法进行安装:
@@ -34,7 +34,7 @@
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
 
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.3.2'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -73,7 +73,7 @@
 
       ```bash
       # step 1: generate default values.yaml
-      helm inspect values jibutech/ys1000 --versions v3.4.0 > values.yaml
+      helm inspect values jibutech/ys1000 --versions v3.3.2 > values.yaml
    
       # step 2: fill required arguments in values.yaml
       vim values.yaml
@@ -95,7 +95,7 @@
       ```bash
       [root@~]# kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
       NAME            AGE     PHASE   CREATED AT             VERSION
-      qiming-config   2d2h    Ready   2021-10-20T06:21:20Z   v3.4.0
+      qiming-config   2d2h    Ready   2021-10-20T06:21:20Z   v3.3.2
       ```
 
     使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
@@ -103,7 +103,7 @@
       ```bash
       [root@~]# helm list -n ys1000
       NAME                    NAMESPACE      REVISION        UPDATED                                   STATUS      CHART                APP VERSION
-      ys1000-1683716371       ys1000         11              2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.4.0         3.4.0
+      ys1000-1683716371       ys1000         11              2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.3.2         3.3.2
       ```
 
 4. 访问图形管理界面（UI）
@@ -136,10 +136,10 @@
    ```bash
    [root@ ~]# helm search repo jibutech
    NAME             CHART VERSION   APP VERSION     DESCRIPTION
-   jibutech/ys1000  3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
+   jibutech/ys1000  3.3.2           3.3.2           ys1000 provides data protection for cloud nativ...
    [root@ ~]# helm search repo jibutech --versions
    NAME             CHART VERSION   APP VERSION     DESCRIPTION
-   jibutech/ys1000  3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
+   jibutech/ys1000  3.3.2           3.3.2           ys1000 provides data protection for cloud nativ...
    jibutech/ys1000  3.3.1           3.3.1           ys1000 provides data protection for cloud nativ...
    jibutech/ys1000  3.3.0           3.3.1           ys1000 provides data protection for cloud nativ...
    jibutech/ys1000  3.2.3           3.2.3           ys1000 provides data protection for cloud nativ...
@@ -152,13 +152,13 @@
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
    
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.3.2'
    ```
    
    例如：
    
    ```bash
-   helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.4.0 --set migconfig.UIadminPassword=`<your password>`
+   helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.3.2 --set migconfig.UIadminPassword=`<your password>`
    ```
    
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
@@ -194,7 +194,7 @@
    ```bash
    [root@~]# helm list -n ys1000
    NAME                    NAMESPACE       REVISION        UPDATED                                  STATUS      CHART                APP VERSION
-   ys1000-1683716371       ys1000          11              2023-05-26 17:53:15.116051313 +0800 CST  deployed    ys1000-3.4.0         3.4.0
+   ys1000-1683716371       ys1000          11              2023-05-26 17:53:15.116051313 +0800 CST  deployed    ys1000-3.3.2         3.3.2
    
    [root@~]# helm uninstall ys1000-1618982398 -n ys1000
    release "ys1000-1618982398" uninstalled

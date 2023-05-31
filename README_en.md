@@ -23,14 +23,14 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    ```bash
    [root@~]# helm search repo jibutech
    NAME             CHART VERSION   APP VERSION     DESCRIPTION
-   jibutech/ys1000  3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
+   jibutech/ys1000  3.3.2           3.3.2           ys1000 provides data protection for cloud nativ...
    ```
 
 2. Install helm chart **ys1000** 
 
    **NOTE**: if any previous ys1000 was installed , please do crd update before installation or upgrade by:
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.3.2'
    ```
 
    Option 1: CLI commands
@@ -67,7 +67,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
       ```bash
       # generate default values.yaml
-      helm inspect values jibutech/ys1000 --version v3.4.0 > values.yaml
+      helm inspect values jibutech/ys1000 --version v3.3.2 > values.yaml
       
       # fill required arguments in values.yaml
       # install by specifying the values.yaml
@@ -83,7 +83,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
       ```bash
       [root@~]# helm list -n ys1000
       NAME                    NAMESPACE      REVISION         UPDATED                                   STATUS      CHART                APP VERSION
-      ys1000-1683716371       ys1000         11               2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.4.0         3.4.0
+      ys1000-1683716371       ys1000         11               2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.3.2         3.3.2
       ```
 
    b. wait for the installation status to be ready. For example:
@@ -91,7 +91,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
       ```bash
       [root@~]# kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
       NAME        AGE     PHASE   CREATED AT             VERSION
-      jibutech-config   2d2h   Ready   2021-10-20T06:21:20Z  v3.4.0
+      jibutech-config   2d2h   Ready   2021-10-20T06:21:20Z  v3.3.2
       ```
 
 4. Access web UI
@@ -120,7 +120,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    
    **NOTE**: please do crd update before upgrade by:
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.3.2'
    ```
    
    If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
@@ -140,7 +140,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    ```bash
    [root@~]# helm list -n ys1000
    NAME                    NAMESPACE       REVISION        UPDATED                                  STATUS      CHART                APP VERSION
-   ys1000-1683716371       ys1000          11              2023-05-26 17:53:15.116051313 +0800 CST  deployed    ys1000-3.4.0         3.4.0
+   ys1000-1683716371       ys1000          11              2023-05-26 17:53:15.116051313 +0800 CST  deployed    ys1000-3.3.2         3.3.2
    
    [root@~]# helm uninstall ys1000-1618982398 -n ys1000
    release "ys1000-1618982398" uninstalled
