@@ -15,22 +15,22 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 1. Add helm repo as follows:
 
    ```bash
-   $ helm repo add qiming https://jibutech.github.io/helm-charts/
+   helm repo add jibutech https://jibutech.github.io/helm-charts/
    ```
 
-   You can then run `helm search repo qiming` to see the charts, for example:
+   You can then run `helm search repo jibutech` to see the charts, for example:
 
    ```bash
-   [root@test-master ~]# helm search repo qiming
-   NAME                  	CHART VERSION	APP VERSION	DESCRIPTION
-   qiming/qiming-operator  2.6.1           2.6.1           ys1000 provides data protection for cloud nativ...
+   [root@~]# helm search repo jibutech
+   NAME             CHART VERSION   APP VERSION     DESCRIPTION
+   jibutech/ys1000  3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
    ```
 
-2. Install helm chart **qiming-operator** 
+2. Install helm chart **ys1000** 
 
    **NOTE**: if any previous ys1000 was installed , please do crd update before installation or upgrade by:
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
    ```
 
    Option 1: CLI commands
@@ -40,23 +40,23 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
       For example:
 
       ```bash
-      helm install qiming/qiming-operator --namespace qiming-migration \ 
+      helm install jibutech/ys1000 --namespace ys1000 \ 
           --create-namespace --generate-name --set service.type=NodePort \
           --set s3Config.provider=aws --set s3Config.name=minio \
           --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
           --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
 
-      NAME: qiming-operator-1635128765
+      NAME: ys1000-1635128765
       LAST DEPLOYED: Mon Oct 20 10:26:10 2021
-      NAMESPACE: qiming-migration
+      NAMESPACE: ys1000
       STATUS: deployed
       REVISION: 1
 
       NOTES:
       Check the application status Ready by running these commands:
         NOTE: It may take a few minutes to pull docker images.
-              You can watch the status of by running `kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com -w`
-        kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
+              You can watch the status of by running `kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w`
+        kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
       ```
 
    Option 2: YAML file
@@ -67,11 +67,11 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
       ```bash
       # generate default values.yaml
-      helm inspect values  qiming/qiming-operator > values.yaml
+      helm inspect values jibutech/ys1000 --version v3.4.0 > values.yaml
       
       # fill required arguments in values.yaml
       # install by specifying the values.yaml
-      helm install qiming/qiming-operator --namespace qiming-migration -f values.yaml --generate-name
+      helm install jibutech/ys1000 --namespace ys1000 -f values.yaml --generate-name
       ```
 
 3. Check the installed helm chart
@@ -81,17 +81,17 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
       For example:
 
       ```bash
-      [root@remote-dev ~]# helm list -n qiming-migration
-      NAME           	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
-      qiming-operator	qiming-migration	1       	2021-10-20 14:21:19.974930606 +0800 CST	deployed	qiming-operator-2.0.3	2.0.3
+      [root@~]# helm list -n ys1000
+      NAME                    NAMESPACE      REVISION         UPDATED                                   STATUS      CHART                APP VERSION
+      ys1000-1683716371       ys1000         11               2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.4.0         3.4.0
       ```
 
    b. wait for the installation status to be ready. For example:
 
       ```bash
-      [root@remote-dev ~]# kubectl --namespace qiming-migration get migconfigs.migration.yinhestor.com
+      [root@~]# kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
       NAME        AGE     PHASE   CREATED AT             VERSION
-      qiming-config   2d2h   Ready   2021-10-20T06:21:20Z  v2.0.3
+      jibutech-config   2d2h   Ready   2021-10-20T06:21:20Z  v3.4.0
       ```
 
 4. Access web UI
@@ -99,9 +99,9 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    a. get the application URL by running these commands:
 
     ```bash
-    [root@remote-dev ~]# export NODE_PORT=$(kubectl get --namespace qiming-migration -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
-    [root@remote-dev ~]# export NODE_IP=$(kubectl get nodes --namespace qiming-migration -o jsonpath="{.items[0].status.addresses[0].address}")
-    [root@remote-dev ~]# echo http://$NODE_IP:$NODE_PORT
+    [root@~]# export NODE_PORT=$(kubectl get --namespace ys1000 -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+    [root@~]# export NODE_IP=$(kubectl get nodes --namespace ys1000 -o jsonpath="{.items[0].status.addresses[0].address}")
+    [root@~]# echo http://$NODE_IP:$NODE_PORT
     http://192.168.0.2:31151
     ```
 
@@ -109,15 +109,17 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
       There are two ways to login the web UI.
 
-    1. with the token by running these commands
+    1. With the kubeconfig by running these commands
 
     ```bash
-    export SECRET=$(kubectl -n qiming-migration get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
-    export TOKEN=$(kubectl -n qiming-migration describe secrets $SECRET |grep token: | awk '{print $2}')
-            echo $TOKEN
+    kubectl config view --flatten
+    ```
+    or
+    ```bash
+    cat ~/.kube/config
     ```
 
-    2. with username/password
+    2. With username/password
 
         The default username is `admin` and default password is `passw0rd`.
         The password can be set during installation by flag,
@@ -128,11 +130,11 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
 ## Upgrade
 
-1. Upgrade to a chart version by specifying `--version=<CHART VERSION>`  through `helm upgrade`
+1. Upgrade to a chart version by specifying `--version=<CHART VERSION>` through `helm upgrade`
    
    **NOTE**: please do crd update before upgrade by:
    ```
-   kubectl apply -f https://raw.githubusercontent.com/jibutech/helm-charts/main/charts/qiming-operator/crds/crds.yaml
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
    ```
    
    If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
@@ -140,22 +142,22 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    An example:
 
    ```bash
-   [root@remote-dev ~]helm upgrade qiming-operator-1618982398 qiming/qiming-operator --namespace qiming-migration --reuse-values --version=2.0.3
+   [root@~]helm upgrade ys1000-1618982398 jibutech/ys1000 --namespace ys1000 --reuse-values --version=3.3.2
    ```
 
 ## Uninstallation
 
-1. Uninstall **qiming-operator** helm chart
+1. Uninstall **ys1000** helm chart
 
    Specify the current release name and namespace to uninstall.
 
    ```bash
-   [root@remote-dev ~]# helm list -n qiming-migration
-   NAME                      	NAMESPACE       	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
-   qiming-operator-1618982398	qiming-migration	4       	2021-04-21 13:41:27.365865385 +0800 CST	deployed	qiming-operator-0.2.1	0.2.1
+   [root@~]# helm list -n ys1000
+   NAME                    NAMESPACE       REVISION        UPDATED                                  STATUS      CHART                APP VERSION
+   ys1000-1683716371       ys1000          11              2023-05-26 17:53:15.116051313 +0800 CST  deployed    ys1000-3.4.0         3.4.0
    
-   [root@remote-dev ~]# helm uninstall qiming-operator-1618982398 -n qiming-migration
-   release "qiming-operator-1618982398" uninstalled
+   [root@~]# helm uninstall ys1000-1618982398 -n ys1000
+   release "ys1000-1618982398" uninstalled
    ```
 
    **NOTES**: velero components and resources would be still kept to avoid data loss.
@@ -163,13 +165,13 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    In case you still want to remove velero and history backup records, run the commands:
 
    ```bash
-   [root@remote-dev ~]# kubectl delete ns qiming-migration
-   namespace "qiming-migration" deleted
+   [root@~]# kubectl delete ns ys1000
+   namespace "ys1000" deleted
    
-   [root@remote-dev ~]# k delete clusterrolebindings.rbac.authorization.k8s.io velero-qiming-migration
-   clusterrolebinding.rbac.authorization.k8s.io "velero-qiming-migration" deleted
+   [root@~]# k delete clusterrolebindings.rbac.authorization.k8s.io velero-ys1000
+   clusterrolebinding.rbac.authorization.k8s.io "velero-ys1000" deleted
    
-   [root@remote-dev ~]# kubectl delete crds -l component=velero
+   [root@~]# kubectl delete crds -l component=velero
    customresourcedefinition.apiextensions.k8s.io "backups.velero.io" deleted
    customresourcedefinition.apiextensions.k8s.io "backupstoragelocations.velero.io" deleted
    customresourcedefinition.apiextensions.k8s.io "deletebackuprequests.velero.io" deleted
@@ -189,7 +191,7 @@ The following table lists the required parameters during installation.
 
 | Parameter               | Description                           | Example                                                    |
 | ----------------------- | ----------------------------------    | ---------------------------------------------------------- |
-| namespace          |  Namespace of yinhe software     |  --namespace qiming-migration                           |
+| namespace          |  Namespace of yinhe software     |  --namespace ys1000                           |
 | create-namespace   |  Create new namespace               |  --create-namespace
 | generate-name      |  Whether create new name otherwise user need to specify the name |   --generate-name
 | service.type       |  Service type                        |   --set service.type=NodePort
