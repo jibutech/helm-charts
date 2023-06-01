@@ -12476,6 +12476,189 @@ spec:
             type: object
           status:
             properties:
+              applicationFilterRules:
+                properties:
+                  namespaces:
+                    items:
+                      type: string
+                    type: array
+                  templates:
+                    items:
+                      properties:
+                        filters:
+                          properties:
+                            excludeClusterResources:
+                              items:
+                                properties:
+                                  group:
+                                    type: string
+                                  kind:
+                                    type: string
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  resource:
+                                    type: string
+                                  version:
+                                    type: string
+                                type: object
+                              type: array
+                            excludeResources:
+                              items:
+                                properties:
+                                  group:
+                                    type: string
+                                  kind:
+                                    type: string
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  resource:
+                                    type: string
+                                  version:
+                                    type: string
+                                type: object
+                              type: array
+                            includeClusterResources:
+                              items:
+                                properties:
+                                  group:
+                                    type: string
+                                  kind:
+                                    type: string
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  resource:
+                                    type: string
+                                  version:
+                                    type: string
+                                type: object
+                              type: array
+                            includeResources:
+                              items:
+                                properties:
+                                  group:
+                                    type: string
+                                  kind:
+                                    type: string
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  resource:
+                                    type: string
+                                  version:
+                                    type: string
+                                type: object
+                              type: array
+                            selector:
+                              description: A label selector is a label query over
+                                a set of resources. The result of matchLabels and
+                                matchExpressions are ANDed. An empty label selector
+                                matches all objects. A null label selector matches
+                                no objects.
+                              properties:
+                                matchExpressions:
+                                  description: matchExpressions is a list of label
+                                    selector requirements. The requirements are ANDed.
+                                  items:
+                                    description: A label selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: key is the label key that the
+                                          selector applies to.
+                                        type: string
+                                      operator:
+                                        description: operator represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists and DoesNotExist.
+                                        type: string
+                                      values:
+                                        description: values is an array of string
+                                          values. If the operator is In or NotIn,
+                                          the values array must be non-empty. If the
+                                          operator is Exists or DoesNotExist, the
+                                          values array must be empty. This array is
+                                          replaced during a strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: matchLabels is a map of {key,value}
+                                    pairs. A single {key,value} in the matchLabels
+                                    map is equivalent to an element of matchExpressions,
+                                    whose key field is "key", the operator is "In",
+                                    and the values array contains only "value". The
+                                    requirements are ANDed.
+                                  type: object
+                              type: object
+                          type: object
+                        namespaces:
+                          items:
+                            type: string
+                          type: array
+                        templateName:
+                          type: string
+                        volume:
+                          properties:
+                            excludes:
+                              description: Excludes excludes volume data in backup
+                              items:
+                                properties:
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  pod:
+                                    type: string
+                                type: object
+                              type: array
+                            includedFiles:
+                              items:
+                                properties:
+                                  files:
+                                    items:
+                                      type: string
+                                    type: array
+                                  namespace:
+                                    type: string
+                                  pvcName:
+                                    type: string
+                                type: object
+                              type: array
+                            includes:
+                              description: Includes includes volume data in backup
+                              items:
+                                properties:
+                                  names:
+                                    items:
+                                      type: string
+                                    type: array
+                                  pod:
+                                    type: string
+                                type: object
+                              type: array
+                            option:
+                              description: Option is the option for volume related
+                                resources like pvc, pv, snapshot, ...
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
               clusterRef:
                 properties:
                   global:
@@ -18719,6 +18902,12 @@ spec:
                     type: array
                   policyName:
                     type: string
+                  resourceType:
+                    enum:
+                    - default
+                    - dataOnly
+                    - resourceOnly
+                    type: string
                   resumeApplicationAfterFinalMigration:
                     type: boolean
                   shutDownApplicationBeforeFinalMigration:
@@ -20768,6 +20957,13 @@ spec:
                   dataTransferTimeout:
                     type: string
                 type: object
+              resourceType:
+                default: default
+                enum:
+                - default
+                - dataOnly
+                - resourceOnly
+                type: string
               resumeApplicationAfterFinalMigration:
                 type: boolean
               shutDownApplicationBeforeFinalMigration:
