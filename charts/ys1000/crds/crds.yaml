@@ -1678,6 +1678,10 @@ spec:
               stopTimestamp:
                 format: date-time
                 type: string
+              storageClasses:
+                items:
+                  type: string
+                type: array
               submitTimestamp:
                 format: date-time
                 type: string
