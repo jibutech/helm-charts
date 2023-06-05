@@ -8045,9 +8045,12 @@ spec:
             description: DisasterRecoverySpec defines the desired state of DisasterRecovery
             properties:
               appNamespaces:
+                description: namespaces
                 items:
                   type: string
                 type: array
+              application:
+                type: string
               clusterRestoreActions:
                 additionalProperties:
                   description: RestoreActions defines the action for a restore
@@ -9277,6 +9280,10 @@ spec:
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
                 type: boolean
+              namespaces:
+                items:
+                  type: string
+                type: array
               podRestoreMethod:
                 description: Pod Restore method none/replica/nodelabel/initcontainer,
                   default is nodelabel
@@ -10375,6 +10382,56 @@ spec:
               syncRestoreDisabled:
                 description: Resource sync, disable/enable restore
                 type: boolean
+              templates:
+                items:
+                  items:
+                    type: string
+                  type: array
+                type: array
+              volume:
+                properties:
+                  excludes:
+                    description: Excludes excludes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  includedFiles:
+                    items:
+                      properties:
+                        files:
+                          items:
+                            type: string
+                          type: array
+                        namespace:
+                          type: string
+                        pvcName:
+                          type: string
+                      type: object
+                    type: array
+                  includes:
+                    description: Includes includes volume data in backup
+                    items:
+                      properties:
+                        names:
+                          items:
+                            type: string
+                          type: array
+                        pod:
+                          type: string
+                      type: object
+                    type: array
+                  option:
+                    description: Option is the option for volume related resources
+                      like pvc, pv, snapshot, ...
+                    type: string
+                type: object
             type: object
           status:
             description: DisasterRecoveryStatus defines the observed state of DisasterRecovery
@@ -10469,6 +10526,10 @@ spec:
                     format: date-time
                     type: string
                 type: object
+              namespaces:
+                items:
+                  type: string
+                type: array
               operationState:
                 type: string
               primaryState:
@@ -10505,6 +10566,21 @@ spec:
                   status:
                     description: overall dr status, identify can switch role
                     type: string
+                type: object
+              resources:
+                additionalProperties:
+                  items:
+                    properties:
+                      apiVersion:
+                        type: string
+                      kind:
+                        type: string
+                      names:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  type: array
                 type: object
               resourcesSyncStatus:
                 items:
@@ -10603,6 +10679,14 @@ spec:
                       type: string
                   type: object
                 type: array
+              workloadList:
+                additionalProperties:
+                  additionalProperties:
+                    items:
+                      type: string
+                    type: array
+                  type: object
+                type: object
             type: object
         type: object
     served: true
@@ -18912,10 +18996,6 @@ spec:
                     - dataOnly
                     - resourceOnly
                     type: string
-                  resumeApplicationAfterFinalMigration:
-                    type: boolean
-                  shutDownApplicationBeforeFinalMigration:
-                    type: boolean
                   sourceClusterRef:
                     properties:
                       global:
@@ -18947,6 +19027,10 @@ spec:
                 type: boolean
               plan:
                 type: string
+              resumeApplicationAfterFinalMigration:
+                type: boolean
+              shutDownApplicationBeforeFinalMigration:
+                type: boolean
               skipDataVerification:
                 type: boolean
             type: object
@@ -20968,10 +21052,6 @@ spec:
                 - dataOnly
                 - resourceOnly
                 type: string
-              resumeApplicationAfterFinalMigration:
-                type: boolean
-              shutDownApplicationBeforeFinalMigration:
-                type: boolean
               sourceClusterRef:
                 properties:
                   global:
