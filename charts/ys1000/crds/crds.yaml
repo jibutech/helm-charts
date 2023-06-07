@@ -21759,6 +21759,7 @@ spec:
                     result:
                       type: string
                   type: object
+                description: Deprecated
                 type: object
               used:
                 anyOf:
@@ -30368,6 +30369,9 @@ spec:
                   selfBackupEnabled:
                     type: boolean
                   selfBackupErrorMsg:
+                    type: string
+                  selfBackupFailTime:
+                    format: date-time
                     type: string
                   selfBackupState:
                     type: string
