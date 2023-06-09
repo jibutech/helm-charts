@@ -29,16 +29,16 @@ imageBase:
   tag: "release-3.4.0-latest"
 
 image:
-  registry:
+  registry: ""
   repository: jibutech/qiming-operator
-  tag:
+  tag: ""
 
 components:
   webServer:
     image:
-      registry:
+      registry: ""
       repository: jibutech/webserver
-      tag:
+      tag: ""
     serviceType: ClusterIP
 #    database:
 #      username:
@@ -52,30 +52,30 @@ components:
 #      host: mysql
   hookRunner:
     image:
-      registry:
+      registry: ""
       repository: jibutech/hookrunner
-      tag:
+      tag: ""
   operator:
     image:
-      registry:
+      registry: ""
       repository: jibutech/agent-operator
-      tag:
+      tag: ""
 #    template:
 #      spec:
 #        tolerations: []
   velero:
     image:
-      registry:
+      registry: ""
       repository: jibutech/velero
       tag: v1.7.0-jibu-dev-b9c96674-20230525022532
     imageResticHelper:
-      registry:
+      registry: ""
       repository: jibutech/velero-restic-restore-helper
       tag: v1.7.0
     imageInternalPlugin:
-      registry:
+      registry: ""
       repository: jibutech/velero-plugin
-      tag:
+      tag: ""
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
     - jibutech/velero-plugin-for-csi:v0.2.0-jibu-4739b10-20230518030507
@@ -87,89 +87,89 @@ components:
     snapshotDisabled: false
   dataMover:
     image:
-      registry:
+      registry: ""
       repository: jibutech/data-mover
-      tag:
+      tag: ""
   dataVerify:
     image:
-      registry:
+      registry: ""
       repository: jibutech/data-verify
-      tag:
+      tag: ""
   amberApp:
     image:
-      registry:
+      registry: ""
       repository: jibutech/amberapp
-      tag:
+      tag: ""
   dmAgent:
     image:
-      registry:
+      registry: ""
       repository: jibutech/dm-agent
-      tag:
+      tag: ""
   resticDM:
     image:
-      registry:
+      registry: ""
       repository: jibutech/restic-dm
-      tag:
+      tag: ""
   portal:
     image:
-      registry:
+      registry: ""
       repository: jibutech/mig-ui
-      tag:
+      tag: ""
     serviceType: NodePort
   discovery:
     image:
-      registry:
+      registry: ""
       repository: jibutech/mig-discovery
       tag: 3.2.0
   controller:
     image:
-      registry:
+      registry: ""
       repository: jibutech/mig-controller
-      tag:
+      tag: ""
   cron:
     image:
-      registry:
+      registry: ""
       repository: jibutech/cron
-      tag:
+      tag: ""
   stub:
     image:
-      registry:
+      registry: ""
       repository: jibutech/stub
-      tag:
+      tag: ""
   etcdStub:
     image:
-      registry:
+      registry: ""
       repository: jibutech/etcd-stub
-      tag:
+      tag: ""
   volSync:
     image:
-      registry:
+      registry: ""
       repository: jibutech/volsync
       tag: 0.6.1
   drInitContainer:
     image:
-      registry:
+      registry: ""
       repository: jibutech/dr-initcontainer
       tag: 0.2.0
       pullPolicy: IfNotPresent
   imagePuller:
     image:
-      registry:
+      registry: ""
       repository: jibutech/imagepuller
       tag: 0.1.0
       pullPolicy: IfNotPresent
   appHookWorker:
     image:
-      registry:
+      registry: ""
       repository: jibutech/apphook-worker
-      tag:
+      tag: ""
 
 tools:
   helmHook:
     image:
-      registry:
+      registry: ""
       repository: jibutech/helm-hook
-      tag:
+      tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
