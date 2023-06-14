@@ -22085,6 +22085,8 @@ spec:
           status:
             description: MigStorageStatus defines the observed state of MigStorage
             properties:
+              bucketHash:
+                type: string
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -22132,6 +22134,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              secretHash:
+                type: string
               selfRestoreState:
                 type: string
               testResults:
@@ -22143,6 +22147,7 @@ spec:
                     result:
                       type: string
                   type: object
+                description: Deprecated
                 type: object
               used:
                 anyOf:
