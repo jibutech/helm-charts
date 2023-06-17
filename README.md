@@ -6,10 +6,9 @@
 
 ## 先决条件
 
-- Kuberentes 版本支持 >= Kubernetes 1.18
+- Kuberentes 版本支持 >= Kubernetes 1.17
 - Helm 版本支持 >= 3.5
 - 在线安装请确保 K8S 集群节点可以访问和拉取容器镜像 (container images)
-- S3 (AWS S3 兼容) 对象存储
 
 ## 在线安装
 
@@ -34,7 +33,7 @@
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
 
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    **从release 2.7.0开始，增加了mysql组件，安装时需额外注意**：
    生产环境或一些严肃场景必须指定 mysql.primary.persistence.enabled=true，需要同时指定storageClass（除非集群有指定defaultStorageClass）
@@ -44,23 +43,35 @@
     使用**Helm**命令行参数`--set key=value[,key=value] `来指定必要的配置参数，例如:
 
       ```bash
-      helm install jibutech/ys1000 --namespace ys1000 \
-          --create-namespace --generate-name --set service.type=NodePort \
-          --set s3Config.accessKey=minio --set s3Config.secretKey=passw0rd \
-          --set s3Config.bucket=test --set s3Config.s3Url=http://172.16.0.10:30170
-   
-      NAME: ys1000-1635128765
-      LAST DEPLOYED: Mon Oct 20 10:26:10 2021
+      helm install ys1000 jibutech/ys1000 --create-namespace --namespace ys1000
+      NAME: ys1000
+      LAST DEPLOYED: Wed Mar 15 14:41:10 2023
       NAMESPACE: ys1000
       STATUS: deployed
       REVISION: 1
-      ```
+      NOTES:
+      1. Check the application status Ready by running these commands:
+        NOTE: It may take a few minutes to pull docker images.
+              You can watch the status of by running `kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w`
+        kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com 
 
+      2. After status is ready, get the application URL by running these commands:
+        export NODE_PORT=$(kubectl get --namespace ys1000 -o jsonpath="{.spec.ports[0].nodePort}" services ui-service-default )
+        export NODE_IP=$(kubectl get nodes --namespace ys1000 -o jsonpath="{.items[0].status.addresses[0].address}")
+        echo http://$NODE_IP:$NODE_PORT
+
+      3. Login web UI with the token by running these commands:
+        export SECRET=$(kubectl -n ys1000 get secret | (grep qiming-operator |grep -v helm || echo "$_") | awk '{print $1}')
+        export TOKEN=$(kubectl -n ys1000 describe secrets $SECRET |grep token: | awk '{print $2}')
+        echo $TOKEN
+      ```
+    
     说明:
     使用如下命令来检查安装状态正否正常
 
      ```bash
-     kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w
+     kubectl --namespace ys1000 get pod -w
+     kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
      ```
 
    b. 通过 **YAML** 文件指定参数进行安装
@@ -69,12 +80,14 @@
 
     1. 下载 values.yaml 模板配置文件
 
-    2. 修改配置文件中的配置参数 3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
+    2. 修改配置文件中的配置参数 
+    
+    3. 通过 `-f values.yaml` 来指定配置文件进行安装， 如下示例：
 
       ```bash
       # step 1: generate default values.yaml
-      helm inspect values jibutech/ys1000 --versions v3.4.0 > values.yaml
-   
+      helm inspect values  jibutech/ys1000 > values.yaml
+
       # step 2: fill required arguments in values.yaml
       vim values.yaml
    
@@ -93,9 +106,9 @@
       如果变成 `Error` ，则说明初始化过程失败，需要查找错误原因。
 
       ```bash
-      [root@~]# kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com
-      NAME            AGE     PHASE   CREATED AT             VERSION
-      qiming-config   2d2h    Ready   2021-10-20T06:21:20Z   v3.4.0
+      kubectl --namespace ys1000 get migconfigs.migration.yinhestor.com -w
+      NAME            AGE   PHASE   CREATED AT             VERSION
+      qiming-config   52s   Ready   2023-03-15T06:41:11Z   3.1.1
       ```
 
     使用命令 `helm list -n <NAMESPACE> ` 来显示当前安装的软件信息，例如：
@@ -152,7 +165,7 @@
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
    
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    
    例如：
@@ -162,32 +175,43 @@
    ```
    
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
+   
    ```
    # example of values.yaml
-   s3Config:
-     provider: "aws"
-     accessKey: "abc"
-     secretKey: "xyz"
-     bucket: "default"
-     s3Url: ""
-     region: "default"
    migconfig:
      UIadminPassword: "password"
-   selfBackup:
-     enabled: true
-     frequency: 0 */3 * * *
-     retention: 168
-   ```
+     selfBackupIntervalSeconds: 3000
+   featureGates:
+     ClusterCache: true
+     DataMover: false
+     AmberApp: true
+     Stub: true
+     Archive: true
+     DisasterRecovery: true
+     DMAgent: true
+     ImageBackup: true
+     EtcdStub: true
+   velero:
+     resticPodVolumeOperationTimeout: 120m
+   components:
+     portal:
+       serviceType: NodePort
+     webServer:
+       serviceType: NodePort
+    ```
+
    例如：
    
    ```bash
-   helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=2.5.0 -f values.yaml
+   [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.2.0 -f values.yaml
    ```
    
 
 ## 卸载
 
-1. 卸载已安装的 Helm chart
+1. 登录ys1000，确保所有任务已经被清除，移除受管集群和备份仓库
+
+2. 卸载已安装的 Helm chart
 
    指定当前已安装的软件名`release name` 和 软件所在的命名空间`namespace`
 
@@ -214,23 +238,22 @@
 
 ## 配置
 
-此表列出安装阶段所需的必要和可选参数，且指定过的参数在升级时需要同样指定，否则使用默认值：
+此表列出安装阶段所需的必要和可选参数，且指定过的参数在升级时需要同样指定，否则使用默认值:
 
 | 参数命名                               | 描述                                         | 示例                                          |
 | ------------------------------------- | ------------------------------------------- | --------------------------------------------- |
-| service.type                          | 服务类型                                     | --set service.type=NodePort                   |
-| s3Config.provider                     | S3 提供商                                    | --set s3Config.provider=aws                   |
-| s3Config.name                         | 所配置的 S3 服务名字， 也即数据备份仓库名字       | --set s3Config.name=minio                     |
-| s3Config.accessKey                    | 访问 S3 所需要的 access key                   | --set s3Config.accessKey=minio                |
-| s3Config.secretKey                    | 访问 S3 所需要的 secret key                   | --set s3Config.secretKey=passw0rd             |
-| s3Config.bucket                       | 访问 S3 的 bucket name                       | --set s3Config.bucket=test                    |
-| s3Config.s3Url                        | S3 URL                                      | --set s3Config.s3Url=http://172.16.0.10:30170 |
-| migconfig.UIadminPassword             | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=`<your password>` ｜
-| selfBackup.enabled                    | 是否打开自备份（可选，默认为false）              | --set selfBackup.enabled=true                |
+| components.portal.serviceType         | 服务类型（可选，默认为 ClusterIP）              | --set components.portal.serviceType=NodePort   |
+| components.webServer.serviceType      | 服务类型（可选，默认为 ClusterIP）              | --set components.portal.serviceType=NodePort   |
+| migconfig.UIadminPassword             | 指定admin密码（可选，默认为“passw0rd”）         | --set migconfig.UIadminPassword=123456         |
+| migconfig.selfBackupIntervalSeconds   | 指定YS1000自备份间隔时长（可选，默认为“300”秒）   | --set migconfig.selfBackupIntervalSeconds=600     |
+| featureGates.Archive                  | 是否开启归档功能（可选，默认为false）             | --set featureGates.Archive=true           |
+| featureGates.DisasterRecovery         | 是否开启容灾功能（可选，默认为false）             | --set featureGates.DisasterRecovery=true  |
+| featureGates.EtcdStub                 | 是否开启etcd备份功能（可选，默认为false）         | --set featureGates.EtcdStub=true          |
+| velero.resticPodVolumeOperationTimeout| restic拷贝podvolume的超时时长（可选，默认为“240m”| --set velero.resticPodVolumeOperationTimeout=120m |
 | mysql.primary.persistence.enabled     | 是否对mysql数据做持久化（可选，默认为false）      | --set mysql.primary.persistence.enabled=true  |
 | mysql.primary.persistence.storageClass| 是否指定mysql存储类型（可选，默认为空）           | --set mysql.primary.persistence.storageClass=rook-ceph-block|
-| auth.rootPassword                     | 指定数据库root用户的密码（可选，默认为"passw0rd"）| --set auth.rootPassword=123456                |
-| auth.database                         | 指定webserver使用的数据库（可选，默认为"webserver"）| --set auth.database=web                    |
+| mysql.auth.rootPassword               | 指定数据库root用户的密码（可选，默认为"passw0rd"）| --set mysql.auth.rootPassword=123456           |
+| mysql.auth.database                   | 指定webserver使用的数据库（可选，默认为"webserver"）| --set mysql.auth.database=web                
 | auth.username                         | 指定数据库的用户（可选，默认为"webserver"）      | --set auth.username=webuser                    |
 | auth.password                         | 指定数据库的密码（可选，默认为"passw0rd"）       | --set auth.password=123456                      |
 

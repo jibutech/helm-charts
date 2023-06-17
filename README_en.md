@@ -30,7 +30,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
 
    **NOTE**: if any previous ys1000 was installed , please do crd update before installation or upgrade by:
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
 
    Option 1: CLI commands
@@ -120,7 +120,7 @@ This chart creates yinhe data protection components on a Kubernetes cluster usin
    
    **NOTE**: please do crd update before upgrade by:
    ```
-   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000?ref=release-3.4.0'
+   kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
    ```
    
    If a value needs to be added or changed, you may do so with the `--set key=value[,key=value] ` argument. 
