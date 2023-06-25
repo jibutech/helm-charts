@@ -15222,6 +15222,8 @@ spec:
                     properties:
                       host:
                         type: string
+                      name:
+                        type: string
                       password:
                         description: EnvVar represents an environment variable present
                           in a Container.
@@ -32351,6 +32353,8 @@ spec:
                   database:
                     properties:
                       host:
+                        type: string
+                      name:
                         type: string
                       password:
                         description: EnvVar represents an environment variable present

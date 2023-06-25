@@ -26,7 +26,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "release-3.4.0-latest"
+  tag: "release-3.4.1-latest"
 
 image:
   registry: ""
@@ -50,6 +50,7 @@ components:
 #            name: mysql
 #            optional: true
 #      host: mysql
+#      name: webserver
   hookRunner:
     image:
       registry: ""
