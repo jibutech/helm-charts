@@ -1,12 +1,12 @@
 dependencies:
 - name: mysql
   repository: https://jibutech.github.io/helm-charts
-  version: 1.0.2
+  version: 1.0.3
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
   version: 1.4.0
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.14.1
-digest: sha256:225f2f42e0f682fe383a3d763a8cfce2bc46933542f622786a8925176f644317
-generated: "2023-05-21T10:44:47.648421+08:00"
+  version: 0.14.2
+digest: sha256:ec0da1356c7eb202ab8048ef33c73285a02677a8d5a6644e804ddaa8d5f9aee1
+generated: "2023-06-25T16:52:56.122758+08:00"
