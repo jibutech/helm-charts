@@ -64,16 +64,6 @@ spec:
       for: 5m
       labels:
         severity: warning
-    - alert: SelfBackupPlanNotReady
-      annotations:
-        description: Self backup plan is not ready.
-        summary: Self backup plan is not ready.
-        content: {{ `'Self backup plan is not ready. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
-      expr: |-
-        self_backupplan_status{ready="false"}
-      for: 5m
-      labels:
-        severity: warning
     - alert: BackupPlanNotReady
       annotations:
         description: {{ `Backup plan {{$labels.backupplan}} is not ready. ` }}
@@ -93,13 +83,13 @@ spec:
         backupjob_status{status="Failed"} > 0 unless on(backupjob) (backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
       labels:
         severity: warning
-    - alert: SelfBackupJobFailed
+    - alert: SelfBackupFailed
       annotations:
-        content: {{ `'Self backup job {{$labels.backupjob}} using storage {{$labels.migstorage}} failed: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
-        description: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
-        summary: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
+        content: 'YS1000 Self backup failed.'
+        description: YS1000 Self backup failed.
+        summary: YS1000 Self backup failed.
       expr: |-
-        self_backupjob_status{status="Failed"} > 0 unless on(backupjob) (self_backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
+        selfbackup_status{enabled="true", state!="Succeeded"}
       labels:
         severity: warning
     - alert: BackupJobValidationError
@@ -163,14 +153,6 @@ spec:
         repeatInterval: 1h
         matchers:
         - name: alertname
-          value: SelfBackupPlanNotReady
-      - receiver: 'wechat-webhook-receiver'
-        groupBy: ['backupplan']
-        groupWait: 30s
-        groupInterval: 5m
-        repeatInterval: 1h
-        matchers:
-        - name: alertname
           value: BackupPlanNotReady
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
@@ -189,13 +171,12 @@ spec:
         - name: alertname
           value: BackupJobValidationError
       - receiver: 'wechat-webhook-receiver'
-        groupBy: ['backupjob']
         groupWait: 0s # please keep 0s
         groupInterval: 1m
         repeatInterval: 5m
         matchers:
         - name: alertname
-          value: SelfBackupJobFailed
+          value: SelfBackupFailed
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
         groupWait: 0s # please keep 0s
