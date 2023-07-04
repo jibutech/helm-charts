@@ -418,8 +418,19 @@ dex:
 
 alarm:
   enabled: false
-  labels:
-    release: prometheus
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: prometheus
+  prometheusRule:
+    enabled: true
+    labels:
+      prometheus: k8s
+      role: alert-rules
+  alertmanagerConfig:
+    enabled: true
+    labels:
+      release: prometheus
   wechat:
     enabled: false
     corpID: ""
