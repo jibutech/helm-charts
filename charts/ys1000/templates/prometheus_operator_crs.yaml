@@ -63,6 +63,15 @@ spec:
       for: 5m
       labels:
         severity: warning
+    - alert: MigStorageUsageOverThreshold
+      annotations:
+        description: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
+        summary: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
+        content: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
+      expr: |-
+        (migstorage_used_bytes  / on(migstorage, namespace) migstorage_quota unless on(migstorage, namespace) (migstorage_quota == 0.0)) > 0.8
+      labels:
+        severity: warning
     - alert: BackupPlanNotReady
       annotations:
         description: {{ `Backup plan {{$labels.backupplan}} is not ready. ` }}
@@ -145,6 +154,14 @@ spec:
         matchers:
         - name: alertname
           value: MigStorageNotReady
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ['migstorage']
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          value: MigStorageUsageOverThreshold
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupplan']
         groupWait: 30s
