@@ -9716,6 +9716,7 @@ spec:
                       of the destination volume should be created.
                     enum:
                     - None
+                    - Direct
                     - Clone
                     - Snapshot
                     type: string
@@ -9739,6 +9740,7 @@ spec:
                       of the destination volume should be created.
                     enum:
                     - None
+                    - Direct
                     - Clone
                     - Snapshot
                     type: string
@@ -9773,6 +9775,7 @@ spec:
                       of the destination volume should be created.
                     enum:
                     - None
+                    - Direct
                     - Clone
                     - Snapshot
                     type: string
