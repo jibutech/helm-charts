@@ -1,11 +1,10 @@
 {{- if .Values.alarm.enabled }}
+{{- if .Values.alarm.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.serviceMonitor.labels | nindent 4}}
   name: metrics-monitor
   namespace: {{ .Release.Namespace }}
 spec:
@@ -19,14 +18,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/component: metrics
+{{- end }}
 ---
+{{- if .Values.alarm.prometheusRule.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
   name: ys1000-alerts
   namespace: {{ .Release.Namespace }}
 spec:
@@ -110,16 +109,16 @@ spec:
         backupjob_running_time_seconds > 3600
       labels:
         severity: warning
+{{- end }}
 ---
+{{- if .Values.alarm.alertmanagerConfig.enabled }}
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: ys1000-alertmanager-config
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.alertmanagerConfig.labels | nindent 4}}
     alertmanagerConfig: ys1000
 spec:
   route:
@@ -233,7 +232,7 @@ spec:
         - sendResolved: false
           url: {{ required ".Values.alarm.webhook.url is required" .Values.alarm.webhook.url }}
       {{- end }}
-
+{{- end }}
 ---
 {{- if .Values.alarm.wechat.enabled }}
 apiVersion: v1
