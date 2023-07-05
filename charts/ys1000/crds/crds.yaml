@@ -12556,6 +12556,8 @@ spec:
                 description: ClusterRegistry overrides image registry deployed in
                   corresponding user cluster
                 type: string
+              dmMaxWorkersPerNode:
+                type: integer
               drInstanceMaxWorkers:
                 description: cluster job max workers
                 type: integer
