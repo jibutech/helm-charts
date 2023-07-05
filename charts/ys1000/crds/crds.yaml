@@ -1377,6 +1377,41 @@ spec:
                     type: string
                   schedulePriority:
                     type: integer
+                  scrubClusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
+                    type: object
+                  scrubQos:
+                    description: QosClass defines qos class
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: TimeRange defines time range
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
+                  scrubStorageClassMappings:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  scrubStorageClassName:
+                    type: string
                   sourceClusterName:
                     description: Deprecated
                     type: string
@@ -3499,6 +3534,8 @@ spec:
                       name:
                         type: string
                     type: object
+                  everyBackup:
+                    type: boolean
                   frequency:
                     type: string
                   keepResource:
@@ -3521,6 +3558,10 @@ spec:
                               type: string
                           type: object
                         type: object
+                    type: object
+                  storageClassMappings:
+                    additionalProperties:
+                      type: string
                     type: object
                   storageClassName:
                     type: string
@@ -7792,6 +7833,10 @@ spec:
                 type: string
               rateLimitValue:
                 type: integer
+              storageClassMappings:
+                additionalProperties:
+                  type: string
+                type: object
               storageClassName:
                 type: string
               targetRepo:
@@ -17898,6 +17943,8 @@ spec:
                     type: array
                   dataTransferTimeout:
                     type: string
+                  dataVerify:
+                    type: boolean
                   failureHooks:
                     items:
                       properties:
@@ -18773,6 +18820,8 @@ spec:
                             name:
                               type: string
                           type: object
+                        dataVerify:
+                          type: boolean
                         filters:
                           properties:
                             excludeClusterResources:
