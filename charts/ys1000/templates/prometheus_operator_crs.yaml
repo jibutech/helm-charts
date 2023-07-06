@@ -52,7 +52,7 @@ spec:
         migcluster_status{ready="false"}
       for: 5m
       labels:
-        severity: warning
+        severity: critical
     - alert: MigStorageNotReady
       annotations:
         description: {{ `Storage {{$labels.migstorage}} is not ready. ` }}
@@ -62,7 +62,7 @@ spec:
         migstorage_status{ready="false"}
       for: 5m
       labels:
-        severity: warning
+        severity: critical
     - alert: MigStorageUsageOverThreshold
       annotations:
         description: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
