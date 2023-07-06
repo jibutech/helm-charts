@@ -160,7 +160,7 @@ spec:
             summary: {{`DrInstance {{$labels.name}} data rpo lagging more than 5 minutes.`}}
             content: {{`'DrInstance {{$labels.name}} data rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
           expr: |-
-            dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 300
+            36000 > dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 300
           for: 5m
           labels:
             severity: warnings
@@ -182,7 +182,7 @@ spec:
             summary: {{`DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes.`}}
             content: {{`'DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
           expr: |-
-            dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 300
+            36000 > dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 300
           for: 5m
           labels:
             severity: warnings
