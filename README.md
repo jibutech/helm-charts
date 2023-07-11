@@ -177,27 +177,49 @@
    或者将需要修改或者新增的参数放在 values.yaml 中，并在升级时应用该 values.yaml
    
    ```
-   # example of values.yaml
-   migconfig:
-     UIadminPassword: "password"
-     selfBackupIntervalSeconds: 3000
-   featureGates:
-     ClusterCache: true
-     DataMover: false
-     AmberApp: true
-     Stub: true
-     Archive: true
-     DisasterRecovery: true
-     DMAgent: true
-     ImageBackup: true
-     EtcdStub: true
-   velero:
-     resticPodVolumeOperationTimeout: 120m
+   # example of external database setting
+   # only support mysql, and you need to create a database for webserver in advance
+   
+   tags:
+     mysql: false
+
    components:
-     portal:
-       serviceType: NodePort
      webServer:
-       serviceType: NodePort
+       database:
+         username:
+           value: root
+         password:
+           valueFrom:
+             secretKeyRef:
+               key: mysql-root-password
+               name: mysql
+               optional: true
+         host: mysql.mysql-ys1000  # change to your own mysql host
+         name: sit_webserver  # change to your own database name
+
+    clusterpedia:
+      externalStorage:
+        type: "mysql"
+        host: "mysql.mysql-ys1000"  # change to your own mysql host
+        port: 3306
+        user: "root"
+        password: "password"  # change to your own database password
+        database: "sit_clusterpedia"  # change to your own database name
+        createDatabase: true
+    ```
+
+    ```
+    # example of alarm setting
+    # you need to setup a prometheus for ys1000 host cluster in advance, and add the host ip to your wechat list
+    
+    alarm:
+      enabled: true
+    wechat:
+      enabled: true
+      corpID: "ww9435adfc497dffff"   # change to your company ID
+      agentID: "'1000000'"    # change to your own ID
+      toUser: "username"     # change to your own name
+      apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
     ```
 
    例如：
