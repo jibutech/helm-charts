@@ -66,6 +66,29 @@ entries:
     version: 1.0.0
   ys1000:
   - apiVersion: v2
+    appVersion: 3.4.1
+    created: "2023-07-17T08:39:16.770077+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: https://jibutech.github.io/helm-charts
+      version: 1.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia-helm
+      version: 1.4.0
+    - condition: tags.dex
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.x.x
+    description: ys1000 provides data protection for cloud native apps.
+    digest: a94f4b816bd0008fdfa89474a3dec807754b3123fa7dd569e5eb22762e87db0f
+    name: ys1000
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/ys1000-3.4.1.tgz
+    version: 3.4.1
+  - apiVersion: v2
     appVersion: 3.4.0
     created: "2023-06-17T22:00:43.991327+08:00"
     dependencies:
@@ -229,4 +252,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.0.0.tgz
     version: 3.0.0
-generated: "2023-06-25T15:47:37.411276+08:00"
+generated: "2023-07-17T08:39:16.567835+08:00"
