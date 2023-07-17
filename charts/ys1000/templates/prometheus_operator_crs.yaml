@@ -1,11 +1,10 @@
 {{- if .Values.alarm.enabled }}
+{{- if .Values.alarm.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.serviceMonitor.labels | nindent 4}}
   name: metrics-monitor
   namespace: {{ .Release.Namespace }}
 spec:
@@ -19,14 +18,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/component: metrics
+{{- end }}
 ---
+{{- if .Values.alarm.prometheusRule.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
   name: ys1000-alerts
   namespace: {{ .Release.Namespace }}
 spec:
@@ -53,7 +52,7 @@ spec:
         migcluster_status{ready="false"}
       for: 5m
       labels:
-        severity: warning
+        severity: critical
     - alert: MigStorageNotReady
       annotations:
         description: {{ `Storage {{$labels.migstorage}} is not ready. ` }}
@@ -63,15 +62,14 @@ spec:
         migstorage_status{ready="false"}
       for: 5m
       labels:
-        severity: warning
-    - alert: SelfBackupPlanNotReady
+        severity: critical
+    - alert: MigStorageUsageOverThreshold
       annotations:
-        description: Self backup plan is not ready.
-        summary: Self backup plan is not ready.
-        content: {{ `'Self backup plan is not ready. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
+        description: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
+        summary: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
+        content: {{ `The used capacity of storage {{$labels.migstorage}} is over threshold. ` }}
       expr: |-
-        self_backupplan_status{ready="false"}
-      for: 5m
+        (migstorage_used_bytes  / on(migstorage, namespace) migstorage_quota unless on(migstorage, namespace) (migstorage_quota == 0.0)) > 0.8
       labels:
         severity: warning
     - alert: BackupPlanNotReady
@@ -93,13 +91,13 @@ spec:
         backupjob_status{status="Failed"} > 0 unless on(backupjob) (backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
       labels:
         severity: warning
-    - alert: SelfBackupJobFailed
+    - alert: SelfBackupFailed
       annotations:
-        content: {{ `'Self backup job {{$labels.backupjob}} using storage {{$labels.migstorage}} failed: errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.' ` }}
-        description: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
-        summary: {{ `Self backup job {{$labels.backupjob}} failed. ` }}
+        content: 'YS1000 Self backup failed.'
+        description: YS1000 Self backup failed.
+        summary: YS1000 Self backup failed.
       expr: |-
-        self_backupjob_status{status="Failed"} > 0 unless on(backupjob) (self_backupjob_status{status="Failed"} offset 1m) unless on() absent(up{service="mig-controller-metrics"} offset 1m) # the offset "1m" need to be greater than interval config in above servicemonitor
+        selfbackup_status{enabled="true", state!="Succeeded"}
       labels:
         severity: warning
     - alert: BackupJobValidationError
@@ -120,16 +118,96 @@ spec:
         backupjob_running_time_seconds > 3600
       labels:
         severity: warning
+{{- end }}
 ---
+{{- if .Values.alarm.prometheusRule.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
+  name: ys1000-dr-alerts
+  namespace: {{ .Release.Namespace }}
+spec:
+  groups:
+    - name: ys1000-dr-healthy
+      rules:
+        - alert: DrConfigNotReady
+          annotations:
+            description: {{`DrConfig {{$labels.name}} is not ready.`}}
+            summary: {{`DrConfig {{$labels.name}} is not ready.`}}
+            content: {{`'DrConfig {{$labels.name}} is not ready, please check immediately. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.'`}}
+          expr: |-
+            dr_config_status == 0
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceNotReady
+          annotations:
+            description: {{`DrInstance {{$labels.name}} is not ready.`}}
+            summary: {{`DrInstance {{$labels.name}} is not ready.`}}
+            content: {{`'DrInstance {{$labels.name}} is not ready, please check immediately. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.'`}}
+          expr: |-
+            dr_instance_status == 0
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceDataRPOLagging
+          annotations:
+            description: {{`DrInstance {{$labels.name}} data rpo lagging.`}}
+            summary: {{`DrInstance {{$labels.name}} data rpo lagging more than 5 minutes.`}}
+            content: {{`'DrInstance {{$labels.name}} data rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
+          expr: |-
+            36000 > dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 300
+          for: 5m
+          labels:
+            severity: warnings
+            alertSource: ys1000-dr
+        - alert: DrInstanceDataRPOLaggingLong
+          annotations:
+            description: {{`DrInstance {{$labels.name}} data rpo lagging long.`}}
+            summary: {{`DrInstance {{$labels.name}} data rpo lagging more than 10 hours.`}}
+            content: {{`'DrInstance {{$labels.name}} data rpo lagging more than 10 hours. current lagging: {{ $value }}s'`}}
+          expr: |-
+            dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 36000
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceResourceRPOLagging
+          annotations:
+            description: {{`DrInstance {{$labels.name}} resource rpo lagging.`}}
+            summary: {{`DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes.`}}
+            content: {{`'DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
+          expr: |-
+            36000 > dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 300
+          for: 5m
+          labels:
+            severity: warnings
+            alertSource: ys1000-dr
+        - alert: DrInstanceResourceRPOLaggingLong
+          annotations:
+            description: {{`DrInstance {{$labels.name}} resource rpo lagging long.`}}
+            summary: {{`DrInstance {{$labels.name}} resource rpo lagging more than 10 hours.`}}
+            content: {{`'DrInstance {{$labels.name}} resource rpo lagging more than 10 hours. current lagging: {{ $value }}s'`}}
+          expr: |-
+            dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 36000
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+{{- end }}
+---
+{{- if .Values.alarm.alertmanagerConfig.enabled }}
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: ys1000-alertmanager-config
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- with .Values.alarm.labels }}
-    {{ toYaml . }}
-    {{- end }}
+    {{- toYaml .Values.alarm.alertmanagerConfig.labels | nindent 4}}
     alertmanagerConfig: ys1000
 spec:
   route:
@@ -157,13 +235,13 @@ spec:
         - name: alertname
           value: MigStorageNotReady
       - receiver: 'wechat-webhook-receiver'
-        groupBy: ['backupplan']
+        groupBy: ['migstorage']
         groupWait: 30s
         groupInterval: 5m
         repeatInterval: 1h
         matchers:
         - name: alertname
-          value: SelfBackupPlanNotReady
+          value: MigStorageUsageOverThreshold
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupplan']
         groupWait: 30s
@@ -189,13 +267,12 @@ spec:
         - name: alertname
           value: BackupJobValidationError
       - receiver: 'wechat-webhook-receiver'
-        groupBy: ['backupjob']
         groupWait: 0s # please keep 0s
         groupInterval: 1m
         repeatInterval: 5m
         matchers:
         - name: alertname
-          value: SelfBackupJobFailed
+          value: SelfBackupFailed
       - receiver: 'wechat-webhook-receiver'
         groupBy: ['backupjob']
         groupWait: 0s # please keep 0s
@@ -204,6 +281,15 @@ spec:
         matchers:
         - name: alertname
           value: BackupJobFailed
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ["disasterrecovery"]
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 30m
+        matchers:
+          - name: alertSource
+            matchType: =
+            value: ys1000-dr
   inhibitRules:
     - sourceMatch:
         - name: alertname
@@ -252,7 +338,7 @@ spec:
         - sendResolved: false
           url: {{ required ".Values.alarm.webhook.url is required" .Values.alarm.webhook.url }}
       {{- end }}
-
+{{- end }}
 ---
 {{- if .Values.alarm.wechat.enabled }}
 apiVersion: v1
