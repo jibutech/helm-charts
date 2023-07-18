@@ -1618,6 +1618,26 @@ spec:
               exportScheduledAt:
                 format: date-time
                 type: string
+              failureHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               phase:
                 type: string
               podImages:
@@ -1649,6 +1669,46 @@ spec:
                       type: string
                     nodeName:
                       type: string
+                  type: object
+                type: array
+              postHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
+              preHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
                   type: object
                 type: array
               resources:
@@ -20702,11 +20762,71 @@ spec:
                       type: string
                   type: object
                 type: array
+              failureHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               finishedAt:
                 format: date-time
                 type: string
               phase:
                 type: string
+              postHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
+              preHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               startedAt:
                 format: date-time
                 type: string
@@ -26657,6 +26777,26 @@ spec:
                 description: Deprecated
                 format: date-time
                 type: string
+              failureHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               importResult:
                 properties:
                   dataImportRef:
@@ -26746,6 +26886,46 @@ spec:
                   state:
                     type: string
                 type: object
+              postHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
+              preHooks:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               restoredItems:
                 type: integer
               results:
