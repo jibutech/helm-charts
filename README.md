@@ -214,12 +214,12 @@
     
     alarm:
       enabled: true
-    wechat:
-      enabled: true
-      corpID: "ww9435adfc497dffff"   # change to your company ID
-      agentID: "'1000000'"    # change to your own ID
-      toUser: "username"     # change to your own name
-      apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
+      wechat:
+        enabled: true
+        corpID: "ww9435adfc497dffff"   # change to your company ID
+        agentID: "'1000000'"    # change to your own ID
+        toUser: "username"     # change to your own name
+        apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
     ```
 
    例如：
