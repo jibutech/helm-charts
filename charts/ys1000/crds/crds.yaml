@@ -12212,6 +12212,24 @@ spec:
                 properties:
                   status:
                     type: string
+                  stepDetails:
+                    items:
+                      properties:
+                        result:
+                          type: string
+                        startTime:
+                          format: date-time
+                          type: string
+                        step:
+                          type: string
+                        stopTime:
+                          format: date-time
+                          type: string
+                      required:
+                      - result
+                      - step
+                      type: object
+                    type: array
                 type: object
               state:
                 type: string
