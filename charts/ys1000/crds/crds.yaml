@@ -9668,6 +9668,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -9952,6 +9956,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -10157,6 +10165,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
