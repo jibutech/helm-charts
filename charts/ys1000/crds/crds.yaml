@@ -1323,7 +1323,7 @@ spec:
                                 properties:
                                   excludes:
                                     description: Excludes excludes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -1349,7 +1349,7 @@ spec:
                                     type: array
                                   includes:
                                     description: Includes includes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -1360,10 +1360,107 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  nfs:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
                                   option:
                                     description: Option is the option for volume related
                                       resources like pvc, pv, snapshot, ...
                                     type: string
+                                  persistentVolumeClaim:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      selector:
+                                        description: A label selector is a label query
+                                          over a set of resources. The result of matchLabels
+                                          and matchExpressions are ANDed. An empty
+                                          label selector matches all objects. A null
+                                          label selector matches no objects.
+                                        properties:
+                                          matchExpressions:
+                                            description: matchExpressions is a list
+                                              of label selector requirements. The
+                                              requirements are ANDed.
+                                            items:
+                                              description: A label selector requirement
+                                                is a selector that contains values,
+                                                a key, and an operator that relates
+                                                the key and values.
+                                              properties:
+                                                key:
+                                                  description: key is the label key
+                                                    that the selector applies to.
+                                                  type: string
+                                                operator:
+                                                  description: operator represents
+                                                    a key's relationship to a set
+                                                    of values. Valid operators are
+                                                    In, NotIn, Exists and DoesNotExist.
+                                                  type: string
+                                                values:
+                                                  description: values is an array
+                                                    of string values. If the operator
+                                                    is In or NotIn, the values array
+                                                    must be non-empty. If the operator
+                                                    is Exists or DoesNotExist, the
+                                                    values array must be empty. This
+                                                    array is replaced during a strategic
+                                                    merge patch.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              required:
+                                              - key
+                                              - operator
+                                              type: object
+                                            type: array
+                                          matchLabels:
+                                            additionalProperties:
+                                              type: string
+                                            description: matchLabels is a map of {key,value}
+                                              pairs. A single {key,value} in the matchLabels
+                                              map is equivalent to an element of matchExpressions,
+                                              whose key field is "key", the operator
+                                              is "In", and the values array contains
+                                              only "value". The requirements are ANDed.
+                                            type: object
+                                        type: object
+                                    type: object
                                 type: object
                             type: object
                           type: array
@@ -2271,7 +2368,7 @@ spec:
                   volume:
                     properties:
                       excludes:
-                        description: Excludes excludes volume data in backup
+                        description: Excludes excludes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -2296,7 +2393,7 @@ spec:
                           type: object
                         type: array
                       includes:
-                        description: Includes includes volume data in backup
+                        description: Includes includes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -2307,10 +2404,100 @@ spec:
                               type: string
                           type: object
                         type: array
+                      nfs:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       option:
                         description: Option is the option for volume related resources
                           like pvc, pv, snapshot, ...
                         type: string
+                      persistentVolumeClaim:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          selector:
+                            description: A label selector is a label query over a
+                              set of resources. The result of matchLabels and matchExpressions
+                              are ANDed. An empty label selector matches all objects.
+                              A null label selector matches no objects.
+                            properties:
+                              matchExpressions:
+                                description: matchExpressions is a list of label selector
+                                  requirements. The requirements are ANDed.
+                                items:
+                                  description: A label selector requirement is a selector
+                                    that contains values, a key, and an operator that
+                                    relates the key and values.
+                                  properties:
+                                    key:
+                                      description: key is the label key that the selector
+                                        applies to.
+                                      type: string
+                                    operator:
+                                      description: operator represents a key's relationship
+                                        to a set of values. Valid operators are In,
+                                        NotIn, Exists and DoesNotExist.
+                                      type: string
+                                    values:
+                                      description: values is an array of string values.
+                                        If the operator is In or NotIn, the values
+                                        array must be non-empty. If the operator is
+                                        Exists or DoesNotExist, the values array must
+                                        be empty. This array is replaced during a
+                                        strategic merge patch.
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - key
+                                  - operator
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: matchLabels is a map of {key,value} pairs.
+                                  A single {key,value} in the matchLabels map is equivalent
+                                  to an element of matchExpressions, whose key field
+                                  is "key", the operator is "In", and the values array
+                                  contains only "value". The requirements are ANDed.
+                                type: object
+                            type: object
+                        type: object
                     type: object
                 required:
                 - clusterName
@@ -2900,7 +3087,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -2925,7 +3112,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -2936,10 +3123,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             required:
             - clusterName
@@ -3687,7 +3964,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -3712,7 +3989,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -3723,10 +4000,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             type: object
           status:
@@ -4697,6 +5064,7 @@ spec:
                             properties:
                               excludes:
                                 description: Excludes excludes volume data in backup
+                                  Deprecated
                                 items:
                                   properties:
                                     names:
@@ -4722,6 +5090,7 @@ spec:
                                 type: array
                               includes:
                                 description: Includes includes volume data in backup
+                                  Deprecated
                                 items:
                                   properties:
                                     names:
@@ -4732,10 +5101,106 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              nfs:
+                                properties:
+                                  excludes:
+                                    items:
+                                      properties:
+                                        pathPrefix:
+                                          type: string
+                                        server:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    items:
+                                      properties:
+                                        pathPrefix:
+                                          type: string
+                                        server:
+                                          type: string
+                                      type: object
+                                    type: array
+                                type: object
                               option:
                                 description: Option is the option for volume related
                                   resources like pvc, pv, snapshot, ...
                                 type: string
+                              persistentVolumeClaim:
+                                properties:
+                                  excludes:
+                                    items:
+                                      properties:
+                                        name:
+                                          type: string
+                                        namespace:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    items:
+                                      properties:
+                                        name:
+                                          type: string
+                                        namespace:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  selector:
+                                    description: A label selector is a label query
+                                      over a set of resources. The result of matchLabels
+                                      and matchExpressions are ANDed. An empty label
+                                      selector matches all objects. A null label selector
+                                      matches no objects.
+                                    properties:
+                                      matchExpressions:
+                                        description: matchExpressions is a list of
+                                          label selector requirements. The requirements
+                                          are ANDed.
+                                        items:
+                                          description: A label selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: key is the label key that
+                                                the selector applies to.
+                                              type: string
+                                            operator:
+                                              description: operator represents a key's
+                                                relationship to a set of values. Valid
+                                                operators are In, NotIn, Exists and
+                                                DoesNotExist.
+                                              type: string
+                                            values:
+                                              description: values is an array of string
+                                                values. If the operator is In or NotIn,
+                                                the values array must be non-empty.
+                                                If the operator is Exists or DoesNotExist,
+                                                the values array must be empty. This
+                                                array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        description: matchLabels is a map of {key,value}
+                                          pairs. A single {key,value} in the matchLabels
+                                          map is equivalent to an element of matchExpressions,
+                                          whose key field is "key", the operator is
+                                          "In", and the values array contains only
+                                          "value". The requirements are ANDed.
+                                        type: object
+                                    type: object
+                                type: object
                             type: object
                         type: object
                       type: array
@@ -5036,7 +5501,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -5061,7 +5526,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -5072,10 +5537,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             type: object
           status:
@@ -5601,7 +6156,7 @@ spec:
                                 properties:
                                   excludes:
                                     description: Excludes excludes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -5627,7 +6182,7 @@ spec:
                                     type: array
                                   includes:
                                     description: Includes includes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -5638,10 +6193,107 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  nfs:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
                                   option:
                                     description: Option is the option for volume related
                                       resources like pvc, pv, snapshot, ...
                                     type: string
+                                  persistentVolumeClaim:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      selector:
+                                        description: A label selector is a label query
+                                          over a set of resources. The result of matchLabels
+                                          and matchExpressions are ANDed. An empty
+                                          label selector matches all objects. A null
+                                          label selector matches no objects.
+                                        properties:
+                                          matchExpressions:
+                                            description: matchExpressions is a list
+                                              of label selector requirements. The
+                                              requirements are ANDed.
+                                            items:
+                                              description: A label selector requirement
+                                                is a selector that contains values,
+                                                a key, and an operator that relates
+                                                the key and values.
+                                              properties:
+                                                key:
+                                                  description: key is the label key
+                                                    that the selector applies to.
+                                                  type: string
+                                                operator:
+                                                  description: operator represents
+                                                    a key's relationship to a set
+                                                    of values. Valid operators are
+                                                    In, NotIn, Exists and DoesNotExist.
+                                                  type: string
+                                                values:
+                                                  description: values is an array
+                                                    of string values. If the operator
+                                                    is In or NotIn, the values array
+                                                    must be non-empty. If the operator
+                                                    is Exists or DoesNotExist, the
+                                                    values array must be empty. This
+                                                    array is replaced during a strategic
+                                                    merge patch.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              required:
+                                              - key
+                                              - operator
+                                              type: object
+                                            type: array
+                                          matchLabels:
+                                            additionalProperties:
+                                              type: string
+                                            description: matchLabels is a map of {key,value}
+                                              pairs. A single {key,value} in the matchLabels
+                                              map is equivalent to an element of matchExpressions,
+                                              whose key field is "key", the operator
+                                              is "In", and the values array contains
+                                              only "value". The requirements are ANDed.
+                                            type: object
+                                        type: object
+                                    type: object
                                 type: object
                             type: object
                           type: array
@@ -9452,7 +10104,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -9477,7 +10129,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -9488,10 +10140,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
               workFlow:
                 description: define customized workflow for dr operation
@@ -9710,6 +10452,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -9994,6 +10740,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -10199,6 +10949,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -13792,6 +14546,7 @@ spec:
                           properties:
                             excludes:
                               description: Excludes excludes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -13817,6 +14572,7 @@ spec:
                               type: array
                             includes:
                               description: Includes includes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -13827,10 +14583,106 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            nfs:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
                             option:
                               description: Option is the option for volume related
                                 resources like pvc, pv, snapshot, ...
                               type: string
+                            persistentVolumeClaim:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                selector:
+                                  description: A label selector is a label query over
+                                    a set of resources. The result of matchLabels
+                                    and matchExpressions are ANDed. An empty label
+                                    selector matches all objects. A null label selector
+                                    matches no objects.
+                                  properties:
+                                    matchExpressions:
+                                      description: matchExpressions is a list of label
+                                        selector requirements. The requirements are
+                                        ANDed.
+                                      items:
+                                        description: A label selector requirement
+                                          is a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: key is the label key that
+                                              the selector applies to.
+                                            type: string
+                                          operator:
+                                            description: operator represents a key's
+                                              relationship to a set of values. Valid
+                                              operators are In, NotIn, Exists and
+                                              DoesNotExist.
+                                            type: string
+                                          values:
+                                            description: values is an array of string
+                                              values. If the operator is In or NotIn,
+                                              the values array must be non-empty.
+                                              If the operator is Exists or DoesNotExist,
+                                              the values array must be empty. This
+                                              array is replaced during a strategic
+                                              merge patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchLabels:
+                                      additionalProperties:
+                                        type: string
+                                      description: matchLabels is a map of {key,value}
+                                        pairs. A single {key,value} in the matchLabels
+                                        map is equivalent to an element of matchExpressions,
+                                        whose key field is "key", the operator is
+                                        "In", and the values array contains only "value".
+                                        The requirements are ANDed.
+                                      type: object
+                                  type: object
+                              type: object
                           type: object
                       type: object
                     type: array
@@ -14324,6 +15176,8 @@ spec:
           spec:
             description: MigClusterSpec defines the desired state of MigCluster
             properties:
+              AutoInviteAllUsers:
+                type: boolean
               agentConfig:
                 properties:
                   dataMoverConfig:
@@ -14742,6 +15596,8 @@ spec:
                 type: boolean
               maintenanceMode:
                 type: boolean
+              managedBy:
+                type: string
               qos:
                 description: QosClass defines qos class
                 properties:
@@ -14954,6 +15810,10 @@ spec:
                 type: boolean
               managedBy:
                 type: string
+              memberEndpoints:
+                items:
+                  type: string
+                type: array
               members:
                 items:
                   type: string
@@ -20021,7 +20881,7 @@ spec:
                                       properties:
                                         excludes:
                                           description: Excludes excludes volume data
-                                            in backup
+                                            in backup Deprecated
                                           items:
                                             properties:
                                               names:
@@ -20047,7 +20907,7 @@ spec:
                                           type: array
                                         includes:
                                           description: Includes includes volume data
-                                            in backup
+                                            in backup Deprecated
                                           items:
                                             properties:
                                               names:
@@ -20058,11 +20918,117 @@ spec:
                                                 type: string
                                             type: object
                                           type: array
+                                        nfs:
+                                          properties:
+                                            excludes:
+                                              items:
+                                                properties:
+                                                  pathPrefix:
+                                                    type: string
+                                                  server:
+                                                    type: string
+                                                type: object
+                                              type: array
+                                            includes:
+                                              items:
+                                                properties:
+                                                  pathPrefix:
+                                                    type: string
+                                                  server:
+                                                    type: string
+                                                type: object
+                                              type: array
+                                          type: object
                                         option:
                                           description: Option is the option for volume
                                             related resources like pvc, pv, snapshot,
                                             ...
                                           type: string
+                                        persistentVolumeClaim:
+                                          properties:
+                                            excludes:
+                                              items:
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                  namespace:
+                                                    type: string
+                                                type: object
+                                              type: array
+                                            includes:
+                                              items:
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                  namespace:
+                                                    type: string
+                                                type: object
+                                              type: array
+                                            selector:
+                                              description: A label selector is a label
+                                                query over a set of resources. The
+                                                result of matchLabels and matchExpressions
+                                                are ANDed. An empty label selector
+                                                matches all objects. A null label
+                                                selector matches no objects.
+                                              properties:
+                                                matchExpressions:
+                                                  description: matchExpressions is
+                                                    a list of label selector requirements.
+                                                    The requirements are ANDed.
+                                                  items:
+                                                    description: A label selector
+                                                      requirement is a selector that
+                                                      contains values, a key, and
+                                                      an operator that relates the
+                                                      key and values.
+                                                    properties:
+                                                      key:
+                                                        description: key is the label
+                                                          key that the selector applies
+                                                          to.
+                                                        type: string
+                                                      operator:
+                                                        description: operator represents
+                                                          a key's relationship to
+                                                          a set of values. Valid operators
+                                                          are In, NotIn, Exists and
+                                                          DoesNotExist.
+                                                        type: string
+                                                      values:
+                                                        description: values is an
+                                                          array of string values.
+                                                          If the operator is In or
+                                                          NotIn, the values array
+                                                          must be non-empty. If the
+                                                          operator is Exists or DoesNotExist,
+                                                          the values array must be
+                                                          empty. This array is replaced
+                                                          during a strategic merge
+                                                          patch.
+                                                        items:
+                                                          type: string
+                                                        type: array
+                                                    required:
+                                                    - key
+                                                    - operator
+                                                    type: object
+                                                  type: array
+                                                matchLabels:
+                                                  additionalProperties:
+                                                    type: string
+                                                  description: matchLabels is a map
+                                                    of {key,value} pairs. A single
+                                                    {key,value} in the matchLabels
+                                                    map is equivalent to an element
+                                                    of matchExpressions, whose key
+                                                    field is "key", the operator is
+                                                    "In", and the values array contains
+                                                    only "value". The requirements
+                                                    are ANDed.
+                                                  type: object
+                                              type: object
+                                          type: object
                                       type: object
                                   type: object
                                 type: array
@@ -21312,6 +22278,7 @@ spec:
                           properties:
                             excludes:
                               description: Excludes excludes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -21337,6 +22304,7 @@ spec:
                               type: array
                             includes:
                               description: Includes includes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -21347,10 +22315,106 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            nfs:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
                             option:
                               description: Option is the option for volume related
                                 resources like pvc, pv, snapshot, ...
                               type: string
+                            persistentVolumeClaim:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                selector:
+                                  description: A label selector is a label query over
+                                    a set of resources. The result of matchLabels
+                                    and matchExpressions are ANDed. An empty label
+                                    selector matches all objects. A null label selector
+                                    matches no objects.
+                                  properties:
+                                    matchExpressions:
+                                      description: matchExpressions is a list of label
+                                        selector requirements. The requirements are
+                                        ANDed.
+                                      items:
+                                        description: A label selector requirement
+                                          is a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: key is the label key that
+                                              the selector applies to.
+                                            type: string
+                                          operator:
+                                            description: operator represents a key's
+                                              relationship to a set of values. Valid
+                                              operators are In, NotIn, Exists and
+                                              DoesNotExist.
+                                            type: string
+                                          values:
+                                            description: values is an array of string
+                                              values. If the operator is In or NotIn,
+                                              the values array must be non-empty.
+                                              If the operator is Exists or DoesNotExist,
+                                              the values array must be empty. This
+                                              array is replaced during a strategic
+                                              merge patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchLabels:
+                                      additionalProperties:
+                                        type: string
+                                      description: matchLabels is a map of {key,value}
+                                        pairs. A single {key,value} in the matchLabels
+                                        map is equivalent to an element of matchExpressions,
+                                        whose key field is "key", the operator is
+                                        "In", and the values array contains only "value".
+                                        The requirements are ANDed.
+                                      type: object
+                                  type: object
+                              type: object
                           type: object
                       type: object
                     name:
@@ -22818,6 +23882,7 @@ spec:
                           properties:
                             excludes:
                               description: Excludes excludes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -22843,6 +23908,7 @@ spec:
                               type: array
                             includes:
                               description: Includes includes volume data in backup
+                                Deprecated
                               items:
                                 properties:
                                   names:
@@ -22853,10 +23919,106 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            nfs:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      pathPrefix:
+                                        type: string
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
                             option:
                               description: Option is the option for volume related
                                 resources like pvc, pv, snapshot, ...
                               type: string
+                            persistentVolumeClaim:
+                              properties:
+                                excludes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                includes:
+                                  items:
+                                    properties:
+                                      name:
+                                        type: string
+                                      namespace:
+                                        type: string
+                                    type: object
+                                  type: array
+                                selector:
+                                  description: A label selector is a label query over
+                                    a set of resources. The result of matchLabels
+                                    and matchExpressions are ANDed. An empty label
+                                    selector matches all objects. A null label selector
+                                    matches no objects.
+                                  properties:
+                                    matchExpressions:
+                                      description: matchExpressions is a list of label
+                                        selector requirements. The requirements are
+                                        ANDed.
+                                      items:
+                                        description: A label selector requirement
+                                          is a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: key is the label key that
+                                              the selector applies to.
+                                            type: string
+                                          operator:
+                                            description: operator represents a key's
+                                              relationship to a set of values. Valid
+                                              operators are In, NotIn, Exists and
+                                              DoesNotExist.
+                                            type: string
+                                          values:
+                                            description: values is an array of string
+                                              values. If the operator is In or NotIn,
+                                              the values array must be non-empty.
+                                              If the operator is Exists or DoesNotExist,
+                                              the values array must be empty. This
+                                              array is replaced during a strategic
+                                              merge patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchLabels:
+                                      additionalProperties:
+                                        type: string
+                                      description: matchLabels is a map of {key,value}
+                                        pairs. A single {key,value} in the matchLabels
+                                        map is equivalent to an element of matchExpressions,
+                                        whose key field is "key", the operator is
+                                        "In", and the values array contains only "value".
+                                        The requirements are ANDed.
+                                      type: object
+                                  type: object
+                              type: object
                           type: object
                       type: object
                   type: object
@@ -22910,7 +24072,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -22935,7 +24097,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -22946,10 +24108,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             type: object
           status:
@@ -23116,7 +24368,7 @@ spec:
                                   properties:
                                     excludes:
                                       description: Excludes excludes volume data in
-                                        backup
+                                        backup Deprecated
                                       items:
                                         properties:
                                           names:
@@ -23142,7 +24394,7 @@ spec:
                                       type: array
                                     includes:
                                       description: Includes includes volume data in
-                                        backup
+                                        backup Deprecated
                                       items:
                                         properties:
                                           names:
@@ -23153,11 +24405,112 @@ spec:
                                             type: string
                                         type: object
                                       type: array
+                                    nfs:
+                                      properties:
+                                        excludes:
+                                          items:
+                                            properties:
+                                              pathPrefix:
+                                                type: string
+                                              server:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includes:
+                                          items:
+                                            properties:
+                                              pathPrefix:
+                                                type: string
+                                              server:
+                                                type: string
+                                            type: object
+                                          type: array
+                                      type: object
                                     option:
                                       description: Option is the option for volume
                                         related resources like pvc, pv, snapshot,
                                         ...
                                       type: string
+                                    persistentVolumeClaim:
+                                      properties:
+                                        excludes:
+                                          items:
+                                            properties:
+                                              name:
+                                                type: string
+                                              namespace:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        includes:
+                                          items:
+                                            properties:
+                                              name:
+                                                type: string
+                                              namespace:
+                                                type: string
+                                            type: object
+                                          type: array
+                                        selector:
+                                          description: A label selector is a label
+                                            query over a set of resources. The result
+                                            of matchLabels and matchExpressions are
+                                            ANDed. An empty label selector matches
+                                            all objects. A null label selector matches
+                                            no objects.
+                                          properties:
+                                            matchExpressions:
+                                              description: matchExpressions is a list
+                                                of label selector requirements. The
+                                                requirements are ANDed.
+                                              items:
+                                                description: A label selector requirement
+                                                  is a selector that contains values,
+                                                  a key, and an operator that relates
+                                                  the key and values.
+                                                properties:
+                                                  key:
+                                                    description: key is the label
+                                                      key that the selector applies
+                                                      to.
+                                                    type: string
+                                                  operator:
+                                                    description: operator represents
+                                                      a key's relationship to a set
+                                                      of values. Valid operators are
+                                                      In, NotIn, Exists and DoesNotExist.
+                                                    type: string
+                                                  values:
+                                                    description: values is an array
+                                                      of string values. If the operator
+                                                      is In or NotIn, the values array
+                                                      must be non-empty. If the operator
+                                                      is Exists or DoesNotExist, the
+                                                      values array must be empty.
+                                                      This array is replaced during
+                                                      a strategic merge patch.
+                                                    items:
+                                                      type: string
+                                                    type: array
+                                                required:
+                                                - key
+                                                - operator
+                                                type: object
+                                              type: array
+                                            matchLabels:
+                                              additionalProperties:
+                                                type: string
+                                              description: matchLabels is a map of
+                                                {key,value} pairs. A single {key,value}
+                                                in the matchLabels map is equivalent
+                                                to an element of matchExpressions,
+                                                whose key field is "key", the operator
+                                                is "In", and the values array contains
+                                                only "value". The requirements are
+                                                ANDed.
+                                              type: object
+                                          type: object
+                                      type: object
                                   type: object
                               type: object
                             type: array
@@ -26540,7 +27893,7 @@ spec:
                                 properties:
                                   excludes:
                                     description: Excludes excludes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -26566,7 +27919,7 @@ spec:
                                     type: array
                                   includes:
                                     description: Includes includes volume data in
-                                      backup
+                                      backup Deprecated
                                     items:
                                       properties:
                                         names:
@@ -26577,10 +27930,107 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  nfs:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            pathPrefix:
+                                              type: string
+                                            server:
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
                                   option:
                                     description: Option is the option for volume related
                                       resources like pvc, pv, snapshot, ...
                                     type: string
+                                  persistentVolumeClaim:
+                                    properties:
+                                      excludes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      includes:
+                                        items:
+                                          properties:
+                                            name:
+                                              type: string
+                                            namespace:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      selector:
+                                        description: A label selector is a label query
+                                          over a set of resources. The result of matchLabels
+                                          and matchExpressions are ANDed. An empty
+                                          label selector matches all objects. A null
+                                          label selector matches no objects.
+                                        properties:
+                                          matchExpressions:
+                                            description: matchExpressions is a list
+                                              of label selector requirements. The
+                                              requirements are ANDed.
+                                            items:
+                                              description: A label selector requirement
+                                                is a selector that contains values,
+                                                a key, and an operator that relates
+                                                the key and values.
+                                              properties:
+                                                key:
+                                                  description: key is the label key
+                                                    that the selector applies to.
+                                                  type: string
+                                                operator:
+                                                  description: operator represents
+                                                    a key's relationship to a set
+                                                    of values. Valid operators are
+                                                    In, NotIn, Exists and DoesNotExist.
+                                                  type: string
+                                                values:
+                                                  description: values is an array
+                                                    of string values. If the operator
+                                                    is In or NotIn, the values array
+                                                    must be non-empty. If the operator
+                                                    is Exists or DoesNotExist, the
+                                                    values array must be empty. This
+                                                    array is replaced during a strategic
+                                                    merge patch.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              required:
+                                              - key
+                                              - operator
+                                              type: object
+                                            type: array
+                                          matchLabels:
+                                            additionalProperties:
+                                              type: string
+                                            description: matchLabels is a map of {key,value}
+                                              pairs. A single {key,value} in the matchLabels
+                                              map is equivalent to an element of matchExpressions,
+                                              whose key field is "key", the operator
+                                              is "In", and the values array contains
+                                              only "value". The requirements are ANDed.
+                                            type: object
+                                        type: object
+                                    type: object
                                 type: object
                             type: object
                           type: array
@@ -27603,7 +29053,7 @@ spec:
                       volume:
                         properties:
                           excludes:
-                            description: Excludes excludes volume data in backup
+                            description: Excludes excludes volume data in backup Deprecated
                             items:
                               properties:
                                 names:
@@ -27628,7 +29078,7 @@ spec:
                               type: object
                             type: array
                           includes:
-                            description: Includes includes volume data in backup
+                            description: Includes includes volume data in backup Deprecated
                             items:
                               properties:
                                 names:
@@ -27639,10 +29089,103 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          nfs:
+                            properties:
+                              excludes:
+                                items:
+                                  properties:
+                                    pathPrefix:
+                                      type: string
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                items:
+                                  properties:
+                                    pathPrefix:
+                                      type: string
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
                           option:
                             description: Option is the option for volume related resources
                               like pvc, pv, snapshot, ...
                             type: string
+                          persistentVolumeClaim:
+                            properties:
+                              excludes:
+                                items:
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                items:
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      type: string
+                                  type: object
+                                type: array
+                              selector:
+                                description: A label selector is a label query over
+                                  a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector
+                                  matches all objects. A null label selector matches
+                                  no objects.
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                            type: object
                         type: object
                     required:
                     - clusterName
@@ -28027,7 +29570,7 @@ spec:
                       volume:
                         properties:
                           excludes:
-                            description: Excludes excludes volume data in backup
+                            description: Excludes excludes volume data in backup Deprecated
                             items:
                               properties:
                                 names:
@@ -28052,7 +29595,7 @@ spec:
                               type: object
                             type: array
                           includes:
-                            description: Includes includes volume data in backup
+                            description: Includes includes volume data in backup Deprecated
                             items:
                               properties:
                                 names:
@@ -28063,10 +29606,103 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          nfs:
+                            properties:
+                              excludes:
+                                items:
+                                  properties:
+                                    pathPrefix:
+                                      type: string
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                items:
+                                  properties:
+                                    pathPrefix:
+                                      type: string
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
                           option:
                             description: Option is the option for volume related resources
                               like pvc, pv, snapshot, ...
                             type: string
+                          persistentVolumeClaim:
+                            properties:
+                              excludes:
+                                items:
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      type: string
+                                  type: object
+                                type: array
+                              includes:
+                                items:
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      type: string
+                                  type: object
+                                type: array
+                              selector:
+                                description: A label selector is a label query over
+                                  a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector
+                                  matches all objects. A null label selector matches
+                                  no objects.
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                            type: object
                         type: object
                     required:
                     - clusterName
@@ -28287,7 +29923,7 @@ spec:
                   volume:
                     properties:
                       excludes:
-                        description: Excludes excludes volume data in backup
+                        description: Excludes excludes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -28312,7 +29948,7 @@ spec:
                           type: object
                         type: array
                       includes:
-                        description: Includes includes volume data in backup
+                        description: Includes includes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -28323,10 +29959,100 @@ spec:
                               type: string
                           type: object
                         type: array
+                      nfs:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       option:
                         description: Option is the option for volume related resources
                           like pvc, pv, snapshot, ...
                         type: string
+                      persistentVolumeClaim:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          selector:
+                            description: A label selector is a label query over a
+                              set of resources. The result of matchLabels and matchExpressions
+                              are ANDed. An empty label selector matches all objects.
+                              A null label selector matches no objects.
+                            properties:
+                              matchExpressions:
+                                description: matchExpressions is a list of label selector
+                                  requirements. The requirements are ANDed.
+                                items:
+                                  description: A label selector requirement is a selector
+                                    that contains values, a key, and an operator that
+                                    relates the key and values.
+                                  properties:
+                                    key:
+                                      description: key is the label key that the selector
+                                        applies to.
+                                      type: string
+                                    operator:
+                                      description: operator represents a key's relationship
+                                        to a set of values. Valid operators are In,
+                                        NotIn, Exists and DoesNotExist.
+                                      type: string
+                                    values:
+                                      description: values is an array of string values.
+                                        If the operator is In or NotIn, the values
+                                        array must be non-empty. If the operator is
+                                        Exists or DoesNotExist, the values array must
+                                        be empty. This array is replaced during a
+                                        strategic merge patch.
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - key
+                                  - operator
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: matchLabels is a map of {key,value} pairs.
+                                  A single {key,value} in the matchLabels map is equivalent
+                                  to an element of matchExpressions, whose key field
+                                  is "key", the operator is "In", and the values array
+                                  contains only "value". The requirements are ANDed.
+                                type: object
+                            type: object
+                        type: object
                     type: object
                 required:
                 - backupName
@@ -28920,7 +30646,7 @@ spec:
                   volume:
                     properties:
                       excludes:
-                        description: Excludes excludes volume data in backup
+                        description: Excludes excludes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -28945,7 +30671,7 @@ spec:
                           type: object
                         type: array
                       includes:
-                        description: Includes includes volume data in backup
+                        description: Includes includes volume data in backup Deprecated
                         items:
                           properties:
                             names:
@@ -28956,10 +30682,100 @@ spec:
                               type: string
                           type: object
                         type: array
+                      nfs:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                pathPrefix:
+                                  type: string
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       option:
                         description: Option is the option for volume related resources
                           like pvc, pv, snapshot, ...
                         type: string
+                      persistentVolumeClaim:
+                        properties:
+                          excludes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          includes:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                          selector:
+                            description: A label selector is a label query over a
+                              set of resources. The result of matchLabels and matchExpressions
+                              are ANDed. An empty label selector matches all objects.
+                              A null label selector matches no objects.
+                            properties:
+                              matchExpressions:
+                                description: matchExpressions is a list of label selector
+                                  requirements. The requirements are ANDed.
+                                items:
+                                  description: A label selector requirement is a selector
+                                    that contains values, a key, and an operator that
+                                    relates the key and values.
+                                  properties:
+                                    key:
+                                      description: key is the label key that the selector
+                                        applies to.
+                                      type: string
+                                    operator:
+                                      description: operator represents a key's relationship
+                                        to a set of values. Valid operators are In,
+                                        NotIn, Exists and DoesNotExist.
+                                      type: string
+                                    values:
+                                      description: values is an array of string values.
+                                        If the operator is In or NotIn, the values
+                                        array must be non-empty. If the operator is
+                                        Exists or DoesNotExist, the values array must
+                                        be empty. This array is replaced during a
+                                        strategic merge patch.
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - key
+                                  - operator
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: matchLabels is a map of {key,value} pairs.
+                                  A single {key,value} in the matchLabels map is equivalent
+                                  to an element of matchExpressions, whose key field
+                                  is "key", the operator is "In", and the values array
+                                  contains only "value". The requirements are ANDed.
+                                type: object
+                            type: object
+                        type: object
                     type: object
                 required:
                 - clusterName
@@ -29177,7 +30993,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -29202,7 +31018,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -29213,10 +31029,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             required:
             - backupName
@@ -30821,7 +32727,7 @@ spec:
               volume:
                 properties:
                   excludes:
-                    description: Excludes excludes volume data in backup
+                    description: Excludes excludes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -30846,7 +32752,7 @@ spec:
                       type: object
                     type: array
                   includes:
-                    description: Includes includes volume data in backup
+                    description: Includes includes volume data in backup Deprecated
                     items:
                       properties:
                         names:
@@ -30857,10 +32763,100 @@ spec:
                           type: string
                       type: object
                     type: array
+                  nfs:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            pathPrefix:
+                              type: string
+                            server:
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   option:
                     description: Option is the option for volume related resources
                       like pvc, pv, snapshot, ...
                     type: string
+                  persistentVolumeClaim:
+                    properties:
+                      excludes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      includes:
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            namespace:
+                              type: string
+                          type: object
+                        type: array
+                      selector:
+                        description: A label selector is a label query over a set
+                          of resources. The result of matchLabels and matchExpressions
+                          are ANDed. An empty label selector matches all objects.
+                          A null label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values.
+                                    If the operator is In or NotIn, the values array
+                                    must be non-empty. If the operator is Exists or
+                                    DoesNotExist, the values array must be empty.
+                                    This array is replaced during a strategic merge
+                                    patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs.
+                              A single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is
+                              "key", the operator is "In", and the values array contains
+                              only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                    type: object
                 type: object
             type: object
           status:
@@ -31675,6 +33671,7 @@ spec:
                             properties:
                               excludes:
                                 description: Excludes excludes volume data in backup
+                                  Deprecated
                                 items:
                                   properties:
                                     names:
@@ -31700,6 +33697,7 @@ spec:
                                 type: array
                               includes:
                                 description: Includes includes volume data in backup
+                                  Deprecated
                                 items:
                                   properties:
                                     names:
@@ -31710,10 +33708,106 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              nfs:
+                                properties:
+                                  excludes:
+                                    items:
+                                      properties:
+                                        pathPrefix:
+                                          type: string
+                                        server:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    items:
+                                      properties:
+                                        pathPrefix:
+                                          type: string
+                                        server:
+                                          type: string
+                                      type: object
+                                    type: array
+                                type: object
                               option:
                                 description: Option is the option for volume related
                                   resources like pvc, pv, snapshot, ...
                                 type: string
+                              persistentVolumeClaim:
+                                properties:
+                                  excludes:
+                                    items:
+                                      properties:
+                                        name:
+                                          type: string
+                                        namespace:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  includes:
+                                    items:
+                                      properties:
+                                        name:
+                                          type: string
+                                        namespace:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  selector:
+                                    description: A label selector is a label query
+                                      over a set of resources. The result of matchLabels
+                                      and matchExpressions are ANDed. An empty label
+                                      selector matches all objects. A null label selector
+                                      matches no objects.
+                                    properties:
+                                      matchExpressions:
+                                        description: matchExpressions is a list of
+                                          label selector requirements. The requirements
+                                          are ANDed.
+                                        items:
+                                          description: A label selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: key is the label key that
+                                                the selector applies to.
+                                              type: string
+                                            operator:
+                                              description: operator represents a key's
+                                                relationship to a set of values. Valid
+                                                operators are In, NotIn, Exists and
+                                                DoesNotExist.
+                                              type: string
+                                            values:
+                                              description: values is an array of string
+                                                values. If the operator is In or NotIn,
+                                                the values array must be non-empty.
+                                                If the operator is Exists or DoesNotExist,
+                                                the values array must be empty. This
+                                                array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        description: matchLabels is a map of {key,value}
+                                          pairs. A single {key,value} in the matchLabels
+                                          map is equivalent to an element of matchExpressions,
+                                          whose key field is "key", the operator is
+                                          "In", and the values array contains only
+                                          "value". The requirements are ANDed.
+                                        type: object
+                                    type: object
+                                type: object
                             type: object
                         type: object
                       type: array
