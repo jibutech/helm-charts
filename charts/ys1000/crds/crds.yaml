@@ -1632,6 +1632,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -1685,6 +1699,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -1705,6 +1733,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -9668,10 +9710,6 @@ spec:
                       type: string
                     namespace:
                       type: string
-                    operationTables:
-                      items:
-                        type: string
-                      type: array
                     phase:
                       type: string
                     runOn:
@@ -9956,10 +9994,6 @@ spec:
                       type: string
                     namespace:
                       type: string
-                    operationTables:
-                      items:
-                        type: string
-                      type: array
                     phase:
                       type: string
                     runOn:
@@ -10165,10 +10199,6 @@ spec:
                       type: string
                     namespace:
                       type: string
-                    operationTables:
-                      items:
-                        type: string
-                      type: array
                     phase:
                       type: string
                     runOn:
@@ -20806,6 +20836,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -20831,6 +20875,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -20851,6 +20909,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -26821,6 +26893,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -26930,6 +27016,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
@@ -26950,6 +27050,20 @@ spec:
                       type: string
                     phase:
                       type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
                     runOn:
                       type: string
                     started:
