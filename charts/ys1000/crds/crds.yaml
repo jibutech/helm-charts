@@ -9710,6 +9710,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -9994,6 +9998,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -10199,6 +10207,10 @@ spec:
                       type: string
                     namespace:
                       type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
                     phase:
                       type: string
                     runOn:
@@ -14324,6 +14336,8 @@ spec:
           spec:
             description: MigClusterSpec defines the desired state of MigCluster
             properties:
+              AutoInviteAllUsers:
+                type: boolean
               agentConfig:
                 properties:
                   dataMoverConfig:
@@ -14742,6 +14756,8 @@ spec:
                 type: boolean
               maintenanceMode:
                 type: boolean
+              managedBy:
+                type: string
               qos:
                 description: QosClass defines qos class
                 properties:
@@ -14954,6 +14970,10 @@ spec:
                 type: boolean
               managedBy:
                 type: string
+              memberEndpoints:
+                items:
+                  type: string
+                type: array
               members:
                 items:
                   type: string
