@@ -6844,6 +6844,9 @@ spec:
                     description: use backupped images to replace images in specs of
                       pod/deployment/daemonset, etc.
                     type: boolean
+                  skipLoadBalancerService:
+                    description: skip loadbalancer service
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -8940,6 +8943,9 @@ spec:
                     restoreImages:
                       description: use backupped images to replace images in specs
                         of pod/deployment/daemonset, etc.
+                      type: boolean
+                    skipLoadBalancerService:
+                      description: skip loadbalancer service
                       type: boolean
                     storageClassMappings:
                       additionalProperties:
@@ -11869,6 +11875,9 @@ spec:
                   restoreImages:
                     description: use backupped images to replace images in specs of
                       pod/deployment/daemonset, etc.
+                    type: boolean
+                  skipLoadBalancerService:
+                    description: skip loadbalancer service
                     type: boolean
                   storageClassMappings:
                     additionalProperties:
@@ -17516,6 +17525,9 @@ spec:
                     description: use backupped images to replace images in specs of
                       pod/deployment/daemonset, etc.
                     type: boolean
+                  skipLoadBalancerService:
+                    description: skip loadbalancer service
+                    type: boolean
                   storageClassMappings:
                     additionalProperties:
                       type: string
@@ -18980,6 +18992,9 @@ spec:
                   restoreImages:
                     description: use backupped images to replace images in specs of
                       pod/deployment/daemonset, etc.
+                    type: boolean
+                  skipLoadBalancerService:
+                    description: skip loadbalancer service
                     type: boolean
                   storageClassMappings:
                     additionalProperties:
@@ -22159,6 +22174,9 @@ spec:
                             restoreImages:
                               description: use backupped images to replace images
                                 in specs of pod/deployment/daemonset, etc.
+                              type: boolean
+                            skipLoadBalancerService:
+                              description: skip loadbalancer service
                               type: boolean
                             storageClassMappings:
                               additionalProperties:
@@ -25398,6 +25416,9 @@ spec:
                       restoreImages:
                         description: use backupped images to replace images in specs
                           of pod/deployment/daemonset, etc.
+                        type: boolean
+                      skipLoadBalancerService:
+                        description: skip loadbalancer service
                         type: boolean
                       storageClassMappings:
                         additionalProperties:
@@ -30084,6 +30105,9 @@ spec:
                   restoreImages:
                     description: use backupped images to replace images in specs of
                       pod/deployment/daemonset, etc.
+                    type: boolean
+                  skipLoadBalancerService:
+                    description: skip loadbalancer service
                     type: boolean
                   storageClassMappings:
                     additionalProperties:
