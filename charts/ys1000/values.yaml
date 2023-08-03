@@ -26,7 +26,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.4.1"
+  tag: "hostpath-poc-latest"
 
 image:
   registry: ""
@@ -115,7 +115,7 @@ components:
     image:
       registry: ""
       repository: jibutech/mig-ui
-      tag: ""
+      tag: "release-3.4.3-latest"
     serviceType: NodePort
   discovery:
     image:
