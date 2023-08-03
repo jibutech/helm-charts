@@ -95,7 +95,7 @@ components:
     image:
       registry: ""
       repository: jibutech/data-verify
-      tag: ""
+      tag: "3.4.1"
   amberApp:
     image:
       registry: ""
@@ -136,12 +136,12 @@ components:
     image:
       registry: ""
       repository: jibutech/stub
-      tag: ""
+      tag: "3.4.1"
   etcdStub:
     image:
       registry: ""
       repository: jibutech/etcd-stub
-      tag: ""
+      tag: "3.4.1"
   volSync:
     image:
       registry: ""
