@@ -201,21 +201,21 @@
         password: "password"  # change to your own database password
         database: "sit_clusterpedia"  # change to your own database name
         createDatabase: true
-   ```
+    ```
 
-   ```
-   # example of alarm setting
-   # you need to setup a prometheus for ys1000 host cluster in advance, and add the host ip to your wechat list
-
-   alarm:
-     enabled: true
-   wechat:
-     enabled: true
-     corpID: "ww9435adfc497dffff"   # change to your company ID
-     agentID: "'1000000'"    # change to your own ID
-     toUser: "username"     # change to your own name
-     apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
-   ```
+    ```
+    # example of alarm setting
+    # you need to setup a prometheus for ys1000 host cluster in advance, and add the host ip to your wechat list
+    
+    alarm:
+      enabled: true
+      wechat:
+        enabled: true
+        corpID: "ww9435adfc497dffff"   # change to your company ID
+        agentID: "'1000000'"    # change to your own ID
+        toUser: "username"     # change to your own name
+        apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
+    ```
 
    例如：
 
