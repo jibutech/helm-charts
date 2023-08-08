@@ -114,7 +114,8 @@ components:
 #    template:
 #      spec:
 #        tolerations: []
-#        nodeAffinity:
+#        affinity:
+#          nodeAffinity:
 #        containers:
 #        - name: agent-operator
 #          resources:
@@ -279,7 +280,8 @@ migconfig:
 #  template:
 #    spec:
 #      tolerations: []
-#      nodeAffinity:
+#      affinity:
+#        nodeAffinity:
   deletionPolicy:
     removeResources: false
 #    staleClusters: []
