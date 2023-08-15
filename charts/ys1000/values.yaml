@@ -26,7 +26,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.4.2"
+  tag: "3.4.3"
 
 image:
   registry: ""
@@ -68,7 +68,7 @@ components:
     image:
       registry: ""
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-b9c96674-20230525022532
+      tag: v1.7.0-jibu-dev-224e5860-20230815141941
     imageResticHelper:
       registry: ""
       repository: jibutech/velero-restic-restore-helper
@@ -79,7 +79,7 @@ components:
       tag: ""
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-4739b10-20230518030507
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-bc10c32-20230812060647
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
