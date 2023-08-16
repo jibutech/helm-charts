@@ -15462,7 +15462,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -15852,7 +15851,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -16460,7 +16458,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -16866,7 +16863,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -17288,7 +17284,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -17678,7 +17673,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -18070,7 +18064,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -18430,7 +18423,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -18816,7 +18808,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -19208,7 +19199,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -19651,7 +19641,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -20052,7 +20041,6 @@ spec:
                                     type: object
                                 type: object
                               containers:
-                                description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                                 items:
                                   properties:
                                     name:
@@ -20484,6 +20472,19 @@ spec:
                       some common examples: role=prod/dev/test, region=shanghai, location=az1'
                     type: object
                 type: object
+              componentStates:
+                items:
+                  properties:
+                    message:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    ready:
+                      type: boolean
+                  type: object
+                type: array
               conditions:
                 items:
                   description: Condition Type - The condition type. Status - The condition
@@ -20890,7 +20891,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -21260,7 +21260,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -21640,7 +21639,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -22008,7 +22006,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -22587,7 +22584,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -23007,7 +23003,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -23423,7 +23418,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -23797,7 +23791,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -24196,7 +24189,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -24570,7 +24562,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -24942,7 +24933,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -25318,7 +25308,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -25659,7 +25648,6 @@ spec:
                             type: object
                         type: object
                       containers:
-                        description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                         items:
                           properties:
                             name:
@@ -26082,7 +26070,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -26466,7 +26453,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -27045,7 +27031,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -43612,6 +43597,17 @@ spec:
                 type: object
               storageLocation:
                 type: string
+              storageRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
               warnings:
                 items:
                   properties:
@@ -43851,6 +43847,8 @@ spec:
           spec:
             description: SystemSettingSpec defines the desired state of SystemSetting
             properties:
+              canceled:
+                type: boolean
               reportTimestamp:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
@@ -43932,6 +43930,9 @@ spec:
                   - type
                   type: object
                 type: array
+              createdAt:
+                format: date-time
+                type: string
               criticalErrors:
                 items:
                   properties:
@@ -43950,6 +43951,10 @@ spec:
                   type: object
                 type: array
               errorMessage:
+                description: Deprecated
+                type: string
+              finishedAt:
+                format: date-time
                 type: string
               jobList:
                 items:
@@ -43986,7 +43991,7 @@ spec:
                   type: object
                 type: array
               jobs:
-                description: JobInfo deprecated
+                description: Deprecated
                 properties:
                   backups:
                     description: JobStatus deprecated
@@ -44860,6 +44865,7 @@ spec:
                     type: object
                 type: object
               notifications:
+                description: Deprecated
                 properties:
                   mailResult:
                     type: string
@@ -44868,6 +44874,8 @@ spec:
                 type: object
               phase:
                 type: string
+              reportGenerated:
+                type: boolean
               selfBackupStatus:
                 properties:
                   selfBackupEnabled:
@@ -44882,6 +44890,50 @@ spec:
                   selfBackupTime:
                     format: date-time
                     type: string
+                type: object
+              startedAt:
+                format: date-time
+                type: string
+              steps:
+                properties:
+                  current:
+                    type: integer
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          description: Deprecated
+                          type: object
+                        failedAt:
+                          format: date-time
+                          type: string
+                        firstFailureTimeStamp:
+                          description: Deprecated
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          description: Deprecated
+                          type: integer
+                        skipped:
+                          type: boolean
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  total:
+                    type: integer
                 type: object
               storages:
                 properties:
@@ -44936,6 +44988,8 @@ spec:
                       type: string
                     type: array
                 type: object
+              valid:
+                type: boolean
               warnings:
                 items:
                   properties:
@@ -45774,7 +45828,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -46144,7 +46197,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -46523,7 +46575,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -46891,7 +46942,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -47473,7 +47523,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -47880,7 +47929,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -48296,7 +48344,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -48666,7 +48713,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -49068,7 +49114,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -49442,7 +49487,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -49817,7 +49861,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -50189,7 +50232,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -50530,7 +50572,6 @@ spec:
                             type: object
                         type: object
                       containers:
-                        description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                         items:
                           properties:
                             name:
@@ -51031,7 +51072,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -51424,7 +51464,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
@@ -51997,7 +52036,6 @@ spec:
                                 type: object
                             type: object
                           containers:
-                            description: NodeAffinity   *corev1.NodeAffinity `json:"nodeAffinity,omitempty"`
                             items:
                               properties:
                                 name:
