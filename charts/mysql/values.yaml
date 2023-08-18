@@ -2,6 +2,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 tolerations: []
+affinity: {}
 
 image:
   registry: registry.cn-shanghai.aliyuncs.com
