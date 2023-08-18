@@ -12,4 +12,11 @@ spec:
   version: {{ .Chart.AppVersion }}
   image:
     tag: {{ .Values.imageBase.tag }}
+  velero:
+    image:
+      tag: {{ .Values.components.velero.image.tag }}
+    {{- with .Values.components.velero.plugins }}
+    plugins:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
 {{- end }}
