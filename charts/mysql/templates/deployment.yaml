@@ -21,6 +21,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -50,6 +54,41 @@ spec:
           mountPath: /etc/mysql/conf.d/my.cnf
           subPath: my.cnf
         {{- end }}
+      {{- if .Values.metrics.enabled }}
+      - name: metrics
+        image: "{{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
+        imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "mysql.fullname" . }}
+                key: mysql-root-password
+        command:
+          - /bin/bash
+          - -ec
+          - |
+            password_aux="${MYSQL_ROOT_PASSWORD:-}"
+            DATA_SOURCE_NAME="root:${password_aux}@(localhost:3306)/" /bin/mysqld_exporter {{- range .Values.metrics.extraArgs.primary }} {{ . }} {{- end }}
+        ports:
+          - name: metrics
+            containerPort: 9104
+        {{- if .Values.metrics.livenessProbe.enabled }}
+        livenessProbe: {{- omit .Values.metrics.livenessProbe "enabled" | toYaml | nindent 10 }}
+          httpGet:
+            path: /metrics
+            port: metrics
+        {{- end }}
+        {{- if .Values.metrics.readinessProbe.enabled }}
+        readinessProbe: {{- omit .Values.metrics.readinessProbe "enabled" | toYaml | nindent 10 }}
+          httpGet:
+            path: /metrics
+            port: metrics
+        {{- end }}
+        {{- if .Values.metrics.resources }}
+        resources: {{- toYaml .Values.metrics.resources | nindent 10 }}
+        {{- end }}
+      {{- end }}
       volumes:
       {{- if .Values.primary.configuration }}
       - name: config

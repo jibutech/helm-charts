@@ -2,6 +2,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 tolerations: []
+affinity: {}
 
 image:
   registry: registry.cn-shanghai.aliyuncs.com
@@ -98,3 +99,120 @@ primary:
     nfs:
       server: ""
       path: ""
+
+metrics:
+  enabled: false
+  image:
+    registry: registry.cn-shanghai.aliyuncs.com
+    repository: jibutech/mysqld-exporter
+    tag: 0.14.0-debian-11-r125
+    pullPolicy: IfNotPresent
+  ## MySQL Prometheus exporter service parameters
+  ## Mysqld Prometheus exporter liveness and readiness probes
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  ## @param metrics.service.type Kubernetes service type for MySQL Prometheus Exporter
+  ## @param metrics.service.clusterIP Kubernetes service clusterIP for MySQL Prometheus Exporter
+  ## @param metrics.service.port MySQL Prometheus Exporter service port
+  ## @param metrics.service.annotations [object] Prometheus exporter service annotations
+  ##
+  service:
+    type: ClusterIP
+    port: 9104
+    clusterIP: ""
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "{{ .Values.metrics.service.port }}"
+  ## @param metrics.extraArgs Extra args to be passed to mysqld_exporter
+  ## ref: https://github.com/prometheus/mysqld_exporter/
+  ## E.g.
+  ## - --collect.auto_increment.columns
+  ## - --collect.binlog_size
+  ## - --collect.engine_innodb_status
+  ## - --collect.engine_tokudb_status
+  ## - --collect.global_status
+  ## - --collect.global_variables
+  ## - --collect.info_schema.clientstats
+  ## - --collect.info_schema.innodb_metrics
+  ## - --collect.info_schema.innodb_tablespaces
+  ## - --collect.info_schema.innodb_cmp
+  ## - --collect.info_schema.innodb_cmpmem
+  ## - --collect.info_schema.processlist
+  ## - --collect.info_schema.processlist.min_time
+  ## - --collect.info_schema.query_response_time
+  ## - --collect.info_schema.tables
+  ## - --collect.info_schema.tables.databases
+  ## - --collect.info_schema.tablestats
+  ## - --collect.info_schema.userstats
+  ## - --collect.perf_schema.eventsstatements
+  ## - --collect.perf_schema.eventsstatements.digest_text_limit
+  ## - --collect.perf_schema.eventsstatements.limit
+  ## - --collect.perf_schema.eventsstatements.timelimit
+  ## - --collect.perf_schema.eventswaits
+  ## - --collect.perf_schema.file_events
+  ## - --collect.perf_schema.file_instances
+  ## - --collect.perf_schema.indexiowaits
+  ## - --collect.perf_schema.tableiowaits
+  ## - --collect.perf_schema.tablelocks
+  ## - --collect.perf_schema.replication_group_member_stats
+  ## - --collect.slave_status
+  ## - --collect.slave_hosts
+  ## - --collect.heartbeat
+  ## - --collect.heartbeat.database
+  ## - --collect.heartbeat.table
+  ##
+  extraArgs:
+    primary: []
+  ## Mysqld Prometheus exporter resource requests and limits
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ## We usually recommend not to specify default resources and to leave this as a conscious
+  ## choice for the user. This also increases chances charts run on environments with little
+  ## resources, such as Minikube. If you do want to specify resources, uncomment the following
+  ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  ## @param metrics.resources.limits The resources limits for MySQL prometheus exporter containers
+  ## @param metrics.resources.requests The requested resources for MySQL prometheus exporter containers
+  ##
+  resources:
+    ## Example:
+    ## limits:
+    ##    cpu: 100m
+    ##    memory: 256Mi
+    ##
+    limits: {}
+    ## Examples:
+    ## requests:
+    ##    cpu: 100m
+    ##    memory: 256Mi
+    ##
+    requests: {}
+  ## Mysqld Prometheus exporter liveness probe
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  ## @param metrics.livenessProbe.enabled Enable livenessProbe
+  ## @param metrics.livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
+  ## @param metrics.livenessProbe.periodSeconds Period seconds for livenessProbe
+  ## @param metrics.livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
+  ## @param metrics.livenessProbe.failureThreshold Failure threshold for livenessProbe
+  ## @param metrics.livenessProbe.successThreshold Success threshold for livenessProbe
+  ##
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+  ## Mysqld Prometheus exporter readiness probe
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  ## @param metrics.readinessProbe.enabled Enable readinessProbe
+  ## @param metrics.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
+  ## @param metrics.readinessProbe.periodSeconds Period seconds for readinessProbe
+  ## @param metrics.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
+  ## @param metrics.readinessProbe.failureThreshold Failure threshold for readinessProbe
+  ## @param metrics.readinessProbe.successThreshold Success threshold for readinessProbe
+  ##
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
