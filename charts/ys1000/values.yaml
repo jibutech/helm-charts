@@ -8,25 +8,20 @@ tags:
   dex: false
 
 featureGates:
-  ClusterCache: true
-  DataMover: false
   AmberApp: true
   Stub: true
   Archive: false
   DisasterRecovery: false
-  DMAgent: true
   ImageBackup: true
   EtcdStub: false
   CSIAddon: false
   VolSync: false
-  Auth: true
   Tenant: false
-
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.4.2"
+  tag: "3.5.0"
 
 image:
   registry: ""
@@ -34,12 +29,72 @@ image:
   tag: ""
 
 components:
+  portal:
+    image:
+      registry: ""
+      repository: jibutech/mig-ui
+      tag: ""
+    serviceType: NodePort
+#    template:
+#      spec:
+#        containers:
+#        - name: ui
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 1Gi
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
+  controller:
+    image:
+      registry: ""
+      repository: jibutech/mig-controller
+      tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: mig-controller
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 2Gi
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
+  cron:
+    image:
+      registry: ""
+      repository: jibutech/cron
+      tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: cron
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 1Gi
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
   webServer:
     image:
       registry: ""
       repository: jibutech/webserver
       tag: ""
     serviceType: ClusterIP
+#    template:
+#      spec:
+#        containers:
+#        - name: webserver
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 2Gi
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
 #    database:
 #      username:
 #        value: root
@@ -50,12 +105,7 @@ components:
 #            name: mysql
 #            optional: true
 #      host: mysql
-#      name: webserver
-  hookRunner:
-    image:
-      registry: ""
-      repository: jibutech/hookrunner
-      tag: ""
+
   operator:
     image:
       registry: ""
@@ -64,11 +114,22 @@ components:
 #    template:
 #      spec:
 #        tolerations: []
+#        affinity:
+#          nodeAffinity:
+#        containers:
+#        - name: agent-operator
+#          resources:
+#            limits:
+#              cpu: 300m
+#              memory: 128Mi
+#            requests:
+#              cpu: 50m
+#              memory: 80Mi
   velero:
     image:
       registry: ""
       repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-b9c96674-20230525022532
+      tag: v1.7.0-jibu-dev-224e5860-20230815141941
     imageResticHelper:
       registry: ""
       repository: jibutech/velero-restic-restore-helper
@@ -79,18 +140,24 @@ components:
       tag: ""
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-4739b10-20230518030507
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-bc10c32-20230812060647
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
     resticPodCPULimit: 1000m
     useRestic: true
     snapshotDisabled: false
-  dataMover:
-    image:
-      registry: ""
-      repository: jibutech/data-mover
-      tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: velero
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 512Mi
+#            requests:
+#              cpu: 500m
+#              memory: 128Mi
   dataVerify:
     image:
       registry: ""
@@ -101,47 +168,75 @@ components:
       registry: ""
       repository: jibutech/amberapp
       tag: ""
+#      template:
+#        spec:
+#          containers:
+#          - name: manager
+#            resources:
+#              limits:
+#                cpu: 100m
+#                memory: 300Mi
+#              requests:
+#                cpu: 100m
+#                memory: 50Mi
   dmAgent:
     image:
       registry: ""
       repository: jibutech/dm-agent
       tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: manager
+#          resources:
+#            limits:
+#              cpu: "1"
+#              memory: 512Mi
+#            requests:
+#              cpu: 500m
+#              memory: 256Mi
   resticDM:
     image:
       registry: ""
       repository: jibutech/restic-dm
-      tag: ""
-  portal:
-    image:
-      registry: ""
-      repository: jibutech/mig-ui
-      tag: ""
-    serviceType: NodePort
-  discovery:
-    image:
-      registry: ""
-      repository: jibutech/mig-discovery
-      tag: 3.2.0
-  controller:
-    image:
-      registry: ""
-      repository: jibutech/mig-controller
-      tag: ""
-  cron:
-    image:
-      registry: ""
-      repository: jibutech/cron
       tag: ""
   stub:
     image:
       registry: ""
       repository: jibutech/stub
       tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: stub
+#          resources:
+#            limits:
+#              cpu: 100m
+#              memory: 128Mi
+#            requests:
+#              cpu: 50m
+#              memory: 50Mi
   etcdStub:
     image:
       registry: ""
       repository: jibutech/etcd-stub
       tag: ""
+  hookRunner:
+    image:
+      registry: ""
+      repository: jibutech/hookrunner
+      tag: ""
+#    template:
+#      spec:
+#        containers:
+#        - name: hook
+#          resources:
+#            requests:
+#              cpu: 10m
+#              memory: 20Mi
+#            limits:
+#              cpu: "1"
+#              memory: 2Gi
   volSync:
     image:
       registry: ""
@@ -185,6 +280,8 @@ migconfig:
 #  template:
 #    spec:
 #      tolerations: []
+#      affinity:
+#        nodeAffinity:
   deletionPolicy:
     removeResources: false
 #    staleClusters: []
