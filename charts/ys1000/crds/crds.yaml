@@ -43850,8 +43850,7 @@ spec:
               canceled:
                 type: boolean
               reportTimestamp:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                  Important: Run "make" to regenerate code after modifying this file'
+                description: Deprecated
                 format: date-time
                 type: string
               statsIntervalEndTimestamp:
@@ -45060,8 +45059,7 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               report:
-                description: Sends report to specified addresses including backupjobs,
-                  migrations, restorejobs status every day at notifyTime
+                description: Deprecated
                 properties:
                   notifyTime:
                     type: string
@@ -45073,6 +45071,7 @@ spec:
                     type: boolean
                 type: object
               smtpSetting:
+                description: Deprecated
                 properties:
                   senderMailAddress:
                     type: string
@@ -45082,8 +45081,10 @@ spec:
                     type: string
                 type: object
               systemReportEnabled:
+                description: Deprecated
                 type: boolean
               systemReportSecret:
+                description: Deprecated
                 type: string
               type:
                 type: string
