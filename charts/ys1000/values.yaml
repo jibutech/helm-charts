@@ -21,7 +21,7 @@ featureGates:
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
   pullPolicy: Always
-  tag: "3.5.1"
+  tag: "release-3.5.2-latest"
 
 image:
   registry: ""
@@ -287,6 +287,16 @@ migconfig:
 #    staleClusters: []
     cancelRunningJobs: false
     force: false
+  auth:
+    connectors: []
+#    connectors:
+#    - type: cas
+#      id: cas
+#      name: CAS
+#      config:
+#        server: http://0.0.0.0:31888/cas/
+#        redirectURI: http://0.0.0.0:30180/cas
+#        insecureSkipVerify: true
 
 velero:
   resticPodVolumeOperationTimeout: 240m
