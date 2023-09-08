@@ -20545,8 +20545,6 @@ spec:
                         type:
                           description: The Type of the connector. E.g. 'oidc' or 'ldap'
                           type: string
-                      required:
-                      - config
                       type: object
                     type: array
                   issuer:
@@ -50119,6 +50117,8 @@ spec:
               name:
                 type: string
               password:
+                type: string
+              uid:
                 type: string
             type: object
         type: object
