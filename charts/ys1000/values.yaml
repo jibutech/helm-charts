@@ -140,7 +140,7 @@ components:
       tag: ""
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-245ff68-20230826084143
+    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-3843028-20230908062220
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
