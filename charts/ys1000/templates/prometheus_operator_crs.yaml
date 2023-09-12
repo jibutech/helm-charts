@@ -5,6 +5,8 @@ kind: ServiceMonitor
 metadata:
   labels:
     {{- toYaml .Values.alarm.serviceMonitor.labels | nindent 4}}
+  annotations:
+    "helm.sh/resource-policy": keep
   name: metrics-monitor
   namespace: {{ .Release.Namespace }}
 spec:
@@ -26,6 +28,8 @@ kind: PrometheusRule
 metadata:
   labels:
     {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
+  annotations:
+    "helm.sh/resource-policy": keep
   name: ys1000-alerts
   namespace: {{ .Release.Namespace }}
 spec:
@@ -129,6 +133,8 @@ metadata:
   labels:
     {{- toYaml .Values.alarm.alertmanagerConfig.labels | nindent 4}}
     alertmanagerConfig: ys1000
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   route:
     receiver: default-receiver
@@ -258,6 +264,8 @@ type: Opaque
 metadata:
   name: wechat-apisecret
   namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   apiSecret: {{ required ".Values.alarm.wechat.apiSecret is required" .Values.alarm.wechat.apiSecret | b64enc}}
 {{- end }}
