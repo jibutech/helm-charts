@@ -14347,8 +14347,6 @@ spec:
           spec:
             description: MigClusterSpec defines the desired state of MigCluster
             properties:
-              AutoInviteAllUsers:
-                type: boolean
               agentConfig:
                 properties:
                   amberApp:
@@ -19329,6 +19327,8 @@ spec:
                   x-kubernetes-int-or-string: true
                 description: Resource quota for agent Refer to https://pkg.go.dev/k8s.io/api/core/v1#ResourceList
                 type: object
+              autoInviteAllUsers:
+                type: boolean
               azureResourceGroup:
                 description: Deprecated
                 type: string
