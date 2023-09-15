@@ -15500,6 +15500,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -15889,6 +15893,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -16496,6 +16504,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -16901,6 +16913,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -17322,6 +17338,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -17711,6 +17731,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -18102,6 +18126,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -18460,6 +18488,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -18846,6 +18878,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -19237,6 +19273,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -19679,6 +19719,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -20079,6 +20123,10 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              imagePullPolicy:
+                                description: PullPolicy describes a policy for if/when
+                                  to pull a container image
+                                type: string
                               initContainers:
                                 items:
                                   properties:
@@ -20928,6 +20976,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -21297,6 +21349,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -21676,6 +21732,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -22043,6 +22103,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -22621,6 +22685,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -23040,6 +23108,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -23455,6 +23527,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -23828,6 +23904,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -24226,6 +24306,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -24599,6 +24683,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -24970,6 +25058,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -25345,6 +25437,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -25684,6 +25780,10 @@ spec:
                               type: object
                           type: object
                         type: array
+                      imagePullPolicy:
+                        description: PullPolicy describes a policy for if/when to
+                          pull a container image
+                        type: string
                       initContainers:
                         items:
                           properties:
@@ -26107,6 +26207,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -26490,6 +26594,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -27068,6 +27176,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -45898,6 +46010,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -46267,6 +46383,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -46645,6 +46765,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -47012,6 +47136,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -47593,6 +47721,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -47999,6 +48131,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -48414,6 +48550,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -48783,6 +48923,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -49184,6 +49328,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -49557,6 +49705,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -49931,6 +50083,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -50302,6 +50458,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -50641,6 +50801,10 @@ spec:
                               type: object
                           type: object
                         type: array
+                      imagePullPolicy:
+                        description: PullPolicy describes a policy for if/when to
+                          pull a container image
+                        type: string
                       initContainers:
                         items:
                           properties:
@@ -51142,6 +51306,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -51534,6 +51702,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
@@ -52106,6 +52278,10 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          imagePullPolicy:
+                            description: PullPolicy describes a policy for if/when
+                              to pull a container image
+                            type: string
                           initContainers:
                             items:
                               properties:
