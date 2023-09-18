@@ -1,0 +1,44 @@
+{{- if .Values.applyCRDsBeforeUpgrade }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-apply-crds"
+  labels:
+    {{- include "qiming-operator.labels" . | nindent 4 }}
+    app.kubernetes.io/component: hook
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "10"
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "qiming-operator.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: hook
+    spec:
+      {{- with .Values.migconfig.template }}
+      {{- toYaml .spec | nindent 6 }}
+      {{- end }}
+      restartPolicy: Never
+      containers:
+      - name: apply-crds
+        command:
+        - /app/helmhook
+        - crd-apply
+        image: "{{ .Values.tools.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.tools.helmHook.image.repository }}:{{ .Values.tools.helmHook.image.tag | default .Values.imageBase.tag }}"
+        imagePullPolicy: {{ .Values.tools.helmHook.image.pullPolicy | default .Values.imageBase.pullPolicy }}
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 200m
+            memory: 512Mi
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+      serviceAccountName: {{ include "qiming-operator.serviceAccountName" . }}
+{{- end }}

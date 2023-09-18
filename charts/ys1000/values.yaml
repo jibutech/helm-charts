@@ -8,6 +8,7 @@ tags:
   dex: false
 
 createOrUpdateMigConfig: true
+applyCRDsBeforeUpgrade: true
 
 featureGates:
   AmberApp: true
@@ -19,7 +20,7 @@ featureGates:
   CSIAddon: false
   VolSync: false
   Tenant: false
-  HostPath: false
+  HostPathBackup: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
@@ -143,7 +144,7 @@ components:
       tag: ""
     plugins:
     - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.0-jibu-3843028-20230908062220
+    - jibutech/velero-plugin-for-csi:v0.2.1-jibu-15ed9de-20230915080956
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
