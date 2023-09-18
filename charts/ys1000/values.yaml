@@ -8,6 +8,7 @@ tags:
   dex: false
 
 createOrUpdateMigConfig: true
+applyCRDsBeforeUpgrade: true
 
 featureGates:
   AmberApp: true
