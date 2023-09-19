@@ -291,6 +291,9 @@ spec:
                     dataAdded:
                       format: int64
                       type: integer
+                    durationSeconds:
+                      format: int64
+                      type: integer
                     namespace:
                       type: string
                     phase:
@@ -1952,6 +1955,9 @@ spec:
                         dataAdded:
                           format: int64
                           type: integer
+                        durationSeconds:
+                          format: int64
+                          type: integer
                         totalBytes:
                           format: int64
                           type: integer
@@ -2698,6 +2704,9 @@ spec:
                               format: int64
                               type: integer
                             dataAdded:
+                              format: int64
+                              type: integer
+                            durationSeconds:
                               format: int64
                               type: integer
                             totalBytes:
@@ -6445,6 +6454,9 @@ spec:
                             dataAdded:
                               format: int64
                               type: integer
+                            durationSeconds:
+                              format: int64
+                              type: integer
                             totalBytes:
                               format: int64
                               type: integer
@@ -6639,6 +6651,9 @@ spec:
                           format: int64
                           type: integer
                         dataAdded:
+                          format: int64
+                          type: integer
+                        durationSeconds:
                           format: int64
                           type: integer
                         totalBytes:
@@ -8220,6 +8235,9 @@ spec:
                         dataAdded:
                           format: int64
                           type: integer
+                        durationSeconds:
+                          format: int64
+                          type: integer
                         totalBytes:
                           format: int64
                           type: integer
@@ -8651,6 +8669,9 @@ spec:
                         dataAdded:
                           format: int64
                           type: integer
+                        durationSeconds:
+                          format: int64
+                          type: integer
                         namespace:
                           type: string
                         phase:
@@ -8749,6 +8770,9 @@ spec:
                               format: int64
                               type: integer
                             dataAdded:
+                              format: int64
+                              type: integer
+                            durationSeconds:
                               format: int64
                               type: integer
                             totalBytes:
@@ -38529,6 +38553,9 @@ spec:
                           format: int64
                           type: integer
                         dataAdded:
+                          format: int64
+                          type: integer
+                        durationSeconds:
                           format: int64
                           type: integer
                         totalBytes:
