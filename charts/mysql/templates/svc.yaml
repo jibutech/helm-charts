@@ -11,3 +11,33 @@ spec:
     app: mysql
     {{- include "mysql.selectorLabels" . | nindent 4 }}
   clusterIP: None
+---
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-metrics" (include "mysql.fullname" .) }}
+  labels:
+    {{- include "mysql.labels" . | nindent 4 }}
+    app.kubernetes.io/component: metrics
+  {{- if .Values.metrics.service.annotations }}
+  annotations:
+    {{- if .Values.metrics.service.annotations }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.metrics.service.annotations "context" $) | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.metrics.service.type }}
+  {{- if and .Values.metrics.service.clusterIP (eq .Values.metrics.service.type "ClusterIP") }}
+  clusterIP: {{ .Values.metrics.service.clusterIP }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.metrics.service.port }}
+      targetPort: metrics
+      protocol: TCP
+      name: http
+  selector:
+    app: mysql
+    {{- include "mysql.selectorLabels" . | nindent 4 }}
+{{- end }}
+    

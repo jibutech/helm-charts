@@ -124,6 +124,86 @@ spec:
         severity: warning
 {{- end }}
 ---
+{{- if .Values.alarm.prometheusRule.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
+  name: ys1000-dr-alerts
+  namespace: {{ .Release.Namespace }}
+spec:
+  groups:
+    - name: ys1000-dr-healthy
+      rules:
+        - alert: DrConfigNotReady
+          annotations:
+            description: {{`DrConfig {{$labels.name}} is not ready.`}}
+            summary: {{`DrConfig {{$labels.name}} is not ready.`}}
+            content: {{`'DrConfig {{$labels.name}} is not ready, please check immediately. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.'`}}
+          expr: |-
+            dr_config_status == 0
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceNotReady
+          annotations:
+            description: {{`DrInstance {{$labels.name}} is not ready.`}}
+            summary: {{`DrInstance {{$labels.name}} is not ready.`}}
+            content: {{`'DrInstance {{$labels.name}} is not ready, please check immediately. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}.'`}}
+          expr: |-
+            dr_instance_status == 0
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceDataRPOLagging
+          annotations:
+            description: {{`DrInstance {{$labels.name}} data rpo lagging.`}}
+            summary: {{`DrInstance {{$labels.name}} data rpo lagging more than 5 minutes.`}}
+            content: {{`'DrInstance {{$labels.name}} data rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
+          expr: |-
+            36000 > dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 300
+          for: 5m
+          labels:
+            severity: warnings
+            alertSource: ys1000-dr
+        - alert: DrInstanceDataRPOLaggingLong
+          annotations:
+            description: {{`DrInstance {{$labels.name}} data rpo lagging long.`}}
+            summary: {{`DrInstance {{$labels.name}} data rpo lagging more than 10 hours.`}}
+            content: {{`'DrInstance {{$labels.name}} data rpo lagging more than 10 hours. current lagging: {{ $value }}s'`}}
+          expr: |-
+            dr_instance_data_current_rpo - dr_instance_data_expected_rpo > 36000
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+        - alert: DrInstanceResourceRPOLagging
+          annotations:
+            description: {{`DrInstance {{$labels.name}} resource rpo lagging.`}}
+            summary: {{`DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes.`}}
+            content: {{`'DrInstance {{$labels.name}} resource rpo lagging more than 5 minutes. current lagging: {{ $value }}s'`}}
+          expr: |-
+            36000 > dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 300
+          for: 5m
+          labels:
+            severity: warnings
+            alertSource: ys1000-dr
+        - alert: DrInstanceResourceRPOLaggingLong
+          annotations:
+            description: {{`DrInstance {{$labels.name}} resource rpo lagging long.`}}
+            summary: {{`DrInstance {{$labels.name}} resource rpo lagging more than 10 hours.`}}
+            content: {{`'DrInstance {{$labels.name}} resource rpo lagging more than 10 hours. current lagging: {{ $value }}s'`}}
+          expr: |-
+            dr_instance_resource_current_rpo - dr_instance_resource_expected_rpo > 36000
+          for: 5m
+          labels:
+            severity: critical
+            alertSource: ys1000-dr
+{{- end }}
+---
 {{- if .Values.alarm.alertmanagerConfig.enabled }}
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
@@ -207,6 +287,15 @@ spec:
         matchers:
         - name: alertname
           value: BackupJobFailed
+      - receiver: 'wechat-webhook-receiver'
+        groupBy: ["disasterrecovery"]
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 30m
+        matchers:
+          - name: alertSource
+            matchType: =
+            value: ys1000-dr
   inhibitRules:
     - sourceMatch:
         - name: alertname

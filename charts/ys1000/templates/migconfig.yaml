@@ -28,6 +28,10 @@ spec:
     {{- with (first .Values.dex.config.staticClients) }}
     redirectURI: {{ (first .redirectURIs) }}
     {{- end }}
+    {{- with .Values.migconfig.auth.connectors }}
+    connectors:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   tenant:
     namespacePrefix: "workspace-"
   {{- with .Values.migconfig.template }}

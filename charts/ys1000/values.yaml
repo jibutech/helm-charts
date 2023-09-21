@@ -291,6 +291,16 @@ migconfig:
 #    staleClusters: []
     cancelRunningJobs: false
     force: false
+  auth:
+    connectors: []
+#    connectors:
+#    - type: cas
+#      id: cas
+#      name: CAS
+#      config:
+#        server: http://0.0.0.0:31888/cas/
+#        redirectURI: http://0.0.0.0:30180/cas
+#        insecureSkipVerify: true
 
 velero:
   resticPodVolumeOperationTimeout: 240m
