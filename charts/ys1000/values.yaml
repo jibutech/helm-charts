@@ -17,7 +17,7 @@ featureGates:
   CSIAddon: false
   VolSync: false
   Tenant: false
-  HostPath: false
+  HostPathBackup: false
 
 imageBase:
   registry: registry.cn-shanghai.aliyuncs.com
