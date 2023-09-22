@@ -31341,6 +31341,16 @@ spec:
                     items:
                       type: string
                     type: array
+                  operations:
+                    items:
+                      properties:
+                        config:
+                          type: object
+                          x-kubernetes-preserve-unknown-fields: true
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   policyName:
                     type: string
                   postHooks:
@@ -33837,6 +33847,16 @@ spec:
                         namespaces:
                           items:
                             type: string
+                          type: array
+                        operations:
+                          items:
+                            properties:
+                              config:
+                                type: object
+                                x-kubernetes-preserve-unknown-fields: true
+                              type:
+                                type: string
+                            type: object
                           type: array
                         priority:
                           type: integer
