@@ -471,19 +471,14 @@ clusterpedia:
       tag: 8.0.32
 
 dex:
+  fullnameOverride: ys1000-dex
   tolerations: []
   image:
     repository: registry.cn-shanghai.aliyuncs.com/jibutech/dex
     tag: 1.0.0
     pullPolicy: Always
-  service:
-    type: NodePort
-    ports:
-      http:
-        port: 5556
-        nodePort: 32000
   config:
-    issuer: http://0.0.0.0:32000/dex
+    issuer: http://0.0.0.0:30180/dex
     oauth2:
       skipApprovalScreen: true
     storage:
