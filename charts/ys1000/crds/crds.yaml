@@ -8599,7 +8599,7 @@ spec:
             properties:
               drInstance:
                 type: string
-              paused:
+              pause:
                 type: boolean
               trigger:
                 properties:
@@ -8640,34 +8640,80 @@ spec:
                       type: string
                   type: object
                 type: array
-              replicationStatusList:
-                items:
-                  description: Replication status
-                  properties:
-                    currentRole:
-                      type: string
-                    desiredRole:
-                      type: string
-                    lastManualSync:
-                      type: string
-                    lastSyncDuration:
-                      description: sync status
-                      type: string
-                    lastSyncStartTime:
-                      format: date-time
-                      type: string
-                    lastSyncTime:
-                      format: date-time
-                      type: string
-                    pvcName:
-                      type: string
-                    pvcNamespace:
-                      type: string
-                    state:
-                      description: Ready/NotReady
-                      type: string
-                  type: object
-                type: array
+              primaryState:
+                properties:
+                  connectionStatus:
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        lastManualSync:
+                          type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncStartTime:
+                          format: date-time
+                          type: string
+                        lastSyncTime:
+                          format: date-time
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    type: string
+                type: object
+              secondaryState:
+                properties:
+                  connectionStatus:
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        lastManualSync:
+                          type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncStartTime:
+                          format: date-time
+                          type: string
+                        lastSyncTime:
+                          format: date-time
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    type: string
+                type: object
               state:
                 type: string
               warnings:
@@ -11156,34 +11202,6 @@ spec:
                     type: string
                   name:
                     type: string
-                  replicationStatusList:
-                    items:
-                      description: Replication status
-                      properties:
-                        currentRole:
-                          type: string
-                        desiredRole:
-                          type: string
-                        lastManualSync:
-                          type: string
-                        lastSyncDuration:
-                          description: sync status
-                          type: string
-                        lastSyncStartTime:
-                          format: date-time
-                          type: string
-                        lastSyncTime:
-                          format: date-time
-                          type: string
-                        pvcName:
-                          type: string
-                        pvcNamespace:
-                          type: string
-                        state:
-                          description: Ready/NotReady
-                          type: string
-                      type: object
-                    type: array
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -11203,49 +11221,6 @@ spec:
                     type: object
                   type: array
                 type: object
-              resourcesSyncStatus:
-                items:
-                  properties:
-                    backupJobStatus:
-                      properties:
-                        completedItems:
-                          type: integer
-                        completionTime:
-                          format: date-time
-                          type: string
-                        name:
-                          type: string
-                        startTime:
-                          format: date-time
-                          type: string
-                        status:
-                          type: string
-                        succeeded:
-                          type: boolean
-                        totalItems:
-                          type: integer
-                      type: object
-                    restoreJobStatus:
-                      properties:
-                        completedItems:
-                          type: integer
-                        completionTime:
-                          format: date-time
-                          type: string
-                        name:
-                          type: string
-                        startTime:
-                          format: date-time
-                          type: string
-                        status:
-                          type: string
-                        succeeded:
-                          type: boolean
-                        totalItems:
-                          type: integer
-                      type: object
-                  type: object
-                type: array
               secondaryState:
                 description: Cluster status
                 properties:
@@ -11254,34 +11229,6 @@ spec:
                     type: string
                   name:
                     type: string
-                  replicationStatusList:
-                    items:
-                      description: Replication status
-                      properties:
-                        currentRole:
-                          type: string
-                        desiredRole:
-                          type: string
-                        lastManualSync:
-                          type: string
-                        lastSyncDuration:
-                          description: sync status
-                          type: string
-                        lastSyncStartTime:
-                          format: date-time
-                          type: string
-                        lastSyncTime:
-                          format: date-time
-                          type: string
-                        pvcName:
-                          type: string
-                        pvcNamespace:
-                          type: string
-                        state:
-                          description: Ready/NotReady
-                          type: string
-                      type: object
-                    type: array
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -11586,6 +11533,369 @@ spec:
                       type: string
                   type: object
                 type: array
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drgrouprequests.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroupRequest
+    listKind: DrGroupRequestList
+    plural: drgrouprequests
+    singular: drgrouprequest
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.drGroupName
+      name: DrGroup
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroupRequest is the Schema for the droperationrequests API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              directives:
+                items:
+                  description: Send directives to control operation phases
+                  properties:
+                    action:
+                      type: string
+                    confirmed:
+                      type: boolean
+                    phase:
+                      type: string
+                    skip:
+                      type: boolean
+                  type: object
+                type: array
+              drGroupName:
+                type: string
+              fsmCurrentStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operation:
+                description: Operation
+                type: string
+            required:
+            - drGroupName
+            - operation
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operationStatus:
+                description: Help to track operation state and detailed operation
+                  status
+                properties:
+                  completeStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  completeStep:
+                    type: string
+                  operationState:
+                    type: string
+                  startStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  startStep:
+                    type: string
+                type: object
+              phase:
+                enum:
+                - Processed
+                - Skipped
+                type: string
+              processedTimestamp:
+                format: date-time
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drgroups.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroup
+    listKind: DrGroupList
+    plural: drgroups
+    singular: drgroup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroup is the Schema for the DrGroups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drInstances:
+                items:
+                  type: string
+                type: array
+            required:
+            - drInstances
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
               state:
                 type: string
               warnings:
