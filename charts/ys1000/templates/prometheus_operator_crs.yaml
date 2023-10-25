@@ -32,6 +32,36 @@ spec:
   groups:
   - name: migcontroller
     rules:
+    - alert: LicenseExpired
+      annotations:
+        content: YS1000 license has already expired.
+        description: YS1000 license has already expired.
+        summary: YS1000 license has already expired.
+      expr: license_ttl_seconds{expired="true"}
+      for: 1m
+      labels:
+        namespace: ys1000
+        severity: critical
+    - alert: LicenseExpiration
+      annotations:
+        content: {{ `YS1000 license will expire in {{ $value | humanizeDuration }}.` }}
+        description: YS1000 license will expire soon.
+        summary: YS1000 license will expire soon.
+      expr: license_ttl_seconds{expired="false"} < 2592000
+      for: 1m
+      labels:
+        namespace: ys1000
+        severity: warning
+    - alert: LicenseExpiration
+      annotations:
+        content: {{ `YS1000 license will expire in {{ $value | humanizeDuration }}.` }}
+        description: YS1000 license will expire soon.
+        summary: YS1000 license will expire soon.
+      expr: license_ttl_seconds{expired="false"} < 604800
+      for: 1m
+      labels:
+        namespace: ys1000
+        severity: critical
     - alert: MigControllerDown
       annotations:
         description: Migcontroller has disappeared from Prometheus target discovery.
@@ -213,6 +243,16 @@ spec:
   route:
     receiver: default-receiver
     routes:
+      - receiver: 'wechat-webhook-receiver'
+        repeatInterval: 1h
+        matchers:
+        - name: alertname
+          value: LicenseExpired
+      - receiver: 'wechat-webhook-receiver'
+        repeatInterval: 1d
+        matchers:
+        - name: alertname
+          value: LicenseExpiration
       - receiver: 'wechat-webhook-receiver'
         repeatInterval: 1h
         matchers:
