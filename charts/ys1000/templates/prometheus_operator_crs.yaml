@@ -253,6 +253,13 @@ spec:
         matchers:
         - name: alertname
           value: LicenseExpiration
+        - name: severity
+          value: critical
+      - receiver: 'wechat-webhook-receiver'
+        repeatInterval: 1d
+        matchers:
+        - name: alertname
+          value: LicenseExpiration
       - receiver: 'wechat-webhook-receiver'
         repeatInterval: 1h
         matchers:

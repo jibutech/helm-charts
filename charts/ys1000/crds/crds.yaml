@@ -42776,6 +42776,18 @@ spec:
                         type: array
                     type: object
                 type: object
+              licenseStatus:
+                properties:
+                  aboutToExpire:
+                    type: boolean
+                  expired:
+                    type: boolean
+                  expiredAt:
+                    format: date-time
+                    type: string
+                  inGracePeriod:
+                    type: boolean
+                type: object
               notifications:
                 properties:
                   mailResult:
@@ -42870,6 +42882,8 @@ spec:
                       type: string
                   type: object
                 type: array
+            required:
+            - licenseStatus
             type: object
         type: object
     served: true
