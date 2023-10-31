@@ -41,8 +41,8 @@ appVersion: "3.5.4"
 
 dependencies:
 - name: mysql
-  repository: https://jibutech.github.io/helm-charts
-  version: 1.x.x
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 9.x.x
   condition: tags.mysql
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
@@ -50,5 +50,5 @@ dependencies:
   condition: tags.clusterpedia
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.x.x
+  version: 0.15.3
   condition: tags.dex
