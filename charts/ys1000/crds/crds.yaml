@@ -50128,10 +50128,15 @@ spec:
               email:
                 description: Unique email address(https://www.ietf.org/rfc/rfc5322.txt).
                 type: string
+              lockedUntil:
+                format: date-time
+                type: string
               name:
                 type: string
               password:
                 type: string
+              recentFailureAttempts:
+                type: integer
               uid:
                 type: string
             type: object
