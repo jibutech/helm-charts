@@ -366,7 +366,7 @@ mysql:
   image:
     registry: registry.cn-shanghai.aliyuncs.com
     repository: jibutech/mysql
-    tag: 8.0.35-debian-11-r0
+    tag: 8.0.32
     pullPolicy: IfNotPresent
   auth:
     rootPassword: "passw0rd"
@@ -454,12 +454,12 @@ clusterpedia:
         cpu: 200m
         memory: 256Mi
 
-#  hookJob:
-#    image:
-#      registry: registry.cn-shanghai.aliyuncs.com
-#      repository: jibutech/cloudshell
-#      tag: v0.4.0
-#      pullPolicy: IfNotPresent
+  hookJob:
+    image:
+      registry: registry.cn-shanghai.aliyuncs.com
+      repository: jibutech/cloudshell
+      tag: v0.4.0
+      pullPolicy: IfNotPresent
 
   postgresql:
     enabled: false
