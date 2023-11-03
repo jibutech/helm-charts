@@ -41,8 +41,8 @@ appVersion: "3.5.4"
 
 dependencies:
 - name: mysql
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 9.x.x
+  repository: https://charts.bitnami.com/bitnami
+  version: 9.4.5
   condition: tags.mysql
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
