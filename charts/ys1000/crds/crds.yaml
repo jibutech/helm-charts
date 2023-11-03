@@ -1958,9 +1958,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -2709,9 +2717,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         type:
                           type: string
@@ -6457,9 +6473,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         type:
                           type: string
@@ -6656,9 +6680,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -8238,9 +8270,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -8966,9 +9006,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         result:
                           type: string
@@ -39068,9 +39116,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
