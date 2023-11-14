@@ -370,6 +370,8 @@ mysql:
     pullPolicy: IfNotPresent
   auth:
     rootPassword: "passw0rd"
+    username: ""
+    password: ""
     database: webserver
   primary:
     args:
