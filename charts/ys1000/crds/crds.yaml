@@ -627,6 +627,8 @@ spec:
                     properties:
                       backupEnabled:
                         type: boolean
+                      keepPathAndTag:
+                        type: boolean
                       registryName:
                         type: string
                     type: object
@@ -3745,6 +3747,8 @@ spec:
               imageBackupPolicy:
                 properties:
                   backupEnabled:
+                    type: boolean
+                  keepPathAndTag:
                     type: boolean
                   registryName:
                     type: string
@@ -14629,9 +14633,19 @@ spec:
               canceled:
                 type: boolean
               images:
+                description: deprecated
                 items:
                   type: string
                 type: array
+              imagesMap:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                description: map from image url with hash id to original image urls
+                type: object
+              keepPathAndTag:
+                type: boolean
               registryName:
                 type: string
               targetPullSecretContents:
@@ -14639,7 +14653,6 @@ spec:
                   type: string
                 type: object
             required:
-            - images
             - registryName
             type: object
           status:
@@ -14714,6 +14727,10 @@ spec:
                       description: DockerImageReference is the string that can be
                         used to pull this image.
                       type: string
+                    warnings:
+                      items:
+                        type: string
+                      type: array
                   type: object
                 type: object
               valid:
@@ -37801,6 +37818,8 @@ spec:
                   imageBackupPolicy:
                     properties:
                       backupEnabled:
+                        type: boolean
+                      keepPathAndTag:
                         type: boolean
                       registryName:
                         type: string
