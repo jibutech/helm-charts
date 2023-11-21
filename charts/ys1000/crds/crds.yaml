@@ -14652,6 +14652,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               initContainers:
                                 items:
                                   properties:
@@ -15039,6 +15055,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -15648,6 +15680,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               initContainers:
                                 items:
                                   properties:
@@ -16051,6 +16099,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -16474,6 +16538,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               initContainers:
                                 items:
                                   properties:
@@ -16863,6 +16943,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               initContainers:
                                 items:
                                   properties:
@@ -16964,6 +17060,8 @@ spec:
                           tag:
                             type: string
                         type: object
+                      kubeletRootDir:
+                        type: string
                       removeCRDsOnDeletion:
                         type: boolean
                       template:
@@ -17252,6 +17350,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -17612,6 +17726,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -17696,6 +17826,7 @@ spec:
                   resticDM:
                     properties:
                       hostPodsPath:
+                        description: Deprecated
                         type: string
                       image:
                         properties:
@@ -17996,6 +18127,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -18387,6 +18534,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -18831,6 +18994,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               initContainers:
                                 items:
                                   properties:
@@ -19229,6 +19408,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               initContainers:
@@ -20069,6 +20264,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -20436,6 +20647,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -20842,6 +21069,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -21207,6 +21450,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -21787,6 +22046,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -22206,6 +22481,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -22621,6 +22912,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -22994,6 +23301,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -23118,6 +23441,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -23390,6 +23715,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -23765,6 +24106,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -23850,6 +24207,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -24134,6 +24492,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -24511,6 +24885,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -24848,6 +25238,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       initContainers:
@@ -25273,6 +25679,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -25654,6 +26076,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -26232,6 +26670,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -43726,6 +44180,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -44093,6 +44563,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -44473,6 +44959,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -44838,6 +45340,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -45421,6 +45939,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -45825,6 +46359,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -46242,6 +46792,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -46611,6 +47177,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -46738,6 +47320,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -47010,6 +47594,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -47385,6 +47985,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -47473,6 +48089,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -47757,6 +48374,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -48130,6 +48763,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -48467,6 +49116,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       initContainers:
@@ -48970,6 +49635,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           initContainers:
                             items:
                               properties:
@@ -49360,6 +50041,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
@@ -49932,6 +50629,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           initContainers:
