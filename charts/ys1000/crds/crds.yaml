@@ -637,80 +637,6 @@ spec:
                       prefix:
                         type: string
                     type: object
-                  persistentVolumes:
-                    items:
-                      description: Name - The PV name. Capacity - The PV storage capacity.
-                        StorageClass - The PV storage class name. Supported - Lists
-                        of what is supported. Selection - Choices made from supported.
-                        PVC - Associated PVC. NFS - NFS properties. staged - A PV
-                        has been explicitly added/updated.
-                      properties:
-                        capacity:
-                          anyOf:
-                          - type: integer
-                          - type: string
-                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                          x-kubernetes-int-or-string: true
-                        name:
-                          type: string
-                        pvc:
-                          description: PVC
-                          properties:
-                            accessModes:
-                              items:
-                                type: string
-                              type: array
-                            hasReference:
-                              type: boolean
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
-                        selection:
-                          description: Selection Action - The PV migration action
-                            (move|copy|skip) StorageClass - The PV storage class name
-                            to use in the destination cluster. AccessMode   - The
-                            PV access mode to use in the destination cluster, if different
-                            from src PVC AccessMode CopyMethod   - The PV copy method
-                            to use ('filesystem' for restic copy, or 'snapshot' for
-                            velero snapshot plugin) Verify       - Whether or not
-                            to verify copied volume data if CopyMethod is 'filesystem'
-                          properties:
-                            accessMode:
-                              type: string
-                            action:
-                              type: string
-                            copyMethod:
-                              type: string
-                            storageClass:
-                              type: string
-                            verify:
-                              type: boolean
-                          type: object
-                        storageClass:
-                          type: string
-                        supported:
-                          description: Supported Actions     - The list of supported
-                            actions CopyMethods - The list of supported copy methods
-                          properties:
-                            actions:
-                              items:
-                                type: string
-                              type: array
-                            copyMethods:
-                              items:
-                                type: string
-                              type: array
-                          required:
-                          - actions
-                          - copyMethods
-                          type: object
-                      required:
-                      - selection
-                      - supported
-                      type: object
-                    type: array
                   policy:
                     properties:
                       backupMethod:
@@ -16317,6 +16243,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -16708,6 +16650,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -17321,6 +17279,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -17728,6 +17702,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -18155,6 +18145,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -18548,6 +18554,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -18653,6 +18675,8 @@ spec:
                           tag:
                             type: string
                         type: object
+                      kubeletRootDir:
+                        type: string
                       removeCRDsOnDeletion:
                         type: boolean
                       template:
@@ -18941,6 +18965,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -19305,6 +19345,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -19393,6 +19449,7 @@ spec:
                   resticDM:
                     properties:
                       hostPodsPath:
+                        description: Deprecated
                         type: string
                       image:
                         properties:
@@ -19693,6 +19750,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -20088,6 +20161,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -20536,6 +20625,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -20938,6 +21043,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -21795,6 +21916,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -22166,6 +22303,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -22576,6 +22729,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -22945,6 +23114,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -23529,6 +23714,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -23952,6 +24153,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24371,6 +24588,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24748,6 +24981,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24876,6 +25125,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -25148,6 +25399,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -25527,6 +25794,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -25616,6 +25899,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -25900,6 +26184,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -26281,6 +26581,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -26622,6 +26938,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       imagePullPolicy:
@@ -27051,6 +27383,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -27436,6 +27784,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -28018,6 +28382,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -46887,6 +47267,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -47258,6 +47654,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -47642,6 +48054,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -48011,6 +48439,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -48598,6 +49042,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -49006,6 +49466,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -49427,6 +49903,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -49800,6 +50292,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -49931,6 +50439,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -50203,6 +50713,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -50582,6 +51108,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -50674,6 +51216,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -50958,6 +51501,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -51335,6 +51894,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -51676,6 +52251,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       imagePullPolicy:
@@ -52183,6 +52774,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -52577,6 +53184,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -53153,6 +53776,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
