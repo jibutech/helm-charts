@@ -245,7 +245,7 @@ components:
     image:
       registry: ""
       repository: jibutech/volsync
-      tag: 0.6.1
+      tag: 0.8.0-jibu
   drInitContainer:
     image:
       registry: ""
