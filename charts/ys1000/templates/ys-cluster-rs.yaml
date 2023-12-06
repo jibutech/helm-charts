@@ -1,0 +1,66 @@
+apiVersion: cluster.clusterpedia.io/v1alpha2
+kind: ClusterSyncResources
+metadata:
+  name: ys-cluster-rs
+spec:
+  syncResources:
+    - group: ""
+      versions:
+        - "*"
+      resources:
+        - componentstatuses
+        - configmaps
+        - endpoints
+        #- events
+        - limitranges
+        - namespaces
+        #- nodes
+        - persistentvolumeclaims
+        - persistentvolumes
+        - pods
+        - podtemplates
+        - replicationcontrollers
+        - resourcequotas
+        - secrets
+        - serviceaccounts
+        - services
+    - group: admissionregistration.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: apiextensions.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: apiregistration.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: apps
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: batch
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: networking.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: rbac.authorization.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
+    - group: storage.k8s.io
+      versions:
+        - "*"
+      resources:
+        - "*"
