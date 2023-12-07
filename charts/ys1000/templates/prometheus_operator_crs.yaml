@@ -130,6 +130,8 @@ kind: PrometheusRule
 metadata:
   labels:
     {{- toYaml .Values.alarm.prometheusRule.labels | nindent 4}}
+  annotations:
+    "helm.sh/resource-policy": keep
   name: ys1000-dr-alerts
   namespace: {{ .Release.Namespace }}
 spec:
