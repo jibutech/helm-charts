@@ -523,26 +523,26 @@ dex:
 #        redirectURI: http://0.0.0.0:32000/dex/callback
 #        insecureSkipVerify: true
 
-#alarm:
-#  enabled: false
-#  serviceMonitor:
-#    enabled: true
-#    labels:
-#      release: prometheus
-#  prometheusRule:
-#    enabled: true
-#    labels:
-#      prometheus: k8s
-#      role: alert-rules
-#  alertmanagerConfig:
-#    enabled: true
-#    labels:
-#      release: prometheus
-#  wechat:
-#    enabled: false
-#    corpID: ""
-#    agentID: ""
-#    toUser: ""
-#    apiSecret: ""
-#  webhook:
-#    enabled: false
+alarm:
+  enabled: false
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: prometheus
+  prometheusRule:
+    enabled: true
+    labels:
+      prometheus: k8s
+      role: alert-rules
+  alertmanagerConfig:
+    enabled: true
+    labels:
+      release: prometheus
+  wechat:
+    enabled: false
+    corpID: ""
+    agentID: ""
+    toUser: ""
+    apiSecret: ""
+  webhook:
+    enabled: false
