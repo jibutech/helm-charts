@@ -23,7 +23,7 @@ featureGates:
   HostPathBackup: false
 
 imageBase:
-  registry: registry.cn-shanghai.aliyuncs.com
+  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
   pullPolicy: Always
   tag: "3.6.0"
 
@@ -132,19 +132,19 @@ components:
   velero:
     image:
       registry: ""
-      repository: jibutech/velero
+      repository: ys1000/velero
       tag: v1.7.0-jibu-dev-c9d4275e-20231127095056
     imageResticHelper:
       registry: ""
-      repository: jibutech/velero-restic-restore-helper
+      repository: ys1000/velero-restic-restore-helper
       tag: v1.7.0
     imageInternalPlugin:
       registry: ""
       repository: ys1000/velero-plugin
       tag: ""
     plugins:
-    - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.1-jibu-a45cd50-20230925035752
+    - ys1000/velero-plugin-for-aws:v1.3.0
+    - ys1000/velero-plugin-for-csi:v0.2.1-jibu-a45cd50-20230925035752
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -228,7 +228,7 @@ components:
   hookRunner:
     image:
       registry: ""
-      repository: jibutech/hookrunner
+      repository: ys1000/hookrunner
       tag: ""
 #    template:
 #      spec:
@@ -244,18 +244,18 @@ components:
   volSync:
     image:
       registry: ""
-      repository: jibutech/volsync
+      repository: ys1000/volsync
       tag: 0.6.1
   drInitContainer:
     image:
       registry: ""
-      repository: jibutech/dr-initcontainer
+      repository: ys1000/dr-initcontainer
       tag: 0.2.0
       pullPolicy: IfNotPresent
   imagePuller:
     image:
       registry: ""
-      repository: jibutech/imagepuller
+      repository: ys1000/imagepuller
       tag: 0.1.0
       pullPolicy: IfNotPresent
   appHookWorker:
@@ -364,8 +364,8 @@ mysql:
   fullnameOverride: mysql
   tolerations: []
   image:
-    registry: registry.cn-shanghai.aliyuncs.com
-    repository: jibutech/mysql
+    registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+    repository: ys1000/mysql
     tag: 8.0.32
     pullPolicy: IfNotPresent
   auth:
@@ -401,8 +401,8 @@ clusterpedia:
   apiserver:
     tolerations: []
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/apiserver
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/apiserver
       tag: v0.6.2
     resources:
       requests:
@@ -415,8 +415,8 @@ clusterpedia:
   clustersynchroManager:
     tolerations: []
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/clustersynchro-manager
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/clustersynchro-manager
       tag: v0.6.2
     resources:
       requests:
@@ -443,8 +443,8 @@ clusterpedia:
     # disable controller manager
     replicaCount: 0
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/controller-manager
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/controller-manager
       tag: v0.6.2
     resources:
       requests:
@@ -456,8 +456,8 @@ clusterpedia:
 
   hookJob:
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/cloudshell
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/cloudshell
       tag: v0.4.0
       pullPolicy: IfNotPresent
 
@@ -476,15 +476,15 @@ clusterpedia:
   mysql:
     enabled: false
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/mysql
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/mysql
       tag: 8.0.32
 
 dex:
   fullnameOverride: ys1000-dex
   tolerations: []
   image:
-    repository: registry.cn-shanghai.aliyuncs.com/jibutech/dex
+    repository: jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dex
     tag: 1.0.0
     pullPolicy: Always
   config:

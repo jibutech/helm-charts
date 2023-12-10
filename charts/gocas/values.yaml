@@ -1,6 +1,6 @@
 image:
-  registry: registry.cn-shanghai.aliyuncs.com
-  repository: jibutech/gocas
+  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+  repository: ys1000/gocas
   tag: 0.0.1
   pullPolicy: Always
 

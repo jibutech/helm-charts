@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-ys1000Repo=registry.cn-shanghai.aliyuncs.com/jibutech
+ys1000Repo=jibutech-registry.cn-hangzhou.cr.aliyuncs.com/jibutech
 
 ys1000Images=(
     ${ys1000Repo}/qiming-operator
