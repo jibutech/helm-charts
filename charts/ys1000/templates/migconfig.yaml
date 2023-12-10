@@ -1,3 +1,4 @@
+{{- if .Values.createOrUpdateMigConfig }}
 apiVersion: migration.yinhestor.com/v1alpha1
 kind: Migconfig
 metadata:
@@ -40,3 +41,4 @@ spec:
   watchedNamespaces:
   - "*"
   {{- toYaml .Values.components | nindent 2 }}
+{{- end }}

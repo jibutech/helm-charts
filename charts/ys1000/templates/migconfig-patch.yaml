@@ -1,0 +1,22 @@
+{{- if and .Release.IsUpgrade (not .Values.createOrUpdateMigConfig) }}
+apiVersion: migration.yinhestor.com/v1alpha1
+kind: Migconfig
+metadata:
+  name: qiming-config
+  labels:
+    app.kubernetes.io/name: qiming-operator
+    app.kubernetes.io/instance: qiming-config.{{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
+spec:
+  version: {{ .Chart.AppVersion }}
+  image:
+    tag: {{ .Values.imageBase.tag }}
+  velero:
+    image:
+      tag: {{ .Values.components.velero.image.tag }}
+    {{- with .Values.components.velero.plugins }}
+    plugins:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+{{- end }}
