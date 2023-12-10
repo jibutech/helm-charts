@@ -26,6 +26,7 @@
    NAME                    CHART VERSION   APP VERSION     DESCRIPTION
    jibutech/ys1000         3.4.0           3.4.0           ys1000 provides data protection for cloud nativ...
    ```
+
 2. 您可以使用以下两种方法进行安装:
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明
@@ -87,6 +88,7 @@
    # step 3: install by specifying the values.yaml
    helm install jibutech/ys1000 --namespace ys1000 -f values.yaml --generate-name
    ```
+
 3. 获取已安装的软件的运行状态
    使用上述安装结束后 `NOTES` 中的第一条命令来查询软件的运行状态，使用可选 `-w` 参数观察软件初始化过程更新。
 
@@ -108,6 +110,7 @@
    NAME                    NAMESPACE      REVISION        UPDATED                                   STATUS      CHART                APP VERSION
    ys1000-1683716371       ys1000         11              2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.4.0         3.4.0
    ```
+
 4. 访问图形管理界面（UI）
 
    a. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址以及登录密码
@@ -141,9 +144,10 @@
    ...
 
    ```
+
 2. 使用命令 `helm upgrade` 进行软件升级，通过参数 `--version=<CHART VERSION>` 指定升级版本。
 
-   **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value] ` 来完成，具体参数参照文末 **配置**
+   **注意-1**：如果需要在升级过程中修改或者增加部分参数，可以附加参数 `--set key=value[,key=value]` 来完成，具体参数参照文末 **配置**
    **注意-2**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
 
    ```bash
@@ -209,50 +213,146 @@
 
 ## 卸载
 
-1. 如果需要保留当前备份配置和备份数据，使用原生helm delete 删除ys1000资源
+### 保留数据卸载
+
+   如果需要保留当前备份配置和备份数据，使用原生helm delete 删除ys1000资源
 
    ```bash
    # 假设当前ys1000 安装在 ys1000 ns 下
    helm delete ys1000 -n ys1000
    ```
-2. 从v3.4.0 版本开始，ys1000 提供协助自清理功能，可使用如下方法进行数据清理和软件卸载：
 
-   1. 从灾备引擎namespace中复制yscli，如下:
+### 清除数据卸载
 
-   ```bash
-   # 设置卸载参数
-   ❯ kubectl -n qiming-backend cp stub-c5b8c988f-wfpff:yscli ./yscliremoveResources=true
-   ❯ chmod +x yscli
-   ...
-   ```
+   从v3.4.0 版本开始，ys1000 提供自清理功能，可使用如下方法进行数据清理和软件卸载：
 
-   2. 指定ys1000运行所属集群的kubeconfig，运行yscli cleanup清除命令:
+   1. 从ys1000部署所在的命令空间中拷贝`yscli`命令，请参考如下示例:
 
-   ```bash
-   # 注意：当数据较多或者容器环境较慢时，上述命令在删除某个资源时可能会遇到timeout报错，可再次运行该命令进行尝试并验证该删除完成
+      ```bash
+      # 获取当前运行的ys1000 operator pod 
+      ❯ kubectl -n ys1000-v3 get pods -l app=qiming-operator
+      NAME                      READY   STATUS    RESTARTS   AGE
+      ys1000-5b55f866d4-k445g   1/1     Running   0          39s
 
-   ❯ ./yscli cleanup -f --kubeconfig /root/.kube/ys1000-kubeconfig.yaml
-   2023-09-21T06:36:29Z    INFO    Start to delete resources
-   2023-09-21T06:36:29Z    INFO    Force deleting all resources
-   2023-09-21T06:36:30Z    INFO    Deleting migConfig resources
-   ...
-   2023-09-21T06:36:31Z    INFO    Deleting cluster resources
-   2023-09-21T06:36:31Z    INFO    Deleting CRDs
-   2023-09-21T06:36:31Z    INFO    Finish to cleanup resources
+      # 拷贝 ysci 命令并设置执行权限
+      ❯ kubectl -n ys1000-v3 cp ys1000-5b55f866d4-k445g:/bin/yscli ./yscli
+      tar: Removing leading '/' from member names
 
-   ```
+      ❯ chmod +x yscli
 
-   3. 删除ys1000 ns
+      ❯ ./yscli version
+      version.info{Version:"v3.5.2", GitVersion:"v3.5.2-7+70d2d7e7d0ec2b", GitCommit:"70d2d7e7d0ec2b1a9687e9a5607f19e196ea3165", GitTreeState:"clean", BuildDate:"2023-10-17T06:52:28Z", GoVersion:"go1.20.4", Compiler:"gc", Platform:"linux/amd64"}
+      ```
 
-   ```bash
-   kubectl delete ns ys1000
-   ```
+   2. 指定ys1000运行所属集群的kubeconfig 和 ys1000部署的命名空间，运行yscli cleanup清除命令:
+
+      ```bash
+      # 注意：当数据较多或者容器环境较慢时，上述命令在删除某个资源时可能会遇到timeout报错，需要再次运行该命令进行尝试并验证删除完成
+
+      ❯ ./yscli cleanup --kubeconfig /root/.kube/ys1000-kubeconfig.yaml -n ys1000-v3
+      2023-09-21T06:36:29Z    INFO    Start to delete resources
+      2023-09-21T06:36:29Z    INFO    Force deleting all resources
+      2023-09-21T06:36:30Z    INFO    Deleting migConfig resources
+      ...
+      2023-09-21T06:36:31Z    INFO    Deleting cluster resources
+      2023-09-21T06:36:31Z    INFO    Deleting CRDs
+      2023-09-21T06:36:31Z    INFO    Finish to cleanup resources
+
+      ```
+
+   3. 使用`helm uninstall` 卸载ys1000，成功后删除对应的命名空间，请参考如下示例
+
+      ```bash
+      ❯ helm uninstall ys1000 -n ys1000-v3
+      These resources were kept due to the resource policy:
+      [Migconfig] qiming-config
+
+      release "ys1000" uninstalled
+
+      ❯ kubectl delete ns ys1000-v3
+      namespace "ys1000-v3" deleted
+      ```
 
    4. 删除受管集群中灾备引擎命名空间
 
-   ```bash
-   kubectl delete ns qiming-backend
-   ```
+      ```bash
+      kubectl delete ns qiming-backend
+      ```
+
+      *注意:* 可能部分资源因版本等问题仍然存在命名空间中，导致命名空间删除处于 `Terminating` 状体，可通过 `kubectl get ns <ns-name> -oyaml` 来查找未被成功删除的资源。
+      解决方法请参考如下示例，或联系相关技术支持人员:
+
+      ```bash
+      ❯ kubectl get ns
+      NAME                STATUS        AGE
+      ...
+      qiming-backend      Terminating   97d
+      ...
+
+      ❯ kubectl get ns qiming-backend -oyaml
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+      annotations:
+         kubectl.kubernetes.io/last-applied-configuration: |
+            {"metadata":{"name":"qiming-backend","creationTimestamp":null},"spec":{},"status":{}}
+      creationTimestamp: "2023-07-11T15:41:51Z"
+      deletionTimestamp: "2023-10-17T13:16:59Z"
+      labels:
+         kubernetes.io/metadata.name: qiming-backend
+      name: qiming-backend
+      resourceVersion: "98318905"
+      uid: 168e830b-4bb8-44f9-8b49-07f12cca5f51
+      spec:
+      finalizers:
+      - kubernetes
+      status:
+      conditions:
+      - lastTransitionTime: "2023-10-17T13:17:05Z"
+         message: All resources successfully discovered
+         reason: ResourcesDiscovered
+         status: "False"
+         type: NamespaceDeletionDiscoveryFailure
+      - lastTransitionTime: "2023-10-17T13:17:05Z"
+         message: All legacy kube types successfully parsed
+         reason: ParsedGroupVersions
+         status: "False"
+         type: NamespaceDeletionGroupVersionParsingFailure
+      - lastTransitionTime: "2023-10-17T13:17:05Z"
+         message: All content successfully deleted, may be waiting on finalization
+         reason: ContentDeleted
+         status: "False"
+         type: NamespaceDeletionContentFailure
+      - lastTransitionTime: "2023-10-17T13:17:05Z"
+         message: 'Some resources are remaining: exporthandlers.agent.jibudata.com has
+            2 resource instances'
+         reason: SomeResourcesRemain
+         status: "True"
+         type: NamespaceContentRemaining
+      - lastTransitionTime: "2023-10-17T13:17:05Z"
+         message: 'Some content in the namespace has finalizers remaining: ys.jibudata.com/exporthandler-protection
+            in 2 resource instances'
+         reason: SomeFinalizersRemain
+         status: "True"
+         type: NamespaceFinalizersRemaining
+      phase: Terminating
+
+      # 根据上述提示，存在如下资源，仍包含finalizers 导致命名空间无法清理
+      ❯ kubectl -n qiming-backend get exporthandlers.agent.jibudata.com
+      NAME                     AGE
+      de-pvc-only-1690858815   77d
+      de-pvc-only-1691396796   71d
+
+      # 通过kubectl patch 移除相关finalizer 配置
+      ❯ kubectl -n qiming-backend patch exporthandlers.agent.jibudata.com  de-pvc-only-1690858815  -p '{"metadata":{"finalizers":null}}' --type=merge
+      exporthandler.agent.jibudata.com/de-pvc-only-1690858815 patched
+      ❯ kubectl -n qiming-backend patch exporthandlers.agent.jibudata.com  de-pvc-only-1691396796  -p '{"metadata":{"finalizers":null}}' --type=merge
+      exporthandler.agent.jibudata.com/de-pvc-only-1691396796 patched
+
+      # 上述手动清理执行完成后，对应命名空间将自动被清理
+      ❯ kubectl get ns qiming-backend
+      Error from server (NotFound): namespaces "qiming-backend" not found
+      ```
 
 ## 配置
 
