@@ -1,12 +1,12 @@
 dependencies:
 - name: mysql
   repository: oci://registry-1.docker.io/bitnamicharts
-  version: 9.14.3
+  version: 9.15.0
 - name: clusterpedia
   repository: https://clusterpedia-io.github.io/clusterpedia-helm
-  version: 2.0.0
+  version: 2.1.0
 - name: dex
   repository: https://charts.dexidp.io
   version: 0.15.3
-digest: sha256:18b6bacc992b373c07c9b7dd43d7b5e25c4c285f13acde04a55a531bc0eb3850
-generated: "2023-11-13T16:53:17.040506+08:00"
+digest: sha256:039cb43b096f5b292394d737a4fad91407f7b31e6b12d780d926c28e160719a2
+generated: "2023-12-25T14:56:49.139575+08:00"

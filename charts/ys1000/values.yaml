@@ -403,9 +403,9 @@ clusterpedia:
   apiserver:
     tolerations: []
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/apiserver
-      tag: v0.6.2
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/apiserver
+      tag: v0.7.1
     resources:
       requests:
         cpu: 200m
@@ -417,9 +417,9 @@ clusterpedia:
   clustersynchroManager:
     tolerations: []
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/clustersynchro-manager
-      tag: v0.6.2
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/clustersynchro-manager
+      tag: v0.7.1
     resources:
       requests:
         cpu: 50m
@@ -439,15 +439,17 @@ clusterpedia:
       ## alpha: v0.3.0
       AllowSyncAllResources: true
 
+      IgnoreSyncLease: true
+
   ## controller manager config
   controllerManager:
     tolerations: []
     # disable controller manager
     replicaCount: 0
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/controller-manager
-      tag: v0.6.2
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/controller-manager
+      tag: v0.7.1
     resources:
       requests:
         cpu: 50m
@@ -480,7 +482,7 @@ clusterpedia:
     image:
       registry: registry.cn-shanghai.aliyuncs.com
       repository: jibutech/mysql
-      tag: 8.0.32
+      tag: 8.0.35-debian-11-r0
 
 dex:
   fullnameOverride: ys1000-dex
