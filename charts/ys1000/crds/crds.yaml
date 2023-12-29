@@ -39374,6 +39374,8 @@ spec:
                     type: string
                   copyMethod:
                     type: string
+                  dataExported:
+                    type: boolean
                   dataTransferTimeout:
                     type: string
                   failureHooks:
@@ -40492,6 +40494,8 @@ spec:
                       sourceNamespace:
                         type: string
                     type: object
+                  vscExisting:
+                    type: boolean
                 type: object
               inactivated:
                 description: Deprecated
