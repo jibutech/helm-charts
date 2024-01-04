@@ -1401,6 +1401,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   schedulePriority:
@@ -5173,6 +5174,7 @@ spec:
                 enum:
                 - default
                 - dataOnly
+                - empty
                 - resourceOnly
                 type: string
               scrubClusterRef:
@@ -33893,6 +33895,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   sourceClusterRef:
@@ -40309,6 +40312,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   restorePolicy:
