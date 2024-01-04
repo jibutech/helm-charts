@@ -304,6 +304,8 @@ spec:
                       type: string
                     snapshotId:
                       type: string
+                    sourceSnapshotId:
+                      type: string
                     storageClassName:
                       type: string
                     totalBytes:
@@ -627,6 +629,8 @@ spec:
                     properties:
                       backupEnabled:
                         type: boolean
+                      keepPathAndTag:
+                        type: boolean
                       registryName:
                         type: string
                     type: object
@@ -635,80 +639,6 @@ spec:
                       prefix:
                         type: string
                     type: object
-                  persistentVolumes:
-                    items:
-                      description: Name - The PV name. Capacity - The PV storage capacity.
-                        StorageClass - The PV storage class name. Supported - Lists
-                        of what is supported. Selection - Choices made from supported.
-                        PVC - Associated PVC. NFS - NFS properties. staged - A PV
-                        has been explicitly added/updated.
-                      properties:
-                        capacity:
-                          anyOf:
-                          - type: integer
-                          - type: string
-                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                          x-kubernetes-int-or-string: true
-                        name:
-                          type: string
-                        pvc:
-                          description: PVC
-                          properties:
-                            accessModes:
-                              items:
-                                type: string
-                              type: array
-                            hasReference:
-                              type: boolean
-                            name:
-                              type: string
-                            namespace:
-                              type: string
-                          type: object
-                        selection:
-                          description: Selection Action - The PV migration action
-                            (move|copy|skip) StorageClass - The PV storage class name
-                            to use in the destination cluster. AccessMode   - The
-                            PV access mode to use in the destination cluster, if different
-                            from src PVC AccessMode CopyMethod   - The PV copy method
-                            to use ('filesystem' for restic copy, or 'snapshot' for
-                            velero snapshot plugin) Verify       - Whether or not
-                            to verify copied volume data if CopyMethod is 'filesystem'
-                          properties:
-                            accessMode:
-                              type: string
-                            action:
-                              type: string
-                            copyMethod:
-                              type: string
-                            storageClass:
-                              type: string
-                            verify:
-                              type: boolean
-                          type: object
-                        storageClass:
-                          type: string
-                        supported:
-                          description: Supported Actions     - The list of supported
-                            actions CopyMethods - The list of supported copy methods
-                          properties:
-                            actions:
-                              items:
-                                type: string
-                              type: array
-                            copyMethods:
-                              items:
-                                type: string
-                              type: array
-                          required:
-                          - actions
-                          - copyMethods
-                          type: object
-                      required:
-                      - selection
-                      - supported
-                      type: object
-                    type: array
                   policy:
                     properties:
                       backupMethod:
@@ -1958,9 +1888,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -2709,9 +2647,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         type:
                           type: string
@@ -3386,6 +3332,7 @@ spec:
                     enum:
                     - filesystem
                     - snapshot
+                    - autoSelection
                     type: string
                   filesystem:
                     type: object
@@ -3580,6 +3527,10 @@ spec:
                   name:
                     type: string
                 type: object
+              description:
+                type: string
+              displayName:
+                type: string
               executionContext:
                 properties:
                   dataTransferTimeout:
@@ -3730,6 +3681,8 @@ spec:
                 properties:
                   backupEnabled:
                     type: boolean
+                  keepPathAndTag:
+                    type: boolean
                   registryName:
                     type: string
                 type: object
@@ -3827,6 +3780,7 @@ spec:
                         enum:
                         - filesystem
                         - snapshot
+                        - autoSelection
                         type: string
                       filesystem:
                         type: object
@@ -5345,6 +5299,10 @@ spec:
                 items:
                   type: string
                 type: array
+              description:
+                type: string
+              displayName:
+                type: string
               excludeClusterResources:
                 items:
                   properties:
@@ -6457,9 +6415,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         type:
                           type: string
@@ -6656,9 +6622,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -8238,9 +8212,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -8599,7 +8581,7 @@ spec:
             properties:
               drInstance:
                 type: string
-              paused:
+              pause:
                 type: boolean
               trigger:
                 properties:
@@ -8640,34 +8622,80 @@ spec:
                       type: string
                   type: object
                 type: array
-              replicationStatusList:
-                items:
-                  description: Replication status
-                  properties:
-                    currentRole:
-                      type: string
-                    desiredRole:
-                      type: string
-                    lastManualSync:
-                      type: string
-                    lastSyncDuration:
-                      description: sync status
-                      type: string
-                    lastSyncStartTime:
-                      format: date-time
-                      type: string
-                    lastSyncTime:
-                      format: date-time
-                      type: string
-                    pvcName:
-                      type: string
-                    pvcNamespace:
-                      type: string
-                    state:
-                      description: Ready/NotReady
-                      type: string
-                  type: object
-                type: array
+              primaryState:
+                properties:
+                  connectionStatus:
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        lastManualSync:
+                          type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncStartTime:
+                          format: date-time
+                          type: string
+                        lastSyncTime:
+                          format: date-time
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    type: string
+                type: object
+              secondaryState:
+                properties:
+                  connectionStatus:
+                    type: string
+                  name:
+                    type: string
+                  replicationStatusList:
+                    items:
+                      description: Replication status
+                      properties:
+                        currentRole:
+                          type: string
+                        desiredRole:
+                          type: string
+                        lastManualSync:
+                          type: string
+                        lastSyncDuration:
+                          description: sync status
+                          type: string
+                        lastSyncStartTime:
+                          format: date-time
+                          type: string
+                        lastSyncTime:
+                          format: date-time
+                          type: string
+                        pvcName:
+                          type: string
+                        pvcNamespace:
+                          type: string
+                        state:
+                          description: Ready/NotReady
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    type: string
+                type: object
               state:
                 type: string
               warnings:
@@ -8827,6 +8855,8 @@ spec:
                           type: string
                         snapshotId:
                           type: string
+                        sourceSnapshotId:
+                          type: string
                         storageClassName:
                           type: string
                         totalBytes:
@@ -8920,9 +8950,17 @@ spec:
                             durationSeconds:
                               format: int64
                               type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
                             totalBytes:
                               format: int64
                               type: integer
+                            transferRate:
+                              type: string
                           type: object
                         result:
                           type: string
@@ -11156,34 +11194,6 @@ spec:
                     type: string
                   name:
                     type: string
-                  replicationStatusList:
-                    items:
-                      description: Replication status
-                      properties:
-                        currentRole:
-                          type: string
-                        desiredRole:
-                          type: string
-                        lastManualSync:
-                          type: string
-                        lastSyncDuration:
-                          description: sync status
-                          type: string
-                        lastSyncStartTime:
-                          format: date-time
-                          type: string
-                        lastSyncTime:
-                          format: date-time
-                          type: string
-                        pvcName:
-                          type: string
-                        pvcNamespace:
-                          type: string
-                        state:
-                          description: Ready/NotReady
-                          type: string
-                      type: object
-                    type: array
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -11203,49 +11213,6 @@ spec:
                     type: object
                   type: array
                 type: object
-              resourcesSyncStatus:
-                items:
-                  properties:
-                    backupJobStatus:
-                      properties:
-                        completedItems:
-                          type: integer
-                        completionTime:
-                          format: date-time
-                          type: string
-                        name:
-                          type: string
-                        startTime:
-                          format: date-time
-                          type: string
-                        status:
-                          type: string
-                        succeeded:
-                          type: boolean
-                        totalItems:
-                          type: integer
-                      type: object
-                    restoreJobStatus:
-                      properties:
-                        completedItems:
-                          type: integer
-                        completionTime:
-                          format: date-time
-                          type: string
-                        name:
-                          type: string
-                        startTime:
-                          format: date-time
-                          type: string
-                        status:
-                          type: string
-                        succeeded:
-                          type: boolean
-                        totalItems:
-                          type: integer
-                      type: object
-                  type: object
-                type: array
               secondaryState:
                 description: Cluster status
                 properties:
@@ -11254,34 +11221,6 @@ spec:
                     type: string
                   name:
                     type: string
-                  replicationStatusList:
-                    items:
-                      description: Replication status
-                      properties:
-                        currentRole:
-                          type: string
-                        desiredRole:
-                          type: string
-                        lastManualSync:
-                          type: string
-                        lastSyncDuration:
-                          description: sync status
-                          type: string
-                        lastSyncStartTime:
-                          format: date-time
-                          type: string
-                        lastSyncTime:
-                          format: date-time
-                          type: string
-                        pvcName:
-                          type: string
-                        pvcNamespace:
-                          type: string
-                        state:
-                          description: Ready/NotReady
-                          type: string
-                      type: object
-                    type: array
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -11397,6 +11336,1112 @@ spec:
                     items:
                       type: string
                     type: array
+                type: object
+              clusterRestoreActions:
+                additionalProperties:
+                  description: RestoreActions defines the action for a restore
+                  properties:
+                    cronJobSuspend:
+                      description: cronjob suspend
+                      type: boolean
+                    existingResourcePolicy:
+                      description: 'ExistingResourcePolicy: none or update none is
+                        default behavior while update is to overwrite any existing
+                        resource during restore'
+                      type: string
+                    imageRegistryMappings:
+                      description: replace images or registries
+                      items:
+                        properties:
+                          sourceName:
+                            description: source image or registry name
+                            type: string
+                          targetName:
+                            description: target image or registry name
+                            type: string
+                          targetPullSecretContents:
+                            description: target pull secret contents
+                            type: string
+                          targetPullSecretName:
+                            description: target pull secret name
+                            type: string
+                          type:
+                            description: type support values are image or registry
+                            type: string
+                        type: object
+                      type: array
+                    ingressAnnotationMappings:
+                      additionalProperties:
+                        type: string
+                      description: replace or remove ingress annotations
+                      type: object
+                    ingressClassNameMappings:
+                      additionalProperties:
+                        type: string
+                      description: replace ingress class name
+                      type: object
+                    initContainerAction:
+                      description: set init container with filter to workload
+                      items:
+                        properties:
+                          action:
+                            description: 'supported value: add'
+                            type: string
+                          filters:
+                            properties:
+                              excludeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              excludeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              selector:
+                                description: A label selector is a label query over
+                                  a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector
+                                  matches all objects. A null label selector matches
+                                  no objects.
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                            type: object
+                          initContainers:
+                            items:
+                              properties:
+                                args:
+                                  items:
+                                    type: string
+                                  type: array
+                                command:
+                                  items:
+                                    type: string
+                                  type: array
+                                env:
+                                  items:
+                                    description: EnvVar represents an environment
+                                      variable present in a Container.
+                                    properties:
+                                      name:
+                                        description: Name of the environment variable.
+                                          Must be a C_IDENTIFIER.
+                                        type: string
+                                      value:
+                                        description: 'Variable references $(VAR_NAME)
+                                          are expanded using the previous defined
+                                          environment variables in the container and
+                                          any service environment variables. If a
+                                          variable cannot be resolved, the reference
+                                          in the input string will be unchanged. The
+                                          $(VAR_NAME) syntax can be escaped with a
+                                          double $$, ie: $$(VAR_NAME). Escaped references
+                                          will never be expanded, regardless of whether
+                                          the variable exists or not. Defaults to
+                                          "".'
+                                        type: string
+                                      valueFrom:
+                                        description: Source for the environment variable's
+                                          value. Cannot be used if value is not empty.
+                                        properties:
+                                          configMapKeyRef:
+                                            description: Selects a key of a ConfigMap.
+                                            properties:
+                                              key:
+                                                description: The key to select.
+                                                type: string
+                                              name:
+                                                description: 'Name of the referent.
+                                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                  TODO: Add other useful fields. apiVersion,
+                                                  kind, uid?'
+                                                type: string
+                                              optional:
+                                                description: Specify whether the ConfigMap
+                                                  or its key must be defined
+                                                type: boolean
+                                            required:
+                                            - key
+                                            type: object
+                                          fieldRef:
+                                            description: 'Selects a field of the pod:
+                                              supports metadata.name, metadata.namespace,
+                                              `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
+                                              spec.nodeName, spec.serviceAccountName,
+                                              status.hostIP, status.podIP, status.podIPs.'
+                                            properties:
+                                              apiVersion:
+                                                description: Version of the schema
+                                                  the FieldPath is written in terms
+                                                  of, defaults to "v1".
+                                                type: string
+                                              fieldPath:
+                                                description: Path of the field to
+                                                  select in the specified API version.
+                                                type: string
+                                            required:
+                                            - fieldPath
+                                            type: object
+                                          resourceFieldRef:
+                                            description: 'Selects a resource of the
+                                              container: only resources limits and
+                                              requests (limits.cpu, limits.memory,
+                                              limits.ephemeral-storage, requests.cpu,
+                                              requests.memory and requests.ephemeral-storage)
+                                              are currently supported.'
+                                            properties:
+                                              containerName:
+                                                description: 'Container name: required
+                                                  for volumes, optional for env vars'
+                                                type: string
+                                              divisor:
+                                                anyOf:
+                                                - type: integer
+                                                - type: string
+                                                description: Specifies the output
+                                                  format of the exposed resources,
+                                                  defaults to "1"
+                                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                                x-kubernetes-int-or-string: true
+                                              resource:
+                                                description: 'Required: resource to
+                                                  select'
+                                                type: string
+                                            required:
+                                            - resource
+                                            type: object
+                                          secretKeyRef:
+                                            description: Selects a key of a secret
+                                              in the pod's namespace
+                                            properties:
+                                              key:
+                                                description: The key of the secret
+                                                  to select from.  Must be a valid
+                                                  secret key.
+                                                type: string
+                                              name:
+                                                description: 'Name of the referent.
+                                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                  TODO: Add other useful fields. apiVersion,
+                                                  kind, uid?'
+                                                type: string
+                                              optional:
+                                                description: Specify whether the Secret
+                                                  or its key must be defined
+                                                type: boolean
+                                            required:
+                                            - key
+                                            type: object
+                                        type: object
+                                    required:
+                                    - name
+                                    type: object
+                                  type: array
+                                image:
+                                  type: string
+                                imagePullPolicy:
+                                  description: PullPolicy describes a policy for if/when
+                                    to pull a container image
+                                  type: string
+                                name:
+                                  type: string
+                                volumeMounts:
+                                  items:
+                                    description: VolumeMount describes a mounting
+                                      of a Volume within a container.
+                                    properties:
+                                      mountPath:
+                                        description: Path within the container at
+                                          which the volume should be mounted.  Must
+                                          not contain ':'.
+                                        type: string
+                                      mountPropagation:
+                                        description: mountPropagation determines how
+                                          mounts are propagated from the host to container
+                                          and the other way around. When not set,
+                                          MountPropagationNone is used. This field
+                                          is beta in 1.10.
+                                        type: string
+                                      name:
+                                        description: This must match the Name of a
+                                          Volume.
+                                        type: string
+                                      readOnly:
+                                        description: Mounted read-only if true, read-write
+                                          otherwise (false or unspecified). Defaults
+                                          to false.
+                                        type: boolean
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
+                                          Defaults to "" (volume's root).
+                                        type: string
+                                      subPathExpr:
+                                        description: Expanded path within the volume
+                                          from which the container's volume should
+                                          be mounted. Behaves similarly to SubPath
+                                          but environment variable references $(VAR_NAME)
+                                          are expanded using the container's environment.
+                                          Defaults to "" (volume's root). SubPathExpr
+                                          and SubPath are mutually exclusive.
+                                        type: string
+                                    required:
+                                    - mountPath
+                                    - name
+                                    type: object
+                                  type: array
+                              required:
+                              - name
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                    podNodeSelections:
+                      properties:
+                        newNodeAffinity:
+                          description: Node affinity is a group of node affinity scheduling
+                            rules.
+                          properties:
+                            preferredDuringSchedulingIgnoredDuringExecution:
+                              description: The scheduler will prefer to schedule pods
+                                to nodes that satisfy the affinity expressions specified
+                                by this field, but it may choose a node that violates
+                                one or more of the expressions. The node that is most
+                                preferred is the one with the greatest sum of weights,
+                                i.e. for each node that meets all of the scheduling
+                                requirements (resource request, requiredDuringScheduling
+                                affinity expressions, etc.), compute a sum by iterating
+                                through the elements of this field and adding "weight"
+                                to the sum if the node matches the corresponding matchExpressions;
+                                the node(s) with the highest sum are the most preferred.
+                              items:
+                                description: An empty preferred scheduling term matches
+                                  all objects with implicit weight 0 (i.e. it's a
+                                  no-op). A null preferred scheduling term matches
+                                  no objects (i.e. is also a no-op).
+                                properties:
+                                  preference:
+                                    description: A node selector term, associated
+                                      with the corresponding weight.
+                                    properties:
+                                      matchExpressions:
+                                        description: A list of node selector requirements
+                                          by node's labels.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchFields:
+                                        description: A list of node selector requirements
+                                          by node's fields.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                    type: object
+                                  weight:
+                                    description: Weight associated with matching the
+                                      corresponding nodeSelectorTerm, in the range
+                                      1-100.
+                                    format: int32
+                                    type: integer
+                                required:
+                                - preference
+                                - weight
+                                type: object
+                              type: array
+                            requiredDuringSchedulingIgnoredDuringExecution:
+                              description: If the affinity requirements specified
+                                by this field are not met at scheduling time, the
+                                pod will not be scheduled onto the node. If the affinity
+                                requirements specified by this field cease to be met
+                                at some point during pod execution (e.g. due to an
+                                update), the system may or may not try to eventually
+                                evict the pod from its node.
+                              properties:
+                                nodeSelectorTerms:
+                                  description: Required. A list of node selector terms.
+                                    The terms are ORed.
+                                  items:
+                                    description: A null or empty node selector term
+                                      matches no objects. The requirements of them
+                                      are ANDed. The TopologySelectorTerm type implements
+                                      a subset of the NodeSelectorTerm.
+                                    properties:
+                                      matchExpressions:
+                                        description: A list of node selector requirements
+                                          by node's labels.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                      matchFields:
+                                        description: A list of node selector requirements
+                                          by node's fields.
+                                        items:
+                                          description: A node selector requirement
+                                            is a selector that contains values, a
+                                            key, and an operator that relates the
+                                            key and values.
+                                          properties:
+                                            key:
+                                              description: The label key that the
+                                                selector applies to.
+                                              type: string
+                                            operator:
+                                              description: Represents a key's relationship
+                                                to a set of values. Valid operators
+                                                are In, NotIn, Exists, DoesNotExist.
+                                                Gt, and Lt.
+                                              type: string
+                                            values:
+                                              description: An array of string values.
+                                                If the operator is In or NotIn, the
+                                                values array must be non-empty. If
+                                                the operator is Exists or DoesNotExist,
+                                                the values array must be empty. If
+                                                the operator is Gt or Lt, the values
+                                                array must have a single element,
+                                                which will be interpreted as an integer.
+                                                This array is replaced during a strategic
+                                                merge patch.
+                                              items:
+                                                type: string
+                                              type: array
+                                          required:
+                                          - key
+                                          - operator
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                              required:
+                              - nodeSelectorTerms
+                              type: object
+                          type: object
+                        newNodeName:
+                          type: string
+                        newNodeSelector:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        nodeAffinityPluginAction:
+                          description: 'supported value: remove'
+                          type: string
+                        nodeNamePluginAction:
+                          description: 'supported value: remove, replace'
+                          type: string
+                        nodeSelectorPluginAction:
+                          description: 'supported value: remove, replace, add, reduce'
+                          type: string
+                      type: object
+                    preserveNodePorts:
+                      description: PreserveNodePorts specifies whether to restore
+                        old nodePorts from backup.
+                      type: boolean
+                    pvcNameMappings:
+                      additionalProperties:
+                        type: string
+                      description: pvc name mapping, change restore pvc name
+                      type: object
+                    replicaAction:
+                      description: set replica for a specified workload with filter
+                      items:
+                        properties:
+                          filters:
+                            properties:
+                              excludeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              excludeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              selector:
+                                description: A label selector is a label query over
+                                  a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector
+                                  matches all objects. A null label selector matches
+                                  no objects.
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                            type: object
+                          replica:
+                            format: int32
+                            type: integer
+                        type: object
+                      type: array
+                    replicaCount:
+                      description: set replica for all kinds of workloads
+                      format: int32
+                      type: integer
+                    restoreImages:
+                      description: use backupped images to replace images in specs
+                        of pod/deployment/daemonset, etc.
+                      type: boolean
+                    skipLoadBalancerService:
+                      description: skip loadbalancer service
+                      type: boolean
+                    storageClassMappings:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    volumeAction:
+                      description: set volume with filter to workload
+                      items:
+                        properties:
+                          action:
+                            description: 'supported value: add'
+                            type: string
+                          filters:
+                            properties:
+                              excludeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              excludeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeClusterResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              includeResources:
+                                items:
+                                  properties:
+                                    group:
+                                      type: string
+                                    kind:
+                                      type: string
+                                    names:
+                                      items:
+                                        type: string
+                                      type: array
+                                    resource:
+                                      type: string
+                                    version:
+                                      type: string
+                                  type: object
+                                type: array
+                              selector:
+                                description: A label selector is a label query over
+                                  a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector
+                                  matches all objects. A null label selector matches
+                                  no objects.
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                            type: object
+                          volumes:
+                            items:
+                              properties:
+                                configMap:
+                                  description: "Adapts a ConfigMap into a volume.
+                                    \n The contents of the target ConfigMap's Data
+                                    field will be presented in a volume as files using
+                                    the keys in the Data field as the file names,
+                                    unless the items element is populated with specific
+                                    mappings of keys to paths. ConfigMap volumes support
+                                    ownership management and SELinux relabeling."
+                                  properties:
+                                    defaultMode:
+                                      description: 'Optional: mode bits used to set
+                                        permissions on created files by default. Must
+                                        be an octal value between 0000 and 0777 or
+                                        a decimal value between 0 and 511. YAML accepts
+                                        both octal and decimal values, JSON requires
+                                        decimal values for mode bits. Defaults to
+                                        0644. Directories within the path are not
+                                        affected by this setting. This might be in
+                                        conflict with other options that affect the
+                                        file mode, like fsGroup, and the result can
+                                        be other mode bits set.'
+                                      format: int32
+                                      type: integer
+                                    items:
+                                      description: If unspecified, each key-value
+                                        pair in the Data field of the referenced ConfigMap
+                                        will be projected into the volume as a file
+                                        whose name is the key and content is the value.
+                                        If specified, the listed keys will be projected
+                                        into the specified paths, and unlisted keys
+                                        will not be present. If a key is specified
+                                        which is not present in the ConfigMap, the
+                                        volume setup will error unless it is marked
+                                        optional. Paths must be relative and may not
+                                        contain the '..' path or start with '..'.
+                                      items:
+                                        description: Maps a string key to a path within
+                                          a volume.
+                                        properties:
+                                          key:
+                                            description: The key to project.
+                                            type: string
+                                          mode:
+                                            description: 'Optional: mode bits used
+                                              to set permissions on this file. Must
+                                              be an octal value between 0000 and 0777
+                                              or a decimal value between 0 and 511.
+                                              YAML accepts both octal and decimal
+                                              values, JSON requires decimal values
+                                              for mode bits. If not specified, the
+                                              volume defaultMode will be used. This
+                                              might be in conflict with other options
+                                              that affect the file mode, like fsGroup,
+                                              and the result can be other mode bits
+                                              set.'
+                                            format: int32
+                                            type: integer
+                                          path:
+                                            description: The relative path of the
+                                              file to map the key to. May not be an
+                                              absolute path. May not contain the path
+                                              element '..'. May not start with the
+                                              string '..'.
+                                            type: string
+                                        required:
+                                        - key
+                                        - path
+                                        type: object
+                                      type: array
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its keys must be defined
+                                      type: boolean
+                                  type: object
+                                hostPath:
+                                  description: Represents a host path mapped into
+                                    a pod. Host path volumes do not support ownership
+                                    management or SELinux relabeling.
+                                  properties:
+                                    path:
+                                      description: 'Path of the directory on the host.
+                                        If the path is a symlink, it will follow the
+                                        link to the real path. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath'
+                                      type: string
+                                    type:
+                                      description: 'Type for HostPath Volume Defaults
+                                        to "" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath'
+                                      type: string
+                                  required:
+                                  - path
+                                  type: object
+                                name:
+                                  type: string
+                                nfs:
+                                  description: Represents an NFS mount that lasts
+                                    the lifetime of a pod. NFS volumes do not support
+                                    ownership management or SELinux relabeling.
+                                  properties:
+                                    path:
+                                      description: 'Path that is exported by the NFS
+                                        server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                      type: string
+                                    readOnly:
+                                      description: 'ReadOnly here will force the NFS
+                                        export to be mounted with read-only permissions.
+                                        Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                      type: boolean
+                                    server:
+                                      description: 'Server is the hostname or IP address
+                                        of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs'
+                                      type: string
+                                  required:
+                                  - path
+                                  - server
+                                  type: object
+                                persistentVolumeClaim:
+                                  description: PersistentVolumeClaimVolumeSource references
+                                    the user's PVC in the same namespace. This volume
+                                    finds the bound PV and mounts that volume for
+                                    the pod. A PersistentVolumeClaimVolumeSource is,
+                                    essentially, a wrapper around another type of
+                                    volume that is owned by someone else (the system).
+                                  properties:
+                                    claimName:
+                                      description: 'ClaimName is the name of a PersistentVolumeClaim
+                                        in the same namespace as the pod using this
+                                        volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims'
+                                      type: string
+                                    readOnly:
+                                      description: Will force the ReadOnly setting
+                                        in VolumeMounts. Default false.
+                                      type: boolean
+                                  required:
+                                  - claimName
+                                  type: object
+                                secret:
+                                  description: "Adapts a Secret into a volume. \n
+                                    The contents of the target Secret's Data field
+                                    will be presented in a volume as files using the
+                                    keys in the Data field as the file names. Secret
+                                    volumes support ownership management and SELinux
+                                    relabeling."
+                                  properties:
+                                    defaultMode:
+                                      description: 'Optional: mode bits used to set
+                                        permissions on created files by default. Must
+                                        be an octal value between 0000 and 0777 or
+                                        a decimal value between 0 and 511. YAML accepts
+                                        both octal and decimal values, JSON requires
+                                        decimal values for mode bits. Defaults to
+                                        0644. Directories within the path are not
+                                        affected by this setting. This might be in
+                                        conflict with other options that affect the
+                                        file mode, like fsGroup, and the result can
+                                        be other mode bits set.'
+                                      format: int32
+                                      type: integer
+                                    items:
+                                      description: If unspecified, each key-value
+                                        pair in the Data field of the referenced Secret
+                                        will be projected into the volume as a file
+                                        whose name is the key and content is the value.
+                                        If specified, the listed keys will be projected
+                                        into the specified paths, and unlisted keys
+                                        will not be present. If a key is specified
+                                        which is not present in the Secret, the volume
+                                        setup will error unless it is marked optional.
+                                        Paths must be relative and may not contain
+                                        the '..' path or start with '..'.
+                                      items:
+                                        description: Maps a string key to a path within
+                                          a volume.
+                                        properties:
+                                          key:
+                                            description: The key to project.
+                                            type: string
+                                          mode:
+                                            description: 'Optional: mode bits used
+                                              to set permissions on this file. Must
+                                              be an octal value between 0000 and 0777
+                                              or a decimal value between 0 and 511.
+                                              YAML accepts both octal and decimal
+                                              values, JSON requires decimal values
+                                              for mode bits. If not specified, the
+                                              volume defaultMode will be used. This
+                                              might be in conflict with other options
+                                              that affect the file mode, like fsGroup,
+                                              and the result can be other mode bits
+                                              set.'
+                                            format: int32
+                                            type: integer
+                                          path:
+                                            description: The relative path of the
+                                              file to map the key to. May not be an
+                                              absolute path. May not contain the path
+                                              element '..'. May not start with the
+                                              string '..'.
+                                            type: string
+                                        required:
+                                        - key
+                                        - path
+                                        type: object
+                                      type: array
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        keys must be defined
+                                      type: boolean
+                                    secretName:
+                                      description: 'Name of the secret in the pod''s
+                                        namespace to use. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret'
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                  type: object
                 type: object
               dstCluster:
                 type: string
@@ -11586,6 +12631,378 @@ spec:
                       type: string
                   type: object
                 type: array
+              expectedRPO:
+                properties:
+                  data:
+                    type: integer
+                  resource:
+                    type: integer
+                type: object
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drgrouprequests.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroupRequest
+    listKind: DrGroupRequestList
+    plural: drgrouprequests
+    singular: drgrouprequest
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.drGroupName
+      name: DrGroup
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroupRequest is the Schema for the droperationrequests API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              directives:
+                items:
+                  description: Send directives to control operation phases
+                  properties:
+                    action:
+                      type: string
+                    confirmed:
+                      type: boolean
+                    phase:
+                      type: string
+                    skip:
+                      type: boolean
+                  type: object
+                type: array
+              drGroupName:
+                type: string
+              fsmCurrentStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operation:
+                description: Operation
+                type: string
+            required:
+            - drGroupName
+            - operation
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              operationStatus:
+                description: Help to track operation state and detailed operation
+                  status
+                properties:
+                  completeStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  completeStep:
+                    type: string
+                  operationState:
+                    type: string
+                  startStatus:
+                    properties:
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      status:
+                        type: string
+                      stopTimestamp:
+                        format: date-time
+                        type: string
+                    type: object
+                  startStep:
+                    type: string
+                type: object
+              phase:
+                enum:
+                - Processed
+                - Skipped
+                type: string
+              processedTimestamp:
+                format: date-time
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drgroups.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroup
+    listKind: DrGroupList
+    plural: drgroups
+    singular: drgroup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroup is the Schema for the DrGroups API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drInstances:
+                items:
+                  items:
+                    type: string
+                  type: array
+                type: array
+            required:
+            - drInstances
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
               state:
                 type: string
               warnings:
@@ -14271,9 +15688,19 @@ spec:
               canceled:
                 type: boolean
               images:
+                description: deprecated
                 items:
                   type: string
                 type: array
+              imagesMap:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                description: map from image url with hash id to original image urls
+                type: object
+              keepPathAndTag:
+                type: boolean
               registryName:
                 type: string
               targetPullSecretContents:
@@ -14281,7 +15708,6 @@ spec:
                   type: string
                 type: object
             required:
-            - images
             - registryName
             type: object
           status:
@@ -14356,6 +15782,10 @@ spec:
                       description: DockerImageReference is the string that can be
                         used to pull this image.
                       type: string
+                    warnings:
+                      items:
+                        type: string
+                      type: array
                   type: object
                 type: object
               valid:
@@ -15372,6 +16802,263 @@ spec:
           spec:
             description: MigClusterSpec defines the desired state of MigCluster
             properties:
+              affinity:
+                properties:
+                  backupStorageAffinity:
+                    properties:
+                      preferred:
+                        items:
+                          properties:
+                            storageAffinityTerm:
+                              description: Required. A storage affinity term, associated
+                                with the corresponding weight.
+                              properties:
+                                labelSelector:
+                                  description: A label selector is a label query over
+                                    a set of resources. The result of matchLabels
+                                    and matchExpressions are ANDed. An empty label
+                                    selector matches all objects. A null label selector
+                                    matches no objects.
+                                  properties:
+                                    matchExpressions:
+                                      description: matchExpressions is a list of label
+                                        selector requirements. The requirements are
+                                        ANDed.
+                                      items:
+                                        description: A label selector requirement
+                                          is a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: key is the label key that
+                                              the selector applies to.
+                                            type: string
+                                          operator:
+                                            description: operator represents a key's
+                                              relationship to a set of values. Valid
+                                              operators are In, NotIn, Exists and
+                                              DoesNotExist.
+                                            type: string
+                                          values:
+                                            description: values is an array of string
+                                              values. If the operator is In or NotIn,
+                                              the values array must be non-empty.
+                                              If the operator is Exists or DoesNotExist,
+                                              the values array must be empty. This
+                                              array is replaced during a strategic
+                                              merge patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchLabels:
+                                      additionalProperties:
+                                        type: string
+                                      description: matchLabels is a map of {key,value}
+                                        pairs. A single {key,value} in the matchLabels
+                                        map is equivalent to an element of matchExpressions,
+                                        whose key field is "key", the operator is
+                                        "In", and the values array contains only "value".
+                                        The requirements are ANDed.
+                                      type: object
+                                  type: object
+                              type: object
+                            weight:
+                              description: weight associated with matching the corresponding
+                                StorageAffinityTerm, in the range 1-100.
+                              format: int32
+                              type: integer
+                          type: object
+                        type: array
+                      required:
+                        items:
+                          properties:
+                            labelSelector:
+                              description: A label selector is a label query over
+                                a set of resources. The result of matchLabels and
+                                matchExpressions are ANDed. An empty label selector
+                                matches all objects. A null label selector matches
+                                no objects.
+                              properties:
+                                matchExpressions:
+                                  description: matchExpressions is a list of label
+                                    selector requirements. The requirements are ANDed.
+                                  items:
+                                    description: A label selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: key is the label key that the
+                                          selector applies to.
+                                        type: string
+                                      operator:
+                                        description: operator represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists and DoesNotExist.
+                                        type: string
+                                      values:
+                                        description: values is an array of string
+                                          values. If the operator is In or NotIn,
+                                          the values array must be non-empty. If the
+                                          operator is Exists or DoesNotExist, the
+                                          values array must be empty. This array is
+                                          replaced during a strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: matchLabels is a map of {key,value}
+                                    pairs. A single {key,value} in the matchLabels
+                                    map is equivalent to an element of matchExpressions,
+                                    whose key field is "key", the operator is "In",
+                                    and the values array contains only "value". The
+                                    requirements are ANDed.
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                  migrationStorageAffinity:
+                    properties:
+                      preferred:
+                        items:
+                          properties:
+                            storageAffinityTerm:
+                              description: Required. A storage affinity term, associated
+                                with the corresponding weight.
+                              properties:
+                                labelSelector:
+                                  description: A label selector is a label query over
+                                    a set of resources. The result of matchLabels
+                                    and matchExpressions are ANDed. An empty label
+                                    selector matches all objects. A null label selector
+                                    matches no objects.
+                                  properties:
+                                    matchExpressions:
+                                      description: matchExpressions is a list of label
+                                        selector requirements. The requirements are
+                                        ANDed.
+                                      items:
+                                        description: A label selector requirement
+                                          is a selector that contains values, a key,
+                                          and an operator that relates the key and
+                                          values.
+                                        properties:
+                                          key:
+                                            description: key is the label key that
+                                              the selector applies to.
+                                            type: string
+                                          operator:
+                                            description: operator represents a key's
+                                              relationship to a set of values. Valid
+                                              operators are In, NotIn, Exists and
+                                              DoesNotExist.
+                                            type: string
+                                          values:
+                                            description: values is an array of string
+                                              values. If the operator is In or NotIn,
+                                              the values array must be non-empty.
+                                              If the operator is Exists or DoesNotExist,
+                                              the values array must be empty. This
+                                              array is replaced during a strategic
+                                              merge patch.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - key
+                                        - operator
+                                        type: object
+                                      type: array
+                                    matchLabels:
+                                      additionalProperties:
+                                        type: string
+                                      description: matchLabels is a map of {key,value}
+                                        pairs. A single {key,value} in the matchLabels
+                                        map is equivalent to an element of matchExpressions,
+                                        whose key field is "key", the operator is
+                                        "In", and the values array contains only "value".
+                                        The requirements are ANDed.
+                                      type: object
+                                  type: object
+                              type: object
+                            weight:
+                              description: weight associated with matching the corresponding
+                                StorageAffinityTerm, in the range 1-100.
+                              format: int32
+                              type: integer
+                          type: object
+                        type: array
+                      required:
+                        items:
+                          properties:
+                            labelSelector:
+                              description: A label selector is a label query over
+                                a set of resources. The result of matchLabels and
+                                matchExpressions are ANDed. An empty label selector
+                                matches all objects. A null label selector matches
+                                no objects.
+                              properties:
+                                matchExpressions:
+                                  description: matchExpressions is a list of label
+                                    selector requirements. The requirements are ANDed.
+                                  items:
+                                    description: A label selector requirement is a
+                                      selector that contains values, a key, and an
+                                      operator that relates the key and values.
+                                    properties:
+                                      key:
+                                        description: key is the label key that the
+                                          selector applies to.
+                                        type: string
+                                      operator:
+                                        description: operator represents a key's relationship
+                                          to a set of values. Valid operators are
+                                          In, NotIn, Exists and DoesNotExist.
+                                        type: string
+                                      values:
+                                        description: values is an array of string
+                                          values. If the operator is In or NotIn,
+                                          the values array must be non-empty. If the
+                                          operator is Exists or DoesNotExist, the
+                                          values array must be empty. This array is
+                                          replaced during a strategic merge patch.
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - key
+                                    - operator
+                                    type: object
+                                  type: array
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: matchLabels is a map of {key,value}
+                                    pairs. A single {key,value} in the matchLabels
+                                    map is equivalent to an element of matchExpressions,
+                                    whose key field is "key", the operator is "In",
+                                    and the values array contains only "value". The
+                                    requirements are ANDed.
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                type: object
               agentConfig:
                 properties:
                   amberApp:
@@ -15675,6 +17362,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -16068,6 +17771,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -16681,6 +18400,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -17088,6 +18823,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -17515,6 +19266,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -17908,6 +19675,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -18013,6 +19796,8 @@ spec:
                           tag:
                             type: string
                         type: object
+                      kubeletRootDir:
+                        type: string
                       removeCRDsOnDeletion:
                         type: boolean
                       template:
@@ -18301,6 +20086,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -18665,6 +20466,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -18753,6 +20570,7 @@ spec:
                   resticDM:
                     properties:
                       hostPodsPath:
+                        description: Deprecated
                         type: string
                       image:
                         properties:
@@ -19053,6 +20871,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -19448,6 +21282,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -19896,6 +21746,22 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
+                                  type: object
+                                type: array
                               imagePullPolicy:
                                 description: PullPolicy describes a policy for if/when
                                   to pull a container image
@@ -20298,6 +22164,22 @@ spec:
                                             value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                           type: object
                                       type: object
+                                  type: object
+                                type: array
+                              hostAliases:
+                                items:
+                                  description: HostAlias holds the mapping between
+                                    IP and hostnames that will be injected as an entry
+                                    in the pod's hosts file.
+                                  properties:
+                                    hostnames:
+                                      description: Hostnames for the above IP address.
+                                      items:
+                                        type: string
+                                      type: array
+                                    ip:
+                                      description: IP address of the host file entry.
+                                      type: string
                                   type: object
                                 type: array
                               imagePullPolicy:
@@ -21155,6 +23037,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -21526,6 +23424,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -21936,6 +23850,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -22305,6 +24235,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -22889,6 +24835,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -23312,6 +25274,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -23731,6 +25709,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24108,6 +26102,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24236,6 +26246,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -24508,6 +26520,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -24887,6 +26915,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -24976,6 +27020,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -25260,6 +27305,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -25641,6 +27702,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -25982,6 +28059,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       imagePullPolicy:
@@ -26411,6 +28504,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -26796,6 +28905,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -27378,6 +29503,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -32286,6 +34427,7 @@ spec:
                                   enum:
                                   - filesystem
                                   - snapshot
+                                  - autoSelection
                                   type: string
                                 filesystem:
                                   type: object
@@ -34154,6 +36296,7 @@ spec:
                     enum:
                     - filesystem
                     - snapshot
+                    - autoSelection
                     type: string
                   dataTransferTimeout:
                     type: string
@@ -35780,7 +37923,17 @@ spec:
     singular: resourcesync
   scope: Namespaced
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
     schema:
       openAPIV3Schema:
         description: ResourceSync is the Schema for the resourcesync API
@@ -37650,6 +39803,8 @@ spec:
                     properties:
                       backupEnabled:
                         type: boolean
+                      keepPathAndTag:
+                        type: boolean
                       registryName:
                         type: string
                     type: object
@@ -38964,9 +41119,17 @@ spec:
                         durationSeconds:
                           format: int64
                           type: integer
+                        endAt:
+                          format: date-time
+                          type: string
+                        startAt:
+                          format: date-time
+                          type: string
                         totalBytes:
                           format: int64
                           type: integer
+                        transferRate:
+                          type: string
                       type: object
                     type:
                       type: string
@@ -45442,6 +47605,8 @@ spec:
                         type: array
                     type: object
                 type: object
+              mailState:
+                type: string
               notifications:
                 description: Deprecated
                 properties:
@@ -45585,6 +47750,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              weChatState:
+                type: string
             type: object
         type: object
     served: true
@@ -46443,6 +48610,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -46814,6 +48997,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -47198,6 +49397,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -47567,6 +49782,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -48154,6 +50385,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -48562,6 +50809,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -48983,6 +51246,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -49356,6 +51635,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -49487,6 +51782,8 @@ spec:
                       tag:
                         type: string
                     type: object
+                  kubeletRootDir:
+                    type: string
                   removeCRDsOnDeletion:
                     type: boolean
                   template:
@@ -49759,6 +52056,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -50138,6 +52451,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -50230,6 +52559,7 @@ spec:
               resticDM:
                 properties:
                   hostPodsPath:
+                    description: Deprecated
                     type: string
                   image:
                     properties:
@@ -50514,6 +52844,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -50891,6 +53237,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -51232,6 +53594,22 @@ spec:
                                     an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                   type: object
                               type: object
+                          type: object
+                        type: array
+                      hostAliases:
+                        items:
+                          description: HostAlias holds the mapping between IP and
+                            hostnames that will be injected as an entry in the pod's
+                            hosts file.
+                          properties:
+                            hostnames:
+                              description: Hostnames for the above IP address.
+                              items:
+                                type: string
+                              type: array
+                            ip:
+                              description: IP address of the host file entry.
+                              type: string
                           type: object
                         type: array
                       imagePullPolicy:
@@ -51739,6 +54117,22 @@ spec:
                                   type: object
                               type: object
                             type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
+                              type: object
+                            type: array
                           imagePullPolicy:
                             description: PullPolicy describes a policy for if/when
                               to pull a container image
@@ -52133,6 +54527,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
@@ -52709,6 +55119,22 @@ spec:
                                         https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                                       type: object
                                   type: object
+                              type: object
+                            type: array
+                          hostAliases:
+                            items:
+                              description: HostAlias holds the mapping between IP
+                                and hostnames that will be injected as an entry in
+                                the pod's hosts file.
+                              properties:
+                                hostnames:
+                                  description: Hostnames for the above IP address.
+                                  items:
+                                    type: string
+                                  type: array
+                                ip:
+                                  description: IP address of the host file entry.
+                                  type: string
                               type: object
                             type: array
                           imagePullPolicy:
