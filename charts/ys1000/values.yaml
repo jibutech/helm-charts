@@ -23,20 +23,20 @@ featureGates:
   HostPathBackup: false
 
 imageBase:
-  registry: registry.cn-shanghai.aliyuncs.com
+  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
   pullPolicy: Always
-  tag: "main-latest"
+  tag: "release-3.7.0-latest"
 
 image:
   registry: ""
-  repository: jibutech/qiming-operator
+  repository: ys1000/qiming-operator
   tag: ""
 
 components:
   portal:
     image:
       registry: ""
-      repository: jibutech/mig-ui
+      repository: ys1000/mig-ui
       tag: ""
     serviceType: NodePort
 #    template:
@@ -53,7 +53,7 @@ components:
   controller:
     image:
       registry: ""
-      repository: jibutech/mig-controller
+      repository: ys1000/mig-controller
       tag: ""
 #    template:
 #      spec:
@@ -69,7 +69,7 @@ components:
   cron:
     image:
       registry: ""
-      repository: jibutech/cron
+      repository: ys1000/cron
       tag: ""
 #    template:
 #      spec:
@@ -85,7 +85,7 @@ components:
   webServer:
     image:
       registry: ""
-      repository: jibutech/webserver
+      repository: ys1000/webserver
       tag: ""
     serviceType: ClusterIP
 #    template:
@@ -113,7 +113,7 @@ components:
   operator:
     image:
       registry: ""
-      repository: jibutech/agent-operator
+      repository: ys1000/agent-operator
       tag: ""
 #    template:
 #      spec:
@@ -132,19 +132,19 @@ components:
   velero:
     image:
       registry: ""
-      repository: jibutech/velero
-      tag: v1.7.0-jibu-dev-030c52ac-20230925080210
+      repository: ys1000/velero
+      tag: v1.7.0-jibu-dev-4ae6dabe-20231218024139
     imageResticHelper:
       registry: ""
-      repository: jibutech/velero-restic-restore-helper
+      repository: ys1000/velero-restic-restore-helper
       tag: v1.7.0
     imageInternalPlugin:
       registry: ""
-      repository: jibutech/velero-plugin
+      repository: ys1000/velero-plugin
       tag: ""
     plugins:
-    - jibutech/velero-plugin-for-aws:v1.3.0
-    - jibutech/velero-plugin-for-csi:v0.2.1-jibu-a45cd50-20230925035752
+    - ys1000/velero-plugin-for-aws:v1.3.0-jibu-1a3fa7e-20231218024212
+    - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -165,12 +165,12 @@ components:
   dataVerify:
     image:
       registry: ""
-      repository: jibutech/data-verify
+      repository: ys1000/data-verify
       tag: ""
   amberApp:
     image:
       registry: ""
-      repository: jibutech/amberapp
+      repository: ys1000/amberapp
       tag: ""
 #      template:
 #        spec:
@@ -186,7 +186,7 @@ components:
   dmAgent:
     image:
       registry: ""
-      repository: jibutech/dm-agent
+      repository: ys1000/dm-agent
       tag: ""
 #    template:
 #      spec:
@@ -202,12 +202,12 @@ components:
   resticDM:
     image:
       registry: ""
-      repository: jibutech/restic-dm
+      repository: ys1000/restic-dm
       tag: ""
   stub:
     image:
       registry: ""
-      repository: jibutech/stub
+      repository: ys1000/stub
       tag: ""
 #    template:
 #      spec:
@@ -223,12 +223,12 @@ components:
   etcdStub:
     image:
       registry: ""
-      repository: jibutech/etcd-stub
+      repository: ys1000/etcd-stub
       tag: ""
   hookRunner:
     image:
       registry: ""
-      repository: jibutech/hookrunner
+      repository: ys1000/hookrunner
       tag: ""
 #    template:
 #      spec:
@@ -244,31 +244,31 @@ components:
   volSync:
     image:
       registry: ""
-      repository: jibutech/volsync
+      repository: ys1000/volsync
       tag: 0.8.0-jibu
   drInitContainer:
     image:
       registry: ""
-      repository: jibutech/dr-initcontainer
+      repository: ys1000/dr-initcontainer
       tag: 0.2.0
       pullPolicy: IfNotPresent
   imagePuller:
     image:
       registry: ""
-      repository: jibutech/imagepuller
+      repository: ys1000/imagepuller
       tag: 0.1.0
       pullPolicy: IfNotPresent
   appHookWorker:
     image:
       registry: ""
-      repository: jibutech/apphook-worker
+      repository: ys1000/apphook-worker
       tag: ""
 
 tools:
   helmHook:
     image:
       registry: ""
-      repository: jibutech/helm-hook
+      repository: ys1000/helm-hook
       tag: ""
 
 imagePullSecrets: []
@@ -364,8 +364,8 @@ mysql:
   fullnameOverride: mysql
   tolerations: []
   image:
-    registry: registry.cn-shanghai.aliyuncs.com
-    repository: jibutech/mysql
+    registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+    repository: ys1000/mysql
     tag: 8.0.35-debian-11-r0
     pullPolicy: IfNotPresent
   auth:
@@ -480,15 +480,15 @@ clusterpedia:
   mysql:
     enabled: false
     image:
-      registry: registry.cn-shanghai.aliyuncs.com
-      repository: jibutech/mysql
+      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      repository: ys1000/mysql
       tag: 8.0.35-debian-11-r0
 
 dex:
   fullnameOverride: ys1000-dex
   tolerations: []
   image:
-    repository: registry.cn-shanghai.aliyuncs.com/jibutech/dex
+    repository: jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dex
     tag: 1.0.0
     pullPolicy: Always
   config:

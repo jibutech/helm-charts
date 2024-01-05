@@ -1403,6 +1403,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   schedulePriority:
@@ -5175,6 +5176,7 @@ spec:
                 enum:
                 - default
                 - dataOnly
+                - empty
                 - resourceOnly
                 type: string
               scrubClusterRef:
@@ -33906,6 +33908,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   sourceClusterRef:
@@ -39593,6 +39596,8 @@ spec:
                     type: string
                   copyMethod:
                     type: string
+                  dataExported:
+                    type: boolean
                   dataTransferTimeout:
                     type: string
                   failureHooks:
@@ -40526,6 +40531,7 @@ spec:
                     enum:
                     - default
                     - dataOnly
+                    - empty
                     - resourceOnly
                     type: string
                   restorePolicy:
@@ -40711,6 +40717,8 @@ spec:
                       sourceNamespace:
                         type: string
                     type: object
+                  vscExisting:
+                    type: boolean
                 type: object
               inactivated:
                 description: Deprecated
@@ -47605,6 +47613,18 @@ spec:
                         type: array
                     type: object
                 type: object
+              licenseStatus:
+                properties:
+                  aboutToExpire:
+                    type: boolean
+                  expired:
+                    type: boolean
+                  expiredAt:
+                    format: date-time
+                    type: string
+                  inGracePeriod:
+                    type: boolean
+                type: object
               mailState:
                 type: string
               notifications:
@@ -47752,6 +47772,8 @@ spec:
                 type: array
               weChatState:
                 type: string
+            required:
+            - licenseStatus
             type: object
         type: object
     served: true
@@ -55321,10 +55343,15 @@ spec:
               email:
                 description: Unique email address(https://www.ietf.org/rfc/rfc5322.txt).
                 type: string
+              lockedUntil:
+                format: date-time
+                type: string
               name:
                 type: string
               password:
                 type: string
+              recentFailureAttempts:
+                type: integer
               uid:
                 type: string
             type: object
