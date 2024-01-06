@@ -10304,6 +10304,13 @@ spec:
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
                 type: boolean
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
               namespaces:
                 items:
                   type: string
@@ -12447,6 +12454,13 @@ spec:
                 type: object
               dstCluster:
                 type: string
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
               migStorage:
                 type: string
               nfsConfig:
@@ -12949,6 +12963,13 @@ spec:
                     type: string
                   type: array
                 type: array
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
             required:
             - drInstances
             type: object
@@ -13485,6 +13506,13 @@ spec:
                     type: boolean
                   secondaryFailed:
                     type: boolean
+                type: object
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
                 type: object
               namespaceMapping:
                 additionalProperties:
@@ -14760,6 +14788,13 @@ spec:
                   - runOn
                   type: object
                 type: array
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
             type: object
           status:
             properties:
