@@ -160,6 +160,26 @@ spec:
           labels:
             severity: critical
             alertSource: ys1000-dr
+        - alert: DrInstancePaused
+          annotations:
+            content: {{`DrInstance {{$labels.name}} is paused.`}}
+            description: {{`DrInstance {{$labels.name}} is paused.`}}
+            summary: {{`DrInstance {{$labels.name}} is paused.`}}
+          expr: 'dr_instance_status{app_state="FsmReplicationPaused"} > 0'
+          for: 5m
+          labels:
+            alertSource: ys1000-dr
+            severity: warnings
+        - alert: DrInstanceOperationFailed
+          annotations:
+            content: {{`DrInstance {{$labels.name}} operation failed.`}}
+            description: {{`DrInstance {{$labels.name}} operation failed.`}}
+            summary: {{`'DrInstance {{$labels.name}} operation failed. phase: {{$labels.app_state}}. errors: {{$labels.errors}}. warnings: {{$labels.warnings}}'`}}
+          expr: 'dr_instance_status{app_state=~".*Failed"} > 0'
+          for: 5m
+          labels:
+            alertSource: ys1000-dr
+            severity: critical
         - alert: DrInstanceDataRPOLagging
           annotations:
             description: {{`DrInstance {{$labels.name}} data rpo lagging.`}}
