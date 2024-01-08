@@ -25,7 +25,7 @@ featureGates:
 imageBase:
   registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
   pullPolicy: Always
-  tag: "release-3.7.0-latest"
+  tag: "main-latest"
 
 image:
   registry: ""
