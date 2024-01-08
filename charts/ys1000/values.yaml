@@ -366,7 +366,7 @@ mysql:
   image:
     registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
     repository: ys1000/mysql
-    tag: 8.0.35-debian-11-r0
+    tag: 8.0.35-debian-11-r2
     pullPolicy: IfNotPresent
   auth:
     rootPassword: "passw0rd"
@@ -375,6 +375,7 @@ mysql:
     database: webserver
   primary:
     args:
+    - /opt/bitnami/scripts/mysql/run.sh
     - --binlog-expire-logs-seconds=3600
     resources:
       limits:
