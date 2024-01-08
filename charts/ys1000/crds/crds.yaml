@@ -12682,6 +12682,153 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: drgroupoperations.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroupOperation
+    listKind: DrGroupOperationList
+    plural: drgroupoperations
+    singular: drgroupoperation
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.drGroupName
+      name: DrGroup
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroupOperation is the Schema for the DrGroupOperations API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drGroupName:
+                type: string
+              drGroupRequestName:
+                type: string
+              operation:
+                description: Operation
+                type: string
+            required:
+            - drGroupName
+            - drGroupRequestName
+            - operation
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              phase:
+                type: string
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: drgrouprequests.migration.yinhestor.com
 spec:
   group: migration.yinhestor.com
