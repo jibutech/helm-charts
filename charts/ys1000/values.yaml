@@ -362,7 +362,6 @@ affinity: {}
 
 mysql:
   fullnameOverride: mysql
-  tolerations: []
   image:
     registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
     repository: ys1000/mysql
@@ -374,6 +373,7 @@ mysql:
     password: ""
     database: webserver
   primary:
+    tolerations: []
     args:
     - /opt/bitnami/scripts/mysql/run.sh
     - --binlog-expire-logs-seconds=3600
