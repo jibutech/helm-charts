@@ -12528,6 +12528,10 @@ spec:
                     maximum: 65535
                     minimum: 0
                     type: integer
+                  serviceType:
+                    description: 'serviceType is the type of service to create for
+                      the rsync daemon. supported type: LoadBalancer and NodePort'
+                    type: string
                   sshUser:
                     description: sshUser is the username for outgoing SSH connections.
                       Defaults to "root".
