@@ -47,7 +47,7 @@ spec:
           value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
         - name: SELF_BACKUP_INTERVAL_SECONDS
           value: {{ .Values.migconfig.selfBackupIntervalSeconds | quote }}
-        image: "{{ .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
+        image: "{{ .Values.global.imageRegistry | default .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.imageBase.pullPolicy }}
         name: manager 
         livenessProbe:

@@ -1,0 +1,98 @@
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: JSBundle
+metadata:
+  name: {{ include "frontend.fullname" . }}
+spec:
+  rawFrom:
+    configMapKeyRef:
+      key: index.js
+      name: {{ include "frontend.fullname" . }}-js-bundle
+      namespace: {{ .Release.Namespace }}
+status:
+  state: Available
+  link: /dist/{{ include "frontend.fullname" . }}/index.js
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frontend.fullname" . }}-js-bundle
+data:
+  index.js: 'System.register(["@kubed/components","lodash","react"],(function(e,t){var
+    r={},n={},o={};return{setters:[function(e){r.Loading=e.Loading},function(e){n.get=e.get},function(e){o.default=e.default,o.useRef=e.useRef,o.useState=e.useState}],execute:function(){e(function(){var
+    e={170:function(e,t,r){var n={"./base.json":835};function o(e){var t=i(e);return
+    r(t)}function i(e){if(!r.o(n,e)){var t=new Error("Cannot find module ''"+e+"''");throw
+    t.code="MODULE_NOT_FOUND",t}return n[e]}o.keys=function(){return Object.keys(n)},o.resolve=i,e.exports=o,o.id=170},911:function(e,t,r){var
+    n={"./base.json":649};function o(e){var t=i(e);return r(t)}function i(e){if(!r.o(n,e)){var
+    t=new Error("Cannot find module ''"+e+"''");throw t.code="MODULE_NOT_FOUND",t}return
+    n[e]}o.keys=function(){return Object.keys(n)},o.resolve=i,e.exports=o,o.id=911},386:function(e,t,r){var
+    n=r(149).R;t.s=function(e){if(e||(e=1),!r.y.meta||!r.y.meta.url)throw console.error("__system_context__",r.y),Error("systemjs-webpack-interop
+    was provided an unknown SystemJS context. Expected context.meta.url, but none
+    was provided");r.p=n(r.y.meta.url,e)}},149:function(e,t,r){function n(e,t){var
+    r=document.createElement("a");r.href=e;for(var n="/"===r.pathname[0]?r.pathname:"/"+r.pathname,o=0,i=n.length;o!==t&&i>=0;){"/"===n[--i]&&o++}if(o!==t)throw
+    Error("systemjs-webpack-interop: rootDirectoryLevel ("+t+") is greater than the
+    number of directories ("+o+") in the URL path "+e);var c=n.slice(0,i+1);return
+    r.protocol+"//"+r.host+c}t.R=n;var o=Number.isInteger||function(e){return"number"==typeof
+    e&&isFinite(e)&&Math.floor(e)===e}},586:function(e){"use strict";e.exports=r},978:function(e){"use
+    strict";e.exports=n},954:function(e){"use strict";e.exports=o},835:function(e){"use
+    strict";e.exports={name:"Name"}},649:function(e){"use strict";e.exports={name:"名称"}}},i={};function
+    c(t){var r=i[t];if(void 0!==r)return r.exports;var n=i[t]={exports:{}};return
+    e[t](n,n.exports,c),n.exports}c.y=t,c.g=function(){if("object"==typeof globalThis)return
+    globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof
+    window)return window}}(),c.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},c.r=function(e){"undefined"!=typeof
+    Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},function(){var
+    e;c.g.importScripts&&(e=c.g.location+"");var t=c.g.document;if(!e&&t&&(t.currentScript&&(e=t.currentScript.src),!e)){var
+    r=t.getElementsByTagName("script");if(r.length)for(var n=r.length-1;n>-1&&!e;)e=r[n--].src}if(!e)throw
+    new Error("Automatic publicPath is not supported in this browser");e=e.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),c.p=e}();var
+    u={};return(0,c(386).s)(1),function(){"use strict";c.r(u);var e=c(954);function
+    t(e,t){(null==t||t>e.length)&&(t=e.length);for(var r=0,n=new Array(t);r<t;r++)n[r]=e[r];return
+    n}function r(e,r){return function(e){if(Array.isArray(e))return e}(e)||function(e,t){var
+    r=null==e?null:"undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(null!=r){var
+    n,o,i,c,u=[],a=!0,s=!1;try{if(i=(r=r.call(e)).next,0===t){if(Object(r)!==r)return;a=!1}else
+    for(;!(a=(n=i.call(r)).done)&&(u.push(n.value),u.length!==t);a=!0);}catch(e){s=!0,o=e}finally{try{if(!a&&null!=r.return&&(c=r.return(),Object(c)!==c))return}finally{if(s)throw
+    o}}return u}}(e,r)||function(e,r){if(e){if("string"==typeof e)return t(e,r);var
+    n=Object.prototype.toString.call(e).slice(8,-1);return"Object"===n&&e.constructor&&(n=e.constructor.name),"Map"===n||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?t(e,r):void
+    0}}(e,r)||function(){throw new TypeError("Invalid attempt to destructure non-iterable
+    instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]()
+    method.")}()}var n=c(978),o=c(586);function i(){var t=r((0,e.useState)(!0),2),i=t[0],c=t[1],u=(0,e.useRef)();return
+    e.default.createElement(e.default.Fragment,null,i&&e.default.createElement(o.Loading,{className:"page-loading"}),e.default.createElement("iframe",{ref:u,src:"/proxy/ys1000/",width:"100%",height:"100%",frameBorder:"0",style:{height:"calc(100vh
+    - 68px)",display:i?"none":"block"},onLoad:function(){var e=(0,n.get)(u.current,"contentWindow.document");e&&e.querySelector("#app
+    > div > div.header > div")&&(e.querySelector("#app > div > div.header > div").style.display="none"),c(!1)}}))}var
+    a=[{path:"/ys1000",element:e.default.createElement(i,null)}];function s(e){return
+    s="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return
+    typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof
+    e},s(e)}function f(e){var t=function(e,t){if("object"!=s(e)||!e)return e;var r=e[Symbol.toPrimitive];if(void
+    0!==r){var n=r.call(e,t||"default");if("object"!=s(n))return n;throw new TypeError("@@toPrimitive
+    must return a primitive value.")}return("string"===t?String:Number)(e)}(e,"string");return"symbol"==s(t)?t:String(t)}function
+    l(e,t,r){return(t=f(t))in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function
+    p(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return
+    Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function
+    y(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?p(Object(r),!0).forEach((function(t){l(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):p(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return
+    e}for(var b=c(911),d=b.keys().filter((function(e){return"./index.ts"!==e})),m={},v=0;v<d.length;v+=1)d[v].startsWith(".")&&(m=y(y({},m),b(d[v])));var
+    h=m;function g(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var
+    n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return
+    r}function O(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?g(Object(r),!0).forEach((function(t){l(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):g(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return
+    e}for(var w=c(170),j=w.keys().filter((function(e){return"./index.ts"!==e})),S={},x=0;x<j.length;x+=1)j[x].startsWith(".")&&(S=O(O({},S),w(j[x])));var
+    P={routes:a,menus:[{parent:"topbar",name:"ys1000",title:"YS1000",icon:"cluster",order:0,desc:"YS1000
+    is a data protection software",skipAuth:!0}],locales:{zh:h,en:S}};globals.context.registerExtension(P)}(),u}())}}}));'
+
+---
+
+apiVersion: extensions.kubesphere.io/v1alpha1
+kind: ReverseProxy
+metadata:
+  name: {{ include "frontend.fullname" . }}-reverse-proxy
+spec:
+  directives:
+    authProxy: true
+    headerUp:
+    - Authorization
+    stripPathPrefix: /proxy/ys1000
+  matcher:
+    method: '*'
+    path: /proxy/ys1000/*
+  upstream:
+    url: http://ui-service-default.{{ .Release.Namespace }}.svc:9000/
+status:
+  state: Available
