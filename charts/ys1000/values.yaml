@@ -245,7 +245,7 @@ components:
     image:
       registry: ""
       repository: ys1000/volsync
-      tag: 0.8.0-jibu
+      tag: 0.8.1-jibu
   drInitContainer:
     image:
       registry: ""
