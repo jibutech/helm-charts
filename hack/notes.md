@@ -38,13 +38,15 @@ helm search repo qiming
 yq eval --inplace '.migconfig.deploymentMode="kse-extension"' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deletionPolicy.removeResources=true' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deletionPolicy.cancelRunningJobs=true' charts/ys1000/values.yaml
+yq eval --inplace '.mysql.primary.persistence.enabled=true' charts/ys1000/values.yaml
+yq eval --inplace '.mysql.primary.persistence.storageClass=null' charts/ys1000/values.yaml
 helm package charts/ys1000
 git restore charts/ys1000/values.yaml
 mv ys1000-3.8.0.tgz charts/ys1000-kse/charts/
-rm -f ys1000-0.1.0.tgz && ksbuilder package ys1000-kse
+(cd charts && rm -f ys1000-3.8.0.tgz && ksbuilder package ys1000-kse)
 ```
 
 3. (optional) publish to development kubesphere environment and test
 ```
-ksbuilder publish ys1000-0.1.0.tgz
+ksbuilder publish charts/ys1000-3.8.0.tgz
 ```
