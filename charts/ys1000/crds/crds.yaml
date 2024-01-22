@@ -47954,8 +47954,6 @@ spec:
                 type: array
               weChatState:
                 type: string
-            required:
-            - licenseStatus
             type: object
         type: object
     served: true
