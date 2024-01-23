@@ -403,7 +403,7 @@ clusterpedia:
     image:
       registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
       repository: ys1000/apiserver
-      tag: v0.6.2
+      tag: v0.7.1
     resources:
       requests:
         cpu: 200m
@@ -417,7 +417,7 @@ clusterpedia:
     image:
       registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
       repository: ys1000/clustersynchro-manager
-      tag: v0.6.2
+      tag: v0.7.1
     resources:
       requests:
         cpu: 50m
@@ -437,6 +437,8 @@ clusterpedia:
       ## alpha: v0.3.0
       AllowSyncAllResources: true
 
+      IgnoreSyncLease: true
+
   ## controller manager config
   controllerManager:
     tolerations: []
@@ -445,7 +447,7 @@ clusterpedia:
     image:
       registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
       repository: ys1000/controller-manager
-      tag: v0.6.2
+      tag: v0.7.1
     resources:
       requests:
         cpu: 50m
