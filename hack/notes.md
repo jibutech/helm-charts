@@ -6,25 +6,36 @@
 
 3. do git merge from main first (note: git pull to keep main to latest)
 
-4. run following commands to generate helm chart package and update index.yaml 
+4. run following commands to generate helm chart package and update index.yaml
 
-```
+```bash
 cd helm-charts
 
 helm package charts/ys1000
 helm repo index . --url  https://jibutech.github.io/helm-charts/
 ```
+
 5. correct index.yaml for only new helm chart package
 
 6. push to specific release branch and merge to main
 
 7. wait for 5 or 10 minutes and then resync this repo and check the new release is available
 
-```
+```bash
 # initial step only
 helm repo add qiming https://jibutech.github.io/helm-charts/
 
 # update
 helm repo update
 helm search repo qiming
+```
+
+## tips
+
+```bash
+# update helm dependency
+➜  $ pwd
+helm-charts/charts
+➜  $ export HTTPS_PROXY=<your proxy>
+➜  $ helm dependency update ys1000/
 ```
