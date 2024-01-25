@@ -143,7 +143,7 @@ components:
       repository: ys1000/velero-plugin
       tag: ""
     plugins:
-    - ys1000/velero-plugin-for-aws:v1.3.0-jibu-1a3fa7e-20231218024212
+    - ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
     - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
