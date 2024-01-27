@@ -18,6 +18,18 @@ entries:
   mysql:
   - apiVersion: v2
     appVersion: 8.0.32
+    created: "2024-01-12T11:22:12.530291+08:00"
+    description: MySQL is a fast, reliable, scalable, and easy to use open source
+      relational database system. Designed to handle mission-critical, heavy-load
+      production applications.
+    digest: 81d3f30ce7aac3ebb1266c1995afe9f76f20ce21295f742dd360d68775df19ec
+    name: mysql
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/mysql-1.0.8.tgz
+    version: 1.0.8
+  - apiVersion: v2
+    appVersion: 8.0.32
     created: "2023-11-16T14:00:40.695267+08:00"
     description: MySQL is a fast, reliable, scalable, and easy to use open source
       relational database system. Designed to handle mission-critical, heavy-load

@@ -5,6 +5,8 @@ metadata:
   name: {{ include "mysql.fullname" . }}
   labels:
     {{- include "mysql.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   storageClassName: {{ .Values.primary.persistence.storageClass }}
   accessModes:
