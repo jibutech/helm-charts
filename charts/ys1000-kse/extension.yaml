@@ -35,7 +35,7 @@ provider:
     url: "https://www.jibudata.com"
 icon: ./static/favicon.svg
 screenshots:
-  - ./static/screenshots/dashboard.png
+  - ./static/screenshots/dashboard.jpg
 dependencies:
   - name: ys1000
     repository: https://jibutech.github.io/helm-charts/
