@@ -1647,6 +1647,81 @@ spec:
                         description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                         type: string
                     type: object
+                  errors:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
+                  steps:
+                    properties:
+                      current:
+                        type: integer
+                      history:
+                        items:
+                          description: StepInfo includes details of a step's execution
+                          properties:
+                            canceledAt:
+                              format: date-time
+                              type: string
+                            completionTimestamp:
+                              format: date-time
+                              type: string
+                            errorCount:
+                              additionalProperties:
+                                type: integer
+                              description: Deprecated
+                              type: object
+                            failedAt:
+                              format: date-time
+                              type: string
+                            firstFailureTimeStamp:
+                              description: Deprecated
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            retryTimes:
+                              description: Deprecated
+                              type: integer
+                            skipped:
+                              type: boolean
+                            startTimestamp:
+                              format: date-time
+                              type: string
+                          type: object
+                        type: array
+                      total:
+                        type: integer
+                    type: object
+                  warnings:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               exportScheduledAt:
                 format: date-time
