@@ -11516,6 +11516,12 @@ spec:
           spec:
             description: DrConfigSpec defines the desired state of DrConfig
             properties:
+              backupRestoreConfig:
+                properties:
+                  backupPolicyName:
+                    description: dataonly backup policy name
+                    type: string
+                type: object
               cephMirrorConfig:
                 properties:
                   poolMirrorType:
