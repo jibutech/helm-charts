@@ -10488,6 +10488,66 @@ spec:
                         type: object
                     type: object
                 type: object
+              hooks:
+                description: hooks for resource synchronization and data synchronization
+                properties:
+                  dataHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                  resourceHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                type: object
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
                 type: boolean
