@@ -38,8 +38,9 @@ image:
 
 components:
   portal:
-    scheme: https
-    baseURI: "/ys1000"
+    # enabled with extension mode only
+    # scheme: https
+    # baseURI: "/ys1000"
     image:
       registry: ""
       repository: ys1000/mig-ui
