@@ -3,7 +3,8 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imageRegistry: ""
+  imageRegistry: "jibutech-registry.cn-hangzhou.cr.aliyuncs.com"
+  storageClass: ""
 
 tags:
   mysql: true
@@ -26,7 +27,7 @@ featureGates:
   HostPathBackup: false
 
 imageBase:
-  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+  registry: ""
   pullPolicy: Always
   tag: "release-3.8.0-latest"
 
@@ -37,6 +38,8 @@ image:
 
 components:
   portal:
+    scheme: https
+    baseURI: "/ys1000"
     image:
       registry: ""
       repository: ys1000/mig-ui
@@ -281,6 +284,7 @@ fullnameOverride: ""
 
 migconfig:
   clientName: "default"
+  # default is "standalone", options are "kse-extension" and "cce-extension"
   deploymentMode: "standalone"
   isAdminCluster: false
   agentNamespace: qiming-backend
@@ -331,6 +335,12 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# console domain for ingress
+console_domain: ""
+# console设置独立自定义域名
+setCustomDomain: "false"
+customDomain: ""
+
 ingress:
   enabled: false
   annotations:
@@ -340,15 +350,10 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     # kubernetes.io/tls-acme: "true"
-  # hostname is default host for the ingress resource
-  hostname: ys1000.local
-  # path is sub-url for ys1000, default is "/"
+  # ys1000 is deployed as sub-url under platform management domain
+  # keep consistent with portal.baseURI
   path: /ys1000(/|$)(.*)
   pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -371,7 +376,7 @@ affinity: {}
 mysql:
   fullnameOverride: mysql
   image:
-    registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+    registry: ""
     repository: ys1000/mysql
     tag: 8.0.35-debian-11-r2
     pullPolicy: IfNotPresent
@@ -441,7 +446,7 @@ clusterpedia:
   apiserver:
     tolerations: []
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/apiserver
       tag: v0.7.1
     resources:
@@ -455,7 +460,7 @@ clusterpedia:
   clustersynchroManager:
     tolerations: []
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/clustersynchro-manager
       tag: v0.7.1
     resources:
@@ -485,7 +490,7 @@ clusterpedia:
     # disable controller manager
     replicaCount: 0
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/controller-manager
       tag: v0.7.1
     resources:
@@ -498,7 +503,7 @@ clusterpedia:
 
 #  hookJob:
 #    image:
-#      registry: registry.cn-shanghai.aliyuncs.com
+#      registry: ""
 #      repository: jibutech/cloudshell
 #      tag: v0.4.0
 #      pullPolicy: IfNotPresent
@@ -518,7 +523,7 @@ clusterpedia:
   mysql:
     enabled: false
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/mysql
       tag: 8.0.35-debian-11-r0
 

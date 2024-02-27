@@ -11,19 +11,8 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
   rules:
-    - host: {{ .Values.ingress.hostname }}
-      http:
+    - http:
         paths:
         - backend:
             service:
@@ -34,4 +23,23 @@ spec:
           pathType: {{ .Values.ingress.pathType }}
           property:
             ingress.beta.kubernetes.io/enable-checksession: "true"
+      {{ if .Values.console_domain }}
+      {{if not (.Values.console_domain | regexMatch "^(((25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])[,$]?)+$") }}
+      host: {{ .Values.console_domain }}
+      {{ end }}
+      {{ end }}
+    {{- if eq .Values.setCustomDomain "true" }}
+    - http:
+        paths:
+          - backend:
+              service:
+                name: ui-service-default
+                port:
+                  number: 9000
+            path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+            property:
+              ingress.beta.kubernetes.io/enable-checksession: "true"
+      host: {{ .Values.customDomain }}
+    {{- end }}
 {{- end }}
