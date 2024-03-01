@@ -35213,6 +35213,19 @@ spec:
                                 type: object
                               type: object
                           type: object
+                        scrubPolicy:
+                          description: ScrubPolicy defines the scrub policy
+                          properties:
+                            clusterRef:
+                              properties:
+                                global:
+                                  type: boolean
+                                name:
+                                  type: string
+                              type: object
+                            storageClassName:
+                              type: string
+                          type: object
                         templates:
                           items:
                             items:
