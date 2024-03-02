@@ -13,13 +13,18 @@
 
     helm package charts/ys1000
     helm repo index . --url  https://jibutech.github.io/helm-charts/
+
+    # update helm index
+    mkdir -p new_charts
+    helm package  -d  new_charts charts/ys1000 
+    helm repo index --url  https://jibutech.github.io/helm-charts/ --merge ./index.yaml new_charts
+    cp new_charts/* .
+    rm -rf new_charts
     ```
 
-5. correct index.yaml for only new helm chart package
+5. push to specific release branch and merge to main
 
-6. push to specific release branch and merge to main
-
-7. wait for 5 or 10 minutes and then resync this repo and check the new release is available
+6. wait for 5 or 10 minutes and then resync this repo and check the new release is available
 
 ```bash
 # initial step only
