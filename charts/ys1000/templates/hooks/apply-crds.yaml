@@ -26,7 +26,7 @@ spec:
         command:
         - /app/helmhook
         - crd-apply
-        image: "{{ .Values.tools.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.tools.helmHook.image.repository }}:{{ .Values.tools.helmHook.image.tag | default .Values.imageBase.tag }}"
+        image: "{{ .Values.global.imageRegistry | default .Values.tools.helmHook.image.registry | default .Values.imageBase.registry }}/{{ .Values.tools.helmHook.image.repository }}:{{ .Values.tools.helmHook.image.tag | default .Values.imageBase.tag }}"
         imagePullPolicy: {{ .Values.tools.helmHook.image.pullPolicy | default .Values.imageBase.pullPolicy }}
         resources:
           requests:
