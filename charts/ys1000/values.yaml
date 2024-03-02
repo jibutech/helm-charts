@@ -2,6 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  imageRegistry: "jibutech-registry.cn-hangzhou.cr.aliyuncs.com"
+  storageClass: ""
+
 tags:
   mysql: true
   clusterpedia: true
@@ -23,9 +27,9 @@ featureGates:
   HostPathBackup: false
 
 imageBase:
-  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+  registry: ""
   pullPolicy: Always
-  tag: "3.6.2"
+  tag: "3.8.0"
 
 image:
   registry: ""
@@ -34,6 +38,9 @@ image:
 
 components:
   portal:
+    # enabled with extension mode only
+    # scheme: https
+    # baseURI: "/ys1000"
     image:
       registry: ""
       repository: ys1000/mig-ui
@@ -145,6 +152,7 @@ components:
     plugins:
     - ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
     - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
+    - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -245,7 +253,7 @@ components:
     image:
       registry: ""
       repository: ys1000/volsync
-      tag: 0.6.1
+      tag: 0.8.1-jibu
   drInitContainer:
     image:
       registry: ""
@@ -277,6 +285,7 @@ fullnameOverride: ""
 
 migconfig:
   clientName: "default"
+  # default is "standalone", options are "kse-extension" and "cce-extension"
   deploymentMode: "standalone"
   isAdminCluster: false
   agentNamespace: qiming-backend
@@ -327,20 +336,25 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# console domain for ingress
+console_domain: ""
+# console设置独立自定义域名
+setCustomDomain: "false"
+customDomain: ""
+
 ingress:
   enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  annotations:
+    ingress.beta.kubernetes.io/sticky: "false"
+    ingress.kubernetes.io/secure-backends: "false"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
     # kubernetes.io/tls-acme: "true"
-  # hostname is default host for the ingress resource
-  hostname: ys1000.local
-  # path is sub-url for ys1000, default is "/"
-  path: /
+  # ys1000 is deployed as sub-url under platform management domain
+  # keep consistent with portal.baseURI
+  path: /ys1000(/|$)(.*)
   pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -362,17 +376,20 @@ affinity: {}
 
 mysql:
   fullnameOverride: mysql
-  tolerations: []
   image:
-    registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+    registry: ""
     repository: ys1000/mysql
-    tag: 8.0.32
+    tag: 8.0.35-debian-11-r2
     pullPolicy: IfNotPresent
   auth:
     rootPassword: "passw0rd"
+    username: ""
+    password: ""
     database: webserver
   primary:
+    tolerations: []
     args:
+    - /opt/bitnami/scripts/mysql/run.sh
     - --binlog-expire-logs-seconds=3600
     resources:
       limits:
@@ -389,6 +406,35 @@ mysql:
       nfs:
         server: ""
         path: ""
+    configuration: |-
+      [mysqld]
+      default_authentication_plugin={{- .Values.auth.defaultAuthenticationPlugin | default "mysql_native_password" }}
+      skip-name-resolve
+      explicit_defaults_for_timestamp
+      basedir=/opt/bitnami/mysql
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      datadir=/bitnami/mysql/data
+      tmpdir=/opt/bitnami/mysql/tmp
+      max_allowed_packet=16M
+      bind-address=*
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+      log-error=/opt/bitnami/mysql/logs/mysqld.log
+      character-set-server=UTF8
+      slow_query_log=0
+      long_query_time=10.0
+      
+      [client]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      default-character-set=UTF8
+      plugin_dir=/opt/bitnami/mysql/lib/plugin
+      
+      [manager]
+      port=3306
+      socket=/opt/bitnami/mysql/tmp/mysql.sock
+      pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
 
 clusterpedia:
   persistenceMatchNode: None
@@ -401,7 +447,7 @@ clusterpedia:
   apiserver:
     tolerations: []
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/apiserver
       tag: v0.7.1
     resources:
@@ -415,7 +461,7 @@ clusterpedia:
   clustersynchroManager:
     tolerations: []
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/clustersynchro-manager
       tag: v0.7.1
     resources:
@@ -445,7 +491,7 @@ clusterpedia:
     # disable controller manager
     replicaCount: 0
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/controller-manager
       tag: v0.7.1
     resources:
@@ -456,12 +502,12 @@ clusterpedia:
         cpu: 200m
         memory: 256Mi
 
-  hookJob:
-    image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
-      repository: ys1000/cloudshell
-      tag: v0.4.0
-      pullPolicy: IfNotPresent
+#  hookJob:
+#    image:
+#      registry: ""
+#      repository: jibutech/cloudshell
+#      tag: v0.4.0
+#      pullPolicy: IfNotPresent
 
   postgresql:
     enabled: false
@@ -478,9 +524,9 @@ clusterpedia:
   mysql:
     enabled: false
     image:
-      registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+      registry: ""
       repository: ys1000/mysql
-      tag: 8.0.32
+      tag: 8.0.35-debian-11-r0
 
 dex:
   fullnameOverride: ys1000-dex

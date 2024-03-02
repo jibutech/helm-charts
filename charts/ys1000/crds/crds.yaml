@@ -216,6 +216,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -304,6 +306,8 @@ spec:
                       type: string
                     snapshotId:
                       type: string
+                    sourceSnapshotId:
+                      type: string
                     storageClassName:
                       type: string
                     totalBytes:
@@ -321,6 +325,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -404,6 +410,24 @@ spec:
                 properties:
                   clusterProvider:
                     type: string
+                  clusterQoS:
+                    description: QosClass defines qos class
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: TimeRange defines time range
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
                   clusterRef:
                     properties:
                       global:
@@ -1558,6 +1582,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -1645,6 +1671,85 @@ spec:
                         description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                         type: string
                     type: object
+                  errors:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
+                  steps:
+                    properties:
+                      current:
+                        type: integer
+                      history:
+                        items:
+                          description: StepInfo includes details of a step's execution
+                          properties:
+                            canceledAt:
+                              format: date-time
+                              type: string
+                            completionTimestamp:
+                              format: date-time
+                              type: string
+                            errorCount:
+                              additionalProperties:
+                                type: integer
+                              description: Deprecated
+                              type: object
+                            failedAt:
+                              format: date-time
+                              type: string
+                            firstFailureTimeStamp:
+                              description: Deprecated
+                              format: date-time
+                              type: string
+                            name:
+                              type: string
+                            retryTimes:
+                              description: Deprecated
+                              type: integer
+                            skipped:
+                              type: boolean
+                            startTimestamp:
+                              format: date-time
+                              type: string
+                          type: object
+                        type: array
+                      total:
+                        type: integer
+                    type: object
+                  warnings:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               exportScheduledAt:
                 format: date-time
@@ -1799,6 +1904,118 @@ spec:
                     type: object
                   type: array
                 type: object
+              snapshots:
+                items:
+                  properties:
+                    deletionPolicy:
+                      description: deletionPolicy determines whether this VolumeSnapshotContent
+                        and its physical snapshot on the underlying storage system
+                        should be deleted when its bound VolumeSnapshot is deleted.
+                        Supported values are "Retain" and "Delete". "Retain" means
+                        that the VolumeSnapshotContent and its physical snapshot on
+                        underlying storage system are kept. "Delete" means that the
+                        VolumeSnapshotContent and its physical snapshot on underlying
+                        storage system are deleted. For dynamically provisioned snapshots,
+                        this field will automatically be filled in by the CSI snapshotter
+                        sidecar with the "DeletionPolicy" field defined in the corresponding
+                        VolumeSnapshotClass. For pre-existing snapshots, users MUST
+                        specify this field when creating the VolumeSnapshotContent
+                        object. Required.
+                      enum:
+                      - Delete
+                      - Retain
+                      type: string
+                    driver:
+                      description: driver is the name of the CSI driver used to create
+                        the physical snapshot on the underlying storage system. This
+                        MUST be the same as the name returned by the CSI GetPluginName()
+                        call for that driver. Required.
+                      type: string
+                    name:
+                      type: string
+                    readyToUse:
+                      type: boolean
+                    size:
+                      format: int64
+                      type: integer
+                    snapshotHandle:
+                      type: string
+                    source:
+                      description: source specifies whether the snapshot is (or should
+                        be) dynamically provisioned or already exists, and just requires
+                        a Kubernetes object representation. This field is immutable
+                        after creation. Required.
+                      properties:
+                        snapshotHandle:
+                          description: snapshotHandle specifies the CSI "snapshot_id"
+                            of a pre-existing snapshot on the underlying storage system
+                            for which a Kubernetes object representation was (or should
+                            be) created. This field is immutable.
+                          type: string
+                        volumeHandle:
+                          description: volumeHandle specifies the CSI "volume_id"
+                            of the volume from which a snapshot should be dynamically
+                            taken from. This field is immutable.
+                          type: string
+                      type: object
+                    volumeSnapshotClassName:
+                      description: name of the VolumeSnapshotClass from which this
+                        snapshot was (or will be) created. Note that after provisioning,
+                        the VolumeSnapshotClass may be deleted or recreated with different
+                        set of values, and as such, should not be referenced post-snapshot
+                        creation.
+                      type: string
+                    volumeSnapshotRef:
+                      description: volumeSnapshotRef specifies the VolumeSnapshot
+                        object to which this VolumeSnapshotContent object is bound.
+                        VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference
+                        to this VolumeSnapshotContent's name for the bidirectional
+                        binding to be valid. For a pre-existing VolumeSnapshotContent
+                        object, name and namespace of the VolumeSnapshot object MUST
+                        be provided for binding to happen. This field is immutable
+                        after creation. Required.
+                      properties:
+                        apiVersion:
+                          description: API version of the referent.
+                          type: string
+                        fieldPath:
+                          description: 'If referring to a piece of an object instead
+                            of an entire object, this string should contain a valid
+                            JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                            For example, if the object reference is to a container
+                            within a pod, this would take on a value like: "spec.containers{name}"
+                            (where "name" refers to the name of the container that
+                            triggered the event) or if no container name is specified
+                            "spec.containers[2]" (container with index 2 in this pod).
+                            This syntax is chosen only to have some well-defined way
+                            of referencing a part of an object. TODO: this design
+                            is not final and this field is subject to change in the
+                            future.'
+                          type: string
+                        kind:
+                          description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                          type: string
+                        namespace:
+                          description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                          type: string
+                        resourceVersion:
+                          description: 'Specific resourceVersion to which this reference
+                            is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                          type: string
+                        uid:
+                          description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                          type: string
+                      type: object
+                  required:
+                  - deletionPolicy
+                  - driver
+                  - source
+                  - volumeSnapshotRef
+                  type: object
+                type: array
               startTimestamp:
                 format: date-time
                 type: string
@@ -1909,6 +2126,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -4171,6 +4390,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5209,6 +5430,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5642,6 +5865,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5661,6 +5886,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -6489,6 +6716,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -6696,6 +6925,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8159,6 +8390,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8346,6 +8579,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8611,6 +8846,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8704,6 +8941,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8855,6 +9094,8 @@ spec:
                           type: string
                         snapshotId:
                           type: string
+                        sourceSnapshotId:
+                          type: string
                         storageClassName:
                           type: string
                         totalBytes:
@@ -8917,6 +9158,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8982,6 +9225,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -10297,9 +10542,76 @@ spec:
                         type: object
                     type: object
                 type: object
+              hooks:
+                description: hooks for resource synchronization and data synchronization
+                properties:
+                  dataHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                  resourceHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                type: object
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
                 type: boolean
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
               namespaces:
                 items:
                   type: string
@@ -10467,6 +10779,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -11231,6 +11545,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -11318,6 +11634,12 @@ spec:
           spec:
             description: DrConfigSpec defines the desired state of DrConfig
             properties:
+              backupRestoreConfig:
+                properties:
+                  backupPolicyName:
+                    description: dataonly backup policy name
+                    type: string
+                type: object
               cephMirrorConfig:
                 properties:
                   poolMirrorType:
@@ -12443,6 +12765,60 @@ spec:
                 type: object
               dstCluster:
                 type: string
+              dstNodeConfig:
+                properties:
+                  nodeSelector:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  tolerations:
+                    items:
+                      description: The pod this Toleration is attached to tolerates
+                        any taint that matches the triple <key,value,effect> using
+                        the matching operator <operator>.
+                      properties:
+                        effect:
+                          description: Effect indicates the taint effect to match.
+                            Empty means match all taint effects. When specified, allowed
+                            values are NoSchedule, PreferNoSchedule and NoExecute.
+                          type: string
+                        key:
+                          description: Key is the taint key that the toleration applies
+                            to. Empty means match all taint keys. If the key is empty,
+                            operator must be Exists; this combination means to match
+                            all values and all keys.
+                          type: string
+                        operator:
+                          description: Operator represents a key's relationship to
+                            the value. Valid operators are Exists and Equal. Defaults
+                            to Equal. Exists is equivalent to wildcard for value,
+                            so that a pod can tolerate all taints of a particular
+                            category.
+                          type: string
+                        tolerationSeconds:
+                          description: TolerationSeconds represents the period of
+                            time the toleration (which must be of effect NoExecute,
+                            otherwise this field is ignored) tolerates the taint.
+                            By default, it is not set, which means tolerate the taint
+                            forever (do not evict). Zero and negative values will
+                            be treated as 0 (evict immediately) by the system.
+                          format: int64
+                          type: integer
+                        value:
+                          description: Value is the taint value the toleration matches
+                            to. If the operator is Exists, the value should be empty,
+                            otherwise just a regular string.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
               migStorage:
                 type: string
               nfsConfig:
@@ -12510,6 +12886,10 @@ spec:
                     maximum: 65535
                     minimum: 0
                     type: integer
+                  serviceType:
+                    description: 'serviceType is the type of service to create for
+                      the rsync daemon. supported type: LoadBalancer and NodePort'
+                    type: string
                   sshUser:
                     description: sshUser is the username for outgoing SSH connections.
                       Defaults to "root".
@@ -12559,6 +12939,53 @@ spec:
                 type: string
               srcCluster:
                 type: string
+              srcNodeConfig:
+                properties:
+                  nodeSelector:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  tolerations:
+                    items:
+                      description: The pod this Toleration is attached to tolerates
+                        any taint that matches the triple <key,value,effect> using
+                        the matching operator <operator>.
+                      properties:
+                        effect:
+                          description: Effect indicates the taint effect to match.
+                            Empty means match all taint effects. When specified, allowed
+                            values are NoSchedule, PreferNoSchedule and NoExecute.
+                          type: string
+                        key:
+                          description: Key is the taint key that the toleration applies
+                            to. Empty means match all taint keys. If the key is empty,
+                            operator must be Exists; this combination means to match
+                            all values and all keys.
+                          type: string
+                        operator:
+                          description: Operator represents a key's relationship to
+                            the value. Valid operators are Exists and Equal. Defaults
+                            to Equal. Exists is equivalent to wildcard for value,
+                            so that a pod can tolerate all taints of a particular
+                            category.
+                          type: string
+                        tolerationSeconds:
+                          description: TolerationSeconds represents the period of
+                            time the toleration (which must be of effect NoExecute,
+                            otherwise this field is ignored) tolerates the taint.
+                            By default, it is not set, which means tolerate the taint
+                            forever (do not evict). Zero and negative values will
+                            be treated as 0 (evict immediately) by the system.
+                          format: int64
+                          type: integer
+                        value:
+                          description: Value is the taint value the toleration matches
+                            to. If the operator is Exists, the value should be empty,
+                            otherwise just a regular string.
+                          type: string
+                      type: object
+                    type: array
+                type: object
               syncPolicy:
                 type: string
               syncType:
@@ -12618,6 +13045,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -12629,6 +13058,45 @@ spec:
                       type: string
                   type: object
                 type: array
+              dstNodeList:
+                items:
+                  properties:
+                    externalIP:
+                      type: string
+                    name:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                  required:
+                  - name
+                  - status
+                  type: object
+                type: array
+              expectedRPO:
+                properties:
+                  data:
+                    type: integer
+                  resource:
+                    type: integer
+                type: object
+              srcNodeList:
+                items:
+                  properties:
+                    externalIP:
+                      type: string
+                    name:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                  required:
+                  - name
+                  - status
+                  type: object
+                type: array
               state:
                 type: string
               warnings:
@@ -12637,6 +13105,159 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: drgroupoperations.migration.yinhestor.com
+spec:
+  group: migration.yinhestor.com
+  names:
+    kind: DrGroupOperation
+    listKind: DrGroupOperationList
+    plural: drgroupoperations
+    singular: drgroupoperation
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.drGroupName
+      name: DrGroup
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: DrGroupOperation is the Schema for the DrGroupOperations API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              drGroupName:
+                type: string
+              drGroupRequestName:
+                type: string
+              operation:
+                description: Operation
+                type: string
+            required:
+            - drGroupName
+            - drGroupRequestName
+            - operation
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              fsmStatus:
+                properties:
+                  availableOps:
+                    items:
+                      type: string
+                    type: array
+                  mainStatus:
+                    description: FSM status
+                    properties:
+                      fsmPreState:
+                        type: string
+                      fsmState:
+                        type: string
+                      lastTransitionTime:
+                        format: date-time
+                        type: string
+                    type: object
+                  subStatus:
+                    properties:
+                      status:
+                        description: FSM status
+                        properties:
+                          fsmPreState:
+                            type: string
+                          fsmState:
+                            type: string
+                          lastTransitionTime:
+                            format: date-time
+                            type: string
+                        type: object
+                      subFsmName:
+                        type: string
+                    type: object
+                type: object
+              phase:
+                type: string
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -12774,6 +13395,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -12866,6 +13489,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -12934,8 +13559,17 @@ spec:
             properties:
               drInstances:
                 items:
-                  type: string
+                  items:
+                    type: string
+                  type: array
                 type: array
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
             required:
             - drInstances
             type: object
@@ -12947,6 +13581,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13000,6 +13636,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13138,6 +13776,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13230,6 +13870,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13338,6 +13980,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13382,6 +14026,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13472,6 +14118,13 @@ spec:
                     type: boolean
                   secondaryFailed:
                     type: boolean
+                type: object
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
                 type: object
               namespaceMapping:
                 additionalProperties:
@@ -14595,6 +15248,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -14637,6 +15292,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -14747,6 +15404,13 @@ spec:
                   - runOn
                   type: object
                 type: array
+              meta:
+                properties:
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                type: object
             type: object
           status:
             properties:
@@ -14756,6 +15420,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -14775,6 +15441,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15740,6 +16408,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15785,6 +16455,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15910,6 +16582,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15929,6 +16603,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16349,6 +17025,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16370,6 +17048,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16703,6 +17383,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16720,6 +17402,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -22621,6 +23305,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -22647,8 +23333,6 @@ spec:
                 items:
                   type: string
                 type: array
-              qosEnabled:
-                type: boolean
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
@@ -22661,6 +23345,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -24958,6 +25644,10 @@ spec:
               deploymentMode:
                 description: DeploymentMode indicates if the installation can support
                   multi-clusters or not
+                enum:
+                - standalone
+                - kse-extension
+                - cce-extension
                 type: string
               developmentMode:
                 type: boolean
@@ -26615,8 +27305,12 @@ spec:
                 type: object
               portal:
                 properties:
+                  baseURI:
+                    type: string
                   disabled:
                     type: boolean
+                  host:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -26628,6 +27322,10 @@ spec:
                       tag:
                         type: string
                     type: object
+                  scheme:
+                    description: URIScheme identifies the scheme used for connection
+                      to a host for Get actions
+                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service
@@ -29742,6 +30440,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -29759,6 +30459,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -31071,6 +31773,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -31245,6 +31949,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -32782,6 +33488,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -32861,6 +33569,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -34007,6 +34717,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -34177,6 +34889,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -34498,6 +35212,19 @@ spec:
                                     type: string
                                 type: object
                               type: object
+                          type: object
+                        scrubPolicy:
+                          description: ScrubPolicy defines the scrub policy
+                          properties:
+                            clusterRef:
+                              properties:
+                                global:
+                                  type: boolean
+                                name:
+                                  type: string
+                              type: object
+                            storageClassName:
+                              type: string
                           type: object
                         templates:
                           items:
@@ -36278,6 +37005,15 @@ spec:
                       type: integer
                   type: object
                 type: array
+              imageBackupPolicy:
+                properties:
+                  backupEnabled:
+                    type: boolean
+                  keepPathAndTag:
+                    type: boolean
+                  registryName:
+                    type: string
+                type: object
               policyName:
                 type: string
               policyOverrides:
@@ -36803,6 +37539,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -37542,6 +38280,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -37829,6 +38569,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -37875,6 +38617,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -37963,6 +38707,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -37991,6 +38737,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38019,6 +38767,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38046,6 +38796,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38074,6 +38826,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38120,6 +38874,218 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: resticoperations.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: ResticOperation
+    listKind: ResticOperationList
+    plural: resticoperations
+    shortNames:
+    - ro
+    singular: resticoperation
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ResticOperation is the Schema for the users API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ResticOperationSpec defines the desired state of ResticOperation
+            properties:
+              canceled:
+                type: boolean
+              config:
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              namespace:
+                type: string
+              prefix:
+                type: string
+              repository:
+                type: string
+              skipped:
+                type: boolean
+              storageRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+          status:
+            description: ResticOperationStatus defines the observed state of ResticOperation
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              createdAt:
+                format: date-time
+                type: string
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              expiredAt:
+                format: date-time
+                type: string
+              finishedAt:
+                format: date-time
+                type: string
+              phase:
+                type: string
+              startedAt:
+                format: date-time
+                type: string
+              steps:
+                properties:
+                  current:
+                    type: integer
+                  history:
+                    items:
+                      description: StepInfo includes details of a step's execution
+                      properties:
+                        canceledAt:
+                          format: date-time
+                          type: string
+                        completionTimestamp:
+                          format: date-time
+                          type: string
+                        errorCount:
+                          additionalProperties:
+                            type: integer
+                          description: Deprecated
+                          type: object
+                        failedAt:
+                          format: date-time
+                          type: string
+                        firstFailureTimeStamp:
+                          description: Deprecated
+                          format: date-time
+                          type: string
+                        name:
+                          type: string
+                        retryTimes:
+                          description: Deprecated
+                          type: integer
+                        skipped:
+                          type: boolean
+                        startTimestamp:
+                          format: date-time
+                          type: string
+                      type: object
+                    type: array
+                  total:
+                    type: integer
+                type: object
+              valid:
+                type: boolean
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -40589,6 +41555,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -40715,6 +41683,8 @@ spec:
                         code:
                           type: string
                         durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
                           type: boolean
                         message:
                           type: string
@@ -40930,6 +41900,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -45212,6 +46184,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -46145,6 +47119,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -46469,6 +47445,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -47394,6 +48372,20 @@ spec:
                         type: array
                     type: object
                 type: object
+              licenseStatus:
+                properties:
+                  aboutToExpire:
+                    type: boolean
+                  expired:
+                    type: boolean
+                  expiredAt:
+                    format: date-time
+                    type: string
+                  inGracePeriod:
+                    type: boolean
+                type: object
+              mailState:
+                type: string
               notifications:
                 description: Deprecated
                 properties:
@@ -47526,6 +48518,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -47537,6 +48531,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              weChatState:
+                type: string
             type: object
         type: object
     served: true
@@ -47659,6 +48655,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -47676,6 +48674,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -51947,8 +52947,12 @@ spec:
                 type: object
               portal:
                 properties:
+                  baseURI:
+                    type: string
                   disabled:
                     type: boolean
+                  host:
+                    type: string
                   image:
                     properties:
                       pullPolicy:
@@ -51960,6 +52964,10 @@ spec:
                       tag:
                         type: string
                     type: object
+                  scheme:
+                    description: URIScheme identifies the scheme used for connection
+                      to a host for Get actions
+                    type: string
                   serviceType:
                     description: Service Type string describes ingress methods for
                       a service
@@ -55106,10 +56114,15 @@ spec:
               email:
                 description: Unique email address(https://www.ietf.org/rfc/rfc5322.txt).
                 type: string
+              lockedUntil:
+                format: date-time
+                type: string
               name:
                 type: string
               password:
                 type: string
+              recentFailureAttempts:
+                type: integer
               uid:
                 type: string
             type: object

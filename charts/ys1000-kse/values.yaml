@@ -1,0 +1,5 @@
+ys1000:
+  mysql:
+    primary:
+      persistence:
+        storageClass: null # leave null to use default storageClass

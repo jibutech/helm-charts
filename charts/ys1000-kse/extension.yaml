@@ -1,0 +1,60 @@
+apiVersion: kubesphere.io/v1alpha1
+name: ys1000
+version: 3.8.0
+displayName:
+  zh: 银数多云数据管家YS1000
+  en: YS1000
+description:
+  zh: 首个国产企业级Kubernetes备份容灾商业解决方案，为企业提供核心容器应用在多云架构下的备份恢复、应用迁移及容灾保护服务。
+  en: The first domestic enterprise level Kubernetes backup disaster recovery business solution.
+category: storage
+keywords:
+  - Backup
+  - Migration
+  - Disaster Recovery
+  - 备份
+  - 容灾
+  - 迁移
+home: https://www.jibudata.com/cpjs
+sources:
+  - https://github.com/jibutech/helm-charts/tree/main/charts/ys1000-kse
+kubeVersion: ">=1.18.0-0"
+ksVersion: ">=4.0.0-0"
+maintainers:
+  - name: "Jibu Tech"
+    email: "support@jibudata.com"
+    url: "https://www.jibudata.com"
+provider:
+  zh:
+    name: "上海骥步科技有限公司"
+    email: "support@jibudata.com"
+    url: "https://www.jibudata.com"
+  en:
+    name: "Jibu Tech"
+    email: "support@jibudata.com"
+    url: "https://www.jibudata.com"
+icon: ./static/favicon.svg
+screenshots:
+  - ./static/screenshots/dashboard.jpg
+dependencies:
+  - name: ys1000
+    repository: https://jibutech.github.io/helm-charts/
+    version: 3.8.0
+    tags:
+    - extension
+# installationMode describes how to install subcharts, it can be HostOnly or Multicluster.
+# In Multicluster mode, the subchart with tag `extension` will only be deployed to the host cluster,
+# and the subchart with tag `agent` will be deployed to all selected clusters.
+installationMode: HostOnly
+# Custom namespace example: If not specified, it will be installed in the namespace named extension-{name}.
+#namespace: ""
+# external dependencies example
+#externalDependencies:
+#  - name: a
+#    type: extension
+#    version: ">= 2.6.0"
+#    required: true
+#  - name: b
+#    type: extension
+#    version: ">= 2.2.0"
+#    required: true
