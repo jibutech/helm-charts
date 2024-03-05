@@ -526,7 +526,7 @@ clusterpedia:
     image:
       registry: ""
       repository: ys1000/mysql
-      tag: 8.0.35-debian-11-r0
+      tag: 8.0.35-debian-11-r2
 
 dex:
   fullnameOverride: ys1000-dex
