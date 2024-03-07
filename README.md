@@ -31,6 +31,7 @@
    **注意-1**: 为确保安装成功，请设置必需的的配置参数， 具体信息请参考安装手册配置章节
    **注意-2**: 需要在安装本软件之前准备好 S3 (AWS S3 兼容) 对象存储环境，下文基于本地安装的 [minio](https://min.io/) 为例进行说明
    **注意-3**: 如果安装环境中，之前安装过ys1000 历史版本，需要手动更新crd之后再进行安装或者升级
+   **从YS1000 3.6 版本开始在helm 安装和升级时内置拉取crd的钩子，只要钩子程序的pod成功运行即可；如果报错请检查pod log或联系技术支持**
 
    ```bash
       kubectl apply -k 'github.com/jibutech/helm-charts/charts/ys1000'
@@ -89,7 +90,7 @@
    helm install jibutech/ys1000 --namespace ys1000 -f values.yaml --generate-name
    ```
 
-3. 获取已安装的软件的运行状态
+4. 获取已安装的软件的运行状态
    使用上述安装结束后 `NOTES` 中的第一条命令来查询软件的运行状态，使用可选 `-w` 参数观察软件初始化过程更新。
 
    **注意**：软件在初次安装时，需要一段时间下载容器镜像到 K8S 节点上，具体时间取决于镜像拉取速度。
@@ -111,7 +112,7 @@
    ys1000-1683716371       ys1000         11              2023-05-26 17:53:15.116051313 +0800 CST   deployed    ys1000-3.4.0         3.4.0
    ```
 
-4. 访问图形管理界面（UI）
+5. 访问图形管理界面（UI）
 
    a. 使用上述安装结束后 `NOTES` 中的第二条和第三条命令获取程序访问地址以及登录密码
    **注意**：软件通过 K8S Service 来暴露对外访问接口；Web URL基于K8S配置以及安装中指定的参数不同，暴露出的访问地址不同，支持类型包括: `kubectl proxy`， `ingress` 和 `nodeport`，下文以 `nodeport` 安装方式为例:
@@ -203,6 +204,13 @@
      agentID: "'1000000'"    # change to your own ID
      toUser: "username"     # change to your own name
      apiSecret: "z2CJdkRuq14fCejAkEBaPt0w641QCD_teCatrfePE00"    # change to your wechatsecret
+
+   # Enable OSS support
+   components:
+     velero:
+       plugins:
+       - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
+   
    ```
 
    例如：
@@ -210,6 +218,9 @@
    ```bash
    [root@remote-dev ~]helm upgrade ys1000 jibutech/ys1000 --namespace ys1000 --version=3.2.0 -f values.yaml
    ```
+   
+   **注意-3**: 在YS1000 v3.6 版本之前若使用内置mysql数据库，并设置持久化mysql数据卷，升级到v3.7 版本时，由于mysql版本升级，需要执行特殊操作以保证数据一致，参考：
+   https://github.com/jibutech/docs/blob/main/YS1000%20upgrade%20v3.6-v3.7%20mysql%20persistence%20setting.md
 
 ## 卸载
 
@@ -279,7 +290,7 @@
       kubectl delete ns qiming-backend
       ```
 
-      *注意:* 可能部分资源因版本等问题仍然存在命名空间中，导致命名空间删除处于 `Terminating` 状体，可通过 `kubectl get ns <ns-name> -oyaml` 来查找未被成功删除的资源。
+      *注意:* 可能部分资源因版本等问题仍然存在命名空间中，导致命名空间删除处于 `Terminating` 状态，可通过 `kubectl get ns <ns-name> -oyaml` 来查找未被成功删除的资源。
       解决方法请参考如下示例，或联系相关技术支持人员:
 
       ```bash
@@ -361,10 +372,9 @@
 | 参数命名                               | 描述                                                 | 示例                                                         |
 | -------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
 | components.portal.serviceType          | 服务类型（可选，默认为 NodePort）                    | --set components.portal.serviceType=NodePort                 |
-| migconfig.selfBackupIntervalSeconds    | 指定YS1000自备份间隔时长（可选，默认为“300”秒）    | --set migconfig.selfBackupIntervalSeconds=600                |
-| featureGates.Archive                   | 是否开启归档功能（可选，默认为false）                | --set featureGates.Archive=true                              |
-| featureGates.DisasterRecovery          | 是否开启容灾功能（可选，默认为false）                | --set featureGates.DisasterRecovery=true                     |
 | featureGates.EtcdStub                  | 是否开启etcd备份功能（可选，默认为false）            | --set featureGates.EtcdStub=true                             |
+| featureGates.HostPathBackup            | 是否开启hostPath备份功能（可选，默认为false）        | --set featureGates.HostPathBackup=true                       |
+| featureGates.Tenant                    | 是否开启host集群Tenant功能（可选，默认为false）      | --set featureGates.Tenant=true                              |
 | velero.resticPodVolumeOperationTimeout | restic拷贝podvolume的超时时长（可选，默认为“240m”  | --set velero.resticPodVolumeOperationTimeout=120m            |
 | mysql.primary.persistence.enabled      | 是否对mysql数据做持久化（可选，默认为false）         | --set mysql.primary.persistence.enabled=true                 |
 | mysql.primary.persistence.storageClass | 是否指定mysql存储类型（可选，默认为空）              | --set mysql.primary.persistence.storageClass=rook-ceph-block |
