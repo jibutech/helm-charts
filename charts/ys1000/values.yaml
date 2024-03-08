@@ -18,7 +18,7 @@ featureGates:
   AmberApp: true
   Stub: true
   Archive: false
-  DisasterRecovery: false
+  DisasterRecovery: true
   ImageBackup: true
   EtcdStub: false
   CSIAddon: false
