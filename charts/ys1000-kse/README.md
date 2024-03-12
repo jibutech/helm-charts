@@ -12,7 +12,7 @@ The first domestic enterprise level Kubernetes backup disaster recovery business
 # Quick Start
 After installing this extension component, you will see the YS1000 button in the upper left corner of the KubeSphere platform. Click to enter and use it (it may take a few minutes to load the component for the first time).
 
-Before using a container safety product, please read our product instruction manual: [YS1000 User Manual](https://ks-extension.pek3b.qingstor.com/extensions/ys1000/manual.pdf)
+Before using this product, please read our product instruction manual: [YS1000 User Manual](https://ks-extension.pek3b.qingstor.com/extensions/ys1000/manual.pdf)
 
 # Getting License
 Click "Subscribe", select the corresponding version, purchase the extension.
