@@ -7,7 +7,7 @@ displayName:
 description:
   zh: 首个国产企业级Kubernetes备份容灾商业解决方案，为企业提供核心容器应用在多云架构下的备份恢复、应用迁移及容灾保护服务。
   en: The first domestic enterprise level Kubernetes backup disaster recovery business solution.
-category: storage
+category: security
 keywords:
   - Backup
   - Migration
@@ -33,15 +33,26 @@ provider:
     name: "Jibu Tech"
     email: "support@jibudata.com"
     url: "https://www.jibudata.com"
-icon: ./static/favicon.svg
+icon: https://ks-extension.pek3b.qingstor.com/extensions/ys1000/favicon.svg
 screenshots:
-  - ./static/screenshots/dashboard.jpg
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/dashboard.jpg
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/import-cluster.png
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/add-storage.png
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/backupjob.png
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/backupjob-volumes.png
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/restoreplan.png
+  - https://ks-extension.pek3b.qingstor.com/extensions/ys1000/dr-instance-operations.png
 dependencies:
   - name: ys1000
     repository: https://jibutech.github.io/helm-charts/
     version: 3.8.0
     tags:
     - extension
+  - name: frontend
+    version: 3.8.0
+    tags:
+    - extension
+    - frontend
 # installationMode describes how to install subcharts, it can be HostOnly or Multicluster.
 # In Multicluster mode, the subchart with tag `extension` will only be deployed to the host cluster,
 # and the subchart with tag `agent` will be deployed to all selected clusters.
