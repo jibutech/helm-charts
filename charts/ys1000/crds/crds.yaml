@@ -216,6 +216,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -323,6 +325,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -406,6 +410,24 @@ spec:
                 properties:
                   clusterProvider:
                     type: string
+                  clusterQoS:
+                    description: QosClass defines qos class
+                    properties:
+                      customRate:
+                        type: integer
+                      level:
+                        type: string
+                      workRange:
+                        additionalProperties:
+                          description: TimeRange defines time range
+                          properties:
+                            startTime:
+                              type: string
+                            stopTime:
+                              type: string
+                          type: object
+                        type: object
+                    type: object
                   clusterRef:
                     properties:
                       global:
@@ -1562,6 +1584,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -1655,6 +1679,8 @@ spec:
                         code:
                           type: string
                         durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
                           type: boolean
                         message:
                           type: string
@@ -1713,6 +1739,8 @@ spec:
                         code:
                           type: string
                         durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
                           type: boolean
                         message:
                           type: string
@@ -2106,6 +2134,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -4380,6 +4410,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5420,6 +5452,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5855,6 +5889,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -5874,6 +5910,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -6710,6 +6748,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -6923,6 +6963,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8440,6 +8482,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8633,6 +8677,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8898,6 +8944,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -8923,7 +8971,11 @@ spec:
                           type: string
                         desiredRole:
                           type: string
+                        lastLogs:
+                          type: string
                         lastManualSync:
+                          type: string
+                        lastResult:
                           type: string
                         lastSyncDuration:
                           description: sync status
@@ -8960,7 +9012,11 @@ spec:
                           type: string
                         desiredRole:
                           type: string
+                        lastLogs:
+                          type: string
                         lastManualSync:
+                          type: string
+                        lastResult:
                           type: string
                         lastSyncDuration:
                           description: sync status
@@ -8991,6 +9047,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -9206,6 +9264,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -9271,6 +9331,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -10586,6 +10648,66 @@ spec:
                         type: object
                     type: object
                 type: object
+              hooks:
+                description: hooks for resource synchronization and data synchronization
+                properties:
+                  dataHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                  resourceHooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                type: object
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
                 type: boolean
@@ -10765,6 +10887,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -11529,6 +11653,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -11616,6 +11742,12 @@ spec:
           spec:
             description: DrConfigSpec defines the desired state of DrConfig
             properties:
+              backupRestoreConfig:
+                properties:
+                  backupPolicyName:
+                    description: dataonly backup policy name
+                    type: string
+                type: object
               cephMirrorConfig:
                 properties:
                   poolMirrorType:
@@ -13021,6 +13153,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13079,6 +13213,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13171,6 +13307,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13226,6 +13364,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13363,6 +13503,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13455,6 +13597,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13545,6 +13689,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13598,6 +13744,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13736,6 +13884,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13828,6 +13978,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13936,6 +14088,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -13980,6 +14134,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15200,6 +15356,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15242,6 +15400,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15368,6 +15528,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -15387,6 +15549,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16352,6 +16516,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16397,6 +16563,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16522,6 +16690,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16541,6 +16711,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16963,6 +17135,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -16984,6 +17158,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -17317,6 +17493,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -17334,6 +17512,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -23235,6 +23415,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -23261,8 +23443,6 @@ spec:
                 items:
                   type: string
                 type: array
-              qosEnabled:
-                type: boolean
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
@@ -23275,6 +23455,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -30368,6 +30550,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -30385,6 +30569,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -31697,6 +31883,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -31871,6 +32059,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -33408,6 +33598,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -33487,6 +33679,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -33887,6 +34081,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  convertOpenShiftResources:
+                    type: boolean
                   dataTransferTimeout:
                     type: string
                   dataVerify:
@@ -34635,6 +34831,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -34805,6 +35003,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -35126,6 +35326,19 @@ spec:
                                     type: string
                                 type: object
                               type: object
+                          type: object
+                        scrubPolicy:
+                          description: ScrubPolicy defines the scrub policy
+                          properties:
+                            clusterRef:
+                              properties:
+                                global:
+                                  type: boolean
+                                name:
+                                  type: string
+                              type: object
+                            storageClassName:
+                              type: string
                           type: object
                         templates:
                           items:
@@ -37448,6 +37661,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38187,6 +38402,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38474,6 +38691,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38520,6 +38739,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38608,6 +38829,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38636,6 +38859,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38664,6 +38889,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38691,6 +38918,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38719,6 +38948,8 @@ spec:
                                 code:
                                   type: string
                                 durable:
+                                  description: 'Deprecated: please don''t use this
+                                    field, it will be removed in the future'
                                   type: boolean
                                 message:
                                   type: string
@@ -38765,6 +38996,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38900,6 +39133,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -38971,6 +39206,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -40226,6 +40463,8 @@ spec:
                     type: string
                   backupPlan:
                     type: string
+                  convertOpenShiftResources:
+                    type: boolean
                   copyMethod:
                     type: string
                   dataExported:
@@ -41442,6 +41681,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -41568,6 +41809,8 @@ spec:
                         code:
                           type: string
                         durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
                           type: boolean
                         message:
                           type: string
@@ -41789,6 +42032,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -46083,6 +46328,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -47018,6 +47265,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -47342,6 +47591,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -48413,6 +48664,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -48548,6 +48801,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
@@ -48565,6 +48820,8 @@ spec:
                     code:
                       type: string
                     durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
                       type: boolean
                     message:
                       type: string
