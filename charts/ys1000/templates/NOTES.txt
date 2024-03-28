@@ -5,7 +5,7 @@
 
 2. After status is ready, get the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $.Values.ingress.hostname }}/ys1000/
+  http(s)://{{ $.Values.console_domain }}/ys1000/
 {{- else if contains "NodePort" .Values.components.portal.serviceType }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "qiming-operator.uiService.name" .}} )
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
