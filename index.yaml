@@ -27,18 +27,6 @@ entries:
     type: application
     urls:
     - https://jibutech.github.io/helm-charts/mysql-1.0.8.tgz
-    version: 1.0.8
-    appVersion: 8.0.32
-    created: "2023-02-01T11:40:25.922318+08:00"
-    description: MySQL is a fast, reliable, scalable, and easy to use open source
-      relational database system. Designed to handle mission-critical, heavy-load
-      production applications.
-    digest: 2450ea5ac49b429614a928d20154dcce61507d3aeeb384ffb8d87e4d47e56099
-    name: mysql
-    type: application
-    urls:
-    - https://jibutech.github.io/helm-charts/mysql-1.0.0.tgz
-    version: 1.0.0
   ys1000:
   - annotations:
       category: 容器灾备服务
