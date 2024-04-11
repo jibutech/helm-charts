@@ -212,6 +212,16 @@ components:
       registry: ""
       repository: ys1000/restic-dm
       tag: ""
+  backupUtility:
+    image:
+      registry: ""
+      repository: ys1000/ysutl
+      tag: ""
+  sleep:
+    image:
+      registry: ""
+      repository: ys1000/sleep
+      tag: "latest"
   stub:
     image:
       registry: ""
