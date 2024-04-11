@@ -11,9 +11,6 @@
     ```bash
     cd helm-charts
 
-    helm package charts/ys1000
-    helm repo index . --url  https://jibutech.github.io/helm-charts/
-
     # update helm index
     mkdir -p new_charts
     helm package  -d  new_charts charts/ys1000 

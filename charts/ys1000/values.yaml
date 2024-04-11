@@ -29,7 +29,7 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "3.8.1"
+  tag: "3.8.2"
 
 image:
   registry: ""
