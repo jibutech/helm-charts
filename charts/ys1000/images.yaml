@@ -35,8 +35,6 @@ images:
 - repo: imagepuller
   tag: 0.1.0
 - repo: apphook-worker
-- repo: hook-runner
-  tag: latest
 - repo: helm-tool
 - repo: helm-hook
 - repo: mysql
