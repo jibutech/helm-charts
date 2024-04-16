@@ -96,7 +96,6 @@ images:
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dr-initcontainer:0.2.0
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/imagepuller:0.1.0
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/apphook-worker:3.8.2
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/hook-runner:latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-tool:3.8.2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-hook:3.8.2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mysql:8.0.35-debian-11-r2
