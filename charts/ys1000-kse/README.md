@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 The first domestic enterprise level Kubernetes backup disaster recovery business solution.
 
 # Features
@@ -35,3 +36,6 @@ https://www.jibudata.com
 Business contact: business@jibudata.com
 
 Thank you for choosing YS1000 as your cloud-native backup and disaster recovery solution!
+=======
+The first domestic enterprise level Kubernetes backup disaster recovery business solution.
+>>>>>>> release-3.9.0
