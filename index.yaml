@@ -72,6 +72,45 @@ entries:
   - annotations:
       category: 容器灾备服务
     apiVersion: v2
+    appVersion: 3.8.3
+    created: "2024-05-09T07:13:45.878345+08:00"
+    dependencies:
+    - condition: tags.mysql
+      name: mysql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 9.x.x
+    - condition: tags.clusterpedia
+      name: clusterpedia
+      repository: https://clusterpedia-io.github.io/clusterpedia-helm
+      version: 2.x.x
+    - condition: tags.dex
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.15.x
+    description: YS1000是国内首个企业级云原生灾备产品，提供对容器应用的备份，迁移和容灾服务。
+    digest: 73037f241ff19fd5c4a5792f00f9d6ad80e57aa7ba8c81b882dd7650d8d4c0d0
+    home: https://www.jibudata.com
+    keywords:
+    - Backup
+    - Migration
+    - Disaster Recovery
+    - 备份
+    - 容灾
+    - 迁移
+    maintainers:
+    - email: support@jibudata.com
+      name: Jibu, Inc.
+      url: https://www.jibudata.com
+    name: ys1000
+    sources:
+    - https://github.com/jibutech/helm-charts/tree/main/charts/ys1000
+    type: application
+    urls:
+    - https://jibutech.github.io/helm-charts/ys1000-3.8.3.tgz
+    version: 3.8.3
+  - annotations:
+      category: 容器灾备服务
+    apiVersion: v2
     appVersion: 3.8.2
     created: "2024-04-11T10:59:00.406846+08:00"
     dependencies:
@@ -264,4 +303,4 @@ entries:
     urls:
     - https://jibutech.github.io/helm-charts/ys1000-3.5.3.tgz
     version: 3.5.3
-generated: "2024-04-22T21:35:04.664723+08:00"
+generated: "2024-05-09T07:13:45.843711+08:00"
