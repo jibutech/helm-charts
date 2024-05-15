@@ -387,6 +387,9 @@ mysql:
     password: ""
     database: webserver
   primary:
+    containerSecurityContext:
+      # disable it when k8s <= 1.18
+      enabled: true
     tolerations: []
     args:
     - /opt/bitnami/scripts/mysql/run.sh
