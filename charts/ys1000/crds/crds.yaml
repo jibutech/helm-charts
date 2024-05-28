@@ -10906,6 +10906,19 @@ spec:
                   type: object
                 description: cluster restoreActions
                 type: object
+              clusterRestoreOperations:
+                additionalProperties:
+                  items:
+                    properties:
+                      config:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      type:
+                        type: string
+                    type: object
+                  type: array
+                description: cluster restore operations
+                type: object
               drConfig:
                 description: drconfig reference
                 type: string
