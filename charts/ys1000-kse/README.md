@@ -1,6 +1,6 @@
 # Introduction
 
-The first domestic enterprise level Kubernetes backup disaster recovery business solution.
+The most powerful enterprise-class Backup/Restore and Disaster Recovery solution for Kubernetes.
 
 ## Features
 
@@ -28,7 +28,7 @@ Click "Subscribe", select the corresponding version, purchase the extension.
 
 3. After completing the installation, use the unique identifier to get the activation license, and you can start using it.
 
-4. The default installation is the community free version, which provides full-featured backup/restore/migration support. Technical support is provided by the community and supports full-featured backup/recovery/migration of less than 10 working nodes. There are also commercial versions such as migration version, backup version, and disaster recovery version, which can be subscribed as needed.
+4. The default installation is the community free version, which provides full-featured backup and restore support. Technical support is provided by the community and supports full-featured backup and recovery of less than 10 working nodes. There are also commercial versions such as migration version, backup version, and disaster recovery version, which can be subscribed as needed.
 
 ## About Us
 
@@ -36,6 +36,6 @@ Jibu Tech was founded in November 2020. The company's founding team originated f
 
 Cloud-native technology based on containers and Kubernetes is a disruptive change in cloud computing, bringing a new developer- and application-centered ecosystem, providing highly automated infrastructure services, and comes with multi-cloud attributes. In such a new architecture, a new generation of data management and disaster recovery solutions are inevitably needed. In the turbulent wave of cloud native, our mission is to provide domestic users with the most technologically advanced cloud native data management and disaster recovery services, protect the core applications and data of enterprises, and help customers achieve "data in hand, easy access to the cloud" .
 
-For more information, please visit our [company website](https://www.jibudata.com) for details, or you can also reach us for business inquiries via [email](business@jibudata.com).
+For more information, please visit our [company website](https://www.jibudata.com) for details, or you can also reach us for business consulting via [email](business@jibudata.com) and technical support through [email](support@jibudata.com).
 
 Thank you for choosing YS1000 as your cloud-native backup and disaster recovery solution!
