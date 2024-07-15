@@ -2,6 +2,24 @@
 
 This document records all significant changes to the project.
 
+## v3.10.0
+
+### Kubernetes cluster protection
+
+Refactor kubernetes cluster backup function. User can add cluster instance for protection on etcd and configurations from master nodes
+
+### 容灾交互优化
+
+Refactor DR UI through DR dashboard and failover interaction
+
+### 容灾资源修改
+
+Support modification on application configuration from different clusters, such as Configmap, Service, any resource with JSON path update
+
+### 容灾数据同步增强
+
+Integrate DR support with Percona MongoDB Cluster and add common external data volume sync configuration
+
 ## v3.9.2
 
 ### Resource Modifiers for Restore
