@@ -8,15 +8,15 @@ This document records all significant changes to the project.
 
 Refactor kubernetes cluster backup function. User can add cluster instance for protection on etcd and configurations from master nodes
 
-### 容灾交互优化
+### DR UI Optimization
 
 Refactor DR UI through DR dashboard and failover interaction
 
-### 容灾资源修改
+### DR app resource modification support
 
 Support modification on application configuration from different clusters, such as Configmap, Service, any resource with JSON path update
 
-### 容灾数据同步增强
+### DR data sync enhancement
 
 Integrate DR support with Percona MongoDB Cluster and add common external data volume sync configuration
 
