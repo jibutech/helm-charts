@@ -18,7 +18,6 @@ featureGates:
   AmberApp: true
   Stub: true
   Archive: false
-  DisasterRecovery: true
   ImageBackup: true
   EtcdStub: false
   CSIAddon: false
@@ -29,7 +28,7 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "3.9.2"
+  tag: "3.10.0"
 
 image:
   registry: ""
@@ -212,6 +211,16 @@ components:
       registry: ""
       repository: ys1000/restic-dm
       tag: ""
+  backupUtility:
+    image:
+      registry: ""
+      repository: ys1000/ysutl
+      tag: ""
+  sleep:
+    image:
+      registry: ""
+      repository: ys1000/sleep
+      tag: "latest"
   stub:
     image:
       registry: ""
