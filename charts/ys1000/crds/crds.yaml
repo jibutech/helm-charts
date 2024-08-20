@@ -13946,64 +13946,6 @@ spec:
                       type: string
                   type: object
                 type: array
-              detailSteps:
-                items:
-                  properties:
-                    completionTimestamp:
-                      format: date-time
-                      type: string
-                    criticalErrors:
-                      items:
-                        properties:
-                          code:
-                            type: string
-                          durable:
-                            description: 'Deprecated: please don''t use this field,
-                              it will be removed in the future'
-                            type: boolean
-                          message:
-                            type: string
-                          params:
-                            additionalProperties:
-                              type: string
-                            type: object
-                          reason:
-                            type: string
-                        type: object
-                      type: array
-                    logs:
-                      additionalProperties:
-                        format: date-time
-                        type: string
-                      type: object
-                    name:
-                      type: string
-                    startTimestamp:
-                      format: date-time
-                      type: string
-                    state:
-                      type: string
-                    warnings:
-                      items:
-                        properties:
-                          code:
-                            type: string
-                          durable:
-                            description: 'Deprecated: please don''t use this field,
-                              it will be removed in the future'
-                            type: boolean
-                          message:
-                            type: string
-                          params:
-                            additionalProperties:
-                              type: string
-                            type: object
-                          reason:
-                            type: string
-                        type: object
-                      type: array
-                  type: object
-                type: array
               fsmStatus:
                 properties:
                   availableOps:
@@ -24997,7 +24939,7 @@ spec:
               detectedClusterProvider:
                 description: Auto detected cloud provider
                 type: string
-              kubeVirtInstalled:
+              isInService:
                 type: boolean
               managedBy:
                 type: string
@@ -25008,25 +24950,6 @@ spec:
               members:
                 items:
                   type: string
-                type: array
-              secretResourceVersion:
-                type: string
-              snapshotClasses:
-                items:
-                  description: Available volumesnapshotclass in the cluster Which
-                    has deletion policy retain and velero label
-                  properties:
-                    deletionPolicy:
-                      type: string
-                    driver:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - deletionPolicy
-                  - driver
-                  - name
-                  type: object
                 type: array
               snapshotDisabled:
                 type: boolean
