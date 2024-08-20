@@ -1794,6 +1794,7 @@ spec:
                   items:
                     type: string
                   type: array
+                description: Deprecated, use Resources instead
                 type: object
               executionTimestamp:
                 description: Deprecated
@@ -10922,6 +10923,8 @@ spec:
               drConfig:
                 description: drconfig reference
                 type: string
+              drConfigNamespace:
+                type: string
               filters:
                 description: resource filter
                 properties:
@@ -11106,7 +11109,13 @@ spec:
                 type: boolean
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -13358,7 +13367,13 @@ spec:
                 type: object
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -13737,6 +13752,9 @@ spec:
             type: object
           status:
             properties:
+              completionTimestamp:
+                format: date-time
+                type: string
               criticalErrors:
                 items:
                   properties:
@@ -13754,6 +13772,59 @@ spec:
                       type: object
                     reason:
                       type: string
+                  type: object
+                type: array
+              detailSteps:
+                items:
+                  properties:
+                    completionTimestamp:
+                      format: date-time
+                      type: string
+                    criticalErrors:
+                      items:
+                        properties:
+                          code:
+                            type: string
+                          durable:
+                            description: 'Deprecated: please don''t use this field,
+                              it will be removed in the future'
+                            type: boolean
+                          message:
+                            type: string
+                          params:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          reason:
+                            type: string
+                        type: object
+                      type: array
+                    name:
+                      type: string
+                    startTimestamp:
+                      format: date-time
+                      type: string
+                    state:
+                      type: string
+                    warnings:
+                      items:
+                        properties:
+                          code:
+                            type: string
+                          durable:
+                            description: 'Deprecated: please don''t use this field,
+                              it will be removed in the future'
+                            type: boolean
+                          message:
+                            type: string
+                          params:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          reason:
+                            type: string
+                        type: object
+                      type: array
                   type: object
                 type: array
               fsmStatus:
@@ -13791,6 +13862,9 @@ spec:
                     type: object
                 type: object
               phase:
+                type: string
+              startTimestamp:
+                format: date-time
                 type: string
               state:
                 type: string
@@ -14109,7 +14183,13 @@ spec:
                 type: array
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -14708,7 +14788,13 @@ spec:
                 type: object
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -15993,7 +16079,13 @@ spec:
                 type: array
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -24730,6 +24822,8 @@ spec:
                 type: string
               isInService:
                 type: boolean
+              kubeVirtInstalled:
+                type: boolean
               managedBy:
                 type: string
               memberEndpoints:
@@ -24740,6 +24834,8 @@ spec:
                 items:
                   type: string
                 type: array
+              secretResourceVersion:
+                type: string
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
@@ -40885,6 +40981,8 @@ spec:
             properties:
               drConfigName:
                 type: string
+              drConfigNamespace:
+                type: string
               drInstanceName:
                 type: string
               operation:
@@ -43769,6 +43867,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              dataOnlyVeleroRestore:
+                type: string
               executionTimestamp:
                 description: Deprecated
                 format: date-time
@@ -43968,6 +44068,8 @@ spec:
                       type: boolean
                   type: object
                 type: array
+              resourceOnlyVeleroRestore:
+                type: string
               restoredItems:
                 type: integer
               results:
