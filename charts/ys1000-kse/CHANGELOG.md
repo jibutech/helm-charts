@@ -2,6 +2,14 @@
 
 This document records all significant changes to the project.
 
+## v3.10.1
+
+### Bug fixes
+
+* fix ETCD backup issue by tolerating master taints
+* fix Amberapp Mysql lock bug
+* fix Amberapp Redis non-auth support
+
 ## v3.10.0
 
 ### Kubernetes cluster protection
