@@ -24740,6 +24740,8 @@ spec:
                 items:
                   type: string
                 type: array
+              secretResourceVersion:
+                type: string
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
