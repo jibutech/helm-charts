@@ -13730,10 +13730,13 @@ spec:
               operation:
                 description: Operation
                 type: string
+              subOperation:
+                type: string
             required:
             - drGroupName
             - drGroupRequestName
             - operation
+            - subOperation
             type: object
           status:
             properties:
