@@ -13701,6 +13701,9 @@ spec:
     - jsonPath: .status.state
       name: State
       type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
@@ -13736,7 +13739,6 @@ spec:
             - drGroupName
             - drGroupRequestName
             - operation
-            - subOperation
             type: object
           status:
             properties:
