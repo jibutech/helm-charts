@@ -8693,6 +8693,14 @@ spec:
                     description: Frequency uses cron format same as frequency in backup
                       policy
                     type: string
+                  incremental:
+                    description: 'Incremental indicts if restore should be incremental,
+                      which means new resource or data will be created, changed resource
+                      or data will be updated, and stale resource or data will be
+                      deleted new: resource or data in backup but not in target place
+                      changed: resource or data in backup and also in target place
+                      stale: resource or data not in backup but in target place'
+                    type: boolean
                   name:
                     type: string
                   startOnceAt:
@@ -23589,6 +23597,7 @@ spec:
                             type: string
                         type: object
                       imageResticHelper:
+                        description: Deprecated
                         properties:
                           pullPolicy:
                             type: string
@@ -31159,6 +31168,7 @@ spec:
                         type: string
                     type: object
                   imageResticHelper:
+                    description: Deprecated
                     properties:
                       pullPolicy:
                         type: string
@@ -43593,6 +43603,15 @@ spec:
                         description: Frequency uses cron format same as frequency
                           in backup policy
                         type: string
+                      incremental:
+                        description: 'Incremental indicts if restore should be incremental,
+                          which means new resource or data will be created, changed
+                          resource or data will be updated, and stale resource or
+                          data will be deleted new: resource or data in backup but
+                          not in target place changed: resource or data in backup
+                          and also in target place stale: resource or data not in
+                          backup but in target place'
+                        type: boolean
                       name:
                         type: string
                       startOnceAt:
@@ -48170,6 +48189,14 @@ spec:
                     description: Frequency uses cron format same as frequency in backup
                       policy
                     type: string
+                  incremental:
+                    description: 'Incremental indicts if restore should be incremental,
+                      which means new resource or data will be created, changed resource
+                      or data will be updated, and stale resource or data will be
+                      deleted new: resource or data in backup but not in target place
+                      changed: resource or data in backup and also in target place
+                      stale: resource or data not in backup but in target place'
+                    type: boolean
                   name:
                     type: string
                   startOnceAt:
@@ -57698,6 +57725,7 @@ spec:
                         type: string
                     type: object
                   imageResticHelper:
+                    description: Deprecated
                     properties:
                       pullPolicy:
                         type: string
