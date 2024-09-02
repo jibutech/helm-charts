@@ -11119,6 +11119,9 @@ spec:
                 description: Pod Restore method none/replica/nodelabel/initcontainer,
                   default is nodelabel
                 type: string
+              skipReadinessCheck:
+                description: skip readiness validation
+                type: boolean
               skipValidation:
                 description: skip validation
                 type: boolean
