@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 # customize values.yaml
+yq eval --inplace '.components.portal.image.tag="3.10.0-none-logo"' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deploymentMode="kse-extension"' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deletionPolicy.removeResources=true' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deletionPolicy.cancelRunningJobs=true' charts/ys1000/values.yaml
