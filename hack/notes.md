@@ -46,7 +46,7 @@ helm-charts/charts
 
 1. locate to root dir of helm-charts repo
 
-2. run hack/build-kse.sh
+2. run ```hack/build-kse.sh``` or ```hack/build-kse.sh none-logo```
 
 
 3. (optional) publish to development kubesphere environment and test
