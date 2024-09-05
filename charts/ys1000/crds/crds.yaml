@@ -11136,6 +11136,9 @@ spec:
                 description: Pod Restore method none/replica/nodelabel/initcontainer,
                   default is nodelabel
                 type: string
+              skipReadinessCheck:
+                description: skip readiness validation
+                type: boolean
               skipValidation:
                 description: skip validation
                 type: boolean
@@ -13724,6 +13727,9 @@ spec:
     - jsonPath: .status.state
       name: State
       type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
@@ -13752,6 +13758,8 @@ spec:
                 type: string
               operation:
                 description: Operation
+                type: string
+              subOperation:
                 type: string
             required:
             - drGroupName
