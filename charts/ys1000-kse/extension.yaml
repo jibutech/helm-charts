@@ -1,6 +1,6 @@
 apiVersion: kubesphere.io/v1alpha1
 name: ys1000
-version: 3.10.1
+version: 3.10.2
 displayName:
   zh: 银数多云数据管家YS1000
   en: YS1000
@@ -45,11 +45,11 @@ screenshots:
 dependencies:
   - name: ys1000
     repository: https://jibutech.github.io/helm-charts/
-    version: 3.10.1
+    version: 3.10.2
     tags:
       - extension
   - name: frontend
-    version: 3.10.1
+    version: 3.10.2
     tags:
       - extension
       - frontend
@@ -71,10 +71,10 @@ installationMode: HostOnly
 #    required: true
 
 images:
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/qiming-operator:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/webserver:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/hookrunner:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/agent-operator:3.10.1
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/qiming-operator:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/webserver:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/hookrunner:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/agent-operator:3.10.2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-cfcc65f8-20240410072619
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-cfcc65f8-20240410072619-snapshotv1beta1
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
@@ -82,22 +82,22 @@ images:
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-restic-restore-helper:v1.7.0
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/data-verify:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/amberapp:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dm-agent:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/restic-dm:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-ui:3.10.1-none-logo
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-controller:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/cron:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/stub:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/etcd-stub:3.10.1
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/data-verify:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/amberapp:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dm-agent:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/restic-dm:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-ui:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-controller:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/cron:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/stub:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/etcd-stub:3.10.2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/volsync:0.8.1-jibu
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dr-initcontainer:0.2.0
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/imagepuller:0.1.0
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/apphook-worker:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-tool:3.10.1
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-hook:3.10.1
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/apphook-worker:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-tool:3.10.2
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/helm-hook:3.10.2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mysql:8.0.35-debian-11-r2
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/os-shell:11-debian-11-r93
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mysqld-exporter:0.15.1-debian-11-r0

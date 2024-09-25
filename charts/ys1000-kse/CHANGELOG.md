@@ -2,6 +2,10 @@
 
 This document records all significant changes to the project.
 
+## v3.10.2
+
+### Bug fixes
+
 ## v3.10.1
 
 ### Bug fixes
