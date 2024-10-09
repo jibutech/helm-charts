@@ -6,6 +6,7 @@ yq eval --inplace '.migconfig.deletionPolicy.removeResources=true' charts/ys1000
 yq eval --inplace '.migconfig.deletionPolicy.cancelRunningJobs=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.enabled=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.storageClass=null' charts/ys1000/values.yaml
+yq eval --inplace '.featureGates.Tenant=true' charts/ys1000/values.yaml
 export YS1000_VERSION=$(cat charts/ys1000/Chart.yaml | yq '.version')
 # package ys1000-${YS1000_VERSION}.tgz and move to kse charts dir
 helm package charts/ys1000
