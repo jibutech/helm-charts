@@ -1,55 +1,55 @@
 ys1000Repo: jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000
 images:
-- repo: qiming-operator
-- repo: webserver
-- repo: hookrunner
-- repo: agent-operator
-- repo: velero
-  tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619
-- repo: velero
-  tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619-snapshotv1beta1
-- repo: velero-plugin-for-csi
-  tag: v0.2.1-jibu-89b6bd8-20231218024225
-- repo: velero-plugin-for-csi
-  tag: v0.2.1-jibu-89b6bd8-20231218024225-snapshotv1beta1
-- repo: velero-restic-restore-helper
-  tag: v1.7.0
-- repo: velero-plugin-for-aws
-  tag: v1.3.0-jibu-f64cbb6-20240124093130
-- repo: velero-plugin-alibabacloud
-  tag: v1.2.1-jibu-dev-2373ba8-20240229150839
-- repo: velero-plugin
-- repo: data-verify
-- repo: amberapp
-- repo: dm-agent
-- repo: restic-dm
-- repo: mig-ui
-- repo: mig-controller
-- repo: cron
-- repo: stub
-- repo: etcd-stub
-- repo: volsync
-  tag: 0.8.1-jibu
-- repo: dr-initcontainer
-  tag: 0.2.0
-- repo: imagepuller
-  tag: 0.1.0
-- repo: apphook-worker
-- repo: helm-tool
-- repo: helm-hook
-- repo: mysql
-  tag: 8.0.35-debian-11-r2
-- repo: os-shell
-  tag: 11-debian-11-r93
-- repo: mysqld-exporter
-  tag: 0.15.1-debian-11-r0
-- repo: apiserver
-  tag: v0.7.2
-- repo: clustersynchro-manager
-  tag: v0.7.2
-- repo: controller-manager
-  tag: v0.7.2
-- repo: cloudshell
-  tag: v0.4.0
-- repo: dex
-  tag: 1.0.0
+  - repo: qiming-operator
+  - repo: webserver
+  - repo: hookrunner
+  - repo: agent-operator
+  - repo: velero
+    tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619
+  - repo: velero
+    tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619-snapshotv1beta1
+  - repo: velero-plugin-for-csi
+    tag: v0.2.1-jibu-89b6bd8-20231218024225
+  - repo: velero-plugin-for-csi
+    tag: v0.2.1-jibu-89b6bd8-20231218024225-snapshotv1beta1
+  - repo: velero-restic-restore-helper
+    tag: v1.7.0
+  - repo: velero-plugin-for-aws
+    tag: v1.3.0-jibu-f64cbb6-20240124093130
+  - repo: velero-plugin-alibabacloud
+    tag: v1.2.1-jibu-dev-2373ba8-20240229150839
+  - repo: velero-plugin
+  - repo: data-verify
+  - repo: amberapp
+  - repo: dm-agent
+  - repo: restic-dm
+  - repo: mig-ui
+  - repo: mig-controller
+  - repo: cron
+  - repo: stub
+  - repo: etcd-stub
+  - repo: volsync
+    tag: 0.8.1-jibu
+  - repo: dr-initcontainer
+    tag: 0.2.0
+  - repo: imagepuller
+    tag: 0.1.0
+  - repo: apphook-worker
+  - repo: helm-tool
+  - repo: helm-hook
+  - repo: mysql
+    tag: 8.0.35-debian-11-r2
+  - repo: os-shell
+    tag: 11-debian-11-r93
+  - repo: mysqld-exporter
+    tag: 0.15.1-debian-11-r0
+  - repo: apiserver
+    tag: v0.7.2
+  - repo: clustersynchro-manager
+    tag: v0.7.2
+  - repo: controller-manager
+    tag: v0.7.2
+  - repo: cloudshell
+    tag: v0.4.0
+  - repo: dex
+    tag: 1.0.0
