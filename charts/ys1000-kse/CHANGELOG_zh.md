@@ -2,6 +2,18 @@
 
 本文件记录了该项目的所有重要变更。
 
+## v3.10.2
+
+### 错误修复
+
+## v3.10.1
+
+### 错误修复 (v3.10.1)
+
+* 修复ETCD备份对master节点容忍条件的支持
+* 修复Amberapp Mysql lock bug
+* 修复Amberapp Redis 无密码配置支持
+
 ## v3.10.0
 
 ### Kubernetes 集群备份
