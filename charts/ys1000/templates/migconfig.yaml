@@ -20,7 +20,7 @@ spec:
     {{ $key }}: {{ $val }}
     {{- end }}
   image:
-    registry: {{ .Values.global.imageRegistry | default .Values.imageBase.registry }}
+    registry: {{ .Values.imageBase.registry   | default .Values.global.imageRegistry}}
     pullPolicy: {{ .Values.imageBase.pullPolicy }}
     tag: {{ .Values.imageBase.tag }}
   auth:
