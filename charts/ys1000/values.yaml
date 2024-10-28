@@ -28,7 +28,7 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "3.10.3"
+  tag: "release-3.10.4-latest"
 
 image:
   registry: ""
