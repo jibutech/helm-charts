@@ -1983,6 +1983,8 @@ spec:
                 type: array
               logicalBackup:
                 type: boolean
+              logicalBackupOption:
+                type: string
               phase:
                 type: string
               podImages:
@@ -12070,6 +12072,8 @@ spec:
                     type: string
                   name:
                     type: string
+                  namespace:
+                    type: string
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -12096,6 +12100,8 @@ spec:
                     description: connection status, handle cluster disconnect event
                     type: string
                   name:
+                    type: string
+                  namespace:
                     type: string
                   status:
                     description: overall dr status, identify can switch role
@@ -13329,6 +13335,8 @@ spec:
                 type: object
               dstCluster:
                 type: string
+              dstClusterNamespace:
+                type: string
               dstNodeConfig:
                 properties:
                   nodeSelector:
@@ -13390,6 +13398,8 @@ spec:
                     type: array
                 type: object
               migStorage:
+                type: string
+              migStorageNamespace:
                 type: string
               nfsConfig:
                 properties:
@@ -13508,6 +13518,8 @@ spec:
               snapshotTarget:
                 type: string
               srcCluster:
+                type: string
+              srcClusterNamespace:
                 type: string
               srcNodeConfig:
                 properties:
@@ -15914,6 +15926,8 @@ spec:
               targetCluster:
                 description: target cluster to run on
                 type: string
+              targetClusterNs:
+                type: string
               trigger:
                 description: trigger
                 type: boolean
@@ -15927,6 +15941,7 @@ spec:
             required:
             - drName
             - targetCluster
+            - targetClusterNs
             - type
             type: object
           status:
@@ -24471,6 +24486,10 @@ spec:
                   x-kubernetes-int-or-string: true
                 description: Resource quota for agent Refer to https://pkg.go.dev/k8s.io/api/core/v1#ResourceList
                 type: object
+              agentless:
+                description: Agentless indicates whether the cluster is agentless,
+                  which means the cluster has no agent installed.
+                type: boolean
               autoInviteAllUsers:
                 type: boolean
               azureResourceGroup:
@@ -24603,10 +24622,6 @@ spec:
                 type: array
               insecure:
                 type: boolean
-              isAdminOnlyCluster:
-                description: IsAdminOnlyCluster indicates the host cluster does only
-                  backup management with NO app backup requirement
-                type: boolean
               isHostCluster:
                 description: Deprecated
                 type: boolean
@@ -24698,45 +24713,8 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
-              snapshotClasses:
-                items:
-                  description: Available volumesnapshotclass in the cluster Which
-                    has deletion policy retain and velero label
-                  properties:
-                    deletionPolicy:
-                      type: string
-                    driver:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - deletionPolicy
-                  - driver
-                  - name
-                  type: object
-                type: array
               standardJobMaxWorkers:
                 type: integer
-              storageClasses:
-                items:
-                  description: StorageClass is an available storage class in the cluster
-                    Name - the storage class name Provisioner - the dynamic provisioner
-                    for the storage class Default - whether or not this storage class
-                    is the default AccessModes - access modes supported by the dynamic
-                    provisioner
-                  properties:
-                    accessModes:
-                      items:
-                        type: string
-                      type: array
-                    default:
-                      type: boolean
-                    name:
-                      type: string
-                    provisioner:
-                      type: string
-                  type: object
-                type: array
               tenantSource:
                 type: boolean
               url:
@@ -24837,8 +24815,6 @@ spec:
               detectedClusterProvider:
                 description: Auto detected cloud provider
                 type: string
-              isInService:
-                type: boolean
               kubeVirtInstalled:
                 type: boolean
               managedBy:
@@ -24853,10 +24829,47 @@ spec:
                 type: array
               secretResourceVersion:
                 type: string
+              snapshotClasses:
+                items:
+                  description: Available volumesnapshotclass in the cluster Which
+                    has deletion policy retain and velero label
+                  properties:
+                    deletionPolicy:
+                      type: string
+                    driver:
+                      type: string
+                    name:
+                      type: string
+                  required:
+                  - deletionPolicy
+                  - driver
+                  - name
+                  type: object
+                type: array
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
                 type: boolean
+              storageClasses:
+                items:
+                  description: StorageClass is an available storage class in the cluster
+                    Name - the storage class name Provisioner - the dynamic provisioner
+                    for the storage class Default - whether or not this storage class
+                    is the default AccessModes - access modes supported by the dynamic
+                    provisioner
+                  properties:
+                    accessModes:
+                      items:
+                        type: string
+                      type: array
+                    default:
+                      type: boolean
+                    name:
+                      type: string
+                    provisioner:
+                      type: string
+                  type: object
+                type: array
               underMaintenance:
                 type: boolean
               warnings:
@@ -26151,6 +26164,21 @@ spec:
                 type: string
               controller:
                 properties:
+                  concurrentBackupJobSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupPlanSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupTemplateSyncs:
+                    format: int32
+                    type: integer
+                  concurrentClusterSyncs:
+                    format: int32
+                    type: integer
+                  concurrentManagedApplicationSyncs:
+                    format: int32
+                    type: integer
                   image:
                     properties:
                       pullPolicy:
@@ -52646,6 +52674,21 @@ spec:
                 type: object
               controller:
                 properties:
+                  concurrentBackupJobSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupPlanSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupTemplateSyncs:
+                    format: int32
+                    type: integer
+                  concurrentClusterSyncs:
+                    format: int32
+                    type: integer
+                  concurrentManagedApplicationSyncs:
+                    format: int32
+                    type: integer
                   image:
                     properties:
                       pullPolicy:
