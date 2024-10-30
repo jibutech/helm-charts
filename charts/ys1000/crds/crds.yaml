@@ -2008,6 +2008,8 @@ spec:
                 type: boolean
               logicalBackupOption:
                 type: string
+              logicalBackupOption:
+                type: string
               phase:
                 type: string
               podImages:
@@ -24941,6 +24943,8 @@ spec:
                 type: string
               isInService:
                 type: boolean
+              kubeVirtInstalled:
+                type: boolean
               managedBy:
                 type: string
               memberEndpoints:
@@ -24951,6 +24955,8 @@ spec:
                 items:
                   type: string
                 type: array
+              secretResourceVersion:
+                type: string
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
