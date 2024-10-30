@@ -24861,8 +24861,6 @@ spec:
                 type: string
               kubeVirtInstalled:
                 type: boolean
-              kubeVirtInstalled:
-                type: boolean
               managedBy:
                 type: string
               memberEndpoints:
