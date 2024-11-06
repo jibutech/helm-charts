@@ -11605,6 +11605,27 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        hookStatus:
+                          items:
+                            properties:
+                              actionPhase:
+                                type: string
+                              cluster:
+                                type: string
+                              completionTimestamp:
+                                format: date-time
+                                type: string
+                              name:
+                                type: string
+                              phase:
+                                type: string
+                              startTimestamp:
+                                format: date-time
+                                type: string
+                              state:
+                                type: string
+                            type: object
+                          type: array
                         logs:
                           additionalProperties:
                             format: date-time
@@ -14681,6 +14702,27 @@ spec:
                               type: string
                             type: object
                           reason:
+                            type: string
+                        type: object
+                      type: array
+                    hookStatus:
+                      items:
+                        properties:
+                          actionPhase:
+                            type: string
+                          cluster:
+                            type: string
+                          completionTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            type: string
+                          startTimestamp:
+                            format: date-time
+                            type: string
+                          state:
                             type: string
                         type: object
                       type: array
