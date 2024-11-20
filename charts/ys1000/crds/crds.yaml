@@ -13534,6 +13534,8 @@ spec:
                 type: object
               skipConfig:
                 type: boolean
+              skipResourceSync:
+                type: boolean
               skipValidation:
                 type: boolean
               snapshotTarget:
