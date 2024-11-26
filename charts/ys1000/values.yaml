@@ -152,7 +152,7 @@ components:
     plugins:
     - ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
     - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
-    - ys1000/velero-plugin-for-kubevirt:0.6.1-jibu-9ad84f0-20240131085621
+    - ys1000/velero-plugin-for-kubevirt:0.6.1-jibu-9ad84f0-20241126085502
     # - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
