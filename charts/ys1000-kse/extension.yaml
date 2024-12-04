@@ -87,7 +87,7 @@ images:
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/amberapp:release-4.0.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dm-agent:release-4.0.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/restic-dm:release-4.0.0-latest
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-ui:4.0.0-none-logo
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-ui:release-4.0.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/mig-controller:release-4.0.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/cron:release-4.0.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/stub:release-4.0.0-latest
