@@ -9,16 +9,14 @@ Return the proper image name
 {{ include "common.images.image" ( dict "imageRoot" .Values.path.to.the.image "global" .Values.global ) }}
 */}}
 {{- define "common.images.image" -}}
+{{- $registryName := .imageRoot.registry -}}
 {{- $repositoryName := .imageRoot.repository -}}
 {{- $separator := ":" -}}
 {{- $termination := .imageRoot.tag | toString -}}
 {{- if .global }}
     {{- if .global.imageRegistry }}
-     {{- $registryName = .global.imageRegistry -}}
+     {{- $registryName = .imageRoot.registry | default .global.imageRegistry -}}
     {{- end -}}
-{{- end -}}
-{{- if .imageRoot.registry }}
-    {{- $registryName := .imageRoot.registry -}}
 {{- end -}}
 {{- if .imageRoot.digest }}
     {{- $separator = "@" -}}
