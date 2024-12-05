@@ -15,7 +15,7 @@ Return the proper image name
 {{- $termination := .imageRoot.tag | toString -}}
 {{- if .global }}
     {{- if .global.imageRegistry }}
-     {{- $registryName = .global.imageRegistry -}}
+     {{- $registryName = .imageRoot.registry | default .global.imageRegistry -}}
     {{- end -}}
 {{- end -}}
 {{- if .imageRoot.digest }}
