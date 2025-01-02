@@ -11242,6 +11242,10 @@ spec:
                 type: boolean
               meta:
                 properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
                   isGlobal:
                     type: boolean
                   tags:
@@ -13530,6 +13534,10 @@ spec:
                 type: object
               meta:
                 properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
                   isGlobal:
                     type: boolean
                   tags:
@@ -14362,6 +14370,10 @@ spec:
                 type: array
               meta:
                 properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
                   isGlobal:
                     type: boolean
                   tags:
@@ -14988,6 +15000,10 @@ spec:
                 type: object
               meta:
                 properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
                   isGlobal:
                     type: boolean
                   tags:
@@ -16282,6 +16298,2066 @@ spec:
                 type: array
               meta:
                 properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyactions.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyAction
+    listKind: EmergencyActionList
+    plural: emergencyactions
+    singular: emergencyaction
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .spec.riskLevel
+      name: RiskLevel
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyAction is the Schema for the EmergencyActions API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              autoHook:
+                properties:
+                  hooks:
+                    items:
+                      properties:
+                        execPhase:
+                          description: when to exec, support pre;post;failure, default
+                            is pre
+                          type: string
+                        name:
+                          type: string
+                        operationTables:
+                          description: default for all function tables
+                          items:
+                            type: string
+                          type: array
+                        phase:
+                          type: string
+                        runOn:
+                          description: cluster role, support source;target
+                          type: string
+                        weight:
+                          description: default zero
+                          type: integer
+                      required:
+                      - name
+                      - phase
+                      - runOn
+                      type: object
+                    type: array
+                  parameters:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
+              manualStep:
+                properties:
+                  steps:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              riskLevel:
+                type: string
+              type:
+                type: string
+            required:
+            - riskLevel
+            - type
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              testRunResults:
+                items:
+                  properties:
+                    clusterRef:
+                      properties:
+                        global:
+                          type: boolean
+                        name:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    owner:
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyevents.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyEvent
+    listKind: EmergencyEventList
+    plural: emergencyevents
+    singular: emergencyevent
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .spec.level
+      name: Level
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyEvent is the Schema for the EmergencyEvents API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              appSelector:
+                properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  names:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              autoExecution:
+                type: boolean
+              creator:
+                type: string
+              level:
+                type: string
+              message:
+                type: string
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              notificationTarget:
+                properties:
+                  userGroups:
+                    items:
+                      type: string
+                    type: array
+                  users:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              operation:
+                type: string
+              owner:
+                type: string
+              planSelector:
+                properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  names:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              sourceType:
+                type: string
+              type:
+                type: string
+            required:
+            - level
+            - sourceType
+            - type
+            type: object
+          status:
+            properties:
+              apps:
+                items:
+                  type: string
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              plans:
+                items:
+                  type: string
+                type: array
+              processStatus:
+                items:
+                  properties:
+                    completionTimestamp:
+                      format: date-time
+                      type: string
+                    description:
+                      type: string
+                    job:
+                      type: string
+                    owner:
+                      type: string
+                    plan:
+                      type: string
+                    startTimestamp:
+                      format: date-time
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyexecutions.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyExecution
+    listKind: EmergencyExecutionList
+    plural: emergencyexecutions
+    singular: emergencyexecution
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.actionName
+      name: ActionName
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .spec.subOperation
+      name: SubOperation
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyExecution is the Schema for the EmergencyExecution API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              actionName:
+                type: string
+              clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              envs:
+                properties:
+                  actionName:
+                    type: string
+                  env:
+                    items:
+                      description: EnvVar represents an environment variable present
+                        in a Container.
+                      properties:
+                        name:
+                          description: Name of the environment variable. Must be a
+                            C_IDENTIFIER.
+                          type: string
+                        value:
+                          description: 'Variable references $(VAR_NAME) are expanded
+                            using the previous defined environment variables in the
+                            container and any service environment variables. If a
+                            variable cannot be resolved, the reference in the input
+                            string will be unchanged. The $(VAR_NAME) syntax can be
+                            escaped with a double $$, ie: $$(VAR_NAME). Escaped references
+                            will never be expanded, regardless of whether the variable
+                            exists or not. Defaults to "".'
+                          type: string
+                        valueFrom:
+                          description: Source for the environment variable's value.
+                            Cannot be used if value is not empty.
+                          properties:
+                            configMapKeyRef:
+                              description: Selects a key of a ConfigMap.
+                              properties:
+                                key:
+                                  description: The key to select.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the ConfigMap or its
+                                    key must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            fieldRef:
+                              description: 'Selects a field of the pod: supports metadata.name,
+                                metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                spec.serviceAccountName, status.hostIP, status.podIP,
+                                status.podIPs.'
+                              properties:
+                                apiVersion:
+                                  description: Version of the schema the FieldPath
+                                    is written in terms of, defaults to "v1".
+                                  type: string
+                                fieldPath:
+                                  description: Path of the field to select in the
+                                    specified API version.
+                                  type: string
+                              required:
+                              - fieldPath
+                              type: object
+                            resourceFieldRef:
+                              description: 'Selects a resource of the container: only
+                                resources limits and requests (limits.cpu, limits.memory,
+                                limits.ephemeral-storage, requests.cpu, requests.memory
+                                and requests.ephemeral-storage) are currently supported.'
+                              properties:
+                                containerName:
+                                  description: 'Container name: required for volumes,
+                                    optional for env vars'
+                                  type: string
+                                divisor:
+                                  anyOf:
+                                  - type: integer
+                                  - type: string
+                                  description: Specifies the output format of the
+                                    exposed resources, defaults to "1"
+                                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  x-kubernetes-int-or-string: true
+                                resource:
+                                  description: 'Required: resource to select'
+                                  type: string
+                              required:
+                              - resource
+                              type: object
+                            secretKeyRef:
+                              description: Selects a key of a secret in the pod's
+                                namespace
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                required:
+                - actionName
+                type: object
+              executionID:
+                type: integer
+              jobName:
+                type: string
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              operation:
+                type: string
+              subOperation:
+                type: string
+            required:
+            - actionName
+            - executionID
+            - jobName
+            type: object
+          status:
+            properties:
+              actionDetails:
+                properties:
+                  name:
+                    type: string
+                  spec:
+                    properties:
+                      autoHook:
+                        properties:
+                          hooks:
+                            items:
+                              properties:
+                                execPhase:
+                                  description: when to exec, support pre;post;failure,
+                                    default is pre
+                                  type: string
+                                name:
+                                  type: string
+                                operationTables:
+                                  description: default for all function tables
+                                  items:
+                                    type: string
+                                  type: array
+                                phase:
+                                  type: string
+                                runOn:
+                                  description: cluster role, support source;target
+                                  type: string
+                                weight:
+                                  description: default zero
+                                  type: integer
+                              required:
+                              - name
+                              - phase
+                              - runOn
+                              type: object
+                            type: array
+                          parameters:
+                            additionalProperties:
+                              type: string
+                            type: object
+                        type: object
+                      manualStep:
+                        properties:
+                          steps:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      meta:
+                        properties:
+                          description:
+                            type: string
+                          displayName:
+                            type: string
+                          isGlobal:
+                            type: boolean
+                          tags:
+                            items:
+                              type: string
+                            type: array
+                          tenants:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      riskLevel:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                    - riskLevel
+                    - type
+                    type: object
+                required:
+                - name
+                type: object
+              completionTimestamp:
+                format: date-time
+                type: string
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              currentExecutingStep:
+                properties:
+                  actionName:
+                    type: string
+                  stepID:
+                    type: integer
+                required:
+                - actionName
+                - stepID
+                type: object
+              executionResult:
+                properties:
+                  actionName:
+                    type: string
+                  completionTimestamp:
+                    format: date-time
+                    type: string
+                  criticalErrors:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
+                  hookStatus:
+                    items:
+                      properties:
+                        failureCount:
+                          format: int32
+                          type: integer
+                        finished:
+                          type: boolean
+                        jobName:
+                          type: string
+                        name:
+                          type: string
+                        phase:
+                          type: string
+                        podPhase:
+                          items:
+                            properties:
+                              creationTimestamp:
+                                format: date-time
+                                type: string
+                              name:
+                                type: string
+                              phase:
+                                description: PodPhase is a label for the condition
+                                  of a pod at the current time.
+                                type: string
+                            type: object
+                          type: array
+                        runOn:
+                          type: string
+                        started:
+                          type: boolean
+                      type: object
+                    type: array
+                  startTimestamp:
+                    format: date-time
+                    type: string
+                  state:
+                    type: string
+                  warnings:
+                    items:
+                      properties:
+                        code:
+                          type: string
+                        durable:
+                          description: 'Deprecated: please don''t use this field,
+                            it will be removed in the future'
+                          type: boolean
+                        message:
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        reason:
+                          type: string
+                      type: object
+                    type: array
+                required:
+                - actionName
+                type: object
+              hookResults:
+                items:
+                  properties:
+                    execAction:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          items:
+                            description: EnvVar represents an environment variable
+                              present in a Container.
+                            properties:
+                              name:
+                                description: Name of the environment variable. Must
+                                  be a C_IDENTIFIER.
+                                type: string
+                              value:
+                                description: 'Variable references $(VAR_NAME) are
+                                  expanded using the previous defined environment
+                                  variables in the container and any service environment
+                                  variables. If a variable cannot be resolved, the
+                                  reference in the input string will be unchanged.
+                                  The $(VAR_NAME) syntax can be escaped with a double
+                                  $$, ie: $$(VAR_NAME). Escaped references will never
+                                  be expanded, regardless of whether the variable
+                                  exists or not. Defaults to "".'
+                                type: string
+                              valueFrom:
+                                description: Source for the environment variable's
+                                  value. Cannot be used if value is not empty.
+                                properties:
+                                  configMapKeyRef:
+                                    description: Selects a key of a ConfigMap.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          or its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                  fieldRef:
+                                    description: 'Selects a field of the pod: supports
+                                      metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                      `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                      spec.serviceAccountName, status.hostIP, status.podIP,
+                                      status.podIPs.'
+                                    properties:
+                                      apiVersion:
+                                        description: Version of the schema the FieldPath
+                                          is written in terms of, defaults to "v1".
+                                        type: string
+                                      fieldPath:
+                                        description: Path of the field to select in
+                                          the specified API version.
+                                        type: string
+                                    required:
+                                    - fieldPath
+                                    type: object
+                                  resourceFieldRef:
+                                    description: 'Selects a resource of the container:
+                                      only resources limits and requests (limits.cpu,
+                                      limits.memory, limits.ephemeral-storage, requests.cpu,
+                                      requests.memory and requests.ephemeral-storage)
+                                      are currently supported.'
+                                    properties:
+                                      containerName:
+                                        description: 'Container name: required for
+                                          volumes, optional for env vars'
+                                        type: string
+                                      divisor:
+                                        anyOf:
+                                        - type: integer
+                                        - type: string
+                                        description: Specifies the output format of
+                                          the exposed resources, defaults to "1"
+                                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                        x-kubernetes-int-or-string: true
+                                      resource:
+                                        description: 'Required: resource to select'
+                                        type: string
+                                    required:
+                                    - resource
+                                    type: object
+                                  secretKeyRef:
+                                    description: Selects a key of a secret in the
+                                      pod's namespace
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        envFrom:
+                          items:
+                            description: EnvFromSource represents the source of a
+                              set of ConfigMaps
+                            properties:
+                              configMapRef:
+                                description: The ConfigMap to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap must
+                                      be defined
+                                    type: boolean
+                                type: object
+                              prefix:
+                                description: An optional identifier to prepend to
+                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                type: string
+                              secretRef:
+                                description: The Secret to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret must be
+                                      defined
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        operation:
+                          type: string
+                        script:
+                          type: string
+                      type: object
+                    ignoreFailure:
+                      type: boolean
+                    image:
+                      type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
+                    maxRetryCount:
+                      type: integer
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    operationTables:
+                      items:
+                        type: string
+                      type: array
+                    phase:
+                      type: string
+                    runOn:
+                      type: string
+                    serviceAccount:
+                      type: string
+                    timeoutSeconds:
+                      type: integer
+                  required:
+                  - phase
+                  type: object
+                type: array
+              startTimestamp:
+                format: date-time
+                type: string
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyjobs.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyJob
+    listKind: EmergencyJobList
+    plural: emergencyjobs
+    singular: emergencyjob
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.planName
+      name: PlanName
+      type: string
+    - jsonPath: .spec.operation
+      name: Operation
+      type: string
+    - jsonPath: .spec.subOperation
+      name: SubOperation
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyJob is the Schema for the EmergencyJobs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              envs:
+                additionalProperties:
+                  items:
+                    properties:
+                      actionName:
+                        type: string
+                      env:
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must
+                                be a C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previous defined environment variables in
+                                the container and any service environment variables.
+                                If a variable cannot be resolved, the reference in
+                                the input string will be unchanged. The $(VAR_NAME)
+                                syntax can be escaped with a double $$, ie: $$(VAR_NAME).
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to
+                                "".'
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports
+                                    metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in
+                                        the specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container:
+                                    only resources limits and requests (limits.cpu,
+                                    limits.memory, limits.ephemeral-storage, requests.cpu,
+                                    requests.memory and requests.ephemeral-storage)
+                                    are currently supported.'
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      type: string
+                                    divisor:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Specifies the output format of
+                                        the exposed resources, defaults to "1"
+                                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                    required:
+                    - actionName
+                    type: object
+                  type: array
+                type: object
+              eventName:
+                type: string
+              manualConfirm:
+                additionalProperties:
+                  items:
+                    properties:
+                      actionName:
+                        type: string
+                      confirmed:
+                        type: boolean
+                      confirmedAt:
+                        format: date-time
+                        type: string
+                    required:
+                    - actionName
+                    - confirmed
+                    type: object
+                  type: array
+                type: object
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              operation:
+                type: string
+              ownerName:
+                type: string
+              plan:
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+                required:
+                - name
+                - version
+                type: object
+              subOperation:
+                type: string
+              targets:
+                items:
+                  type: string
+                type: array
+            required:
+            - plan
+            type: object
+          status:
+            properties:
+              actions:
+                items:
+                  items:
+                    properties:
+                      name:
+                        type: string
+                      spec:
+                        properties:
+                          autoHook:
+                            properties:
+                              hooks:
+                                items:
+                                  properties:
+                                    execPhase:
+                                      description: when to exec, support pre;post;failure,
+                                        default is pre
+                                      type: string
+                                    name:
+                                      type: string
+                                    operationTables:
+                                      description: default for all function tables
+                                      items:
+                                        type: string
+                                      type: array
+                                    phase:
+                                      type: string
+                                    runOn:
+                                      description: cluster role, support source;target
+                                      type: string
+                                    weight:
+                                      description: default zero
+                                      type: integer
+                                  required:
+                                  - name
+                                  - phase
+                                  - runOn
+                                  type: object
+                                type: array
+                              parameters:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            type: object
+                          manualStep:
+                            properties:
+                              steps:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          meta:
+                            properties:
+                              description:
+                                type: string
+                              displayName:
+                                type: string
+                              isGlobal:
+                                type: boolean
+                              tags:
+                                items:
+                                  type: string
+                                type: array
+                              tenants:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          riskLevel:
+                            type: string
+                          type:
+                            type: string
+                        required:
+                        - riskLevel
+                        - type
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  type: array
+                type: array
+              completionTimestamp:
+                format: date-time
+                type: string
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              currentExecutingStep:
+                properties:
+                  actionName:
+                    type: string
+                  stepID:
+                    type: integer
+                required:
+                - actionName
+                - stepID
+                type: object
+              executionResult:
+                additionalProperties:
+                  items:
+                    properties:
+                      actionName:
+                        type: string
+                      completionTimestamp:
+                        format: date-time
+                        type: string
+                      criticalErrors:
+                        items:
+                          properties:
+                            code:
+                              type: string
+                            durable:
+                              description: 'Deprecated: please don''t use this field,
+                                it will be removed in the future'
+                              type: boolean
+                            message:
+                              type: string
+                            params:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            reason:
+                              type: string
+                          type: object
+                        type: array
+                      hookStatus:
+                        items:
+                          properties:
+                            failureCount:
+                              format: int32
+                              type: integer
+                            finished:
+                              type: boolean
+                            jobName:
+                              type: string
+                            name:
+                              type: string
+                            phase:
+                              type: string
+                            podPhase:
+                              items:
+                                properties:
+                                  creationTimestamp:
+                                    format: date-time
+                                    type: string
+                                  name:
+                                    type: string
+                                  phase:
+                                    description: PodPhase is a label for the condition
+                                      of a pod at the current time.
+                                    type: string
+                                type: object
+                              type: array
+                            runOn:
+                              type: string
+                            started:
+                              type: boolean
+                          type: object
+                        type: array
+                      startTimestamp:
+                        format: date-time
+                        type: string
+                      state:
+                        type: string
+                      warnings:
+                        items:
+                          properties:
+                            code:
+                              type: string
+                            durable:
+                              description: 'Deprecated: please don''t use this field,
+                                it will be removed in the future'
+                              type: boolean
+                            message:
+                              type: string
+                            params:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            reason:
+                              type: string
+                          type: object
+                        type: array
+                    required:
+                    - actionName
+                    type: object
+                  type: array
+                type: object
+              hookResults:
+                additionalProperties:
+                  items:
+                    properties:
+                      execAction:
+                        properties:
+                          command:
+                            items:
+                              type: string
+                            type: array
+                          env:
+                            items:
+                              description: EnvVar represents an environment variable
+                                present in a Container.
+                              properties:
+                                name:
+                                  description: Name of the environment variable. Must
+                                    be a C_IDENTIFIER.
+                                  type: string
+                                value:
+                                  description: 'Variable references $(VAR_NAME) are
+                                    expanded using the previous defined environment
+                                    variables in the container and any service environment
+                                    variables. If a variable cannot be resolved, the
+                                    reference in the input string will be unchanged.
+                                    The $(VAR_NAME) syntax can be escaped with a double
+                                    $$, ie: $$(VAR_NAME). Escaped references will
+                                    never be expanded, regardless of whether the variable
+                                    exists or not. Defaults to "".'
+                                  type: string
+                                valueFrom:
+                                  description: Source for the environment variable's
+                                    value. Cannot be used if value is not empty.
+                                  properties:
+                                    configMapKeyRef:
+                                      description: Selects a key of a ConfigMap.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: 'Name of the referent. More
+                                            info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Add other useful fields. apiVersion,
+                                            kind, uid?'
+                                          type: string
+                                        optional:
+                                          description: Specify whether the ConfigMap
+                                            or its key must be defined
+                                          type: boolean
+                                      required:
+                                      - key
+                                      type: object
+                                    fieldRef:
+                                      description: 'Selects a field of the pod: supports
+                                        metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                        `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                        spec.serviceAccountName, status.hostIP, status.podIP,
+                                        status.podIPs.'
+                                      properties:
+                                        apiVersion:
+                                          description: Version of the schema the FieldPath
+                                            is written in terms of, defaults to "v1".
+                                          type: string
+                                        fieldPath:
+                                          description: Path of the field to select
+                                            in the specified API version.
+                                          type: string
+                                      required:
+                                      - fieldPath
+                                      type: object
+                                    resourceFieldRef:
+                                      description: 'Selects a resource of the container:
+                                        only resources limits and requests (limits.cpu,
+                                        limits.memory, limits.ephemeral-storage, requests.cpu,
+                                        requests.memory and requests.ephemeral-storage)
+                                        are currently supported.'
+                                      properties:
+                                        containerName:
+                                          description: 'Container name: required for
+                                            volumes, optional for env vars'
+                                          type: string
+                                        divisor:
+                                          anyOf:
+                                          - type: integer
+                                          - type: string
+                                          description: Specifies the output format
+                                            of the exposed resources, defaults to
+                                            "1"
+                                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                          x-kubernetes-int-or-string: true
+                                        resource:
+                                          description: 'Required: resource to select'
+                                          type: string
+                                      required:
+                                      - resource
+                                      type: object
+                                    secretKeyRef:
+                                      description: Selects a key of a secret in the
+                                        pod's namespace
+                                      properties:
+                                        key:
+                                          description: The key of the secret to select
+                                            from.  Must be a valid secret key.
+                                          type: string
+                                        name:
+                                          description: 'Name of the referent. More
+                                            info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Add other useful fields. apiVersion,
+                                            kind, uid?'
+                                          type: string
+                                        optional:
+                                          description: Specify whether the Secret
+                                            or its key must be defined
+                                          type: boolean
+                                      required:
+                                      - key
+                                      type: object
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            type: array
+                          envFrom:
+                            items:
+                              description: EnvFromSource represents the source of
+                                a set of ConfigMaps
+                              properties:
+                                configMapRef:
+                                  description: The ConfigMap to select from
+                                  properties:
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap must
+                                        be defined
+                                      type: boolean
+                                  type: object
+                                prefix:
+                                  description: An optional identifier to prepend to
+                                    each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                  type: string
+                                secretRef:
+                                  description: The Secret to select from
+                                  properties:
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret must
+                                        be defined
+                                      type: boolean
+                                  type: object
+                              type: object
+                            type: array
+                          operation:
+                            type: string
+                          script:
+                            type: string
+                        type: object
+                      ignoreFailure:
+                        type: boolean
+                      image:
+                        type: string
+                      kubeConfigSecretRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                      maxRetryCount:
+                        type: integer
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                      operationTables:
+                        items:
+                          type: string
+                        type: array
+                      phase:
+                        type: string
+                      runOn:
+                        type: string
+                      serviceAccount:
+                        type: string
+                      timeoutSeconds:
+                        type: integer
+                    required:
+                    - phase
+                    type: object
+                  type: array
+                type: object
+              startTimestamp:
+                format: date-time
+                type: string
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyplans.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyPlan
+    listKind: EmergencyPlanList
+    plural: emergencyplans
+    singular: emergencyplan
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .spec.riskLevel
+      name: RiskLevel
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyPlan is the Schema for the EmergencyPlans API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              actions:
+                items:
+                  items:
+                    type: string
+                  type: array
+                type: array
+              active:
+                type: boolean
+              expectedExecutionDurationSeconds:
+                format: int64
+                type: integer
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              owner:
+                type: string
+              reviewers:
+                items:
+                  type: string
+                type: array
+              reviews:
+                items:
+                  properties:
+                    approvedAt:
+                      format: date-time
+                      type: string
+                    comments:
+                      additionalProperties:
+                        items:
+                          type: string
+                        type: array
+                      type: object
+                    reviewerName:
+                      type: string
+                    state:
+                      type: string
+                  required:
+                  - reviewerName
+                  type: object
+                type: array
+              riskLevel:
+                type: string
+              submit:
+                type: boolean
+              type:
+                type: string
+            required:
+            - riskLevel
+            - type
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              executionType:
+                type: string
+              reviewStatus:
+                items:
+                  properties:
+                    approvedAt:
+                      format: date-time
+                      type: string
+                    comments:
+                      additionalProperties:
+                        items:
+                          type: string
+                        type: array
+                      type: object
+                    reviewerName:
+                      type: string
+                    state:
+                      type: string
+                  required:
+                  - reviewerName
+                  type: object
+                type: array
+              reviseHistories:
+                items:
+                  properties:
+                    revisedAt:
+                      format: date-time
+                      type: string
+                    revisedBy:
+                      type: string
+                    revisedComment:
+                      type: string
+                    revisedPlan:
+                      type: string
+                    revisedVersion:
+                      type: string
+                  required:
+                  - revisedBy
+                  - revisedVersion
+                  type: object
+                type: array
+              state:
+                type: string
+              version:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: emergencyrules.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyRule
+    listKind: EmergencyRuleList
+    plural: emergencyrules
+    singular: emergencyrule
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyRule is the Schema for the EmergencyRules API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
                   isGlobal:
                     type: boolean
                   tags:
@@ -17478,6 +19554,182 @@ spec:
                   type: object
                 type: array
               phase:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: jobs.inspection.jibudata.com
+spec:
+  group: inspection.jibudata.com
+  names:
+    kind: Job
+    listKind: JobList
+    plural: jobs
+    singular: job
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Job is the Schema for the Jobs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              planName:
+                type: string
+              ruleNames:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    nodeName:
+                      type: string
+                    nodeSelector:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              storageRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              timeoutSeconds:
+                type: integer
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              endTimestamp:
+                format: date-time
+                type: string
+              inspectPlanName:
+                type: string
+              inspectResultName:
+                type: string
+              inspectTaskName:
+                type: string
+              resultLocation:
+                type: string
+              startTimestamp:
+                format: date-time
+                type: string
+              state:
                 type: string
               warnings:
                 items:
@@ -41245,6 +43497,201 @@ spec:
         type: object
     served: true
     storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: plans.inspection.jibudata.com
+spec:
+  group: inspection.jibudata.com
+  names:
+    kind: Plan
+    listKind: PlanList
+    plural: plans
+    singular: plan
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.type
+      name: Type
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Plan is the Schema for the Plans API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              daysToKeep:
+                type: integer
+              description:
+                type: string
+              displayName:
+                type: string
+              one:
+                format: date-time
+                type: string
+              ruleNames:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    nodeName:
+                      type: string
+                    nodeSelector:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              schedule:
+                type: string
+              storageRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              suspend:
+                type: boolean
+              timeoutSeconds:
+                type: integer
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition Type - The condition type. Status - The condition
+                    status. Reason - The reason for the condition. Message - The human
+                    readable description of the condition. Durable - The condition
+                    is not un-Staged. Items - A list of `items` associated with the
+                    condition used to replace [] in `Message`. staging - A condition
+                    has been explicitly set/updated.
+                  properties:
+                    category:
+                      type: string
+                    durable:
+                      type: boolean
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      description: Types
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                type: array
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              storageRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
+              targetClusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""
