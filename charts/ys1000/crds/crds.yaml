@@ -1794,6 +1794,7 @@ spec:
                   items:
                     type: string
                   type: array
+                description: Deprecated, use Resources instead
                 type: object
               executionTimestamp:
                 description: Deprecated
@@ -1982,6 +1983,8 @@ spec:
                 type: array
               logicalBackup:
                 type: boolean
+              logicalBackupOption:
+                type: string
               phase:
                 type: string
               podImages:
@@ -8692,6 +8695,14 @@ spec:
                     description: Frequency uses cron format same as frequency in backup
                       policy
                     type: string
+                  incremental:
+                    description: 'Incremental indicts if restore should be incremental,
+                      which means new resource or data will be created, changed resource
+                      or data will be updated, and stale resource or data will be
+                      deleted new: resource or data in backup but not in target place
+                      changed: resource or data in backup and also in target place
+                      stale: resource or data not in backup but in target place'
+                    type: boolean
                   name:
                     type: string
                   startOnceAt:
@@ -10922,6 +10933,8 @@ spec:
               drConfig:
                 description: drconfig reference
                 type: string
+              drConfigNamespace:
+                type: string
               filters:
                 description: resource filter
                 properties:
@@ -11106,7 +11119,13 @@ spec:
                 type: boolean
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -11586,6 +11605,27 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        hookStatus:
+                          items:
+                            properties:
+                              actionPhase:
+                                type: string
+                              cluster:
+                                type: string
+                              completionTimestamp:
+                                format: date-time
+                                type: string
+                              name:
+                                type: string
+                              phase:
+                                type: string
+                              startTimestamp:
+                                format: date-time
+                                type: string
+                              state:
+                                type: string
+                            type: object
+                          type: array
                         logs:
                           additionalProperties:
                             format: date-time
@@ -12053,6 +12093,8 @@ spec:
                     type: string
                   name:
                     type: string
+                  namespace:
+                    type: string
                   status:
                     description: overall dr status, identify can switch role
                     type: string
@@ -12079,6 +12121,8 @@ spec:
                     description: connection status, handle cluster disconnect event
                     type: string
                   name:
+                    type: string
+                  namespace:
                     type: string
                   status:
                     description: overall dr status, identify can switch role
@@ -13312,6 +13356,8 @@ spec:
                 type: object
               dstCluster:
                 type: string
+              dstClusterNamespace:
+                type: string
               dstNodeConfig:
                 properties:
                   nodeSelector:
@@ -13361,12 +13407,20 @@ spec:
                 type: object
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
                 type: object
               migStorage:
+                type: string
+              migStorageNamespace:
                 type: string
               nfsConfig:
                 properties:
@@ -13480,11 +13534,15 @@ spec:
                 type: object
               skipConfig:
                 type: boolean
+              skipResourceSync:
+                type: boolean
               skipValidation:
                 type: boolean
               snapshotTarget:
                 type: string
               srcCluster:
+                type: string
+              srcClusterNamespace:
                 type: string
               srcNodeConfig:
                 properties:
@@ -14176,7 +14234,13 @@ spec:
                 type: array
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -14643,6 +14707,27 @@ spec:
                             type: string
                         type: object
                       type: array
+                    hookStatus:
+                      items:
+                        properties:
+                          actionPhase:
+                            type: string
+                          cluster:
+                            type: string
+                          completionTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            type: string
+                          startTimestamp:
+                            format: date-time
+                            type: string
+                          state:
+                            type: string
+                        type: object
+                      type: array
                     logs:
                       additionalProperties:
                         format: date-time
@@ -14775,7 +14860,13 @@ spec:
                 type: object
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -15879,6 +15970,8 @@ spec:
               targetCluster:
                 description: target cluster to run on
                 type: string
+              targetClusterNs:
+                type: string
               trigger:
                 description: trigger
                 type: boolean
@@ -15892,6 +15985,7 @@ spec:
             required:
             - drName
             - targetCluster
+            - targetClusterNs
             - type
             type: object
           status:
@@ -16060,7 +16154,13 @@ spec:
                 type: array
               meta:
                 properties:
+                  isGlobal:
+                    type: boolean
                   tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
                     items:
                       type: string
                     type: array
@@ -23564,6 +23664,7 @@ spec:
                             type: string
                         type: object
                       imageResticHelper:
+                        description: Deprecated
                         properties:
                           pullPolicy:
                             type: string
@@ -24429,6 +24530,10 @@ spec:
                   x-kubernetes-int-or-string: true
                 description: Resource quota for agent Refer to https://pkg.go.dev/k8s.io/api/core/v1#ResourceList
                 type: object
+              agentless:
+                description: Agentless indicates whether the cluster is agentless,
+                  which means the cluster has no agent installed.
+                type: boolean
               autoInviteAllUsers:
                 type: boolean
               azureResourceGroup:
@@ -24561,10 +24666,6 @@ spec:
                 type: array
               insecure:
                 type: boolean
-              isAdminOnlyCluster:
-                description: IsAdminOnlyCluster indicates the host cluster does only
-                  backup management with NO app backup requirement
-                type: boolean
               isHostCluster:
                 description: Deprecated
                 type: boolean
@@ -24656,45 +24757,8 @@ spec:
                     description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
                     type: string
                 type: object
-              snapshotClasses:
-                items:
-                  description: Available volumesnapshotclass in the cluster Which
-                    has deletion policy retain and velero label
-                  properties:
-                    deletionPolicy:
-                      type: string
-                    driver:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - deletionPolicy
-                  - driver
-                  - name
-                  type: object
-                type: array
               standardJobMaxWorkers:
                 type: integer
-              storageClasses:
-                items:
-                  description: StorageClass is an available storage class in the cluster
-                    Name - the storage class name Provisioner - the dynamic provisioner
-                    for the storage class Default - whether or not this storage class
-                    is the default AccessModes - access modes supported by the dynamic
-                    provisioner
-                  properties:
-                    accessModes:
-                      items:
-                        type: string
-                      type: array
-                    default:
-                      type: boolean
-                    name:
-                      type: string
-                    provisioner:
-                      type: string
-                  type: object
-                type: array
               tenantSource:
                 type: boolean
               url:
@@ -24795,7 +24859,7 @@ spec:
               detectedClusterProvider:
                 description: Auto detected cloud provider
                 type: string
-              isInService:
+              kubeVirtInstalled:
                 type: boolean
               managedBy:
                 type: string
@@ -24809,10 +24873,47 @@ spec:
                 type: array
               secretResourceVersion:
                 type: string
+              snapshotClasses:
+                items:
+                  description: Available volumesnapshotclass in the cluster Which
+                    has deletion policy retain and velero label
+                  properties:
+                    deletionPolicy:
+                      type: string
+                    driver:
+                      type: string
+                    name:
+                      type: string
+                  required:
+                  - deletionPolicy
+                  - driver
+                  - name
+                  type: object
+                type: array
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
                 type: boolean
+              storageClasses:
+                items:
+                  description: StorageClass is an available storage class in the cluster
+                    Name - the storage class name Provisioner - the dynamic provisioner
+                    for the storage class Default - whether or not this storage class
+                    is the default AccessModes - access modes supported by the dynamic
+                    provisioner
+                  properties:
+                    accessModes:
+                      items:
+                        type: string
+                      type: array
+                    default:
+                      type: boolean
+                    name:
+                      type: string
+                    provisioner:
+                      type: string
+                  type: object
+                type: array
               underMaintenance:
                 type: boolean
               warnings:
@@ -26107,6 +26208,21 @@ spec:
                 type: string
               controller:
                 properties:
+                  concurrentBackupJobSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupPlanSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupTemplateSyncs:
+                    format: int32
+                    type: integer
+                  concurrentClusterSyncs:
+                    format: int32
+                    type: integer
+                  concurrentManagedApplicationSyncs:
+                    format: int32
+                    type: integer
                   image:
                     properties:
                       pullPolicy:
@@ -31132,6 +31248,7 @@ spec:
                         type: string
                     type: object
                   imageResticHelper:
+                    description: Deprecated
                     properties:
                       pullPolicy:
                         type: string
@@ -40954,6 +41071,8 @@ spec:
             properties:
               drConfigName:
                 type: string
+              drConfigNamespace:
+                type: string
               drInstanceName:
                 type: string
               operation:
@@ -43564,6 +43683,15 @@ spec:
                         description: Frequency uses cron format same as frequency
                           in backup policy
                         type: string
+                      incremental:
+                        description: 'Incremental indicts if restore should be incremental,
+                          which means new resource or data will be created, changed
+                          resource or data will be updated, and stale resource or
+                          data will be deleted new: resource or data in backup but
+                          not in target place changed: resource or data in backup
+                          and also in target place stale: resource or data not in
+                          backup but in target place'
+                        type: boolean
                       name:
                         type: string
                       startOnceAt:
@@ -43838,6 +43966,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              dataOnlyVeleroRestore:
+                type: string
               executionTimestamp:
                 description: Deprecated
                 format: date-time
@@ -44037,6 +44167,8 @@ spec:
                       type: boolean
                   type: object
                 type: array
+              resourceOnlyVeleroRestore:
+                type: string
               restoredItems:
                 type: integer
               results:
@@ -48137,6 +48269,14 @@ spec:
                     description: Frequency uses cron format same as frequency in backup
                       policy
                     type: string
+                  incremental:
+                    description: 'Incremental indicts if restore should be incremental,
+                      which means new resource or data will be created, changed resource
+                      or data will be updated, and stale resource or data will be
+                      deleted new: resource or data in backup but not in target place
+                      changed: resource or data in backup and also in target place
+                      stale: resource or data not in backup but in target place'
+                    type: boolean
                   name:
                     type: string
                   startOnceAt:
@@ -52578,6 +52718,21 @@ spec:
                 type: object
               controller:
                 properties:
+                  concurrentBackupJobSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupPlanSyncs:
+                    format: int32
+                    type: integer
+                  concurrentBackupTemplateSyncs:
+                    format: int32
+                    type: integer
+                  concurrentClusterSyncs:
+                    format: int32
+                    type: integer
+                  concurrentManagedApplicationSyncs:
+                    format: int32
+                    type: integer
                   image:
                     properties:
                       pullPolicy:
@@ -57665,6 +57820,7 @@ spec:
                         type: string
                     type: object
                   imageResticHelper:
+                    description: Deprecated
                     properties:
                       pullPolicy:
                         type: string

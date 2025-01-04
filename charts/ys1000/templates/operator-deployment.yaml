@@ -27,7 +27,6 @@ spec:
       - args:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
-        - --leader-elect
         env:
         - name: POD_NAME
           valueFrom:
@@ -47,7 +46,7 @@ spec:
           value: {{ .Values.velero.resticPodVolumeOperationTimeout }}
         - name: SELF_BACKUP_INTERVAL_SECONDS
           value: {{ .Values.migconfig.selfBackupIntervalSeconds | quote }}
-        image: "{{ .Values.global.imageRegistry | default .Values.image.registry | default .Values.imageBase.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
+        image: "{{ .Values.image.registry | default .Values.imageBase.registry | default .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.imageBase.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.imageBase.pullPolicy }}
         name: manager 
         livenessProbe:

@@ -11,6 +11,7 @@ yq eval --inplace '.migconfig.deletionPolicy.removeResources=true' charts/ys1000
 yq eval --inplace '.migconfig.deletionPolicy.cancelRunningJobs=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.enabled=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.storageClass=null' charts/ys1000/values.yaml
+yq eval --inplace '.featureGates.Tenant=true' charts/ys1000/values.yaml
 
 # customize values.yaml
 if [[ "$1" == "none-logo" ]];then
