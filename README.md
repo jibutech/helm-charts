@@ -2,7 +2,7 @@
 
 ## 简介
 
-此软件(Helm chart) 使用 **Helm** 包管理工具在 **Kubernetes** (K8S) 集群中安装和部署银数多云数据管理软件。
+此软件(Helm chart) 使用 **Helm** 包管理工具在 **Kubernetes** (K8S) 集群中安装和部署YS1000。
 
 ## 先决条件
 
