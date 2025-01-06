@@ -6,7 +6,7 @@
 
 ## 先决条件
 
-- Kuberentes 版本支持范围: [v1.16, v1.17, ....,  v1.25]
+- Kuberentes 版本支持范围: [v1.16, v1.17, ....,  v1.30]
 - Helm 版本支持 >= 3.5
 - 在线安装请确保 K8S 集群节点可以访问阿里云容器镜像服务
 - K8S集群节点可以访问一个或多个对象存储(AWS S3兼容)实例
@@ -221,6 +221,11 @@
    
    **注意-3**: 在YS1000 v3.6 版本之前若使用内置mysql数据库，并设置持久化mysql数据卷，升级到v3.7 版本时，由于mysql版本升级，需要执行特殊操作以保证数据一致，参考：
    https://github.com/jibutech/docs/blob/main/YS1000%20upgrade%20v3.6-v3.7%20mysql%20persistence%20setting.md
+   **注意-4**: 从YS1000 v3.10 版本升级到 v4.0 版本时，由于 restic 版本升级，需要执行以下步骤：
+   1. 下载对应版本yscli
+   2. 设置所有受管集群为维护模式
+   3. 在每个受管集群上运行yscli 升级命令： yscli misc upgrade
+   4. 解除受管集群维护模式
 
 ## 卸载
 
