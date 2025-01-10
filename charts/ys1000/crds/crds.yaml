@@ -63,6 +63,9 @@ spec:
                   worm:
                     type: boolean
                 type: object
+              archiveTime:
+                format: date-time
+                type: string
               clusterName:
                 description: Deprecated
                 type: string
@@ -185,6 +188,8 @@ spec:
                   type:
                     type: string
                 type: object
+              trigger:
+                type: string
             type: object
           status:
             properties:
