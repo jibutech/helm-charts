@@ -24,11 +24,12 @@ featureGates:
   VolSync: false
   Tenant: false
   HostPathBackup: false
+  ContainerBackup: false
 
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "4.0.0"
+  tag: "4.1.0"
 
 image:
   registry: ""

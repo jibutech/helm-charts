@@ -63,10 +63,24 @@ spec:
                   worm:
                     type: boolean
                 type: object
+              archiveTime:
+                format: date-time
+                type: string
               clusterName:
                 description: Deprecated
                 type: string
               clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                  sourceName:
+                    type: string
+                  sourceNamespace:
+                    type: string
+                type: object
+              clusterResult:
                 properties:
                   global:
                     type: boolean
@@ -174,6 +188,8 @@ spec:
                   type:
                     type: string
                 type: object
+              trigger:
+                type: string
             type: object
           status:
             properties:
@@ -297,6 +313,8 @@ spec:
                       format: int64
                       type: integer
                     namespace:
+                      type: string
+                    originPodName:
                       type: string
                     phase:
                       type: string
@@ -440,6 +458,11 @@ spec:
                         type: string
                       sourceNamespace:
                         type: string
+                    type: object
+                  containerBackupPolicy:
+                    properties:
+                      backupEnabled:
+                        type: boolean
                     type: object
                   copyMethod:
                     type: string
@@ -2130,6 +2153,58 @@ spec:
                       type: string
                     name:
                       type: string
+                    pvc:
+                      properties:
+                        PodName:
+                          type: string
+                        attributes:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        includedFiles:
+                          items:
+                            type: string
+                          type: array
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                        originPVCName:
+                          type: string
+                        originPodName:
+                          type: string
+                        progress:
+                          properties:
+                            bytesDone:
+                              format: int64
+                              type: integer
+                            dataAdded:
+                              format: int64
+                              type: integer
+                            durationSeconds:
+                              format: int64
+                              type: integer
+                            endAt:
+                              format: date-time
+                              type: string
+                            startAt:
+                              format: date-time
+                              type: string
+                            totalBytes:
+                              format: int64
+                              type: integer
+                            transferRate:
+                              type: string
+                          type: object
+                        pvcName:
+                          type: string
+                        type:
+                          type: string
+                        volumeLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                      type: object
                     readyToUse:
                       type: boolean
                     size:
@@ -2321,6 +2396,10 @@ spec:
                       type: string
                     type:
                       type: string
+                    volumeLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
                   type: object
                 type: array
               warnings:
@@ -3090,6 +3169,10 @@ spec:
                           type: string
                         type:
                           type: string
+                        volumeLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
                       type: object
                     type: array
                 type: object
@@ -3925,6 +4008,13 @@ spec:
                       worm:
                         type: boolean
                     type: object
+                  clusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                    type: object
                   storageClassName:
                     type: string
                   targetRepo:
@@ -3957,6 +4047,12 @@ spec:
                     type: boolean
                   name:
                     type: string
+                type: object
+              containerBackupPolicy:
+                description: Backup container runtime data
+                properties:
+                  backupEnabled:
+                    type: boolean
                 type: object
               description:
                 type: string
@@ -4715,6 +4811,17 @@ spec:
                         type: integer
                       worm:
                         type: boolean
+                    type: object
+                  clusterResult:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                      sourceName:
+                        type: string
+                      sourceNamespace:
+                        type: string
                     type: object
                   storageClassName:
                     type: string
@@ -7067,6 +7174,10 @@ spec:
                           type: string
                         type:
                           type: string
+                        volumeLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
                       type: object
                     type: array
                 type: object
@@ -7282,6 +7393,10 @@ spec:
                       type: string
                     type:
                       type: string
+                    volumeLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
                   type: object
                 description: 'snapshot export key: ns/pvc, podVolume key ns/pod/volume'
                 type: object
@@ -8944,6 +9059,10 @@ spec:
                       type: string
                     type:
                       type: string
+                    volumeLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
                   type: object
                 description: ns/pvc as the key
                 type: object
@@ -9582,6 +9701,8 @@ spec:
                           format: int64
                           type: integer
                         namespace:
+                          type: string
+                        originPodName:
                           type: string
                         phase:
                           type: string
@@ -13850,6 +13971,11 @@ spec:
                             type: string
                         type: object
                       type: array
+                    logs:
+                      additionalProperties:
+                        format: date-time
+                        type: string
+                      type: object
                     name:
                       type: string
                     startTimestamp:
@@ -21621,6 +21747,12 @@ spec:
                     type: object
                   operator:
                     properties:
+                      containerDataPath:
+                        type: string
+                      containerRuntime:
+                        type: string
+                      containerSocket:
+                        type: string
                       featureGates:
                         type: string
                       image:
@@ -24837,6 +24969,12 @@ spec:
                   - type
                   type: object
                 type: array
+              containerDataPath:
+                type: string
+              containerRuntime:
+                type: string
+              containerSocket:
+                type: string
               criticalErrors:
                 items:
                   properties:
@@ -28893,6 +29031,12 @@ spec:
                 type: boolean
               operator:
                 properties:
+                  containerDataPath:
+                    type: string
+                  containerRuntime:
+                    type: string
+                  containerSocket:
+                    type: string
                   featureGates:
                     type: string
                   image:
@@ -40823,6 +40967,103 @@ spec:
                 type: string
               default:
                 type: boolean
+              nfsConfig:
+                properties:
+                  path:
+                    type: string
+                  server:
+                    type: string
+                type: object
+              nodeAffinity:
+                description: VolumeNodeAffinity defines constraints that limit what
+                  nodes this volume can be accessed from.
+                properties:
+                  required:
+                    description: Required specifies hard node constraints that must
+                      be met.
+                    properties:
+                      nodeSelectorTerms:
+                        description: Required. A list of node selector terms. The
+                          terms are ORed.
+                        items:
+                          description: A null or empty node selector term matches
+                            no objects. The requirements of them are ANDed. The TopologySelectorTerm
+                            type implements a subset of the NodeSelectorTerm.
+                          properties:
+                            matchExpressions:
+                              description: A list of node selector requirements by
+                                node's labels.
+                              items:
+                                description: A node selector requirement is a selector
+                                  that contains values, a key, and an operator that
+                                  relates the key and values.
+                                properties:
+                                  key:
+                                    description: The label key that the selector applies
+                                      to.
+                                    type: string
+                                  operator:
+                                    description: Represents a key's relationship to
+                                      a set of values. Valid operators are In, NotIn,
+                                      Exists, DoesNotExist. Gt, and Lt.
+                                    type: string
+                                  values:
+                                    description: An array of string values. If the
+                                      operator is In or NotIn, the values array must
+                                      be non-empty. If the operator is Exists or DoesNotExist,
+                                      the values array must be empty. If the operator
+                                      is Gt or Lt, the values array must have a single
+                                      element, which will be interpreted as an integer.
+                                      This array is replaced during a strategic merge
+                                      patch.
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - key
+                                - operator
+                                type: object
+                              type: array
+                            matchFields:
+                              description: A list of node selector requirements by
+                                node's fields.
+                              items:
+                                description: A node selector requirement is a selector
+                                  that contains values, a key, and an operator that
+                                  relates the key and values.
+                                properties:
+                                  key:
+                                    description: The label key that the selector applies
+                                      to.
+                                    type: string
+                                  operator:
+                                    description: Represents a key's relationship to
+                                      a set of values. Valid operators are In, NotIn,
+                                      Exists, DoesNotExist. Gt, and Lt.
+                                    type: string
+                                  values:
+                                    description: An array of string values. If the
+                                      operator is In or NotIn, the values array must
+                                      be non-empty. If the operator is Exists or DoesNotExist,
+                                      the values array must be empty. If the operator
+                                      is Gt or Lt, the values array must have a single
+                                      element, which will be interpreted as an integer.
+                                      This array is replaced during a strategic merge
+                                      patch.
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - key
+                                - operator
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                    required:
+                    - nodeSelectorTerms
+                    type: object
+                type: object
               quota:
                 properties:
                   capacity:
@@ -44300,6 +44541,10 @@ spec:
                       type: string
                     type:
                       type: string
+                    volumeLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
                   type: object
                 type: array
               warnings:
@@ -55388,6 +55633,12 @@ spec:
                 type: boolean
               operator:
                 properties:
+                  containerDataPath:
+                    type: string
+                  containerRuntime:
+                    type: string
+                  containerSocket:
+                    type: string
                   featureGates:
                     type: string
                   image:
