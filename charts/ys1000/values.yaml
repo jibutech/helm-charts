@@ -217,6 +217,19 @@ components:
       registry: ""
       repository: ys1000/ysutl
       tag: ""
+    extraImages:
+    - name: "Mysql"
+      version: "v5.7"
+      image:
+        registry: ""
+        repository: ys1000/ysutl-mysql-5-7
+        tag: ""
+    - name: "Mysql"
+      version: "v8.0"
+      image:
+        registry: ""
+        repository: ys1000/ysutl-mysql-8
+        tag: ""
   sleep:
     image:
       registry: ""

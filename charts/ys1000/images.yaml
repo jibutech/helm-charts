@@ -18,6 +18,8 @@ images:
     tag: v1.3.0-jibu-f64cbb6-20240124093130
   - repo: velero-plugin-alibabacloud
     tag: v1.2.1-jibu-dev-2373ba8-20240229150839
+  - repo: ysutl-mysql-5-7
+  - repo: ysutl-mysql-8-0
   - repo: velero-plugin
   - repo: data-verify
   - repo: amberapp
