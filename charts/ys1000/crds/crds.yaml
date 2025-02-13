@@ -14629,6 +14629,37 @@ spec:
             type: object
           spec:
             properties:
+              config:
+                properties:
+                  dstClusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                    type: object
+                  policy:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                    type: object
+                  srcClusterRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                    type: object
+                  storageRef:
+                    properties:
+                      global:
+                        type: boolean
+                      name:
+                        type: string
+                    type: object
+                type: object
               drInstances:
                 items:
                   items:
@@ -14652,8 +14683,8 @@ spec:
                       type: string
                     type: array
                 type: object
-            required:
-            - drInstances
+              type:
+                type: string
             type: object
           status:
             properties:
