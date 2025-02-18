@@ -24,6 +24,7 @@ featureGates:
   VolSync: false
   Tenant: false
   HostPathBackup: false
+  ContainerBackup: false
 
 imageBase:
   registry: ""
