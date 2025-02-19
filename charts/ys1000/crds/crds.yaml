@@ -879,6 +879,10 @@ spec:
                             type: object
                           mysqlDump:
                             properties:
+                              canRollBackToMaster:
+                                type: boolean
+                              dumpFromStandbyEnabled:
+                                type: boolean
                               excludes:
                                 items:
                                   type: string
@@ -4440,6 +4444,10 @@ spec:
                         type: object
                       mysqlDump:
                         properties:
+                          canRollBackToMaster:
+                            type: boolean
+                          dumpFromStandbyEnabled:
+                            type: boolean
                           excludes:
                             items:
                               type: string
