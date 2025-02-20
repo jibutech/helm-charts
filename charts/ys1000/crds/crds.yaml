@@ -18484,6 +18484,10 @@ spec:
                 type: object
               owner:
                 type: string
+              parameters:
+                additionalProperties:
+                  type: string
+                type: object
               reviewers:
                 items:
                   type: string
