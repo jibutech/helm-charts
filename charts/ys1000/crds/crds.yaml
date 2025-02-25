@@ -2077,8 +2077,6 @@ spec:
                 type: boolean
               logicalBackupOption:
                 type: string
-              logicalBackupOption:
-                type: string
               phase:
                 type: string
               podImages:
@@ -27755,8 +27753,6 @@ spec:
               detectedClusterProvider:
                 description: Auto detected cloud provider
                 type: string
-              isInService:
-                type: boolean
               kubeVirtInstalled:
                 type: boolean
               managedBy:
@@ -27771,6 +27767,23 @@ spec:
                 type: array
               secretResourceVersion:
                 type: string
+              snapshotClasses:
+                items:
+                  description: Available volumesnapshotclass in the cluster Which
+                    has deletion policy retain and velero label
+                  properties:
+                    deletionPolicy:
+                      type: string
+                    driver:
+                      type: string
+                    name:
+                      type: string
+                  required:
+                  - deletionPolicy
+                  - driver
+                  - name
+                  type: object
+                type: array
               snapshotDisabled:
                 type: boolean
               snapshotV1Used:
