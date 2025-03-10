@@ -29,7 +29,7 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "release-4.2.0-latest"
+  tag: "add-mongodb-4.4-backup-latest"
 
 image:
   registry: ""
@@ -231,6 +231,12 @@ components:
         registry: ""
         repository: ys1000/ysutl-mysql-8
         tag: ""
+    - name: "MongoDB"
+      version: "v4.4"
+      image:
+        registry: ""
+        repository: ys1000/ysutl-mongodb-4
+        tag: ""  
   sleep:
     image:
       registry: ""
