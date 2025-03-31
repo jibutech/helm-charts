@@ -2,7 +2,7 @@ apiVersion: kubesphere.io/v1alpha1
 name: ys1000
 version: 4.2.0
 displayName:
-  zh: 银数多云数据管家YS1000
+  zh: 云原生业务连续性管理平台
   en: YS1000
 description:
   zh: 国内领先的企业级Kubernetes备份容灾商业解决方案，为企业提供核心容器应用在多云架构下的备份恢复、应用迁移及容灾保护服务。

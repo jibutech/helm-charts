@@ -16,7 +16,7 @@
 
 安装此扩展组件后,您会在 KubeSphere 平台的左上角看到 YS1000 按钮 ，点击进入即可使用（初次使用可能需要几分钟加载组件）。
 
-在使用产品之前，请先阅读我们的产品使用手册: [银数多云数据管家YS1000使用手册](https://ks-extension.pek3b.qingstor.com/extensions/ys1000/manual_zh.pdf)
+在使用产品之前，请先阅读我们的产品使用手册: [YS1000使用手册](https://ks-extension.pek3b.qingstor.com/extensions/ys1000/manual_zh.pdf)
 
 ## 获取 License
 

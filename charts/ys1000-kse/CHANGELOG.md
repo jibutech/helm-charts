@@ -2,17 +2,29 @@
 
 This document records all significant changes to the project.
 
-## v3.10.2
+## v3.10.3
+
+### ETCD backup improvement
+
+Improve ETCD backup with emptyDir and NFS support
 
 ### Bug fixes
+
+    * Add prometheus alarm for backup job deletion timeout (2h)
+    * Improve volumesnapshot cleanup
+    * fix KSE UI crash for cluster
+
+## v3.10.2
+
+### v3.10.2 Bug fixes
 
 ## v3.10.1
 
-### Bug fixes
+### v3.10.1 Bug fixes
 
-* fix ETCD backup issue by tolerating master taints
-* fix Amberapp Mysql lock bug
-* fix Amberapp Redis non-auth support
+    * fix ETCD backup issue by tolerating master taints
+    * fix Amberapp Mysql lock bug
+    * fix Amberapp Redis non-auth support
 
 ## v3.10.0
 
