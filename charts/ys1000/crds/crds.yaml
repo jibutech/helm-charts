@@ -1975,6 +1975,36 @@ spec:
                           type: string
                       type: object
                     type: array
+                  stepRecords:
+                    items:
+                      properties:
+                        component:
+                          type: string
+                        name:
+                          type: string
+                        phase:
+                          type: string
+                        records:
+                          items:
+                            properties:
+                              currentStatus:
+                                type: string
+                              desiredStatus:
+                                type: string
+                              message:
+                                type: string
+                              name:
+                                description: Name is target resource for operation
+                                type: string
+                              probeAt:
+                                format: date-time
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   steps:
                     properties:
                       current:
@@ -2360,6 +2390,36 @@ spec:
               startTimestamp:
                 format: date-time
                 type: string
+              stepOperationRecords:
+                items:
+                  properties:
+                    component:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    records:
+                      items:
+                        properties:
+                          currentStatus:
+                            type: string
+                          desiredStatus:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            description: Name is target resource for operation
+                            type: string
+                          probeAt:
+                            format: date-time
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
               steps:
                 properties:
                   current:
@@ -7680,6 +7740,36 @@ spec:
                 type: string
               state:
                 type: string
+              stepOperationRecords:
+                items:
+                  properties:
+                    component:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    records:
+                      items:
+                        properties:
+                          currentStatus:
+                            type: string
+                          desiredStatus:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            description: Name is target resource for operation
+                            type: string
+                          probeAt:
+                            format: date-time
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
               steps:
                 properties:
                   current:
@@ -9346,6 +9436,36 @@ spec:
                 type: string
               state:
                 type: string
+              stepOperationRecords:
+                items:
+                  properties:
+                    component:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    records:
+                      items:
+                        properties:
+                          currentStatus:
+                            type: string
+                          desiredStatus:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            description: Name is target resource for operation
+                            type: string
+                          probeAt:
+                            format: date-time
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
               steps:
                 properties:
                   current:
@@ -11481,6 +11601,10 @@ spec:
                       - runOn
                       type: object
                     type: array
+                  dataParams:
+                    additionalProperties:
+                      type: string
+                    type: object
                   resourceHooks:
                     items:
                       properties:
@@ -11509,6 +11633,10 @@ spec:
                       - runOn
                       type: object
                     type: array
+                  resourceParams:
+                    additionalProperties:
+                      type: string
+                    type: object
                 type: object
               isAutoPrePullImage:
                 description: auto prepull image in secondary cluster
@@ -11692,6 +11820,10 @@ spec:
               workFlow:
                 description: define customized workflow for dr operation
                 type: string
+              workFlowParams:
+                additionalProperties:
+                  type: string
+                type: object
             type: object
           status:
             description: DisasterRecoveryStatus defines the observed state of DisasterRecovery
@@ -14416,6 +14548,8 @@ spec:
                       type: string
                     confirmed:
                       type: boolean
+                    force:
+                      type: boolean
                     phase:
                       type: string
                     skip:
@@ -14838,6 +14972,8 @@ spec:
                       type: string
                     confirmed:
                       type: boolean
+                    force:
+                      type: boolean
                     phase:
                       type: string
                     skip:
@@ -15070,6 +15206,8 @@ spec:
                     action:
                       type: string
                     confirmed:
+                      type: boolean
+                    force:
                       type: boolean
                     phase:
                       type: string
@@ -16565,6 +16703,8 @@ spec:
                       type: string
                     confirmed:
                       type: boolean
+                    force:
+                      type: boolean
                     phase:
                       type: string
                     skip:
@@ -16616,6 +16756,42 @@ spec:
                     items:
                       type: string
                     type: array
+                type: object
+              persistentConfig:
+                properties:
+                  enabled:
+                    type: boolean
+                  localStorage:
+                    properties:
+                      emptyDir:
+                        type: object
+                      nfs:
+                        properties:
+                          path:
+                            type: string
+                          server:
+                            type: string
+                        type: object
+                      pvc:
+                        properties:
+                          size:
+                            type: string
+                          storageClass:
+                            type: string
+                        type: object
+                      type:
+                        enum:
+                        - emptyDir
+                        - nfs
+                        - pvc
+                        type: string
+                    type: object
+                  mountPath:
+                    type: string
+                  pvcName:
+                    type: string
+                required:
+                - enabled
                 type: object
             type: object
           status:
@@ -16867,6 +17043,274 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
+  name: emergencycronjobs.ys.jibudata.com
+spec:
+  group: ys.jibudata.com
+  names:
+    kind: EmergencyCronJob
+    listKind: EmergencyCronJobList
+    plural: emergencycronjobs
+    singular: emergencycronjob
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.state
+      name: State
+      type: string
+    - jsonPath: .spec.plan.name
+      name: PlanName
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: EmergencyCronJob is the Schema for the EmergencyCronJobs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              clusterRef:
+                properties:
+                  global:
+                    type: boolean
+                  name:
+                    type: string
+                type: object
+              envs:
+                additionalProperties:
+                  items:
+                    properties:
+                      actionName:
+                        type: string
+                      env:
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must
+                                be a C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previous defined environment variables in
+                                the container and any service environment variables.
+                                If a variable cannot be resolved, the reference in
+                                the input string will be unchanged. The $(VAR_NAME)
+                                syntax can be escaped with a double $$, ie: $$(VAR_NAME).
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to
+                                "".'
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or
+                                        its key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports
+                                    metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in
+                                        the specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container:
+                                    only resources limits and requests (limits.cpu,
+                                    limits.memory, limits.ephemeral-storage, requests.cpu,
+                                    requests.memory and requests.ephemeral-storage)
+                                    are currently supported.'
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      type: string
+                                    divisor:
+                                      anyOf:
+                                      - type: integer
+                                      - type: string
+                                      description: Specifies the output format of
+                                        the exposed resources, defaults to "1"
+                                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. More info:
+                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Add other useful fields. apiVersion,
+                                        kind, uid?'
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                    required:
+                    - actionName
+                    type: object
+                  type: array
+                type: object
+              frequency:
+                type: string
+              meta:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  isGlobal:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              pause:
+                type: boolean
+              plan:
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+                required:
+                - name
+                - version
+                type: object
+              targets:
+                items:
+                  type: string
+                type: array
+            required:
+            - plan
+            type: object
+          status:
+            properties:
+              criticalErrors:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+              state:
+                type: string
+              warnings:
+                items:
+                  properties:
+                    code:
+                      type: string
+                    durable:
+                      description: 'Deprecated: please don''t use this field, it will
+                        be removed in the future'
+                      type: boolean
+                    message:
+                      type: string
+                    params:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    reason:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: emergencyevents.ys.jibudata.com
 spec:
   group: ys.jibudata.com
@@ -16909,6 +17353,10 @@ spec:
             type: object
           spec:
             properties:
+              annotations:
+                additionalProperties:
+                  type: string
+                type: object
               appSelector:
                 properties:
                   labels:
@@ -16924,6 +17372,16 @@ spec:
                 type: boolean
               creator:
                 type: string
+              fingerprint:
+                type: string
+              groupLabels:
+                additionalProperties:
+                  type: string
+                type: object
+              labels:
+                additionalProperties:
+                  type: string
+                type: object
               level:
                 type: string
               message:
@@ -17730,7 +18188,7 @@ spec:
     - jsonPath: .status.state
       name: State
       type: string
-    - jsonPath: .spec.planName
+    - jsonPath: .spec.plan.name
       name: PlanName
       type: string
     - jsonPath: .spec.operation
@@ -18486,6 +18944,42 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              persistentConfig:
+                properties:
+                  enabled:
+                    type: boolean
+                  localStorage:
+                    properties:
+                      emptyDir:
+                        type: object
+                      nfs:
+                        properties:
+                          path:
+                            type: string
+                          server:
+                            type: string
+                        type: object
+                      pvc:
+                        properties:
+                          size:
+                            type: string
+                          storageClass:
+                            type: string
+                        type: object
+                      type:
+                        enum:
+                        - emptyDir
+                        - nfs
+                        - pvc
+                        type: string
+                    type: object
+                  mountPath:
+                    type: string
+                  pvcName:
+                    type: string
+                required:
+                - enabled
+                type: object
               reviewers:
                 items:
                   type: string
@@ -18635,6 +19129,21 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .spec.enabled
+      name: Enabled
+      type: string
+    - jsonPath: .spec.alertMatchExpression
+      name: AlertMatchExpression
+      type: string
+    - jsonPath: .spec.foldByGroup
+      name: FoldByGroup
+      type: string
+    - jsonPath: .spec.autoExecution
+      name: AutoExecution
+      type: string
+    - jsonPath: .spec.owner
+      name: Owner
+      type: string
     - jsonPath: .status.state
       name: State
       type: string
@@ -18660,6 +19169,25 @@ spec:
             type: object
           spec:
             properties:
+              alertMatchExpression:
+                type: string
+              appSelector:
+                properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  names:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              autoExecution:
+                type: boolean
+              enabled:
+                type: boolean
+              foldByGroup:
+                type: boolean
               meta:
                 properties:
                   description:
@@ -18673,6 +19201,30 @@ spec:
                       type: string
                     type: array
                   tenants:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              notificationTarget:
+                properties:
+                  userGroups:
+                    items:
+                      type: string
+                    type: array
+                  users:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              owner:
+                type: string
+              planSelector:
+                properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  names:
                     items:
                       type: string
                     type: array
@@ -37229,6 +37781,36 @@ spec:
                   stepFailureTimeoutSeconds:
                     description: Deprecated
                     type: integer
+                  stepRecords:
+                    items:
+                      properties:
+                        component:
+                          type: string
+                        name:
+                          type: string
+                        phase:
+                          type: string
+                        records:
+                          items:
+                            properties:
+                              currentStatus:
+                                type: string
+                              desiredStatus:
+                                type: string
+                              message:
+                                type: string
+                              name:
+                                description: Name is target resource for operation
+                                type: string
+                              probeAt:
+                                format: date-time
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   totalRetryCount:
                     description: Deprecated
                     type: integer
@@ -40137,6 +40719,36 @@ spec:
               startedAt:
                 format: date-time
                 type: string
+              stepOperationRecords:
+                items:
+                  properties:
+                    component:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    records:
+                      items:
+                        properties:
+                          currentStatus:
+                            type: string
+                          desiredStatus:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            description: Name is target resource for operation
+                            type: string
+                          probeAt:
+                            format: date-time
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
               steps:
                 properties:
                   current:
@@ -47284,6 +47896,36 @@ spec:
                     type: object
                   importStatus:
                     type: string
+                  stepRecords:
+                    items:
+                      properties:
+                        component:
+                          type: string
+                        name:
+                          type: string
+                        phase:
+                          type: string
+                        records:
+                          items:
+                            properties:
+                              currentStatus:
+                                type: string
+                              desiredStatus:
+                                type: string
+                              message:
+                                type: string
+                              name:
+                                description: Name is target resource for operation
+                                type: string
+                              probeAt:
+                                format: date-time
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   veleroRestoreName:
                     type: string
                 type: object
@@ -47414,6 +48056,36 @@ spec:
               startTimestamp:
                 format: date-time
                 type: string
+              stepRecords:
+                items:
+                  properties:
+                    component:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    records:
+                      items:
+                        properties:
+                          currentStatus:
+                            type: string
+                          desiredStatus:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            description: Name is target resource for operation
+                            type: string
+                          probeAt:
+                            format: date-time
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
               steps:
                 properties:
                   current:
@@ -62589,6 +63261,162 @@ spec:
                 type: string
               name:
                 type: string
+              notifiersConfig:
+                properties:
+                  alertManagerWebhook:
+                    properties:
+                      address:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                    type: object
+                  mail:
+                    properties:
+                      authCode:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                      encrypt:
+                        type: boolean
+                      from:
+                        type: string
+                      host:
+                        type: string
+                      password:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                      port:
+                        type: integer
+                      to:
+                        items:
+                          type: string
+                        type: array
+                      username:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                    type: object
+                  weChat:
+                    properties:
+                      groupRobot:
+                        properties:
+                          webhookAddresses:
+                            description: SecretKeySelector selects a key of a Secret.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                        type: object
+                      pushNotification:
+                        properties:
+                          agentId:
+                            type: integer
+                          corpId:
+                            type: string
+                          corpSecret:
+                            description: SecretKeySelector selects a key of a Secret.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                          toParty:
+                            items:
+                              type: string
+                            type: array
+                          toTag:
+                            items:
+                              type: string
+                            type: array
+                          toUser:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                type: object
               password:
                 type: string
               recentFailureAttempts:
