@@ -19060,6 +19060,9 @@ spec:
                       type: string
                     state:
                       type: string
+                    updatedAt:
+                      format: date-time
+                      type: string
                   required:
                   - reviewerName
                   type: object
@@ -19068,6 +19071,9 @@ spec:
                 type: string
               submit:
                 type: boolean
+              submitTime:
+                format: date-time
+                type: string
               type:
                 type: string
             required:
@@ -19112,6 +19118,9 @@ spec:
                     reviewerName:
                       type: string
                     state:
+                      type: string
+                    updatedAt:
+                      format: date-time
                       type: string
                   required:
                   - reviewerName
