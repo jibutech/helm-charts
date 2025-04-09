@@ -25,6 +25,8 @@ featureGates:
   Tenant: false
   HostPathBackup: false
   ContainerBackup: false
+  DataBaseBackup: false
+  Emergency: false
 
 imageBase:
   registry: ""
@@ -399,6 +401,8 @@ tolerations: []
 affinity: {}
 
 mysql:
+  extraArgs:
+    primary: ["--upgrade=NONE"]
   fullnameOverride: mysql
   image:
     registry: ""
