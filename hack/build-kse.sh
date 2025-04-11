@@ -7,7 +7,7 @@ if [[ "$1" == "none-logo" ]];then
     yq eval --inplace ".components.portal.image.tag=\"${YS1000_VERSION}-none-logo\"" charts/ys1000/values.yaml
 fi
 yq eval --inplace '.migconfig.deploymentMode="kse-extension"' charts/ys1000/values.yaml
-yq eval --inplace '.migconfig.deletionPolicy.removeResources=true' charts/ys1000/values.yaml
+yq eval --inplace '.migconfig.deletionPolicy.removeResources=false' charts/ys1000/values.yaml
 yq eval --inplace '.migconfig.deletionPolicy.cancelRunningJobs=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.enabled=true' charts/ys1000/values.yaml
 yq eval --inplace '.mysql.primary.persistence.storageClass=null' charts/ys1000/values.yaml
