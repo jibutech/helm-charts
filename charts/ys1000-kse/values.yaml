@@ -43,11 +43,12 @@ ys1000:
       enabled: true
     primary:
       resources:
-      limits:
-        cpu: 2000m
-        memory: 4096Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
+        limits:
+          cpu: 2000m
+          memory: 4096Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
       persistence:
+        enabled: true
         storageClass: null # leave null to use default storageClass
