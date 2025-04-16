@@ -1,5 +1,53 @@
 ys1000:
+  global:
+    imageRegistry: "jibutech-registry.cn-hangzhou.cr.aliyuncs.com"
+  components:
+    controller:
+      template:
+        spec:
+          containers:
+          - name: mig-controller
+            resources:
+              limits:
+                cpu: "2"
+                memory: 16Gi
+              requests:
+                cpu: 100m
+                memory: 128Mi
+    operator:
+      template:
+        spec:
+          tolerations: []
+          affinity:
+           nodeAffinity:
+          containers:
+          - name: agent-operator
+            resources:
+              limits:
+                cpu: 1
+                memory: 2048Mi
+              requests:
+                cpu: 50m
+                memory: 80Mi
+  clusterpedia:
+    clustersynchroManager:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: "2"
+          memory: 8Gi
   mysql:
+    metrics:
+      enabled: true
     primary:
+      resources:
+      limits:
+        cpu: 2000m
+        memory: 4096Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
       persistence:
         storageClass: null # leave null to use default storageClass
