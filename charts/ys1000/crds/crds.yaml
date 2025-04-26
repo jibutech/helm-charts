@@ -16899,6 +16899,10 @@ spec:
             properties:
               autoHook:
                 properties:
+                  envs:
+                    additionalProperties:
+                      type: string
+                    type: object
                   hooks:
                     items:
                       properties:
@@ -16927,10 +16931,33 @@ spec:
                       - runOn
                       type: object
                     type: array
+                  kubeConfigSecretRef:
+                    description: SecretKeySelector selects a key of a Secret.
+                    properties:
+                      key:
+                        description: The key of the secret to select from.  Must be
+                          a valid secret key.
+                        type: string
+                      name:
+                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Add other useful fields. apiVersion, kind, uid?'
+                        type: string
+                      optional:
+                        description: Specify whether the Secret or its key must be
+                          defined
+                        type: boolean
+                    required:
+                    - key
+                    type: object
+                  namespace:
+                    description: namespace where hook will run, default qiming-backend
+                    type: string
                   parameters:
                     additionalProperties:
                       type: string
                     type: object
+                  serviceAccount:
+                    type: string
                 type: object
               manualStep:
                 properties:
@@ -17214,6 +17241,8 @@ spec:
                 type: object
               frequency:
                 type: string
+              managedApplication:
+                type: string
               meta:
                 properties:
                   description:
@@ -17231,6 +17260,12 @@ spec:
                       type: string
                     type: array
                 type: object
+              namespaces:
+                items:
+                  type: string
+                type: array
+              ownerName:
+                type: string
               pause:
                 type: boolean
               plan:
@@ -17244,6 +17279,10 @@ spec:
                 - version
                 type: object
               targets:
+                items:
+                  type: string
+                type: array
+              templates:
                 items:
                   type: string
                 type: array
@@ -17735,6 +17774,10 @@ spec:
                     properties:
                       autoHook:
                         properties:
+                          envs:
+                            additionalProperties:
+                              type: string
+                            type: object
                           hooks:
                             items:
                               properties:
@@ -17763,10 +17806,34 @@ spec:
                               - runOn
                               type: object
                             type: array
+                          kubeConfigSecretRef:
+                            description: SecretKeySelector selects a key of a Secret.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                          namespace:
+                            description: namespace where hook will run, default qiming-backend
+                            type: string
                           parameters:
                             additionalProperties:
                               type: string
                             type: object
+                          serviceAccount:
+                            type: string
                         type: object
                       manualStep:
                         properties:
@@ -18351,6 +18418,8 @@ spec:
                 type: object
               eventName:
                 type: string
+              managedApplication:
+                type: string
               manualConfirm:
                 additionalProperties:
                   items:
@@ -18385,6 +18454,10 @@ spec:
                       type: string
                     type: array
                 type: object
+              namespaces:
+                items:
+                  type: string
+                type: array
               operation:
                 type: string
               ownerName:
@@ -18402,6 +18475,11 @@ spec:
               subOperation:
                 type: string
               targets:
+                description: targets are customized applications
+                items:
+                  type: string
+                type: array
+              templates:
                 items:
                   type: string
                 type: array
@@ -18450,6 +18528,10 @@ spec:
                       properties:
                         autoHook:
                           properties:
+                            envs:
+                              additionalProperties:
+                                type: string
+                              type: object
                             hooks:
                               items:
                                 properties:
@@ -18478,10 +18560,35 @@ spec:
                                 - runOn
                                 type: object
                               type: array
+                            kubeConfigSecretRef:
+                              description: SecretKeySelector selects a key of a Secret.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            namespace:
+                              description: namespace where hook will run, default
+                                qiming-backend
+                              type: string
                             parameters:
                               additionalProperties:
                                 type: string
                               type: object
+                            serviceAccount:
+                              type: string
                           type: object
                         manualStep:
                           properties:
