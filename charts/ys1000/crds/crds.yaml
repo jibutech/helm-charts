@@ -17483,6 +17483,19 @@ spec:
                 items:
                   type: string
                 type: array
+              appsFromLabel:
+                items:
+                  properties:
+                    matchLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    matchPercentage:
+                      type: integer
+                    name:
+                      type: string
+                  type: object
+                type: array
               criticalErrors:
                 items:
                   properties:
@@ -17505,6 +17518,19 @@ spec:
               plans:
                 items:
                   type: string
+                type: array
+              plansFromLabel:
+                items:
+                  properties:
+                    matchLabels:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    matchPercentage:
+                      type: integer
+                    name:
+                      type: string
+                  type: object
                 type: array
               processStatus:
                 items:
@@ -19217,8 +19243,18 @@ spec:
                       type: string
                   type: object
                 type: array
+              envs:
+                additionalProperties:
+                  type: string
+                description: envs from actions
+                type: object
               executionType:
                 type: string
+              parameters:
+                additionalProperties:
+                  type: string
+                description: default parameters from actions and plan.spec
+                type: object
               reviewStatus:
                 items:
                   properties:
