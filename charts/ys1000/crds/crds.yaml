@@ -64852,6 +64852,10 @@ spec:
                 type: string
               name:
                 type: string
+              notifiers:
+                items:
+                  type: string
+                type: array
               notifiersConfig:
                 properties:
                   alertManagerWebhook:
