@@ -1,0 +1,38 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"configmap-inspect-rules"},"spec":{"opas":[{"name":"CheckDuplicateSubnets","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  input.kind == \"ConfigMap\"\n  input.apiVersion == \"v1\"\n  \n  input.metadata.namespace == \"kube-system\"\n  input.metadata.name == \"ipam-config\"\n\n  input.data.ipam != \"\"\n  ipam_config := json.unmarshal(input.data.ipam)\n\n  some ns, subnets in ipam_config\n  some subnet in subnets\n\n  usage := {\n    \"subnet\": subnet,\n    \"namespaces\": [ns |\n        some other_ns, other_subnets in ipam_config\n        some other_subnet in other_subnets\n        other_subnet == subnet\n        ns := other_ns\n    ],\n  }\n\n  count(usage.namespaces) \u003e 1\n\n  level := \"danger\"\n  msg := {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"subnet %v is used multi namespaces %v\", [usage.subnet, usage.namespaces]),\n    \"Reason\": \"HostNic 配置中 subnet 被重复分配\"\n  }\n}"}]}}
+    kubeeye.kubesphere.io/join-plan-num: "0"
+  creationTimestamp: "2025-04-25T07:26:02Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Application
+  name: configmap-inspect-rules
+  resourceVersion: "58410971"
+  uid: 804c3bfd-304a-4e6c-bd59-5404cf80b33e
+spec:
+  opas:
+  - name: CheckDuplicateSubnets
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  input.kind
+      == \"ConfigMap\"\n  input.apiVersion == \"v1\"\n  \n  input.metadata.namespace
+      == \"kube-system\"\n  input.metadata.name == \"ipam-config\"\n\n  input.data.ipam
+      != \"\"\n  ipam_config := json.unmarshal(input.data.ipam)\n\n  some ns, subnets
+      in ipam_config\n  some subnet in subnets\n\n  usage := {\n    \"subnet\": subnet,\n
+      \   \"namespaces\": [ns |\n        some other_ns, other_subnets in ipam_config\n
+      \       some other_subnet in other_subnets\n        other_subnet == subnet\n
+      \       ns := other_ns\n    ],\n  }\n\n  count(usage.namespaces) > 1\n\n  level
+      := \"danger\"\n  msg := {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n
+      \   \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n    \"Type\":
+      sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\":
+      sprintf(\"subnet %v is used multi namespaces %v\", [usage.subnet, usage.namespaces]),\n
+      \   \"Reason\": \"HostNic 配置中 subnet 被重复分配\"\n  }\n}"
+status:
+  endImportTime: "2025-04-25T07:26:03Z"
+  levelCount:
+    warning: 1
+  startImportTime: "2025-04-25T07:26:03Z"
+  state: ImportComplete

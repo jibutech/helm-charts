@@ -1,0 +1,26 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"filter-file-inspect-rules"},"spec":{"fileFilter":[{"name":"systemLog","path":"/var/log/syslog","rule":"error"}]}}
+  creationTimestamp: "2025-04-25T07:26:02Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Storage
+  name: filter-file-inspect-rules
+  resourceVersion: "57353511"
+  uid: 93d5d9eb-ab37-4b70-b9cf-6fedde3c7d0f
+spec:
+  fileFilter:
+  - name: systemLog
+    path: /var/log/syslog
+    rule: error
+status:
+  endImportTime: "2025-04-25T07:26:03Z"
+  levelCount:
+    warning: 1
+  startImportTime: "2025-04-25T07:26:02Z"
+  state: ImportComplete

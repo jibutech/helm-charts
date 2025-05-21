@@ -1,0 +1,203 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"pod-inspect-rules"},"spec":{"opas":[{"name":"imagePullPolicyRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n    input.kind == \"Pod\"\n    input.apiVersion == \"v1\"\n\n    level := \"WARNING\"\n    \n    not input.metadata.ownerReferences\n    container := input.spec.containers[_]\n    container.imagePullPolicy != \"IfNotPresent\"\n\n    msg := {\n        \"Name\": sprintf(\"%v\", [input.metadata.name]),\n        \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n        \"Type\": sprintf(\"%v\", [input.kind]),\n        \"Message\": \"PodImagePullPolicyRule\",\n        \"Reason\": sprintf(\"当前资源镜像拉取策略为: %v , 需要修改为IfNotPresent\", [container.imagePullPolicy]),\n        \"Level\": sprintf(\"%v\", [level])\n    }\n}"},{"name":"readinessProbeRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.readinessProbe\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodReadinessProbeRule\",\n      \"Reason\": \"当前资源没有配置就绪探针\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"livenessProbeRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.livenessProbe\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodLivenessProbeRule\",\n      \"Reason\": \"当前资源没有配置存活探针\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"hostPathRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"DANGER\"\n\n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n\n  volume := input.spec.volumes[_]\n\n  \"hostPath\" in volume\n\n  volume_mount := container.volumeMounts[_]\n\n  volume_mount.name == volume.name\n  not volume_mount.readOnly\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHostPathRule\",\n      \"Reason\": sprintf(\"当前资源使用hostPath挂载卷 , 卷名: %v , 未配置只读模式\", [volume.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"privilegedRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"DANGER\"\n  \n  not input.metadata.ownerReferences\n  \n  input.spec.containers[_].securityContext.privileged == true\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodPrivilegedRule\",\n      \"Reason\": \"当前资源已启用特权模式\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"insecureCapabilitiesRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n  \n  not input.metadata.ownerReferences\n\n  insecureCapabilities := [\"CHOWN\", \"DAC_OVERRIDE\", \"FSETID\", \"FOWNER\", \"MKNOD\", \"NET_RAW\", \"SETGID\", \"SETUID\", \"SETFCAP\", \"NET_BIND_SERVICE\",\"SYS_CHROOT\",\"KILL\",\"AUDIT_WRITE\"]\n  container := input.spec.containers[_]\n  capabilities := container.securityContext.capabilities.add[_]\n  insecureCapabilities[_] == capabilities\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodInsecureCapabilitiesRule\",\n      \"Reason\": sprintf(\"容器 '%v' 配置了系统权限: %v\", [container.name, capabilities]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"highRiskCapabilitiesRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n  \n  level := \"DANGER\"  \n  \n  not input.metadata.ownerReferences\n  \n  HighRiskCapabilities := [\"NET_ADMIN\", \"SYS_ADMIN\", \"ALL\"]\n  container := input.spec.containers[_]\n  capabilities := container.securityContext.capabilities.add[_]\n  HighRiskCapabilities[_] == capabilities\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHighRiskCapabilitiesRule\",\n      \"Reason\": sprintf(\"容器 '%v' 配置了系统权限: %v\", [container.name, capabilities]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"cpuRequestsRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n  \n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.resources.requests.cpu\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]), \n      \"Message\": \"PodCPURequestsRule\",\n      \"Reason\": sprintf(\"容器 '%v' 未配置CPU资源请求\", [container.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"cpuLimitsRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.resources.limits.cpu\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodCPULimitsRule\",\n      \"Reason\": sprintf(\"容器 '%v' 未配置CPU资源限制\", [container.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"memoryRequestsRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.resources.requests.memory\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodMemoryRequestsRule\",\n      \"Reason\": sprintf(\"容器 '%v' 未配置内存资源请求\", [container.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"memoryLimitsRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n  not container.resources.limits.memory\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodMemoryLimitsRule\",\n      \"Reason\": sprintf(\"容器 '%v' 未配置内存资源限制\", [container.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"hostPortRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n\n  not input.metadata.ownerReferences\n    \n  container := input.spec.containers[_]\n  port := container.ports[_]\n  port.hostPort\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHostPortRule\",\n      \"Reason\": sprintf(\"容器 '%v' 使用了 hostPort: %v\", [container.name, port.hostPort]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"hostPIDRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n  not input.metadata.ownerReferences\n\n  input.spec.hostPID == true\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHostPIDRule\",\n      \"Reason\": \"当前资源已启用 hostPID\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"hostNetworkRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n  \n  not input.metadata.ownerReferences\n\n  input.spec.hostNetwork == true\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHostNetworkRule\",\n      \"Reason\": \"当前资源已启用 hostNetwork\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"hostIPCRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n  not input.metadata.ownerReferences\n\n  input.spec.hostIPC == true\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHostIPCRule\",\n      \"Reason\": \"当前资源已启用 hostIPC\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"LivenessProbeTimeRuleForPod","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not input.metadata.ownerReferences\n  \n  namespace_check(input.metadata.namespace)\n\n  # 查找违规的容器，判断探测总时间大于180s的\n  container := input.spec.containers[_]\n  probe := container.livenessProbe\n  \n  initial_delay := object.get(probe, \"initialDelaySeconds\", 0)\n  period := object.get(probe, \"periodSeconds\", 10)\n  failure_threshold := object.get(probe, \"failureThreshold\", 3)\n  total_time := initial_delay + (failure_threshold * period)\n\n  total_time \u003e= 180\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodLivenessProbeTimeRule\",\n      \"Reason\": sprintf(\"容器 %v 存活探针探测总时间 \u003e= 180s\", [container.name]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}\n\nnamespace_check(namespace) if {\n    startswith(namespace, \"kubesphere-\")\n}\nnamespace_check(namespace) if {\n    namespace == \"kube-system\"\n}"}]}}
+    kubeeye.kubesphere.io/join-plan-num: "0"
+  creationTimestamp: "2025-04-25T07:26:03Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Container
+  name: pod-inspect-rules
+  resourceVersion: "58410988"
+  uid: 4573bf04-9d24-420d-af12-72e44eb511da
+spec:
+  opas:
+  - name: imagePullPolicyRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n    input.kind
+      == \"Pod\"\n    input.apiVersion == \"v1\"\n\n    level := \"WARNING\"\n    \n
+      \   not input.metadata.ownerReferences\n    container := input.spec.containers[_]\n
+      \   container.imagePullPolicy != \"IfNotPresent\"\n\n    msg := {\n        \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n        \"Namespace\": sprintf(\"%v\",
+      [input.metadata.namespace]),\n        \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \       \"Message\": \"PodImagePullPolicyRule\",\n        \"Reason\": sprintf(\"当前资源镜像拉取策略为:
+      %v , 需要修改为IfNotPresent\", [container.imagePullPolicy]),\n        \"Level\":
+      sprintf(\"%v\", [level])\n    }\n}"
+  - name: readinessProbeRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n
+      \ \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.readinessProbe\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodReadinessProbeRule\",\n
+      \     \"Reason\": \"当前资源没有配置就绪探针\",\n      \"Level\": sprintf(\"%v\", [level])\n
+      \ }\n}"
+  - name: livenessProbeRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  input.kind
+      == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not
+      input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.livenessProbe\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodLivenessProbeRule\",\n
+      \     \"Reason\": \"当前资源没有配置存活探针\",\n      \"Level\": sprintf(\"%v\", [level])\n
+      \ }\n}"
+  - name: hostPathRuleForPod
+    rule: |-
+      package inspect.kubeeye
+      import rego.v1
+
+      deny contains msg if {
+
+        input.kind == "Pod"
+        input.apiVersion == "v1"
+
+        level := "DANGER"
+
+        not input.metadata.ownerReferences
+
+        container := input.spec.containers[_]
+
+        volume := input.spec.volumes[_]
+
+        "hostPath" in volume
+
+        volume_mount := container.volumeMounts[_]
+
+        volume_mount.name == volume.name
+        not volume_mount.readOnly
+
+        msg := {
+            "Name": sprintf("%v", [input.metadata.name]),
+            "Namespace": sprintf("%v", [input.metadata.namespace]),
+            "Type": sprintf("%v", [input.kind]),
+            "Message": "PodHostPathRule",
+            "Reason": sprintf("当前资源使用hostPath挂载卷 , 卷名: %v , 未配置只读模式", [volume.name]),
+            "Level": sprintf("%v", [level])
+        }
+      }
+  - name: privilegedRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"DANGER\"\n
+      \ \n  not input.metadata.ownerReferences\n  \n  input.spec.containers[_].securityContext.privileged
+      == true\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n
+      \     \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\":
+      sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodPrivilegedRule\",\n
+      \     \"Reason\": \"当前资源已启用特权模式\",\n      \"Level\": sprintf(\"%v\", [level])\n
+      \ }\n}"
+  - name: insecureCapabilitiesRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n
+      \ \n  not input.metadata.ownerReferences\n\n  insecureCapabilities := [\"CHOWN\",
+      \"DAC_OVERRIDE\", \"FSETID\", \"FOWNER\", \"MKNOD\", \"NET_RAW\", \"SETGID\",
+      \"SETUID\", \"SETFCAP\", \"NET_BIND_SERVICE\",\"SYS_CHROOT\",\"KILL\",\"AUDIT_WRITE\"]\n
+      \ container := input.spec.containers[_]\n  capabilities := container.securityContext.capabilities.add[_]\n
+      \ insecureCapabilities[_] == capabilities\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodInsecureCapabilitiesRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 配置了系统权限: %v\", [container.name, capabilities]),\n
+      \     \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: highRiskCapabilitiesRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n  \n  level := \"DANGER\"
+      \ \n  \n  not input.metadata.ownerReferences\n  \n  HighRiskCapabilities :=
+      [\"NET_ADMIN\", \"SYS_ADMIN\", \"ALL\"]\n  container := input.spec.containers[_]\n
+      \ capabilities := container.securityContext.capabilities.add[_]\n  HighRiskCapabilities[_]
+      == capabilities\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n
+      \     \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\":
+      sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodHighRiskCapabilitiesRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 配置了系统权限: %v\", [container.name, capabilities]),\n
+      \     \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: cpuRequestsRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind
+      == \"Pod\"\n  input.apiVersion == \"v1\"\n  \n  level := \"WARNING\"\n  \n  not
+      input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.resources.requests.cpu\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]), \n      \"Message\": \"PodCPURequestsRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 未配置CPU资源请求\", [container.name]),\n      \"Level\":
+      sprintf(\"%v\", [level])\n  }\n}"
+  - name: cpuLimitsRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n
+      \ \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.resources.limits.cpu\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodCPULimitsRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 未配置CPU资源限制\", [container.name]),\n      \"Level\":
+      sprintf(\"%v\", [level])\n  }\n}"
+  - name: memoryRequestsRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n
+      \ \n  not input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.resources.requests.memory\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodMemoryRequestsRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 未配置内存资源请求\", [container.name]),\n      \"Level\":
+      sprintf(\"%v\", [level])\n  }\n}"
+  - name: memoryLimitsRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind
+      == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n  \n  not
+      input.metadata.ownerReferences\n\n  container := input.spec.containers[_]\n
+      \ not container.resources.limits.memory\n\n  msg := {\n      \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n
+      \     \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"PodMemoryLimitsRule\",\n
+      \     \"Reason\": sprintf(\"容器 '%v' 未配置内存资源限制\", [container.name]),\n      \"Level\":
+      sprintf(\"%v\", [level])\n  }\n}"
+  - name: hostPortRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n\n
+      \ not input.metadata.ownerReferences\n    \n  container := input.spec.containers[_]\n
+      \ port := container.ports[_]\n  port.hostPort\n\n  msg := {\n      \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\",
+      [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \     \"Message\": \"PodHostPortRule\",\n      \"Reason\": sprintf(\"容器 '%v'
+      使用了 hostPort: %v\", [container.name, port.hostPort]),\n      \"Level\": sprintf(\"%v\",
+      [level])\n  }\n}"
+  - name: hostPIDRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n
+      \ not input.metadata.ownerReferences\n\n  input.spec.hostPID == true\n\n  msg
+      := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\":
+      sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\",
+      [input.kind]),\n      \"Message\": \"PodHostPIDRule\",\n      \"Reason\": \"当前资源已启用
+      hostPID\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: hostNetworkRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n
+      \ \n  not input.metadata.ownerReferences\n\n  input.spec.hostNetwork == true\n\n
+      \ msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\":
+      sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\",
+      [input.kind]),\n      \"Message\": \"PodHostNetworkRule\",\n      \"Reason\":
+      \"当前资源已启用 hostNetwork\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: hostIPCRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"CRITICAL\"\n
+      \ not input.metadata.ownerReferences\n\n  input.spec.hostIPC == true\n\n  msg
+      := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\":
+      sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\",
+      [input.kind]),\n      \"Message\": \"PodHostIPCRule\",\n      \"Reason\": \"当前资源已启用
+      hostIPC\",\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: LivenessProbeTimeRuleForPod
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n  \n
+      \ input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"WARNING\"\n
+      \ \n  not input.metadata.ownerReferences\n  \n  namespace_check(input.metadata.namespace)\n\n
+      \ # 查找违规的容器，判断探测总时间大于180s的\n  container := input.spec.containers[_]\n  probe
+      := container.livenessProbe\n  \n  initial_delay := object.get(probe, \"initialDelaySeconds\",
+      0)\n  period := object.get(probe, \"periodSeconds\", 10)\n  failure_threshold
+      := object.get(probe, \"failureThreshold\", 3)\n  total_time := initial_delay
+      + (failure_threshold * period)\n\n  total_time >= 180\n\n  msg := {\n      \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\",
+      [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \     \"Message\": \"PodLivenessProbeTimeRule\",\n      \"Reason\": sprintf(\"容器
+      %v 存活探针探测总时间 >= 180s\", [container.name]),\n      \"Level\": sprintf(\"%v\",
+      [level])\n  }\n}\n\nnamespace_check(namespace) if {\n    startswith(namespace,
+      \"kubesphere-\")\n}\nnamespace_check(namespace) if {\n    namespace == \"kube-system\"\n}"
+status:
+  endImportTime: "2025-04-25T07:26:03Z"
+  levelCount:
+    warning: 16
+  startImportTime: "2025-04-25T07:26:03Z"
+  state: ImportComplete

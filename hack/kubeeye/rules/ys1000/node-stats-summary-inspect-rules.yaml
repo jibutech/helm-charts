@@ -1,0 +1,35 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"node-stats-summary-inspect-rules"},"spec":{"opas":[{"name":"CheckDuplicateSubnets","rule":"package inspect.kubeeye.nodeStatsSummary\nimport rego.v1\n\n# 定义阈值 (5GB in bytes)\nthreshold := 5 * 1024 * 1024 * 1024\n\ndeny contains msg if {\n\n  pod := input.pods[_]\n  storage := pod[\"ephemeral-storage\"]\n  bytes := storage.usedBytes\n  bytes \u003e threshold\n  \n  gb_used := bytes / (1024 * 1024 * 1024)\n\n  level := \"danger\"\n  msg := {\n    \"Name\": sprintf(\"%v\", [pod.podRef.name]),\n    \"Namespace\": sprintf(\"%v\", [pod.podRef.namespace]),\n    \"Type\": \"Pod\",\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"Pod '%v/%v' ephemeral-storage usage (%.2f GB) exceeds threshold (5 GB)\", [pod.podRef.namespace, pod.podRef.name, gb_used]),\n    \"Reason\": \"Pod ephemeral-storage usage exceeds threshold\"\n  }\n}"}]}}
+    kubeeye.kubesphere.io/join-plan-num: "0"
+  creationTimestamp: "2025-04-25T07:26:03Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Node
+  name: node-stats-summary-inspect-rules
+  resourceVersion: "58411029"
+  uid: 84c57eb1-5ddf-41e7-a3a5-94c1f082d4b8
+spec:
+  opas:
+  - name: CheckDuplicateSubnets
+    rule: "package inspect.kubeeye.nodeStatsSummary\nimport rego.v1\n\n# 定义阈值 (5GB
+      in bytes)\nthreshold := 5 * 1024 * 1024 * 1024\n\ndeny contains msg if {\n\n
+      \ pod := input.pods[_]\n  storage := pod[\"ephemeral-storage\"]\n  bytes :=
+      storage.usedBytes\n  bytes > threshold\n  \n  gb_used := bytes / (1024 * 1024
+      * 1024)\n\n  level := \"danger\"\n  msg := {\n    \"Name\": sprintf(\"%v\",
+      [pod.podRef.name]),\n    \"Namespace\": sprintf(\"%v\", [pod.podRef.namespace]),\n
+      \   \"Type\": \"Pod\",\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\":
+      sprintf(\"Pod '%v/%v' ephemeral-storage usage (%.2f GB) exceeds threshold (5
+      GB)\", [pod.podRef.namespace, pod.podRef.name, gb_used]),\n    \"Reason\": \"Pod
+      ephemeral-storage usage exceeds threshold\"\n  }\n}"
+status:
+  endImportTime: "2025-04-25T07:26:03Z"
+  levelCount:
+    warning: 1
+  startImportTime: "2025-04-25T07:26:03Z"
+  state: ImportComplete
