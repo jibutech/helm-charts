@@ -1,13 +1,6 @@
 apiVersion: kubeeye.kubesphere.io/v1alpha2
 kind: InspectRule
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"filechange-inspect-rules"},"spec":{"fileChange":[{"name":"kubelet-config","path":"/var/lib/kubelet/config.yaml"}]}}
-  creationTimestamp: "2025-04-25T07:26:02Z"
-  finalizers:
-  - kubeeye.finalizers.kubesphere.io
-  generation: 1
   labels:
     inspection.jibudata.com/rule-category: Storage
   name: filechange-inspect-rules
@@ -17,9 +10,4 @@ spec:
   fileChange:
   - name: kubelet-config
     path: /var/lib/kubelet/config.yaml
-status:
-  endImportTime: "2025-04-25T07:26:02Z"
-  levelCount:
-    warning: 1
-  startImportTime: "2025-04-25T07:26:02Z"
-  state: ImportComplete
+

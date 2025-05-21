@@ -1,19 +1,9 @@
 apiVersion: kubeeye.kubesphere.io/v1alpha2
 kind: InspectRule
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"name":"pod-state-inspect-rules"},"spec":{"opas":[{"name":"PodStateCheck","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Pod\"\n  input.apiVersion == \"v1\"\n\n  level := \"DANGER\"\n\n  not input.metadata.namespace == \"kubeeye-system\"\n\n  test := input.status.containerStatuses[_]\n  input.status.phase != \"Succeeded\"\n  not test.state.running\n\n  container_status := input.status.containerStatuses[_]\n  container_name := container_status.name\n\n  status := get_container_status(container_status)\n\n  msg := {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": \"PodStateCheck\",\n    \"Reason\": sprintf(\"%v %v\", [container_name, status])\n  }\n}\n\nget_container_status(container_status) := status if {\n  container_status.state.terminated\n  not container_status.state.terminated.reason == \"Completed\"\n  status := container_status.state.terminated.reason\n} else := status if {\n  container_status.state.waiting\n  status := container_status.state.waiting.reason\n}"}]}}
-    kubeeye.kubesphere.io/join-plan-num: "0"
-  creationTimestamp: "2025-04-25T07:26:03Z"
-  finalizers:
-  - kubeeye.finalizers.kubesphere.io
-  generation: 1
   labels:
     inspection.jibudata.com/rule-category: Container
   name: pod-state-inspect-rules
-  resourceVersion: "58410990"
-  uid: 18d64036-c9b9-49cb-b2a6-14321350f0a2
 spec:
   opas:
   - name: PodStateCheck
@@ -57,9 +47,4 @@ spec:
         container_status.state.waiting
         status := container_status.state.waiting.reason
       }
-status:
-  endImportTime: "2025-04-25T07:26:03Z"
-  levelCount:
-    warning: 1
-  startImportTime: "2025-04-25T07:26:03Z"
-  state: ImportComplete
+
