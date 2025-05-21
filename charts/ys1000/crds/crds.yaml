@@ -20927,16 +20927,21 @@ spec:
                 type: object
               planName:
                 type: string
-              ruleNames:
+              rules:
                 items:
                   properties:
-                    name:
+                    ruleCategory:
                       type: string
-                    nodeName:
-                      type: string
-                    nodeSelector:
-                      additionalProperties:
-                        type: string
+                    ruleName:
+                      properties:
+                        name:
+                          type: string
+                        nodeName:
+                          type: string
+                        nodeSelector:
+                          additionalProperties:
+                            type: string
+                          type: object
                       type: object
                   type: object
                 type: array
@@ -21011,14 +21016,40 @@ spec:
               endTimestamp:
                 format: date-time
                 type: string
-              inspectPlanName:
-                type: string
-              inspectResultName:
-                type: string
-              inspectTaskName:
-                type: string
-              inspectTaskState:
-                type: string
+              hookStatuses:
+                items:
+                  properties:
+                    failureCount:
+                      format: int32
+                      type: integer
+                    finished:
+                      type: boolean
+                    jobName:
+                      type: string
+                    name:
+                      type: string
+                    phase:
+                      type: string
+                    podPhase:
+                      items:
+                        properties:
+                          creationTimestamp:
+                            format: date-time
+                            type: string
+                          name:
+                            type: string
+                          phase:
+                            description: PodPhase is a label for the condition of
+                              a pod at the current time.
+                            type: string
+                        type: object
+                      type: array
+                    runOn:
+                      type: string
+                    started:
+                      type: boolean
+                  type: object
+                type: array
               output:
                 description: Output is used to store the execution result of the job.
                   it supports a string with json format or s3 tar file it can be used
@@ -21097,6 +21128,8 @@ spec:
                               type: string
                             name:
                               type: string
+                            provider:
+                              type: string
                             region:
                               description: Region contains the optional bucket region
                               type: string
@@ -21146,8 +21179,29 @@ spec:
                 type: object
               reportGenerated:
                 type: boolean
-              resultLocation:
-                type: string
+              results:
+                items:
+                  properties:
+                    inspectPlanName:
+                      type: string
+                    inspectResultName:
+                      type: string
+                    inspectTaskName:
+                      type: string
+                    inspectTaskState:
+                      type: string
+                    level:
+                      additionalProperties:
+                        type: integer
+                      type: object
+                    resultLocation:
+                      type: string
+                    ruleCategory:
+                      type: string
+                    ruleName:
+                      type: string
+                  type: object
+                type: array
               startTimestamp:
                 format: date-time
                 type: string
@@ -28728,6 +28782,17 @@ spec:
                 type: boolean
               managedBy:
                 type: string
+              prometheusConfig:
+                properties:
+                  basicToken:
+                    type: string
+                  bearerToken:
+                    type: string
+                  endpoint:
+                    type: string
+                  insecureSkipVerify:
+                    type: boolean
+                type: object
               qos:
                 description: QosClass defines qos class
                 properties:
@@ -28931,6 +28996,15 @@ spec:
               members:
                 items:
                   type: string
+                type: array
+              nodes:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    role:
+                      type: string
+                  type: object
                 type: array
               secretResourceVersion:
                 type: string
@@ -45701,6 +45775,30 @@ spec:
             type: object
           spec:
             properties:
+              applicationRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
               clusterRef:
                 properties:
                   global:
@@ -45708,6 +45806,78 @@ spec:
                   name:
                     type: string
                 type: object
+              clusterRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
+              containerRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
+              customRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
               daysToKeep:
                 type: integer
               description:
@@ -45718,22 +45888,63 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              networkRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
+              nodeName:
+                type: string
+              nodeRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
+              nodeSelector:
+                additionalProperties:
+                  type: string
+                type: object
               one:
                 format: date-time
                 type: string
-              ruleNames:
-                items:
-                  properties:
-                    name:
-                      type: string
-                    nodeName:
-                      type: string
-                    nodeSelector:
-                      additionalProperties:
-                        type: string
-                      type: object
-                  type: object
-                type: array
               schedule:
                 type: string
               storageRef:
@@ -45743,6 +45954,30 @@ spec:
                   name:
                     type: string
                 type: object
+              storageRules:
+                items:
+                  properties:
+                    ruleType:
+                      type: string
+                    rules:
+                      items:
+                        properties:
+                          desc:
+                            type: string
+                          level:
+                            type: string
+                          name:
+                            type: string
+                          rule:
+                            type: string
+                          template:
+                            type: string
+                        type: object
+                      type: array
+                    typeDesc:
+                      type: string
+                  type: object
+                type: array
               suspend:
                 type: boolean
               timeoutSeconds:
@@ -45996,6 +46231,24 @@ spec:
                   timeoutSeconds:
                     type: integer
                 type: object
+              rules:
+                items:
+                  properties:
+                    ruleCategory:
+                      type: string
+                    ruleName:
+                      properties:
+                        name:
+                          type: string
+                        nodeName:
+                          type: string
+                        nodeSelector:
+                          additionalProperties:
+                            type: string
+                          type: object
+                      type: object
+                  type: object
+                type: array
               state:
                 type: string
               storageRef:
