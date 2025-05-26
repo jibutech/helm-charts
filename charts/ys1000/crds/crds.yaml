@@ -669,6 +669,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -1159,6 +1163,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -1362,6 +1370,10 @@ spec:
                         ignoreFailure:
                           type: boolean
                         image:
+                          type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
                           type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
@@ -5249,6 +5261,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -5547,6 +5563,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -5747,6 +5767,10 @@ spec:
                     ignoreFailure:
                       type: boolean
                     image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
                       type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
@@ -12016,6 +12040,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -12368,6 +12396,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -12576,6 +12608,10 @@ spec:
                     ignoreFailure:
                       type: boolean
                     image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
                       type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
@@ -17472,6 +17508,8 @@ spec:
                 type: string
               type:
                 type: string
+              webhook:
+                type: string
             required:
             - level
             - sourceType
@@ -18183,6 +18221,10 @@ spec:
                     ignoreFailure:
                       type: boolean
                     image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
                       type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
@@ -18945,6 +18987,10 @@ spec:
                       ignoreFailure:
                         type: boolean
                       image:
+                        type: string
+                      imagePullPolicy:
+                        description: PullPolicy describes a policy for if/when to
+                          pull a container image
                         type: string
                       kubeConfigSecretRef:
                         description: SecretKeySelector selects a key of a Secret.
@@ -20308,6 +20354,10 @@ spec:
                 type: boolean
               image:
                 type: string
+              imagePullPolicy:
+                description: PullPolicy describes a policy for if/when to pull a container
+                  image
+                type: string
               kubeConfigSecretRef:
                 description: SecretKeySelector selects a key of a Secret.
                 properties:
@@ -20893,6 +20943,10 @@ spec:
                   ignoreFailure:
                     type: boolean
                   image:
+                    type: string
+                  imagePullPolicy:
+                    description: PullPolicy describes a policy for if/when to pull
+                      a container image
                     type: string
                   kubeConfigSecretRef:
                     description: SecretKeySelector selects a key of a Secret.
@@ -41102,6 +41156,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -41322,6 +41380,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -41525,6 +41587,10 @@ spec:
                         ignoreFailure:
                           type: boolean
                         image:
+                          type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
                           type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
@@ -44716,6 +44782,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -44923,6 +44993,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -45123,6 +45197,10 @@ spec:
                     ignoreFailure:
                       type: boolean
                     image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
                       type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
@@ -46199,6 +46277,10 @@ spec:
                   ignoreFailure:
                     type: boolean
                   image:
+                    type: string
+                  imagePullPolicy:
+                    description: PullPolicy describes a policy for if/when to pull
+                      a container image
                     type: string
                   kubeConfigSecretRef:
                     description: SecretKeySelector selects a key of a Secret.
@@ -48187,6 +48269,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -48416,6 +48502,10 @@ spec:
                           type: boolean
                         image:
                           type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
+                          type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
                           properties:
@@ -48619,6 +48709,10 @@ spec:
                         ignoreFailure:
                           type: boolean
                         image:
+                          type: string
+                        imagePullPolicy:
+                          description: PullPolicy describes a policy for if/when to
+                            pull a container image
                           type: string
                         kubeConfigSecretRef:
                           description: SecretKeySelector selects a key of a Secret.
@@ -54139,6 +54233,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -54350,6 +54448,10 @@ spec:
                       type: boolean
                     image:
                       type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
                       properties:
@@ -54550,6 +54652,10 @@ spec:
                     ignoreFailure:
                       type: boolean
                     image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
                       type: string
                     kubeConfigSecretRef:
                       description: SecretKeySelector selects a key of a Secret.
