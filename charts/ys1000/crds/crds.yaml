@@ -16933,6 +16933,10 @@ spec:
             type: object
           spec:
             properties:
+              approvers:
+                items:
+                  type: string
+                type: array
               autoHook:
                 properties:
                   envs:
@@ -17838,6 +17842,10 @@ spec:
                     type: string
                   spec:
                     properties:
+                      approvers:
+                        items:
+                          type: string
+                        type: array
                       autoHook:
                         properties:
                           envs:
@@ -18356,6 +18364,24 @@ spec:
             type: object
           spec:
             properties:
+              approverConfirm:
+                additionalProperties:
+                  items:
+                    properties:
+                      actionName:
+                        type: string
+                      byUser:
+                        type: string
+                      comments:
+                        type: string
+                      result:
+                        type: string
+                      updatedAt:
+                        format: date-time
+                        type: string
+                    type: object
+                  type: array
+                type: object
               clusterRef:
                 properties:
                   global:
@@ -18496,6 +18522,8 @@ spec:
                     properties:
                       actionName:
                         type: string
+                      byUser:
+                        type: string
                       confirmed:
                         type: boolean
                       confirmedAt:
@@ -18503,6 +18531,7 @@ spec:
                         type: string
                     required:
                     - actionName
+                    - byUser
                     - confirmed
                     type: object
                   type: array
@@ -18569,6 +18598,10 @@ spec:
                           items:
                             type: string
                           type: array
+                        approvers:
+                          items:
+                            type: string
+                          type: array
                         condition:
                           type: string
                       type: object
@@ -18596,6 +18629,10 @@ spec:
                       type: string
                     spec:
                       properties:
+                        approvers:
+                          items:
+                            type: string
+                          type: array
                         autoHook:
                           properties:
                             envs:
@@ -19128,6 +19165,10 @@ spec:
                     data:
                       properties:
                         actionNames:
+                          items:
+                            type: string
+                          type: array
+                        approvers:
                           items:
                             type: string
                           type: array
