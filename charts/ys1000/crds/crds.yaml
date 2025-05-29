@@ -17504,6 +17504,8 @@ spec:
                       type: string
                     type: array
                 type: object
+              rawMessage:
+                type: string
               sourceType:
                 type: string
               type:
