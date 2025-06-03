@@ -17318,6 +17318,8 @@ spec:
                 - name
                 - version
                 type: object
+              reserveCount:
+                type: integer
               targets:
                 items:
                   type: string
@@ -17350,6 +17352,18 @@ spec:
                       type: string
                   type: object
                 type: array
+              executionStatistics:
+                additionalProperties:
+                  format: int64
+                  type: integer
+                type: object
+              expiredStatistics:
+                additionalProperties:
+                  format: int64
+                  type: integer
+                type: object
+              lastExecutionState:
+                type: string
               state:
                 type: string
               warnings:
@@ -29082,6 +29096,11 @@ spec:
               detectedClusterProvider:
                 description: Auto detected cloud provider
                 type: string
+              inspection:
+                properties:
+                  configExisted:
+                    type: boolean
+                type: object
               kubeVirtInstalled:
                 type: boolean
               managedBy:
