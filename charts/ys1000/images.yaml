@@ -21,7 +21,7 @@ images:
   - repo: ysutl-mysql-5-7
   - repo: ysutl-mysql-8-0
   - repo: velero-plugin-for-kubevirt
-    tag: 0.6.1-jibu-9ad84f0-20241126085502
+    tag: 0.8.0-jibu-6e738cf-20250607033550
   - repo: velero-plugin
   - repo: data-verify
   - repo: amberapp
