@@ -315,7 +315,7 @@ migconfig:
   deploymentMode: "standalone"
   isAdminCluster: false
   agentNamespace: qiming-backend
-  selfBackupIntervalSeconds: 300
+  selfBackupIntervalSeconds: 3600
 #  template:
 #    spec:
 #      tolerations: []
