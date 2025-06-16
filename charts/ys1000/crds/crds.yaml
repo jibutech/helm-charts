@@ -17328,6 +17328,8 @@ spec:
                 items:
                   type: string
                 type: array
+              triggerAlertWhenFailed:
+                type: boolean
             required:
             - plan
             type: object
@@ -17466,6 +17468,8 @@ spec:
               creator:
                 type: string
               fingerprint:
+                type: string
+              fromRule:
                 type: string
               groupLabels:
                 additionalProperties:
@@ -18403,6 +18407,8 @@ spec:
                   name:
                     type: string
                 type: object
+              contextFromJob:
+                type: string
               envs:
                 additionalProperties:
                   items:
@@ -18528,6 +18534,124 @@ spec:
                 type: object
               eventName:
                 type: string
+              input:
+                description: Inputs are the mechanism for passing parameters, artifacts,
+                  volumes from one job to another
+                properties:
+                  artifacts:
+                    description: Artifacts are a list of artifacts passed as inputs,
+                      further can be referred as "input.artifacts.name"
+                    items:
+                      description: Artifact indicates an artifact to place at a specified
+                        path
+                      properties:
+                        archiveCompressed:
+                          description: ArchiveCompressed indicates if the artifact
+                            is compressed, default is false If true, the artifact
+                            will be compressed by gzip
+                          type: boolean
+                        deleted:
+                          description: Has this been deleted?
+                          type: boolean
+                        from:
+                          description: From allows an artifact to reference an artifact
+                            from a previous step
+                          type: string
+                        mode:
+                          description: mode bits to use on this file, must be a value
+                            between 0 and 0777 set when loading input artifacts.
+                          format: int32
+                          type: integer
+                        name:
+                          description: name of the artifact. must be unique within
+                            a job's inputs/outputs.
+                          type: string
+                        path:
+                          description: Path is the container path to the artifact
+                          type: string
+                        s3:
+                          description: S3 contains S3 artifact location details
+                          properties:
+                            accessKeySecret:
+                              description: AccessKeySecret is the secret selector
+                                to the bucket's access key
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            bucket:
+                              description: Bucket is the name of the bucket
+                              type: string
+                            endpoint:
+                              description: Endpoint is the hostname of the bucket
+                                endpoint
+                              type: string
+                            global:
+                              type: boolean
+                            insecure:
+                              description: Insecure will connect to the service with
+                                TLS
+                              type: boolean
+                            key:
+                              description: Key is the key in the bucket where the
+                                artifact resides
+                              type: string
+                            name:
+                              type: string
+                            provider:
+                              type: string
+                            region:
+                              description: Region contains the optional bucket region
+                              type: string
+                            secretKeySecret:
+                              description: SecretKeySecret is the secret selector
+                                to the bucket's secret key
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            sourceName:
+                              type: string
+                            sourceNamespace:
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  parameters:
+                    description: Parameters are a list of parameters passed as inputs,
+                      further can be referred as "input.parameters"
+                    items:
+                      type: string
+                    type: array
+                type: object
               managedApplication:
                 type: string
               manualConfirm:
@@ -18596,6 +18720,8 @@ spec:
                 items:
                   type: string
                 type: array
+              triggerAlertWhenFailed:
+                type: boolean
             required:
             - plan
             type: object
@@ -19086,6 +19212,543 @@ spec:
                     type: object
                   type: array
                 type: object
+              output:
+                description: Output is used to store the execution result of the job.
+                  it supports a string with json format or s3 tar file it can be used
+                  to just store the result or as the input of next job
+                properties:
+                  artifacts:
+                    description: Artifacts is used to store the artifacts of the job,
+                      further can be referred as "output.artifacts.name"
+                    items:
+                      description: Artifact indicates an artifact to place at a specified
+                        path
+                      properties:
+                        archiveCompressed:
+                          description: ArchiveCompressed indicates if the artifact
+                            is compressed, default is false If true, the artifact
+                            will be compressed by gzip
+                          type: boolean
+                        deleted:
+                          description: Has this been deleted?
+                          type: boolean
+                        from:
+                          description: From allows an artifact to reference an artifact
+                            from a previous step
+                          type: string
+                        mode:
+                          description: mode bits to use on this file, must be a value
+                            between 0 and 0777 set when loading input artifacts.
+                          format: int32
+                          type: integer
+                        name:
+                          description: name of the artifact. must be unique within
+                            a job's inputs/outputs.
+                          type: string
+                        path:
+                          description: Path is the container path to the artifact
+                          type: string
+                        s3:
+                          description: S3 contains S3 artifact location details
+                          properties:
+                            accessKeySecret:
+                              description: AccessKeySecret is the secret selector
+                                to the bucket's access key
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            bucket:
+                              description: Bucket is the name of the bucket
+                              type: string
+                            endpoint:
+                              description: Endpoint is the hostname of the bucket
+                                endpoint
+                              type: string
+                            global:
+                              type: boolean
+                            insecure:
+                              description: Insecure will connect to the service with
+                                TLS
+                              type: boolean
+                            key:
+                              description: Key is the key in the bucket where the
+                                artifact resides
+                              type: string
+                            name:
+                              type: string
+                            provider:
+                              type: string
+                            region:
+                              description: Region contains the optional bucket region
+                              type: string
+                            secretKeySecret:
+                              description: SecretKeySecret is the secret selector
+                                to the bucket's secret key
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Add other useful fields. apiVersion, kind,
+                                    uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            sourceName:
+                              type: string
+                            sourceNamespace:
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  exitCode:
+                    description: ExitCode is used to store the exit code of a script,
+                      further can be referred as "output.exitCode"
+                    type: string
+                  parameters:
+                    description: Parameters is used to store the parameters produced
+                      and can be used in next job, further can be referred as "output.parameters"
+                    items:
+                      type: string
+                    type: array
+                  result:
+                    description: Result is used to store the result of the job, such
+                      as stdout of a script, further can be referred as "output.result"
+                    type: string
+                type: object
+              postHookResults:
+                items:
+                  properties:
+                    execAction:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          items:
+                            description: EnvVar represents an environment variable
+                              present in a Container.
+                            properties:
+                              name:
+                                description: Name of the environment variable. Must
+                                  be a C_IDENTIFIER.
+                                type: string
+                              value:
+                                description: 'Variable references $(VAR_NAME) are
+                                  expanded using the previous defined environment
+                                  variables in the container and any service environment
+                                  variables. If a variable cannot be resolved, the
+                                  reference in the input string will be unchanged.
+                                  The $(VAR_NAME) syntax can be escaped with a double
+                                  $$, ie: $$(VAR_NAME). Escaped references will never
+                                  be expanded, regardless of whether the variable
+                                  exists or not. Defaults to "".'
+                                type: string
+                              valueFrom:
+                                description: Source for the environment variable's
+                                  value. Cannot be used if value is not empty.
+                                properties:
+                                  configMapKeyRef:
+                                    description: Selects a key of a ConfigMap.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          or its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                  fieldRef:
+                                    description: 'Selects a field of the pod: supports
+                                      metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                      `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                      spec.serviceAccountName, status.hostIP, status.podIP,
+                                      status.podIPs.'
+                                    properties:
+                                      apiVersion:
+                                        description: Version of the schema the FieldPath
+                                          is written in terms of, defaults to "v1".
+                                        type: string
+                                      fieldPath:
+                                        description: Path of the field to select in
+                                          the specified API version.
+                                        type: string
+                                    required:
+                                    - fieldPath
+                                    type: object
+                                  resourceFieldRef:
+                                    description: 'Selects a resource of the container:
+                                      only resources limits and requests (limits.cpu,
+                                      limits.memory, limits.ephemeral-storage, requests.cpu,
+                                      requests.memory and requests.ephemeral-storage)
+                                      are currently supported.'
+                                    properties:
+                                      containerName:
+                                        description: 'Container name: required for
+                                          volumes, optional for env vars'
+                                        type: string
+                                      divisor:
+                                        anyOf:
+                                        - type: integer
+                                        - type: string
+                                        description: Specifies the output format of
+                                          the exposed resources, defaults to "1"
+                                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                        x-kubernetes-int-or-string: true
+                                      resource:
+                                        description: 'Required: resource to select'
+                                        type: string
+                                    required:
+                                    - resource
+                                    type: object
+                                  secretKeyRef:
+                                    description: Selects a key of a secret in the
+                                      pod's namespace
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        envFrom:
+                          items:
+                            description: EnvFromSource represents the source of a
+                              set of ConfigMaps
+                            properties:
+                              configMapRef:
+                                description: The ConfigMap to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap must
+                                      be defined
+                                    type: boolean
+                                type: object
+                              prefix:
+                                description: An optional identifier to prepend to
+                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                type: string
+                              secretRef:
+                                description: The Secret to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret must be
+                                      defined
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        operation:
+                          type: string
+                        script:
+                          type: string
+                      type: object
+                    ignoreFailure:
+                      type: boolean
+                    image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
+                    maxRetryCount:
+                      type: integer
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    runOn:
+                      type: string
+                    serviceAccount:
+                      type: string
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                type: array
+              preHookResults:
+                items:
+                  properties:
+                    execAction:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                        env:
+                          items:
+                            description: EnvVar represents an environment variable
+                              present in a Container.
+                            properties:
+                              name:
+                                description: Name of the environment variable. Must
+                                  be a C_IDENTIFIER.
+                                type: string
+                              value:
+                                description: 'Variable references $(VAR_NAME) are
+                                  expanded using the previous defined environment
+                                  variables in the container and any service environment
+                                  variables. If a variable cannot be resolved, the
+                                  reference in the input string will be unchanged.
+                                  The $(VAR_NAME) syntax can be escaped with a double
+                                  $$, ie: $$(VAR_NAME). Escaped references will never
+                                  be expanded, regardless of whether the variable
+                                  exists or not. Defaults to "".'
+                                type: string
+                              valueFrom:
+                                description: Source for the environment variable's
+                                  value. Cannot be used if value is not empty.
+                                properties:
+                                  configMapKeyRef:
+                                    description: Selects a key of a ConfigMap.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the ConfigMap
+                                          or its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                  fieldRef:
+                                    description: 'Selects a field of the pod: supports
+                                      metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                      `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                      spec.serviceAccountName, status.hostIP, status.podIP,
+                                      status.podIPs.'
+                                    properties:
+                                      apiVersion:
+                                        description: Version of the schema the FieldPath
+                                          is written in terms of, defaults to "v1".
+                                        type: string
+                                      fieldPath:
+                                        description: Path of the field to select in
+                                          the specified API version.
+                                        type: string
+                                    required:
+                                    - fieldPath
+                                    type: object
+                                  resourceFieldRef:
+                                    description: 'Selects a resource of the container:
+                                      only resources limits and requests (limits.cpu,
+                                      limits.memory, limits.ephemeral-storage, requests.cpu,
+                                      requests.memory and requests.ephemeral-storage)
+                                      are currently supported.'
+                                    properties:
+                                      containerName:
+                                        description: 'Container name: required for
+                                          volumes, optional for env vars'
+                                        type: string
+                                      divisor:
+                                        anyOf:
+                                        - type: integer
+                                        - type: string
+                                        description: Specifies the output format of
+                                          the exposed resources, defaults to "1"
+                                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                        x-kubernetes-int-or-string: true
+                                      resource:
+                                        description: 'Required: resource to select'
+                                        type: string
+                                    required:
+                                    - resource
+                                    type: object
+                                  secretKeyRef:
+                                    description: Selects a key of a secret in the
+                                      pod's namespace
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        description: 'Name of the referent. More info:
+                                          https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                          TODO: Add other useful fields. apiVersion,
+                                          kind, uid?'
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        envFrom:
+                          items:
+                            description: EnvFromSource represents the source of a
+                              set of ConfigMaps
+                            properties:
+                              configMapRef:
+                                description: The ConfigMap to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap must
+                                      be defined
+                                    type: boolean
+                                type: object
+                              prefix:
+                                description: An optional identifier to prepend to
+                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                type: string
+                              secretRef:
+                                description: The Secret to select from
+                                properties:
+                                  name:
+                                    description: 'Name of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret must be
+                                      defined
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        operation:
+                          type: string
+                        script:
+                          type: string
+                      type: object
+                    ignoreFailure:
+                      type: boolean
+                    image:
+                      type: string
+                    imagePullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
+                    kubeConfigSecretRef:
+                      description: SecretKeySelector selects a key of a Secret.
+                      properties:
+                        key:
+                          description: The key of the secret to select from.  Must
+                            be a valid secret key.
+                          type: string
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                        optional:
+                          description: Specify whether the Secret or its key must
+                            be defined
+                          type: boolean
+                      required:
+                      - key
+                      type: object
+                    maxRetryCount:
+                      type: integer
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    runOn:
+                      type: string
+                    serviceAccount:
+                      type: string
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                type: array
               startTimestamp:
                 format: date-time
                 type: string
@@ -21103,6 +21766,8 @@ spec:
                       type: object
                   type: object
                 type: array
+              skipNotification:
+                type: boolean
               storageRef:
                 properties:
                   global:
@@ -28926,6 +29591,8 @@ spec:
               inspectionConfig:
                 description: InspectionConfig contains configurations for inspection
                 properties:
+                  disabled:
+                    type: boolean
                   serverAddress:
                     type: string
                   serviceAccount:
@@ -29146,6 +29813,8 @@ spec:
               inspection:
                 properties:
                   configExisted:
+                    type: boolean
+                  disabled:
                     type: boolean
                 type: object
               kubeVirtInstalled:
@@ -46134,6 +46803,8 @@ spec:
                 type: string
               schedule:
                 type: string
+              skipNotification:
+                type: boolean
               storageRef:
                 properties:
                   global:
