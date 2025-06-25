@@ -1,0 +1,52 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Cluster"},"name":"cluster-monitoring"},"spec":{"promQL":[{"desc":"命名空间配额即将满载","name":"KubeQuotaAlmostFull","rule":"kube_resourcequota{job=\"kube-state-metrics\",type=\"used\"} / ignoring(instance, job, type) (kube_resourcequota{job=\"kube-state-metrics\",type=\"hard\"} \u003e 0) \u003e 0.9 \u003c 1"},{"desc":"集群 CPU 资源请求超额分配（超过可分配资源的150%）","name":"KubeCPUOvercommit","rule":"(sum(namespace_cpu:kube_pod_container_resource_requests:sum) / sum(kube_node_status_allocatable{resource=\"cpu\"})) \u003e 1.5"},{"desc":"集群内存资源请求超额分配（超过可分配资源的150%）","name":"KubeMemoryOvercommit","rule":"(sum(namespace_memory:kube_pod_container_resource_requests:sum) / sum(kube_node_status_allocatable{resource=\"memory\"})) \u003e 1.5"},{"desc":"Kubernetes 组件运行的版本不一致","name":"KubeVersionMismatch","rule":"count(count by(git_version) (label_replace(kubernetes_build_info{job!~\"kube-dns|coredns\"}, \"git_version\", \"$1\", \"git_version\", \"(v[0-9]*.[0-9]*).*\"))) \u003e 1"},{"desc":"Kubernetes API 服务器客户端出现错误","name":"KubeClientErrors","rule":"(sum by(instance, job, namespace) (rate(rest_client_requests_total{code=~\"5..\"}[5m])) / sum by(instance, job, namespace) (rate(rest_client_requests_total[5m]))) \u003e 0.01"},{"desc":"检测到时钟偏差","name":"NodeClockSkewDetected","rule":"(node_timex_offset_seconds \u003e 0.05 and deriv(node_timex_offset_seconds[5m]) \u003e= 0) or (node_timex_offset_seconds \u003c -0.05 and deriv(node_timex_offset_seconds[5m]) \u003c= 0)"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:04Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Cluster
+  name: cluster-monitoring
+  resourceVersion: "2917393"
+  uid: ccd8d752-9460-4232-afeb-27572bf5662b
+spec:
+  promQL:
+  - desc: 命名空间配额即将满载
+    name: KubeQuotaAlmostFull
+    rule: kube_resourcequota{job="kube-state-metrics",type="used"} / ignoring(instance,
+      job, type) (kube_resourcequota{job="kube-state-metrics",type="hard"} > 0) >
+      0.9 < 1
+  - desc: 集群 CPU 资源请求超额分配（超过可分配资源的150%）
+    name: KubeCPUOvercommit
+    rule: (sum(namespace_cpu:kube_pod_container_resource_requests:sum) / sum(kube_node_status_allocatable{resource="cpu"}))
+      > 1.5
+  - desc: 集群内存资源请求超额分配（超过可分配资源的150%）
+    name: KubeMemoryOvercommit
+    rule: (sum(namespace_memory:kube_pod_container_resource_requests:sum) / sum(kube_node_status_allocatable{resource="memory"}))
+      > 1.5
+  - desc: Kubernetes 组件运行的版本不一致
+    name: KubeVersionMismatch
+    rule: count(count by(git_version) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},
+      "git_version", "$1", "git_version", "(v[0-9]*.[0-9]*).*"))) > 1
+  - desc: Kubernetes API 服务器客户端出现错误
+    name: KubeClientErrors
+    rule: (sum by(instance, job, namespace) (rate(rest_client_requests_total{code=~"5.."}[5m]))
+      / sum by(instance, job, namespace) (rate(rest_client_requests_total[5m]))) >
+      0.01
+  - desc: 检测到时钟偏差
+    name: NodeClockSkewDetected
+    rule: (node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[5m])
+      >= 0) or (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[5m])
+      <= 0)
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 6
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

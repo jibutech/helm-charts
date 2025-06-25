@@ -1,0 +1,90 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Node"},"name":"node-health-check"},"spec":{"opas":[{"name":"NodeHealthCheck","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message := \"节点就绪状态检查\"\n\n  some condition in input.status.conditions\n\n  condition.type == \"Ready\"\n  condition.status != \"True\"\n\n  msg = {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n    \"Reason\": \"节点不是 Ready 状态\",\n  }\n} "},{"name":"MemoryPressureCheck","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message := \"内存压力检查\"\n\n  some condition in input.status.conditions\n\n  condition.type == \"MemoryPressure\"\n  condition.status != \"False\"\n\n  msg = {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n    \"Reason\": \"节点内存资源信息异常\",\n  }\n} "},{"name":"DiskPressureCheck","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message := \"磁盘压力检查\"\n\n  some condition in input.status.conditions\n\n  condition.type == \"DiskPressure\"\n  condition.status != \"False\"\n\n  msg = {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n    \"Reason\": \"节点磁盘资源信息异常\",\n  }\n}"},{"name":"NetworkerUnavailableCheck","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message := \"网络不可达检查\"\n\n  some condition in input.status.conditions\n  condition.type == \"NetworkUnavailable\"\n  condition.status != \"False\"\n\n  msg = {\n    \"Name\": sprintf(\"%v\", [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n    \"Reason\": \"节点网络不可达\",\n  }\n}"}]}}
+  creationTimestamp: "2025-06-20T02:50:15Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Node
+  name: node-health-check
+  resourceVersion: "2917381"
+  uid: 18939eb5-8e8a-4433-bfbf-7bc6763126f7
+spec:
+  opas:
+  - name: NodeHealthCheck
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind
+      == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message
+      := \"节点就绪状态检查\"\n\n  some condition in input.status.conditions\n\n  condition.type
+      == \"Ready\"\n  condition.status != \"True\"\n\n  msg = {\n    \"Name\": sprintf(\"%v\",
+      [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n    \"Level\":
+      sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n    \"Reason\":
+      \"节点不是 Ready 状态\",\n  }\n} "
+  - name: MemoryPressureCheck
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n\n  input.kind
+      == \"Node\"\n  input.apiVersion == \"v1\"\n\n  level := \"NotReady\"\n  message
+      := \"内存压力检查\"\n\n  some condition in input.status.conditions\n\n  condition.type
+      == \"MemoryPressure\"\n  condition.status != \"False\"\n\n  msg = {\n    \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n    \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \   \"Level\": sprintf(\"%v\", [level]),\n    \"Message\": sprintf(\"%v\",[message]),\n
+      \   \"Reason\": \"节点内存资源信息异常\",\n  }\n} "
+  - name: DiskPressureCheck
+    rule: |-
+      package inspect.kubeeye
+      import rego.v1
+
+      deny contains msg if {
+
+        input.kind == "Node"
+        input.apiVersion == "v1"
+
+        level := "NotReady"
+        message := "磁盘压力检查"
+
+        some condition in input.status.conditions
+
+        condition.type == "DiskPressure"
+        condition.status != "False"
+
+        msg = {
+          "Name": sprintf("%v", [input.metadata.name]),
+          "Type": sprintf("%v", [input.kind]),
+          "Level": sprintf("%v", [level]),
+          "Message": sprintf("%v",[message]),
+          "Reason": "节点磁盘资源信息异常",
+        }
+      }
+  - name: NetworkerUnavailableCheck
+    rule: |-
+      package inspect.kubeeye
+      import rego.v1
+
+      deny contains msg if {
+
+        input.kind == "Node"
+        input.apiVersion == "v1"
+
+        level := "NotReady"
+        message := "网络不可达检查"
+
+        some condition in input.status.conditions
+        condition.type == "NetworkUnavailable"
+        condition.status != "False"
+
+        msg = {
+          "Name": sprintf("%v", [input.metadata.name]),
+          "Type": sprintf("%v", [input.kind]),
+          "Level": sprintf("%v", [level]),
+          "Message": sprintf("%v",[message]),
+          "Reason": "节点网络不可达",
+        }
+      }
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 4
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete
