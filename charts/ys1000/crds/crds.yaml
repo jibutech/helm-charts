@@ -10350,6 +10350,13 @@ spec:
                 type: array
               application:
                 type: string
+              clusterNamespaceMap:
+                additionalProperties:
+                  additionalProperties:
+                    type: string
+                  type: object
+                description: namespace map by cluster
+                type: object
               clusterRestoreActions:
                 additionalProperties:
                   description: RestoreActions defines the action for a restore
@@ -11852,6 +11859,12 @@ spec:
           status:
             description: DisasterRecoveryStatus defines the observed state of DisasterRecovery
             properties:
+              clusterNamespaces:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                type: object
               criticalErrors:
                 items:
                   properties:
@@ -14104,6 +14117,10 @@ spec:
                       try to find the vsc with same name as storageclass provisioner.
                     type: string
                 type: object
+              skipClusters:
+                items:
+                  type: string
+                type: array
               skipConfig:
                 type: boolean
               skipResourceSync:
@@ -17600,6 +17617,8 @@ spec:
                     completionTimestamp:
                       format: date-time
                       type: string
+                    count:
+                      type: integer
                     description:
                       type: string
                     job:
@@ -17610,6 +17629,8 @@ spec:
                       type: string
                     startTimestamp:
                       format: date-time
+                      type: string
+                    state:
                       type: string
                   type: object
                 type: array
@@ -18020,6 +18041,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  executionName:
+                    type: string
                   hookStatus:
                     items:
                       properties:
@@ -18933,6 +18956,8 @@ spec:
                               type: string
                           type: object
                         type: array
+                      executionName:
+                        type: string
                       hookStatus:
                         items:
                           properties:
