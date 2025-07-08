@@ -31,7 +31,7 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "release-4.3.1-latest"
+  tag: "main-latest"
 
 image:
   registry: ""
