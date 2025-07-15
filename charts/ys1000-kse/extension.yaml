@@ -75,8 +75,8 @@ images:
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/webserver:release-4.2.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/hookrunner:release-4.2.0-latest
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/agent-operator:release-4.2.0-latest
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-cfcc65f8-20240410072619
-  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-cfcc65f8-20240410072619-snapshotv1beta1
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-338a2228-20250715041149
+  - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero:v1.7.0-jibu-dev-338a2228-20250715041149-snapshotv1beta1
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225-snapshotv1beta1
   - jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/velero-restic-restore-helper:v1.7.0

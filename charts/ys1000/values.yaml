@@ -142,7 +142,7 @@ components:
     image:
       registry: ""
       repository: ys1000/velero
-      tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619
+      tag: v1.7.0-jibu-dev-338a2228-20250715041149
     imageResticHelper:
       registry: ""
       repository: ys1000/velero-restic-restore-helper
