@@ -1583,6 +1583,8 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includeHostPath:
+                                    type: boolean
                                   includeUnusedPVCs:
                                     type: boolean
                                   includedFiles:
@@ -2966,6 +2968,8 @@ spec:
                               type: string
                           type: object
                         type: array
+                      includeHostPath:
+                        type: boolean
                       includeUnusedPVCs:
                         type: boolean
                       includedFiles:
@@ -3708,6 +3712,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -4832,6 +4838,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -5959,6 +5967,8 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              includeHostPath:
+                                type: boolean
                               includeUnusedPVCs:
                                 type: boolean
                               includedFiles:
@@ -6544,6 +6554,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -7205,6 +7217,8 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includeHostPath:
+                                    type: boolean
                                   includeUnusedPVCs:
                                     type: boolean
                                   includedFiles:
@@ -9209,6 +9223,11 @@ spec:
                     type: boolean
                   name:
                     type: string
+                  namespaceWhiteList:
+                    description: if it's set, only allowed namespace can do restore
+                    items:
+                      type: string
+                    type: array
                   startOnceAt:
                     description: StartOnceAt indicts if restore job should be launched
                       at a certain time automatically
@@ -11726,6 +11745,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -11864,6 +11885,25 @@ spec:
                   items:
                     type: string
                   type: array
+                type: object
+              clusterWorkloadConfig:
+                additionalProperties:
+                  additionalProperties:
+                    additionalProperties:
+                      items:
+                        properties:
+                          controlOwner:
+                            type: string
+                          name:
+                            type: string
+                          replicas:
+                            type: integer
+                        type: object
+                      type: array
+                    type: object
+                  description: kind,namespace
+                  type: object
+                description: cluster workload config map
                 type: object
               criticalErrors:
                 items:
@@ -22519,6 +22559,8 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            includeHostPath:
+                              type: boolean
                             includeUnusedPVCs:
                               type: boolean
                             includedFiles:
@@ -29661,6 +29703,14 @@ spec:
                       type: object
                     type: object
                 type: object
+              readOnlyNamespaces:
+                items:
+                  type: string
+                type: array
+              readOnlyTemplates:
+                items:
+                  type: string
+                type: array
               refreshInterval:
                 format: int64
                 type: integer
@@ -41631,6 +41681,8 @@ spec:
                                                 type: string
                                             type: object
                                           type: array
+                                        includeHostPath:
+                                          type: boolean
                                         includeUnusedPVCs:
                                           type: boolean
                                         includedFiles:
@@ -43103,6 +43155,8 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            includeHostPath:
+                              type: boolean
                             includeUnusedPVCs:
                               type: boolean
                             includedFiles:
@@ -44722,6 +44776,8 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            includeHostPath:
+                              type: boolean
                             includeUnusedPVCs:
                               type: boolean
                             includedFiles:
@@ -44924,6 +44980,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -45222,6 +45280,8 @@ spec:
                                             type: string
                                         type: object
                                       type: array
+                                    includeHostPath:
+                                      type: boolean
                                     includeUnusedPVCs:
                                       type: boolean
                                     includedFiles:
@@ -49709,6 +49769,8 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                  includeHostPath:
+                                    type: boolean
                                   includeUnusedPVCs:
                                     type: boolean
                                   includedFiles:
@@ -49874,6 +49936,11 @@ spec:
                         type: boolean
                       name:
                         type: string
+                      namespaceWhiteList:
+                        description: if it's set, only allowed namespace can do restore
+                        items:
+                          type: string
+                        type: array
                       startOnceAt:
                         description: StartOnceAt indicts if restore job should be
                           launched at a certain time automatically
@@ -50978,6 +51045,8 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          includeHostPath:
+                            type: boolean
                           includeUnusedPVCs:
                             type: boolean
                           includedFiles:
@@ -51497,6 +51566,8 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          includeHostPath:
+                            type: boolean
                           includeUnusedPVCs:
                             type: boolean
                           includedFiles:
@@ -51852,6 +51923,8 @@ spec:
                               type: string
                           type: object
                         type: array
+                      includeHostPath:
+                        type: boolean
                       includeUnusedPVCs:
                         type: boolean
                       includedFiles:
@@ -52577,6 +52650,8 @@ spec:
                               type: string
                           type: object
                         type: array
+                      includeHostPath:
+                        type: boolean
                       includeUnusedPVCs:
                         type: boolean
                       includedFiles:
@@ -52926,6 +53001,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -54523,6 +54600,11 @@ spec:
                     type: boolean
                   name:
                     type: string
+                  namespaceWhiteList:
+                    description: if it's set, only allowed namespace can do restore
+                    items:
+                      type: string
+                    type: array
                   startOnceAt:
                     description: StartOnceAt indicts if restore job should be launched
                       at a certain time automatically
@@ -54683,6 +54765,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  includeHostPath:
+                    type: boolean
                   includeUnusedPVCs:
                     type: boolean
                   includedFiles:
@@ -55653,6 +55737,8 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              includeHostPath:
+                                type: boolean
                               includeUnusedPVCs:
                                 type: boolean
                               includedFiles:
