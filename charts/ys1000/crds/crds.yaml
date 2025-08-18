@@ -10362,6 +10362,12 @@ spec:
           spec:
             description: DisasterRecoverySpec defines the desired state of DisasterRecovery
             properties:
+              accessibleNamespaces:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                type: object
               appNamespaces:
                 description: namespaces
                 items:
@@ -12246,6 +12252,8 @@ spec:
                           type: object
                         startTimestamp:
                           format: date-time
+                          type: string
+                        state:
                           type: string
                         step:
                           type: string
@@ -14416,6 +14424,22 @@ spec:
             type: object
           spec:
             properties:
+              directives:
+                items:
+                  description: Send directives to control operation phases
+                  properties:
+                    action:
+                      type: string
+                    confirmed:
+                      type: boolean
+                    force:
+                      type: boolean
+                    phase:
+                      type: string
+                    skip:
+                      type: boolean
+                  type: object
+                type: array
               drGroupName:
                 type: string
               drGroupRequestName:
@@ -15410,6 +15434,8 @@ spec:
                       type: object
                     startTimestamp:
                       format: date-time
+                      type: string
+                    state:
                       type: string
                     step:
                       type: string
