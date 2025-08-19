@@ -467,6 +467,7 @@ mysql:
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
   metrics:
+    enabled: true
     image:
       registry: ""
       repository: ys1000/mysqld-exporter
