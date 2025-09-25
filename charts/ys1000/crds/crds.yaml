@@ -5335,6 +5335,8 @@ spec:
                     description: Map of prefix and job names, will be deprecated
                     type: object
                 type: object
+              jobCount:
+                type: integer
               locationInfo:
                 description: Keep track the backup prefix and num of jobs
                 properties:
