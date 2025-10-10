@@ -6,7 +6,7 @@
 
 ## 先决条件
 
-- Kuberentes 版本支持范围: [v1.16, v1.17, ....,  v1.30]
+- Kuberentes 版本支持范围: [v1.16, v1.17, ....,  v1.31]
 - Helm 版本支持 >= 3.5
 - 在线安装请确保 K8S 集群节点可以访问阿里云容器镜像服务
 - K8S集群节点可以访问一个或多个对象存储(AWS S3兼容)实例
@@ -16,7 +16,7 @@
 1. 使用以下命令添加 **Helm** 软件仓库:
 
    ```bash
-   helm repo add jibutech <https://jibutech.github.io/helm-charts/>
+   helm repo add jibutech https://jibutech.github.io/helm-charts/
    ```
 
    添加完成之后，您可以通过执行命令 `helm search repo jibutech` 来查看可选安装的软件版本，例如:
