@@ -1,0 +1,60 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Container"},"name":"container-resource-monitoring"},"spec":{"promQL":[{"desc":"容器 CPU 使用超过 1 核","name":"ContainerCPUUsageAbsolute","rule":"rate(container_cpu_usage_seconds_total{container!=\"\"}[5m]) \u003e 1"},{"desc":"容器内存使用超过 2GB","name":"ContainerMemoryUsageAbsolute","rule":"container_memory_working_set_bytes{container!=\"\"} \u003e 2 * 1024 * 1024 * 1024"},{"desc":"容器 1 小时内重启超过 5 次","name":"ContainerRestartFrequent","rule":"increase(kube_pod_container_status_restarts_total[1h]) \u003e 5"},{"desc":"容器因内存不足被终止（OOMKilled）","name":"ContainerOOMKilled","rule":"increase(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"}[5m]) \u003e 0"},{"desc":"容器处于等待状态（非正常创建中）","name":"ContainerWaitingState","rule":"kube_pod_container_status_waiting{reason!=\"ContainerCreating\"} == 1"},{"desc":"容器未设置内存限制","name":"ContainerWithoutMemoryLimits","rule":"kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_limits{resource=\"memory\"}"},{"desc":"容器未设置 CPU 限制","name":"ContainerWithoutCPULimits","rule":"kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_limits{resource=\"cpu\"}"},{"desc":"容器未设置内存请求","name":"ContainerWithoutMemoryRequests","rule":"kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_requests{resource=\"memory\"}"},{"desc":"容器未设置 CPU 请求","name":"ContainerWithoutCPURequests","rule":"kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_requests{resource=\"cpu\"}"},{"desc":"容器未处于运行状态","name":"ContainerStatusNotRunning","rule":"kube_pod_container_status_running == 0"},{"desc":"Pod 存储卷使用率超过 90%","name":"PodVolumeUsageHigh","rule":"(kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) \u003e 0.9"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:28Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Container
+  name: container-resource-monitoring
+  resourceVersion: "2917394"
+  uid: f5defa28-09ea-43a2-adce-6222db176374
+spec:
+  promQL:
+  - desc: 容器 CPU 使用超过 1 核
+    name: ContainerCPUUsageAbsolute
+    rule: rate(container_cpu_usage_seconds_total{container!=""}[5m]) > 1
+  - desc: 容器内存使用超过 2GB
+    name: ContainerMemoryUsageAbsolute
+    rule: container_memory_working_set_bytes{container!=""} > 2 * 1024 * 1024 * 1024
+  - desc: 容器 1 小时内重启超过 5 次
+    name: ContainerRestartFrequent
+    rule: increase(kube_pod_container_status_restarts_total[1h]) > 5
+  - desc: 容器因内存不足被终止（OOMKilled）
+    name: ContainerOOMKilled
+    rule: increase(kube_pod_container_status_terminated_reason{reason="OOMKilled"}[5m])
+      > 0
+  - desc: 容器处于等待状态（非正常创建中）
+    name: ContainerWaitingState
+    rule: kube_pod_container_status_waiting{reason!="ContainerCreating"} == 1
+  - desc: 容器未设置内存限制
+    name: ContainerWithoutMemoryLimits
+    rule: kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_limits{resource="memory"}
+  - desc: 容器未设置 CPU 限制
+    name: ContainerWithoutCPULimits
+    rule: kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_limits{resource="cpu"}
+  - desc: 容器未设置内存请求
+    name: ContainerWithoutMemoryRequests
+    rule: kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_requests{resource="memory"}
+  - desc: 容器未设置 CPU 请求
+    name: ContainerWithoutCPURequests
+    rule: kube_pod_container_info unless on(namespace,pod,container) kube_pod_container_resource_requests{resource="cpu"}
+  - desc: 容器未处于运行状态
+    name: ContainerStatusNotRunning
+    rule: kube_pod_container_status_running == 0
+  - desc: Pod 存储卷使用率超过 90%
+    name: PodVolumeUsageHigh
+    rule: (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes)
+      > 0.9
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 11
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

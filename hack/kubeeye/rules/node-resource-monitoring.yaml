@@ -1,0 +1,48 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Node"},"name":"node-resource-monitoring"},"spec":{"promQL":[{"desc":"节点 CPU 利用率超过 80%","name":"node_cpu_utilisation_high","rule":"node:node_cpu_utilization:ratio \u003e 0.8"},{"desc":"节点内存利用率超过 80%","name":"node_memory_utilisation_high","rule":"node:node_memory_utilisation:ratio \u003e 0.8"},{"desc":"节点磁盘利用率超过 80%","name":"node_disk_utilisation_high","rule":"node:node_device_filesystem_utilisation:ratio \u003e 0.8"},{"desc":"节点 Pod 使用率超过 80%","name":"node_pod_capacity_high","rule":"node:node_pod_utilisation:ratio \u003e 0.8"},{"desc":"节点内存请求使用率超过 80%","name":"node_memory_request_high","rule":"(sum by (node) (kube_pod_container_resource_requests{resource=\"memory\"})/sum by (node) (node:node_memory_bytes_total:sum)) \u003e 0.8"},{"desc":"节点 CPU 请求使用率超过 80%","name":"node_cpu_request_high","rule":"(sum by (node) (kube_pod_container_resource_requests{resource=\"cpu\"})/sum by (node) (node:node_num_cpu:sum)) \u003e 0.8"},{"desc":"节点 15 分钟平均负载超过 CPU 核数的 2 倍","name":"node_load_high","rule":"node:node_load15_per_cpu:ratio \u003e 2"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:15Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Node
+  name: node-resource-monitoring
+  resourceVersion: "2917390"
+  uid: c509ac45-51b4-494b-bc65-976895214452
+spec:
+  promQL:
+  - desc: 节点 CPU 利用率超过 80%
+    name: node_cpu_utilisation_high
+    rule: node:node_cpu_utilization:ratio > 0.8
+  - desc: 节点内存利用率超过 80%
+    name: node_memory_utilisation_high
+    rule: node:node_memory_utilisation:ratio > 0.8
+  - desc: 节点磁盘利用率超过 80%
+    name: node_disk_utilisation_high
+    rule: node:node_device_filesystem_utilisation:ratio > 0.8
+  - desc: 节点 Pod 使用率超过 80%
+    name: node_pod_capacity_high
+    rule: node:node_pod_utilisation:ratio > 0.8
+  - desc: 节点内存请求使用率超过 80%
+    name: node_memory_request_high
+    rule: (sum by (node) (kube_pod_container_resource_requests{resource="memory"})/sum
+      by (node) (node:node_memory_bytes_total:sum)) > 0.8
+  - desc: 节点 CPU 请求使用率超过 80%
+    name: node_cpu_request_high
+    rule: (sum by (node) (kube_pod_container_resource_requests{resource="cpu"})/sum
+      by (node) (node:node_num_cpu:sum)) > 0.8
+  - desc: 节点 15 分钟平均负载超过 CPU 核数的 2 倍
+    name: node_load_high
+    rule: node:node_load15_per_cpu:ratio > 2
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 7
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

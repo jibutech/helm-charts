@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubeeye.fullname" . }}-apiserver
+  labels:
+  {{- include "kubeeye.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.apiserver.type }}
+  selector:
+    control-plane: kubeeye-controller-manager
+  {{- include "kubeeye.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.apiserver.ports | toYaml | nindent 2 }}

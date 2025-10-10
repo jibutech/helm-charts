@@ -1,0 +1,53 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Storage"},"name":"storage-filesystem-monitoring"},"spec":{"promQL":[{"desc":"文件系统 inode 可用空间少于 20%","name":"filesystem-less-20","rule":"(node_filesystem_files_free{fstype!=\"\",job=\"node-exporter\"} / node_filesystem_files{fstype!=\"\",job=\"node-exporter\"} * 100 \u003c 20 and node_filesystem_readonly{fstype!=\"\",job=\"node-exporter\"} == 0)"},{"desc":"预测文件系统将在未来 24 小时内耗尽空间","name":"NodeFilesystemSpaceFillingUp","rule":"(node_filesystem_avail_bytes{fstype!=\"\",job=\"node-exporter\"} / node_filesystem_size_bytes{fstype!=\"\",job=\"node-exporter\"} * 100 \u003c 20 and predict_linear(node_filesystem_avail_bytes{fstype!=\"\",job=\"node-exporter\"}[6h], 24 * 60 * 60) \u003c 0 and node_filesystem_readonly{fstype!=\"\",job=\"node-exporter\"} == 0)"},{"desc":"预测文件系统将在未来 24 小时内耗尽 inode","name":"NodeFilesystemFilesFillingUp","rule":"(node_filesystem_files_free{fstype!=\"\",job=\"node-exporter\"} / node_filesystem_files{fstype!=\"\",job=\"node-exporter\"} * 100 \u003c 40 and predict_linear(node_filesystem_files_free{fstype!=\"\",job=\"node-exporter\"}[6h], 24 * 60 * 60) \u003c 0 and node_filesystem_readonly{fstype!=\"\",job=\"node-exporter\"} == 0)"},{"desc":"文件系统剩余空间少于 5%","name":"NodeFilesystemAlmostOutOfSpace","rule":"(node_filesystem_avail_bytes{fstype!=\"\",job=\"node-exporter\"} / node_filesystem_size_bytes{fstype!=\"\",job=\"node-exporter\"} * 100 \u003c 5 and node_filesystem_readonly{fstype!=\"\",job=\"node-exporter\"} == 0)"},{"desc":"文件系统为只读状态","name":"filesystem_readonly","rule":"node_filesystem_readonly==1"},{"desc":"关键挂载点可用空间不足 25%","name":"filesystem_avail","rule":"(node_filesystem_avail_bytes{mountpoint=~\"/var/lib/docker|/kube|/home|/var|/\"} / node_filesystem_size_bytes{mountpoint=~\"/var/lib/docker|/kube|/home|/var|/\"}) \u003c 0.25"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:23Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Storage
+  name: storage-filesystem-monitoring
+  resourceVersion: "2917392"
+  uid: 28558663-fca4-4f33-bd15-c6df253c40c0
+spec:
+  promQL:
+  - desc: 文件系统 inode 可用空间少于 20%
+    name: filesystem-less-20
+    rule: (node_filesystem_files_free{fstype!="",job="node-exporter"} / node_filesystem_files{fstype!="",job="node-exporter"}
+      * 100 < 20 and node_filesystem_readonly{fstype!="",job="node-exporter"} == 0)
+  - desc: 预测文件系统将在未来 24 小时内耗尽空间
+    name: NodeFilesystemSpaceFillingUp
+    rule: (node_filesystem_avail_bytes{fstype!="",job="node-exporter"} / node_filesystem_size_bytes{fstype!="",job="node-exporter"}
+      * 100 < 20 and predict_linear(node_filesystem_avail_bytes{fstype!="",job="node-exporter"}[6h],
+      24 * 60 * 60) < 0 and node_filesystem_readonly{fstype!="",job="node-exporter"}
+      == 0)
+  - desc: 预测文件系统将在未来 24 小时内耗尽 inode
+    name: NodeFilesystemFilesFillingUp
+    rule: (node_filesystem_files_free{fstype!="",job="node-exporter"} / node_filesystem_files{fstype!="",job="node-exporter"}
+      * 100 < 40 and predict_linear(node_filesystem_files_free{fstype!="",job="node-exporter"}[6h],
+      24 * 60 * 60) < 0 and node_filesystem_readonly{fstype!="",job="node-exporter"}
+      == 0)
+  - desc: 文件系统剩余空间少于 5%
+    name: NodeFilesystemAlmostOutOfSpace
+    rule: (node_filesystem_avail_bytes{fstype!="",job="node-exporter"} / node_filesystem_size_bytes{fstype!="",job="node-exporter"}
+      * 100 < 5 and node_filesystem_readonly{fstype!="",job="node-exporter"} == 0)
+  - desc: 文件系统为只读状态
+    name: filesystem_readonly
+    rule: node_filesystem_readonly==1
+  - desc: 关键挂载点可用空间不足 25%
+    name: filesystem_avail
+    rule: (node_filesystem_avail_bytes{mountpoint=~"/var/lib/docker|/kube|/home|/var|/"}
+      / node_filesystem_size_bytes{mountpoint=~"/var/lib/docker|/kube|/home|/var|/"})
+      < 0.25
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 6
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

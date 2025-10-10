@@ -1,0 +1,53 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Network"},"name":"container-network-monitoring"},"spec":{"promQL":[{"desc":"Pod 网络接收速率过高（超过100MB/s）","name":"PodHighNetworkReceiveBytes","rule":"sum(rate(container_network_receive_bytes_total{interface=\"eth0\"}[5m])) by (pod, namespace) \u003e 100 * 1024 * 1024"},{"desc":"Pod 网络发送速率过高（超过100MB/s）","name":"PodHighNetworkTransmitBytes","rule":"sum(rate(container_network_transmit_bytes_total{interface=\"eth0\"}[5m])) by (pod, namespace) \u003e 100 * 1024 * 1024"},{"desc":"Pod 网络接收错误率过高（超过0.1 errors/s）","name":"PodNetworkReceiveErrors","rule":"sum(rate(container_network_receive_errors_total[5m])) by (pod, namespace) \u003e 0.1"},{"desc":"Pod 网络发送错误率过高（超过0.1 errors/s）","name":"PodNetworkTransmitErrors","rule":"sum(rate(container_network_transmit_errors_total[5m])) by (pod, namespace) \u003e 0.1"},{"desc":"CNI 操作延迟过高（99分位数超过1秒）","name":"CNIOperationHighLatency","rule":"histogram_quantile(0.99, sum(rate(kubelet_cni_operations_duration_seconds_bucket[5m])) by (operation_type, le)) \u003e 1"},{"desc":"CNI 操作错误率过高（超过0.1 errors/s）","name":"CNIOperationErrors","rule":"sum(rate(kubelet_cni_operations_errors_total[5m])) by (operation_type) \u003e 0.1"},{"desc":"物理网络接口状态异常","name":"NetworkInterfaceDown","rule":"node_network_up{device!~\"lo|docker.*|br-.*|veth.*|kube-ipvs.*|nodelocaldns|tunl.*\"} == 0"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:10Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Network
+  name: container-network-monitoring
+  resourceVersion: "2917377"
+  uid: 918a1eab-4666-4897-a2ea-a704a518b0f5
+spec:
+  promQL:
+  - desc: Pod 网络接收速率过高（超过100MB/s）
+    name: PodHighNetworkReceiveBytes
+    rule: sum(rate(container_network_receive_bytes_total{interface="eth0"}[5m])) by
+      (pod, namespace) > 100 * 1024 * 1024
+  - desc: Pod 网络发送速率过高（超过100MB/s）
+    name: PodHighNetworkTransmitBytes
+    rule: sum(rate(container_network_transmit_bytes_total{interface="eth0"}[5m]))
+      by (pod, namespace) > 100 * 1024 * 1024
+  - desc: Pod 网络接收错误率过高（超过0.1 errors/s）
+    name: PodNetworkReceiveErrors
+    rule: sum(rate(container_network_receive_errors_total[5m])) by (pod, namespace)
+      > 0.1
+  - desc: Pod 网络发送错误率过高（超过0.1 errors/s）
+    name: PodNetworkTransmitErrors
+    rule: sum(rate(container_network_transmit_errors_total[5m])) by (pod, namespace)
+      > 0.1
+  - desc: CNI 操作延迟过高（99分位数超过1秒）
+    name: CNIOperationHighLatency
+    rule: histogram_quantile(0.99, sum(rate(kubelet_cni_operations_duration_seconds_bucket[5m]))
+      by (operation_type, le)) > 1
+  - desc: CNI 操作错误率过高（超过0.1 errors/s）
+    name: CNIOperationErrors
+    rule: sum(rate(kubelet_cni_operations_errors_total[5m])) by (operation_type) >
+      0.1
+  - desc: 物理网络接口状态异常
+    name: NetworkInterfaceDown
+    rule: node_network_up{device!~"lo|docker.*|br-.*|veth.*|kube-ipvs.*|nodelocaldns|tunl.*"}
+      == 0
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:24Z"
+  levelCount:
+    warning: 7
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

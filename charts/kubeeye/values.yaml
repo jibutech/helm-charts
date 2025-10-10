@@ -1,0 +1,97 @@
+global:
+  imageRegistry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+
+apiserver:
+  ports:
+  - port: 9090
+    protocol: TCP
+    targetPort: 9090
+  type: ClusterIP
+config:
+  job:
+    image:
+      repository: ys1000/kubeeye-job
+      tag: v1.0.6
+      pullPolicy: IfNotPresent
+controllerManager:
+  kubeRbacProxy:
+    args:
+    - --secure-listen-address=0.0.0.0:8443
+    - --upstream=http://127.0.0.1:8080/
+    - --logtostderr=true
+    - --v=0
+    image:
+      repository: ys1000/kube-rbac-proxy
+      tag: v0.11.0
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 5m
+        memory: 64Mi
+  kubeeyeApiserver:
+    env:
+      disableOverview: "true"
+      disableSystemComponent: "true"
+      ginMode: release
+    image:
+      repository: ys1000/kubeeye-apiserver
+      tag: v1.0.6
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  manager:
+    args:
+    - --health-probe-bind-address=:8081
+    - --metrics-bind-address=127.0.0.1:8080
+    - --leader-elect
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+    image:
+      repository: ys1000/kubeeye-controller
+      tag: v1.0.6
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 1500m
+        memory: 2Gi
+      requests:
+        cpu: 200m
+        memory: 256Mi
+  replicas: 1
+  serviceAccount:
+    annotations: {}
+kubernetesClusterDomain: cluster.local
+managerConfig:
+  controllerManagerConfigYaml: |-
+    apiVersion: controller-runtime.sigs.k8s.io/v1alpha1
+    kind: ControllerManagerConfig
+    health:
+      healthProbeBindAddress: :8081
+    metrics:
+      bindAddress: 127.0.0.1:8080
+    webhook:
+      port: 9443
+    leaderElection:
+      leaderElect: true
+      resourceName: fa68b2a3.kubesphere.io
+metricsService:
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: https
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
+

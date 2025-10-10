@@ -5,9 +5,9 @@ images:
   - repo: hookrunner
   - repo: agent-operator
   - repo: velero
-    tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619
+    tag: v1.7.0-jibu-dev-338a2228-20250715041149
   - repo: velero
-    tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619-snapshotv1beta1
+    tag: v1.7.0-jibu-dev-338a2228-20250715041149-snapshotv1beta1
   - repo: velero-plugin-for-csi
     tag: v0.2.1-jibu-89b6bd8-20231218024225
   - repo: velero-plugin-for-csi
@@ -18,8 +18,10 @@ images:
     tag: v1.3.0-jibu-f64cbb6-20240124093130
   - repo: velero-plugin-alibabacloud
     tag: v1.2.1-jibu-dev-2373ba8-20240229150839
+  - repo: ysutl-mysql-5-7
+  - repo: ysutl-mysql-8-0
   - repo: velero-plugin-for-kubevirt
-    tag: 0.6.1-jibu-9ad84f0-20241126085502
+    tag: 0.8.0-jibu-6e738cf-20250607033550
   - repo: velero-plugin
   - repo: data-verify
   - repo: amberapp

@@ -1,0 +1,44 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Container"},"name":"pod-state-monitoring"},"spec":{"promQL":[{"desc":"Pod 处于崩溃循环状态","name":"KubePodCrashLooping","rule":"max_over_time(kube_pod_container_status_waiting_reason{job=\"kube-state-metrics\",reason=\"CrashLoopBackOff\"}[5m]) \u003e= 1"},{"desc":"Pod 处于非就绪状态超过 15 分钟","name":"KubePodNotReady","rule":"sum by(namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{job=\"kube-state-metrics\",phase=~\"Pending|Unknown\"}) * on(namespace, pod) group_left(owner_kind) topk by(namespace, pod) (1, max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!=\"Job\"}))) \u003e 0"},{"desc":"Pod 容器镜像拉取失败","name":"KubePodImagePullBackOff","rule":"kube_pod_container_status_waiting_reason{reason=\"ImagePullBackOff\"} == 1"},{"desc":"Pod 容器异常终止","name":"KubePodContainerTerminated","rule":"kube_pod_container_status_terminated_reason{reason!~\"Completed|Error\"} == 1"},{"desc":"Pod 初始化容器处于等待状态","name":"KubePodInitContainerWaiting","rule":"kube_pod_init_container_status_waiting{reason!=\"PodInitializing\"} == 1"}],"prometheus":{"endpoint":"http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090"}}}
+  creationTimestamp: "2025-06-20T02:50:28Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Container
+  name: pod-state-monitoring
+  resourceVersion: "2917379"
+  uid: 4b301cca-19b1-457a-85f7-c5bf7a588a12
+spec:
+  promQL:
+  - desc: Pod 处于崩溃循环状态
+    name: KubePodCrashLooping
+    rule: max_over_time(kube_pod_container_status_waiting_reason{job="kube-state-metrics",reason="CrashLoopBackOff"}[5m])
+      >= 1
+  - desc: Pod 处于非就绪状态超过 15 分钟
+    name: KubePodNotReady
+    rule: sum by(namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{job="kube-state-metrics",phase=~"Pending|Unknown"})
+      * on(namespace, pod) group_left(owner_kind) topk by(namespace, pod) (1, max
+      by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"}))) > 0
+  - desc: Pod 容器镜像拉取失败
+    name: KubePodImagePullBackOff
+    rule: kube_pod_container_status_waiting_reason{reason="ImagePullBackOff"} == 1
+  - desc: Pod 容器异常终止
+    name: KubePodContainerTerminated
+    rule: kube_pod_container_status_terminated_reason{reason!~"Completed|Error"} ==
+      1
+  - desc: Pod 初始化容器处于等待状态
+    name: KubePodInitContainerWaiting
+    rule: kube_pod_init_container_status_waiting{reason!="PodInitializing"} == 1
+  prometheus:
+    endpoint: http://prometheus-k8s.kubesphere-monitoring-system.svc.cluster.local:9090
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 5
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete

@@ -25,11 +25,13 @@ featureGates:
   Tenant: false
   HostPathBackup: false
   ContainerBackup: false
+  DataBaseBackup: false
+  Emergency: false
 
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "4.1.0"
+  tag: "4.5.0"
 
 image:
   registry: ""
@@ -140,7 +142,7 @@ components:
     image:
       registry: ""
       repository: ys1000/velero
-      tag: v1.7.0-jibu-dev-cfcc65f8-20240410072619
+      tag: v1.7.0-jibu-dev-338a2228-20250715041149
     imageResticHelper:
       registry: ""
       repository: ys1000/velero-restic-restore-helper
@@ -152,7 +154,7 @@ components:
     plugins:
     - ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
     - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
-    - ys1000/velero-plugin-for-kubevirt:0.6.1-jibu-9ad84f0-20241126085502
+    # - ys1000/velero-plugin-for-kubevirt:0.8.0-jibu-6e738cf-20250607033550
     # - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
@@ -160,17 +162,17 @@ components:
     resticPodCPULimit: 1000m
     useRestic: true
     snapshotDisabled: false
-#    template:
-#      spec:
-#        containers:
-#        - name: velero
-#          resources:
-#            limits:
-#              cpu: "1"
-#              memory: 512Mi
-#            requests:
-#              cpu: 500m
-#              memory: 128Mi
+    template:
+      spec:
+        containers:
+        - name: velero
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1024Mi
+            requests:
+              cpu: 500m
+              memory: 128Mi
   dataVerify:
     image:
       registry: ""
@@ -218,6 +220,19 @@ components:
       registry: ""
       repository: ys1000/ysutl
       tag: ""
+    extraImages:
+    - name: "Mysql"
+      version: "v5.7"
+      image:
+        registry: ""
+        repository: ys1000/ysutl-mysql-5-7
+        tag: ""
+    - name: "Mysql"
+      version: "v8.0"
+      image:
+        registry: ""
+        repository: ys1000/ysutl-mysql-8
+        tag: ""
   sleep:
     image:
       registry: ""
@@ -300,7 +315,7 @@ migconfig:
   deploymentMode: "standalone"
   isAdminCluster: false
   agentNamespace: qiming-backend
-  selfBackupIntervalSeconds: 300
+  selfBackupIntervalSeconds: 3600
 #  template:
 #    spec:
 #      tolerations: []
@@ -386,6 +401,8 @@ tolerations: []
 affinity: {}
 
 mysql:
+  extraArgs:
+    primary: ["--upgrade=NONE"]
   fullnameOverride: mysql
   image:
     registry: ""
@@ -450,6 +467,7 @@ mysql:
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
   metrics:
+    enabled: true
     image:
       registry: ""
       repository: ys1000/mysqld-exporter
