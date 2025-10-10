@@ -1,0 +1,52 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubeeye.kubesphere.io/v1alpha2","kind":"InspectRule","metadata":{"annotations":{},"labels":{"inspection.jibudata.com/rule-category":"Container"},"name":"daemonset-container-config-check"},"spec":{"opas":[{"name":"imagePullPolicyRuleForDaemonSet","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n  input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n  level := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n  container.imagePullPolicy != \"IfNotPresent\"\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"控制器镜像拉取策略规则\",\n      \"Reason\": sprintf(\"当前资源镜像拉取策略为: %v , 需要修改为 IfNotPresent\", [container.imagePullPolicy]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"},{"name":"imageTagLatestRuleForDaemonSet","rule":"package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n  input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n  level := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n  \n  # 检查镜像是否使用 latest 标签（没有指定标签）\n  image_parts := split(container.image, \":\")\n  count(image_parts) == 1  # 没有指定标签，默认为 latest\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"DaemonSet 镜像标签检查规则\",\n      \"Reason\": sprintf(\"容器 %v 使用的镜像 %v 没有指定版本标签，将使用 latest 标签，建议指定明确的版本号\", [container.name, container.image]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}\n\ndeny contains msg if {\n    \n  input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n  level := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n  \n  # 检查镜像是否明确使用 latest 标签\n  image_parts := split(container.image, \":\")\n  count(image_parts) \u003e= 2\n  image_parts[1] == \"latest\"\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n      \"Message\": \"DaemonSet 镜像标签检查规则\",\n      \"Reason\": sprintf(\"容器 %v 使用的镜像 %v 明确指定了 latest 标签，建议使用具体的版本号\", [container.name, container.image]),\n      \"Level\": sprintf(\"%v\", [level])\n  }\n}"}]}}
+  creationTimestamp: "2025-06-20T02:50:28Z"
+  finalizers:
+  - kubeeye.finalizers.kubesphere.io
+  generation: 1
+  labels:
+    inspection.jibudata.com/rule-category: Container
+  name: daemonset-container-config-check
+  resourceVersion: "2917395"
+  uid: db31ef2f-b31b-488b-8ee3-372d618733f5
+spec:
+  opas:
+  - name: imagePullPolicyRuleForDaemonSet
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n
+      \ input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n  level
+      := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n  container.imagePullPolicy
+      != \"IfNotPresent\"\n\n  msg := {\n      \"Name\": sprintf(\"%v\", [input.metadata.name]),\n
+      \     \"Namespace\": sprintf(\"%v\", [input.metadata.namespace]),\n      \"Type\":
+      sprintf(\"%v\", [input.kind]),\n      \"Message\": \"控制器镜像拉取策略规则\",\n      \"Reason\":
+      sprintf(\"当前资源镜像拉取策略为: %v , 需要修改为 IfNotPresent\", [container.imagePullPolicy]),\n
+      \     \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+  - name: imageTagLatestRuleForDaemonSet
+    rule: "package inspect.kubeeye\nimport rego.v1\n\ndeny contains msg if {\n    \n
+      \ input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n  level
+      := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n  \n
+      \ # 检查镜像是否使用 latest 标签（没有指定标签）\n  image_parts := split(container.image, \":\")\n
+      \ count(image_parts) == 1  # 没有指定标签，默认为 latest\n\n  msg := {\n      \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\",
+      [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \     \"Message\": \"DaemonSet 镜像标签检查规则\",\n      \"Reason\": sprintf(\"容器 %v
+      使用的镜像 %v 没有指定版本标签，将使用 latest 标签，建议指定明确的版本号\", [container.name, container.image]),\n
+      \     \"Level\": sprintf(\"%v\", [level])\n  }\n}\n\ndeny contains msg if {\n
+      \   \n  input.kind == \"DaemonSet\"\n  input.apiVersion == \"apps/v1\"\n  \n
+      \ level := \"WARNING\"\n\n  container := input.spec.template.spec.containers[_]\n
+      \ \n  # 检查镜像是否明确使用 latest 标签\n  image_parts := split(container.image, \":\")\n
+      \ count(image_parts) >= 2\n  image_parts[1] == \"latest\"\n\n  msg := {\n      \"Name\":
+      sprintf(\"%v\", [input.metadata.name]),\n      \"Namespace\": sprintf(\"%v\",
+      [input.metadata.namespace]),\n      \"Type\": sprintf(\"%v\", [input.kind]),\n
+      \     \"Message\": \"DaemonSet 镜像标签检查规则\",\n      \"Reason\": sprintf(\"容器 %v
+      使用的镜像 %v 明确指定了 latest 标签，建议使用具体的版本号\", [container.name, container.image]),\n
+      \     \"Level\": sprintf(\"%v\", [level])\n  }\n}"
+status:
+  endImportTime: "2025-06-20T05:22:25Z"
+  levelCount:
+    warning: 2
+  startImportTime: "2025-06-20T05:22:24Z"
+  state: ImportComplete
