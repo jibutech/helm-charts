@@ -14036,6 +14036,17 @@ spec:
                       type: object
                     type: array
                 type: object
+              externalConfig:
+                properties:
+                  mode:
+                    description: 'standby: create the pvc when dr instance is initialized.
+                      passive: create the pvc only when failover'
+                    type: string
+                  syncType:
+                    description: 'file: dynamically provision pvc; storage: provision
+                      pv then static bound pvc with the pv'
+                    type: string
+                type: object
               meta:
                 properties:
                   description:
