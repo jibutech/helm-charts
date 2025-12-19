@@ -612,6 +612,20 @@ dex:
 #        server: http://0.0.0.0:31888/cas/
 #        redirectURI: http://0.0.0.0:32000/dex/callback
 #        insecureSkipVerify: true
+#    - type: oidc
+#      id: oidc-provider
+#      name: OIDC Provider
+#      config:
+#        issuer: https://oidc-provider.example.com
+#        clientID: your-client-id
+#        clientSecret: your-client-secret
+#        redirectURI: http://0.0.0.0:30180/dex/callback
+#        scopes:
+#        - openid
+#        - email
+#        - profile
+#        insecureEnableGroups: true
+#        insecureSkipVerify: false
 
 alarm:
   enabled: false
