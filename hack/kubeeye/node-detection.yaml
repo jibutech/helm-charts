@@ -140,7 +140,7 @@ spec:
             - /node-problem-detector
             - --logtostderr
             - --config.system-log-monitor=/config/kernel-monitor.json,/config/docker-monitor.json
-          image: jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/node-problem-detector:v0.8.19
+          image: crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com/ys1000-public/node-problem-detector:v0.8.19
           resources:
             limits:
               cpu: 10m

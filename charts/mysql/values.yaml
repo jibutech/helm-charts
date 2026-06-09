@@ -5,8 +5,8 @@ tolerations: []
 affinity: {}
 
 image:
-  registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
-  repository: ys1000/mysql
+  registry: crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com
+  repository: ys1000-public/mysql
   tag: 8.0.32
   pullPolicy: IfNotPresent
 
@@ -103,8 +103,8 @@ primary:
 metrics:
   enabled: false
   image:
-    registry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
-    repository: ys1000/mysqld-exporter
+    registry: crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com
+    repository: ys1000-public/mysqld-exporter
     tag: 0.14.0-debian-11-r125
     pullPolicy: IfNotPresent
   ## MySQL Prometheus exporter service parameters

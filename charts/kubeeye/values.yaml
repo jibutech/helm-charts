@@ -1,5 +1,5 @@
 global:
-  imageRegistry: jibutech-registry.cn-hangzhou.cr.aliyuncs.com
+  imageRegistry: crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com
 
 apiserver:
   ports:
@@ -10,7 +10,7 @@ apiserver:
 config:
   job:
     image:
-      repository: ys1000/kubeeye-job
+      repository: ys1000-public/kubeeye-job
       tag: v1.0.6
       pullPolicy: IfNotPresent
 controllerManager:
@@ -21,7 +21,7 @@ controllerManager:
     - --logtostderr=true
     - --v=0
     image:
-      repository: ys1000/kube-rbac-proxy
+      repository: ys1000-public/kube-rbac-proxy
       tag: v0.11.0
     resources:
       limits:
@@ -36,7 +36,7 @@ controllerManager:
       disableSystemComponent: "true"
       ginMode: release
     image:
-      repository: ys1000/kubeeye-apiserver
+      repository: ys1000-public/kubeeye-apiserver
       tag: v1.0.6
     imagePullPolicy: IfNotPresent
     resources:
@@ -54,7 +54,7 @@ controllerManager:
     containerSecurityContext:
       allowPrivilegeEscalation: false
     image:
-      repository: ys1000/kubeeye-controller
+      repository: ys1000-public/kubeeye-controller
       tag: v1.0.6
     imagePullPolicy: IfNotPresent
     resources:

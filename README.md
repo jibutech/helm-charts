@@ -209,7 +209,7 @@
    components:
      velero:
        plugins:
-       - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
+       - ys1000-public/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
    
    ```
 

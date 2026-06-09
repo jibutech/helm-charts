@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imageRegistry: "jibutech-registry.cn-hangzhou.cr.aliyuncs.com"
+  imageRegistry: "crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com"
   storageClass: ""
 
 tags:
@@ -31,11 +31,11 @@ featureGates:
 imageBase:
   registry: ""
   pullPolicy: Always
-  tag: "4.5.1"
+  tag: "release-4.6.0-latest"
 
 image:
   registry: ""
-  repository: ys1000/qiming-operator
+  repository: ys1000-public/qiming-operator
   tag: ""
 
 components:
@@ -45,7 +45,7 @@ components:
     # baseURI: "/ys1000"
     image:
       registry: ""
-      repository: ys1000/mig-ui
+      repository: ys1000-public/mig-ui
       tag: ""
     serviceType: NodePort
 #    template:
@@ -62,7 +62,7 @@ components:
   controller:
     image:
       registry: ""
-      repository: ys1000/mig-controller
+      repository: ys1000-public/mig-controller
       tag: ""
 #    template:
 #      spec:
@@ -78,7 +78,7 @@ components:
   cron:
     image:
       registry: ""
-      repository: ys1000/cron
+      repository: ys1000-public/cron
       tag: ""
 #    template:
 #      spec:
@@ -94,7 +94,7 @@ components:
   webServer:
     image:
       registry: ""
-      repository: ys1000/webserver
+      repository: ys1000-public/webserver
       tag: ""
     serviceType: ClusterIP
 #    template:
@@ -122,7 +122,7 @@ components:
   operator:
     image:
       registry: ""
-      repository: ys1000/agent-operator
+      repository: ys1000-public/agent-operator
       tag: ""
 #    template:
 #      spec:
@@ -141,21 +141,21 @@ components:
   velero:
     image:
       registry: ""
-      repository: ys1000/velero
-      tag: v1.7.0-jibu-dev-338a2228-20250715041149
+      repository: ys1000-public/velero
+      tag: v1.7.0-jibu-dev-0de222dd-20260609031955
     imageResticHelper:
       registry: ""
-      repository: ys1000/velero-restic-restore-helper
+      repository: ys1000-public/velero-restic-restore-helper
       tag: v1.7.0
     imageInternalPlugin:
       registry: ""
-      repository: ys1000/velero-plugin
+      repository: ys1000-public/velero-plugin
       tag: ""
     plugins:
-    - ys1000/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
-    - ys1000/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
-    # - ys1000/velero-plugin-for-kubevirt:0.8.0-jibu-6e738cf-20250607033550
-    # - ys1000/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
+    - ys1000-public/velero-plugin-for-aws:v1.3.0-jibu-f64cbb6-20240124093130
+    - ys1000-public/velero-plugin-for-csi:v0.2.1-jibu-89b6bd8-20231218024225
+    # - ys1000-public/velero-plugin-for-kubevirt:0.8.0-jibu-6e738cf-20250607033550
+    # - ys1000-public/velero-plugin-alibabacloud:v1.2.1-jibu-dev-2373ba8-20240229150839
     resticPodMemRequest: 1Gi
     resticPodMemLimit: 8Gi
     resticPodCPURequest: 500m
@@ -176,12 +176,12 @@ components:
   dataVerify:
     image:
       registry: ""
-      repository: ys1000/data-verify
+      repository: ys1000-public/data-verify
       tag: ""
   amberApp:
     image:
       registry: ""
-      repository: ys1000/amberapp
+      repository: ys1000-public/amberapp
       tag: ""
 #      template:
 #        spec:
@@ -197,7 +197,7 @@ components:
   dmAgent:
     image:
       registry: ""
-      repository: ys1000/dm-agent
+      repository: ys1000-public/dm-agent
       tag: ""
 #    template:
 #      spec:
@@ -213,35 +213,35 @@ components:
   resticDM:
     image:
       registry: ""
-      repository: ys1000/restic-dm
+      repository: ys1000-public/restic-dm
       tag: ""
   backupUtility:
     image:
       registry: ""
-      repository: ys1000/ysutl
+      repository: ys1000-public/ysutl
       tag: ""
     extraImages:
     - name: "Mysql"
       version: "v5.7"
       image:
         registry: ""
-        repository: ys1000/ysutl-mysql-5-7
+        repository: ys1000-public/ysutl-mysql-5-7
         tag: ""
     - name: "Mysql"
       version: "v8.0"
       image:
         registry: ""
-        repository: ys1000/ysutl-mysql-8
+        repository: ys1000-public/ysutl-mysql-8
         tag: ""
   sleep:
     image:
       registry: ""
-      repository: ys1000/sleep
+      repository: ys1000-public/sleep
       tag: "latest"
   stub:
     image:
       registry: ""
-      repository: ys1000/stub
+      repository: ys1000-public/stub
       tag: ""
 #    template:
 #      spec:
@@ -257,12 +257,12 @@ components:
   etcdStub:
     image:
       registry: ""
-      repository: ys1000/etcd-stub
+      repository: ys1000-public/etcd-stub
       tag: ""
   hookRunner:
     image:
       registry: ""
-      repository: ys1000/hookrunner
+      repository: ys1000-public/hookrunner
       tag: ""
 #    template:
 #      spec:
@@ -278,31 +278,31 @@ components:
   volSync:
     image:
       registry: ""
-      repository: ys1000/volsync
+      repository: ys1000-public/volsync
       tag: 0.8.1-jibu
   drInitContainer:
     image:
       registry: ""
-      repository: ys1000/dr-initcontainer
+      repository: ys1000-public/dr-initcontainer
       tag: 0.2.0
       pullPolicy: IfNotPresent
   imagePuller:
     image:
       registry: ""
-      repository: ys1000/imagepuller
+      repository: ys1000-public/imagepuller
       tag: 0.1.0
       pullPolicy: IfNotPresent
   appHookWorker:
     image:
       registry: ""
-      repository: ys1000/apphook-worker
+      repository: ys1000-public/apphook-worker
       tag: ""
 
 tools:
   helmHook:
     image:
       registry: ""
-      repository: ys1000/helm-hook
+      repository: ys1000-public/helm-hook
       tag: ""
 
 imagePullSecrets: []
@@ -406,7 +406,7 @@ mysql:
   fullnameOverride: mysql
   image:
     registry: ""
-    repository: ys1000/mysql
+    repository: ys1000-public/mysql
     tag: 8.0.35-debian-11-r2
     pullPolicy: IfNotPresent
   auth:
@@ -470,7 +470,7 @@ mysql:
     enabled: true
     image:
       registry: ""
-      repository: ys1000/mysqld-exporter
+      repository: ys1000-public/mysqld-exporter
       tag: 0.15.1-debian-11-r0
 
 
@@ -486,7 +486,7 @@ clusterpedia:
     tolerations: []
     image:
       registry: ""
-      repository: ys1000/apiserver
+      repository: ys1000-public/apiserver
       tag: v0.8.1
     resources:
       requests:
@@ -500,7 +500,7 @@ clusterpedia:
     tolerations: []
     image:
       registry: ""
-      repository: ys1000/clustersynchro-manager
+      repository: ys1000-public/clustersynchro-manager
       tag: v0.8.1
     resources:
       requests:
@@ -534,7 +534,7 @@ clusterpedia:
     replicaCount: 0
     image:
       registry: ""
-      repository: ys1000/controller-manager
+      repository: ys1000-public/controller-manager
       tag: v0.8.1
     resources:
       requests:
@@ -567,14 +567,14 @@ clusterpedia:
     enabled: false
     image:
       registry: ""
-      repository: ys1000/mysql
+      repository: ys1000-public/mysql
       tag: 8.0.35-debian-11-r2
 
 dex:
   fullnameOverride: ys1000-dex
   tolerations: []
   image:
-    repository: jibutech-registry.cn-hangzhou.cr.aliyuncs.com/ys1000/dex
+    repository: crpi-j91ez2jj7pk7fpab.cn-shanghai.personal.cr.aliyuncs.com/ys1000-public/dex
     tag: 1.0.0
     pullPolicy: Always
   config:
